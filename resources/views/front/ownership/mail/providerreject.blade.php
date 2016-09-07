@@ -1,0 +1,1 @@
+{{trans("ownership.mail.provider.reject.yourrequestrejected",["providerName"=>$contract->providername])}}

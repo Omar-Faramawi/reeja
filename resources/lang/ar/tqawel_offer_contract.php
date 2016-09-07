@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'name'                 => 'المستفيد من الخدمة',
+    'contract_nature_name' => 'نوع الخدمة',
+    'contract_nature_id'   => 'طبيعة العقد',
+    'email'                => 'البريد الالكتروني',
+    'mobile'               => 'رقم الجوال',
+    'details'              => 'التفاصيل',
+    'contract_details'     => 'تفاصيل العقد',
+    'contract_nature'      => 'طبيعه العقد',
+    'contract_id'          => 'رقم العقد',
+    'contract_name'        => 'آسم العقد',
+    'contract_desc'        => 'نبذه عن التعاقد',
+    'contract_amount'      => 'القيمة التقديرية',
+    'start_date'           => 'تاريخ بدايه العقد',
+    'end_date'             => 'تاريخ نهاية العقد',
+    'duration'             => 'مدة العقد',
+    'contract_ref_no'      => 'يوجد رقم مرجعي سابق',
+    'attachment'           => 'مرفقات',
+    'contract_type'        => 'نوع العقد',
+    'direct_hiring'        => 'مباشر',
+    'indirect_hiring'      => 'بالباطن آمكانية تأجير العمالة لمستأجر أخر',
+    'taqawel-contracts'    => 'العقود',
+    'edit'                 => 'تعديل',
+    'attached_file'        => 'مرفق العقد',
+    'taqawel'              => 'تقاول',
+    'work_locations'       => 'مواقع العمل',
+    'add_new'              => 'اضافة موقع عمل اخر',
+    'offer_contract'       => 'تقديم عرض',
+    'reject'               => 'رفض',
+    'cancel_reject_success'=> 'تم التراجع عن طلب الإلغاء'
+];

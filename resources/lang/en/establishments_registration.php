@@ -1,0 +1,45 @@
+<?php
+
+return [
+    'headings'     => [
+        'list'   => 'Establishments Registration',
+        'list1'  => 'Establishments',
+        'create' => 'Create a new establishment',
+        'edit'   => 'Edit establishment',
+    ],
+    'sub-headings' => [
+        'list' => 'This page allows you to manage establishments users',
+    ],
+    'attributes'   => [
+        'labour_office_no'  => 'Office number',
+        'sequence_no'       => 'Sequence number',
+        'id_number'         => '100 / 700',
+        'branch_no'         => 'Branch number',
+        'email'             => 'Email',
+        'name'              => 'Establishment Name',
+        'est_activity'      => 'Establishment activity',
+        'est_size'          => 'Establishment size',
+        'est_nitaq'         => 'Establishment Nitaq',
+        'district'          => 'District',
+        'city'              => 'City',
+        'region'            => 'Region',
+        'wasel_address'     => 'Wasel Address',
+        'local_liecense_no' => 'License number',
+        'phone'             => 'Phone',
+        'parent_id'         => 'Main Establishment',
+        'reason_id'         => 'Reason number',
+        'rejection_reason'  => 'Rejection reason',
+        'status_title'      => 'Status',
+    ],
+    "status"       => [
+        '0' => 'Closed',
+        '1' => 'Active',
+    ],
+    'added'        => 'Added successfully',
+    'updated'      => 'Updated successfully',
+    'deleted'      => 'Deleted successfully',
+    'error_delete' => 'Error Can\'t delete',
+    'no_data'      => 'Sorry ! no data for this company',
+    'success_data' => 'Done, The establishment is here',
+    'change'       => 'Change Establishment',
+];

@@ -1,0 +1,22 @@
+{
+  "name": "ajeer",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Omar Mohamed <omar.faramawi@its.ws>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "^2.14.1",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
+    "bootstrap-sass": "^3.3.7"
+  }
+}

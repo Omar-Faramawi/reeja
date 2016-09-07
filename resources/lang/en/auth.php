@@ -1,0 +1,37 @@
+<?php
+
+return [
+    'login'                     => 'Login',
+    'logout'                    => 'Logout',
+    'login_form_notice'         => 'Fill the following form then click on Login',
+    'establishments_login'      => 'Establishments Login',
+    'forgot_password'           => 'I forgot my password',
+    'forget_pass_email_subject' => 'New password for your account',
+    'password_reset'            => 'Reset password',
+    'parameters'                => [
+        'email'                => 'Email',
+        'password'             => 'Password',
+        'email_placeholder'    => 'Please type your account email here',
+        'password_placeholder' => 'Please type your account password here',
+        'national_id'          => 'National Id',
+    ],
+    'messages'                  => [
+        'inactive_user_account'      => 'You account is inactive',
+        'invalid_username_password'  => 'Invalid Email or password',
+        'exceeded_failure_threshold' => 'You have exceeded the allowed failure login trials',
+        'invalid_nid_password'       => 'Invalid National Id',
+    ],
+    'remember'                  => 'Remember Me',
+    'failed'                    => 'Invalid username or password',
+    'throttle'                  => 'You have exceeded the allowed failure login trials. Please try again in :seconds seconds.',
+    'error'                     => 'Sorry! you have errors on your data',
+    'bug_error'                 => 'Sorry! Ajeer is out of service right now.',
+    'register'                  => 'New user',
+    'individual_login'          => 'Individual login',
+    'users'                     => 'Users',
+    'open_id_login'             => 'Login via Ministry Of Labor web Portal',
+    'reset_password'            => 'Reset password',
+    'success'                   => "Logged in successfully.",
+    'individual_error'          => "Error in your ID or password",
+    'user_created'              => 'Registered successfully, once you\'ll be activated we\'ll Email you.',
+];

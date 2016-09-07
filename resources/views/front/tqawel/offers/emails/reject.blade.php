@@ -1,0 +1,1 @@
+{{trans("tqaweloffers.mail.provider.yourrequestrejected",["benfName"=>$contract->benf_name,"providerName"=>$contract->providername])}}

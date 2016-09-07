@@ -1,0 +1,1 @@
+{{trans("offersdirect.mail.provider.reject.yourrequestaccepted",["benfName"=>$contract->benf_name,"providerName"=>$contract->providername])}}
