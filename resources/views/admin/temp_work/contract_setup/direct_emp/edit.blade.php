@@ -89,26 +89,22 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="is_slider">{{trans('contract_setup.ishaar_cancel_acc')}}</label>
-
-                                        <div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="provider_cancel_ishaar" class="active">
-                                                    {{--<input type="checkbox" name="provider_cancel_ishaar" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('provider_cancel_ishaar', 0) !!}
-                                                    {!! Form::checkbox('provider_cancel_ishaar') !!}
-
-                                                    <span>{{trans('contract_setup.provider')}}</span>
+                                        <div class="md-checkbox-inline">
+                                            <div class="md-checkbox">
+                                                {!! Form::checkbox('provider_cancel_ishaar', @$contractSetup->provider_cancel_ishaar, null, ['class' => 'md-check', 'id' => 'provider_cancel_ishaar']) !!}
+                                                <label for="provider_cancel_ishaar" class="text-right">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> {{trans('contract_setup.provider')}}
                                                 </label>
                                             </div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="benf_cancel_ishaar" class="active">
-                                                    {{--<input type="checkbox" name="benf_cancel_ishaar" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('benf_cancel_ishaar', 0) !!}
-                                                    {!! Form::checkbox('benf_cancel_ishaar') !!}
 
-                                                    <span>{{trans('contract_setup.benf')}}</span>
+                                            <div class="md-checkbox">
+                                                {!! Form::checkbox('benf_cancel_ishaar', @$contractSetup->benf_cancel_ishaar, null, ['class' => 'md-check', 'id' => 'benf_cancel_ishaar']) !!}
+                                                <label for="benf_cancel_ishaar" class="text-right">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> {{trans('contract_setup.benf')}}
                                                 </label>
                                             </div>
                                         </div>
@@ -120,26 +116,22 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="is_slider">{{trans('contract_setup.cancel_acc')}}</label>
-
-                                        <div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="provider_cancel_contract" class="active">
-                                                    {{--<input type="checkbox" name="provider_cancel_contract" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('provider_cancel_contract', 0) !!}
-                                                    {!! Form::checkbox('provider_cancel_contract') !!}
-
-                                                    <span>{{trans('contract_setup.provider')}}</span>
+                                        <div class="md-checkbox-inline">
+                                            <div class="md-checkbox">
+                                                {!! Form::checkbox('provider_cancel_contract', @$contractSetup->provider_cancel_contract, null, ['class' => 'md-check', 'id' => 'provider_cancel_contract']) !!}
+                                                <label for="provider_cancel_contract" class="text-right">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> {{trans('contract_setup.provider')}}
                                                 </label>
                                             </div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="benf_cancel_contract" class="active">
-                                                    {{--<input type="checkbox" name="benf_cancel_contract" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('benf_cancel_contract', 0) !!}
-                                                    {!! Form::checkbox('benf_cancel_contract') !!}
 
-                                                    <span>{{trans('contract_setup.benf')}}</span>
+                                            <div class="md-checkbox">
+                                                {!! Form::checkbox('benf_cancel_contract', @$contractSetup->benf_cancel_contract, null, ['class' => 'md-check', 'id' => 'benf_cancel_contract']) !!}
+                                                <label for="benf_cancel_contract" class="text-right">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> {{trans('contract_setup.benf')}}
                                                 </label>
                                             </div>
                                         </div>
@@ -152,22 +144,22 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="is_slider">{{trans('contract_setup.ownership_att_time')}}</label>
-
-                                        <div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="ownership_att_time" class="active">
-                                                    {!! Form::hidden('ownership_att_time', 0) !!}
-                                                    {!! Form::checkbox('ownership_att_time') !!}
-
-                                                    <span>{{trans('contract_setup.attributes.ownership_att_time')}}</span>
+                                        <div class="md-checkbox-inline">
+                                            <div class="md-checkbox">
+                                                {!! Form::checkbox('ownership_att_time', @$contractSetup->ownership_att_time, null, ['class' => 'md-check', 'id' => 'ownership_att_time']) !!}
+                                                <label for="ownership_att_time" class="text-right">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> {{trans('contract_setup.attributes.ownership_att_time')}}
                                                 </label>
                                             </div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="ownership_att_time_offer" class="active">
-                                                    {!! Form::hidden('ownership_att_time_offer', 0) !!}
-                                                    {!! Form::checkbox('ownership_att_time_offer') !!}
 
-                                                    <span>{{trans('contract_setup.attributes.ownership_att_time_offer')}}</span>
+                                            <div class="md-checkbox">
+                                                {!! Form::checkbox('ownership_att_time_offer', @$contractSetup->ownership_att_time_offer, null, ['class' => 'md-check', 'id' => 'ownership_att_time_offer']) !!}
+                                                <label for="ownership_att_time_offer" class="text-right">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> {{trans('contract_setup.attributes.ownership_att_time_offer')}}
                                                 </label>
                                             </div>
                                         </div>

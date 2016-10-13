@@ -7,7 +7,7 @@
                 <h2>{{ trans('front.footer.header') }}</h2>
                 <p>{{ trans('front.footer.content') }}</p>
             </div>
-            <div class="col-md-3 col-sm-6 col-xs-12 footer-block">
+            {{--<div class="col-md-3 col-sm-6 col-xs-12 footer-block">
                 <h2>{{ trans('front.footer.follow') }}</h2>
                 <ul class="social-icons">
                     <li>
@@ -32,7 +32,7 @@
                         <a href="javascript:;" data-original-title="vimeo" class="vimeo"></a>
                     </li>
                 </ul>
-            </div>
+            </div>--}}
             <div class="col-md-3 col-sm-6 col-xs-12 footer-block">
                 <h2>{{ trans('front.footer.contact') }}</h2>
                 <address class="margin-bottom-40"> {{ trans('front.footer.phone') }}

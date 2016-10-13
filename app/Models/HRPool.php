@@ -3,9 +3,9 @@
 namespace Tamkeen\Ajeer\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tamkeen\Ajeer\Utilities\Constants;
-
 
 class HRPool extends BaseModel
 {
@@ -25,7 +25,7 @@ class HRPool extends BaseModel
     /**
      * @var array
      */
-    protected $appends = ['age', 'gender_name', 'religion_name', 'provider_name'];
+    protected $appends = ['age', 'gender_name', 'religion_name', 'provider_name', 'job_type_name'];
 
     /**
      * add deleted_by to timestamps
@@ -81,8 +81,8 @@ class HRPool extends BaseModel
     public function age()
     {
         $date = new \DateTime($this->birth_date);
-        $H = intval($date->format("Y"));
-        $G = $H + 622 - ($H / 33);
+        $H    = intval($date->format("Y"));
+        $G    = $H + 622 - ($H / 33);
 
         return intval(floor(date("Y")) - $G);
 
@@ -106,6 +106,27 @@ class HRPool extends BaseModel
         }
 
         return $query->where('provider_type', \Auth::user()->user_type_id);
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeByOthers($query)
+    {
+        if (session()->get('selected_establishment')) {
+            $providerId = session()->get('selected_establishment.id');
+        } elseif (session()->get('government')) {
+            $providerId = session()->get('government.id');
+        } else {
+            $providerId = auth()->user()->id_no;
+        }
+        $query->whereRaw('(provider_id != ' . $providerId . ' and provider_type = ' . \Auth::user()->user_type_id . ')');
+        $query->orWhereRaw('(provider_id = ' . $providerId . ' and provider_type != ' . \Auth::user()->user_type_id . ')');
+        $query->orWhereRaw('(provider_id != ' . $providerId . ' and provider_type != ' . \Auth::user()->user_type_id . ')');
+
+        return $query;
     }
 
     /**
@@ -138,8 +159,8 @@ class HRPool extends BaseModel
     public function getAgeAttribute()
     {
         $date = new \DateTime($this->birth_date);
-        $H = intval($date->format("Y"));
-        $G = $H + 622 - ($H / 33);
+        $H    = intval($date->format("Y"));
+        $G    = $H + 622 - ($H / 33);
 
         return intval(floor(date("Y")) - $G);
     }
@@ -152,17 +173,16 @@ class HRPool extends BaseModel
         return !is_null($this->religion) ? trans('labels.religion.' . $this->religion) : '';
     }
 
-
     /**
-     * @param $type
-     * @param $id
-     *
      * @return mixed
+     * @internal param $type
+     * @internal param $id
+     *
      */
     public function getProviderNameAttribute()
     {
         $type = $this->attributes['provider_type'];
-        $id = $this->attributes['provider_id'];
+        $id   = $this->attributes['provider_id'];
         try {
             switch ($type) {
                 case 4:
@@ -178,7 +198,6 @@ class HRPool extends BaseModel
         }
     }
 
-
     /**
      * @param $query
      *
@@ -190,6 +209,16 @@ class HRPool extends BaseModel
     }
 
     /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeChecked($query)
+    {
+        return $query->where('chk', '1');
+    }
+
+    /**
      * @return mixed
      *
      * get only muslims
@@ -198,8 +227,6 @@ class HRPool extends BaseModel
     {
         return static::where('religion', Constants::RELIGION['muslim']);
     }
-
-
 
     /**
      * @param $column
@@ -231,9 +258,133 @@ class HRPool extends BaseModel
         return $this->belongsTo(Establishment::class, $column);
     }
 
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function contractEmployee()
     {
-        return $this->hasOne(HRPool::class, "id_number");
+        return $this->hasOne(ContractEmployee::class, "id_number");
     }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeNotSeasonal($query)
+    {
+        return $query->where('region_id', '!=', 1);
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeSeasonal($query)
+    {
+        return $query->where('region_id', 1);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJobTypeNameAttribute()
+    {
+        return !is_null($this->job_type) ? trans(Constants::jobTypes($this->gender)) : '';
+    }
+    
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeJobseeker($query)
+    {
+        return $query->whereIn('provider_type', [Constants::USERTYPES['saudi'], Constants::USERTYPES['job_seeker']]);
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeEmployeedOrVisitor($query){
+        return $query->where('id_number','LIKE','4%')
+                     ->orWhere('id_number','LIKE','2%');
+    }
+    
+    public function scopeEmployeed($query){
+        return $query->where('id_number','LIKE','2%');
+    }
+
+    public function scopeVisitor($query){
+        return $query->where('id_number','LIKE','4%');
+    }
+
+    public function scopeAnyGender($query){
+        return $query->where('gender',Constants::GENDER['female'])->orWhere('gender',Constants::GENDER['male']);
+    }
+
+    public function scopeOnlyFemales($query){
+        return $query->where('gender',Constants::GENDER['female']);
+    }
+    
+    public function scopeOnlyMales($query){
+        return $query->where('gender',Constants::GENDER['male']);
+    }
+
+    public static function MaxLaborTimes($id_number){
+         return ContractEmployee::where('id_number',$id_number)->count();
+    }
+
+    public static function MaxTotalPeriodTimes($id_number,$start,$end){
+         return ContractEmployee::where('id_number',$id_number)->whereBetween('start_date',[$start,$end])
+                                  ->whereBetween('end_date',[$start,$end])->count();
+
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeAllowedEmployeesType($query, $type)
+    {
+        //check taqawel Ishaar options
+        $options = IshaarSetup::where('ishaar_type_id', $type)->first();
+        //return employee Type Scope 
+        $query->where(function($query) use($options) {
+            if ($options->labor_status_employed == 1 && $options->labor_status_visitor == 1) {
+                return $query->employeedOrVisitor();
+            } else {
+                if ($options->labor_status_employed == 1) {
+                    return $query->employeed();
+                }
+                if ($options->labor_status_visitor == 1) {
+                    return $query->visitor();
+                }
+            }
+        });
+    }
+
+    public function scopeAllowedEmployeesGender($query, $type)
+    {
+        //check taqawel Ishaar options
+        $options = IshaarSetup::where('ishaar_type_id', $type)->first();
+        //return employee Type Scope
+        $query->where(function($query) use($options) {
+            if ($options->labor_gender_male  == 1 && $options->labor_gender_female == 1) {
+                return $query->anyGender();
+            } else {
+                if ($options->labor_gender_male  == 1) {
+                    return $query->onlyMales();
+                }
+                if ($options->labor_gender_female == 1) {
+                    return $query->onlyFemales();
+                }
+            }
+        });
+    }
+
 }

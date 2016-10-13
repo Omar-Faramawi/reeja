@@ -44,13 +44,14 @@ return [
             "message"               => "يجب عليك الموافقة علي مجموعة الاقرارات المطلوبه",
             "qualificationsmessage" => "يجب عليك تحميل المؤهلات المطلوبة",
             "offerAccepted"         => "تم قبول العرض بنجاح",
-
+        
         ],
         "reject" => [
             "title"          => "رفض العرض المقدم",
             "reason"         => "سبب رفض العرض",
             "reasonRequired" => "يجب اختيار سبب الرفض",
             "other"          => "أخرى",
+            "other_reason"   => "يجب عليك ادخال سبب آخر فى حال اختيارك لأخرى",
             "extraDetails"   => "تفاصيل اضافية",
             "send"           => "ارسال",
             "rejectionSuc"   => "تم رفض العرض المقدم",
@@ -58,22 +59,22 @@ return [
             "mail"           => [
                 "subject" => "تم رفض الطلب الخاص بكم",
             ],
-
+        
         ],
-        "close"  => "اغلاق"
+        "close"  => "اغلاق",
     ],
-
+    
     "smsmessage"              => "رسالة تحتوي الرابط :link",
     "mail"                    => [
         "provider" => [
             "reject" => [
-                "yourrequestrejected" => "العضو المحترم :benfName لقد قام العضو :providerName برفض طلبكم "
-            ]
+                "yourrequestrejected" => "العضو المحترم :benfName لقد قام العضو :providerName برفض طلبكم ",
+            ],
         ],
         "benf"     => [
             "pendingownership" => [
-                "yourrequestaccepted" => "العضو المحترم :benfName  لقد قام العضو  :providerName بالموافقة على طلبكم والطلب الان بانتظار موافقة الكفيل عليه"
-            ]
+                "yourrequestaccepted" => "العضو المحترم :benfName  لقد قام العضو  :providerName بالموافقة على طلبكم والطلب الان بانتظار موافقة الكفيل عليه",
+            ],
         ],
     ],
     "pending_ownership_error" => "قد قمت بالموافقة على هذا العرض مسبقا والعرض الان بانتظار موافقة الكفيل",

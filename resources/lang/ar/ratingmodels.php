@@ -6,30 +6,37 @@
  * and open the template in the editor.
  */
 return [
-    'headings'       => [
+    'headings'                 => [
         'list' => 'تعريف نموذج تقييم',
     ],
-    'sub-headings'   => [
+    'sub-headings'             => [
         'list' => 'تمكنك هذه الصفحة من إضافة وتعديل وحذف نماذج التقييم',
     ],
-    "widgetName"     => "تعريف نموذج تقييم",
-    "formTitle"      => "نموذج تقييم",
-    "sumbitedsucc"   => "تم الاضافة بنجاح",
-    "updated"        => "تم التعديل بنجاح",
-    "deleted"        => "تم الحذف",
-    "accept"         => "تفعيل",
-    "reject"         => "ايقاف التفعيل",
-    "activated"      => "تم التفعيل ",
-    "stopactivated"  => "تم ايقاف التفعيل ",
-    "error_delete"   => "عفوا لا يمكنك حذف هذا العنصر الان ",
-    "addNewQuestion" => "اضافة بند",
-    "question"       => " بند",
-    "answer"         => " جواب البند",
-    "addQA"          => "اضافة بند",
-    "addAnswer"      => "اضافة جواب اخر",
-    'messages'       => [
+    "widgetName"               => "تعريف نموذج تقييم",
+    "formTitle"                => "نموذج تقييم",
+    "sumbitedsucc"             => "تم الاضافة بنجاح",
+    "updated"                  => "تم التعديل بنجاح",
+    "deleted"                  => "تم الحذف",
+    "accept"                   => "تفعيل",
+    "reject"                   => "ايقاف التفعيل",
+    "activated"                => "تم التفعيل ",
+    "stopactivated"            => "تم ايقاف التفعيل ",
+    "error_delete"             => "عفوا لا يمكنك حذف هذا العنصر الان ",
+    "addNewQuestion"           => "اضافة بند",
+    "question"                 => " بند",
+    "answer"                   => " جواب البند",
+    "addQA"                    => "اضافة بند",
+    "addAnswer"                => "اضافة جواب اخر",
+    'formTitleValidationError' => 'يجب ادخال عنوان نموذج التقييم',
+    'messages'                 => [
         "questionRequired" => "يجب عليك ادخال البند",
         "answersRequired"  => "يجب عليك ادخال اجابة واحده على الاقل"
+    ],
+
+    'email' => [
+        'subject'   => 'Ajeer Rating',
+        'beforeUrl' => 'السلام عليكم <br> العضو المحترم نتمني منكم الدخول علي الرابط التالي لتقييم التعاقد رقم ',
+        'afterUrl'  => 'لاي استفسار يمكنكم التواصل معنا <br> شكرا لكم ',
     ],
 ];
 

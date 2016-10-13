@@ -24,18 +24,11 @@ class ReceivedContractRequest extends Request
     {
 
         return [
-            'benf_id'                    => 'sometimes|required',
-            'benf_type'                  => 'sometimes|required',
-            'provider_id'                => 'sometimes|required',
-            'provider_type'              => 'sometimes|required',
             'start_date'                 => 'date|required',
             'end_date'                   => 'date|required|after:start_date',
-            'region_id.*'                => 'required|numeric',
-            'contract_type_id'           => 'numeric',
-            'contract_nature_id'         => 'numeric',
-            'reason_id'                  => 'numeric',
-            'job_request_id'             => 'numeric',
-            'market_taqaual_services_id' => 'numeric',
+            'region_id.*'                => 'required|integer',
+            'contract_locations'         => 'required',
+            'contract_file'              => 'file|mimes:doc,docx,pdf'
         ];
     }
 
@@ -47,11 +40,11 @@ class ReceivedContractRequest extends Request
     public function attributes()
     {
         return [
-            'start_date'                             => trans('temp_job.work_start_date'),
-            'end_date'                               => trans('temp_job.work_end_date'),
-            'region_id.*'                            => trans('temp_job.region_id'),
-            'nationality_id'                         => trans('temp_job.nationality_id'),
-            'contract_field_cannot_edit_if_approved' => trans('contracts.contract_field_cannot_edit_if_approved'),
+            'start_date'                              => trans('temp_job.work_start_date'),
+            'end_date'                                => trans('temp_job.work_end_date'),
+            'region_id.*'                             => trans('temp_job.region_id'),
+            'contract_locations'                      => trans('temp_job.contract_locations'),
+            'contract_file'                           => trans('temp_job.attachment'),
         ];
     }
 }

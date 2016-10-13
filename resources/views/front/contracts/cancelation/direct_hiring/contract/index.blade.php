@@ -53,22 +53,24 @@
                            <div class="btn-group pull-right">
                               <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                               @if(Request::is('contracts/cancelation/direct_hiring/beneficial'))
-                              {{ trans('contracts_cancelation.benficial') }}
+                              {{ trans('temp_job.job_owner') }}
                               @else
-                              {{ trans('contracts_cancelation.provider') }}
+                              {{ trans('temp_job.job_seeker') }}
                               @endif  
                               <i class="fa fa-angle-down"></i>
                               </button>
+                               @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['saudi'])
                               <ul class="dropdown-menu pull-right" role="menu">
                                  <li>
                                     <a href="{{ url('contracts/cancelation/direct_hiring/provider') }}">
-                                    <i class="icon-user"></i> {{ trans('contracts_cancelation.provider') }}</a>
+                                    <i class="icon-user"></i> {{ trans('temp_job.job_seeker') }}</a>
                                  </li>
                                  <li>
                                     <a href="{{ url('contracts/cancelation/direct_hiring/beneficial') }}">
-                                    <i class="icon-user"></i> {{ trans('contracts_cancelation.benficial') }}</a>
+                                    <i class="icon-user"></i> {{ trans('temp_job.job_owner') }}</a>
                                  </li>
                               </ul>
+                               @endif
                            </div>
                         </div>
                         @endif
@@ -79,11 +81,14 @@
                            <thead>
                               <tr role="row" class="heading">
                                  <th id="id" width="10%"> {{ trans('contracts_cancelation.contract_number') }}</th>
-                                 <th id="start_date" width="200">{{ trans('contracts_cancelation.contract_start_date') }} </th>
-                                 <th id="end_date" width="200"> {{ trans('contracts_cancelation.contract_end_date') }}</th>
-                                 <th id="benf_name" width="200">{{ trans('contracts_cancelation.contract_benef') }}</th>
-                                 <th id="providername" width="200">{{ trans('contracts_cancelation.contract_provider') }}</th>
-                                 <th id="details"> {{ trans('labels.details') }}</th>
+                                 <th class="no-sort" id="start_date" width="200">{{ trans('contracts_cancelation.contract_start_date') }} </th>
+                                 <th class="no-sort" id="end_date" width="200"> {{ trans('contracts_cancelation.contract_end_date') }}</th>
+                                 @if(Request::is('contracts/cancelation/direct_hiring/beneficial'))
+                                 <th class="no-sort" id="providername" width="200">{{ trans('labor_market.job_seeker_name') }}</th>
+                                 @else
+                                  <th class="no-sort" id="benf_name" width="200">{{ trans('labor_market.job_owner') }}</th>
+                                  @endif
+                                 <th class="no-sort" id="details"> {{ trans('labels.details') }}</th>
                               </tr>
                               <tr role="row" class="filter">
                                  <td>
@@ -97,7 +102,6 @@
                                  <td>
                                     <input type="text" class="form-control input-sm date-picker"
                                        name="end_date">
-                                 </td>
                                  </td>
                                  <td>
                                     <input type="text" class="form-control form-filter input-sm"

@@ -62,23 +62,10 @@ class JobApplicationController extends Controller
             return dynamicAjaxPaginate($data, $columns, $total_count, $buttons);
         }
 
-        $user = auth()->user();
         $data = HRPool::me()->first();
 
         // Extracts the first character from the National ID
-        $nidChar = substr($user->national_id, 0, 1);
-
-        // Extract the SQL where Array based on Saudi/Non-Saudi
-        switch (auth()->user()->user_type_id) {
-            case (4) :
-                $whereArr = ['saudi' => 1];
-                break;
-            case (5) :
-                $whereArr = ['non_saudi' => 1];
-                break;
-            default:
-                return [];
-        }
+        $nidChar = substr(auth()->user()->national_id, 0, 1);
 
         // Regions depending on whether the user is not Muslim or not saudi and visitor
         if ($data->religion != 1) {
@@ -89,7 +76,7 @@ class JobApplicationController extends Controller
             $regions = Region::lists('name', 'id');
         }
 
-        $jobs = Job::where($whereArr)->lists('job_name', 'id');
+        $jobs = Job::lists('job_name', 'id');
 
         return view('front.job_application.index', compact('data', 'regions', 'jobs'));
     }
@@ -103,30 +90,44 @@ class JobApplicationController extends Controller
     public function apply($id)
     {
         $vacancy = Vacancy::findOrFail($id);
-        $active_contracts = Contract::byMe()->directEmp()->approved()->whereBetween('start_date', [$vacancy->work_start_date, $vacancy->work_end_date])->
-            orWhereBetween('end_date', [$vacancy->work_start_date, $vacancy->work_end_date])->count();
-        $already_applied = Contract::byMe()->directEmp()->where('vacancy_id', $id)->count();
+        
+        // HRPool record
+        $employee_data = HRPool::me()->first();
 
+        $can_apply = $employee_data->chk == 1 ? true : false;
+        if(!$can_apply)
+            return response()->json(['error' => trans('labor_market.complete_your_cv')], 422);
+
+        if(!in_array($vacancy->job_id, Job::allowed(['id'], $employee_data->nationality_id)->toArray()))
+            return response()->json(['error' => trans('labor_market.not_allowed_job')], 422);
+
+        $already_applied = Contract::byMe()->directEmp()->where('vacancy_id', $id)->count();
         if ($already_applied) {
             return response()->json(['error' => trans('labor_market.already_applied')], 422);
         }
+
+        $active_contracts = Contract::byMe()->directEmp()->approved()
+            ->where(function($active_contracts) use ($vacancy) {
+                return $active_contracts->whereBetween('start_date', [$vacancy->work_start_date, $vacancy->work_end_date])->
+                orWhereBetween('end_date', [$vacancy->work_start_date, $vacancy->work_end_date]);
+            })
+            ->count();
         if ($active_contracts) {
             return response()->json(['error' => trans('labor_market.start_end_conflict')], 422);
         }
 
-        $employee_data = HRPool::me()->firstOrFail();
         $contract = [
             'contract_type_id' => Constants::CONTRACTTYPES['direct_emp'],
             'benf_id'          => $vacancy->benf_id,
             'benf_type'        => $vacancy->benf_type,
             'provider_type'    => auth()->user()->user_type_id,
             'provider_id'      => auth()->user()->id_no,
-            'contract_name'    => 'Direct Emp',
-            'status'           => 'pending',
+            'status'           => 'requested',
             'start_date'       => $vacancy->work_start_date,
             'end_date'         => $vacancy->work_end_date,
             'vacancy_id'       => $id,
             'contract_amount'  => $vacancy->salary,
+            'job_type'         => $vacancy->job_type
         ];
 
         if ($contract_record = Contract::create($contract)) {
@@ -134,6 +135,7 @@ class JobApplicationController extends Controller
                 'id_number'  => $employee_data->id,
                 'start_date' => $contract_record->start_date,
                 'end_date'   => $contract_record->end_date,
+                'salary'     => $vacancy->salary,
                 'status'     => 'pending',
                 'ishaar_id'  => Constants::CONTRACTTYPES['direct_emp'],
             ]);

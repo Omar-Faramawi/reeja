@@ -23,43 +23,39 @@ class VacanciesRequest extends Request
      */
     public function rules()
     {
-        if (Request::get('status') == 0) {
-            return [];
+        $value = 'numeric';
+        //custom rule for salary based on job type
+        if (Request::get('job_type')) {
+            $value = $this->checkField(Request::get('job_type'));
+        }
+
+        if (Request::get('region_id') == 1) {
+            return [
+                'job_id'          => 'required|numeric',
+                'religion'        => 'required',
+                'region_id'       => 'required',
+                'nationality_id'  => 'required',
+                'work_start_date' => 'required|date|before:work_end_date',
+                'work_end_date'   => 'required|date|after:work_start_date',
+            ];
+
         } else {
-            $value = 'numeric';
-            //custom rule for salary based on job type
-            if (Request::get('job_type')) {
-                $value = $this->checkField(Request::get('job_type'));
-            }
-            
-            if (Request::get('region_id') == 1) {
-                return [
-                    'job_id'          => 'required|numeric',
-                    'religion'        => 'required',
-                    'region_id'       => 'required',
-                    'nationality_id'  => 'required',
-                    'work_start_date' => 'required|date|before:work_end_date',
-                    'work_end_date'   => 'required|date|after:work_start_date',
-                ];
-                
-            } else {
-                
-                return [
-                    'job_id'          => 'required|numeric',
-                    'no_of_vacancies' => 'required|numeric',
-                    'gender'          => 'required',
-                    'religion'        => 'required',
-                    'region_id'       => 'required',
-                    'nationality_id'  => 'required',
-                    'salary'          => $value,
-                    'work_start_date' => 'required|date|before:work_end_date',
-                    'work_end_date'   => 'required|date|after:work_start_date',
-                    'job_type'        => 'numeric',
-                    'hide_salary'     => 'numeric',
-                    'status'          => 'numeric',
-                
-                ];
-            }
+
+            return [
+                'job_id'          => 'required|numeric',
+                'no_of_vacancies' => 'required|numeric',
+                'gender'          => 'required',
+                'religion'        => 'required',
+                'region_id'       => 'required',
+                'nationality_id'  => 'required',
+                'salary'          => $value,
+                'work_start_date' => 'required|date|before:work_end_date',
+                'work_end_date'   => 'required|date|after:work_start_date',
+                'job_type'        => 'numeric',
+                'hide_salary'     => 'numeric',
+                'status'          => 'numeric',
+
+            ];
         }
     }
     

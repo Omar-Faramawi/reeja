@@ -24,14 +24,10 @@ class OffersTaqaualController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Contract::toMe()
-                ->taqawel()
-                ->pending()
-                ->orderBy('id', 'desc')
-                ->with([
-                    "contractNature",
-                    "marketTaqawoulServices"
-                ]);
+            $data = Contract::toMe()->taqawel()->pending()->with([
+                "contractNature",
+                "marketTaqawoulServices",
+            ]);
             if (request()->input('provider_name')) {
 
                 $data = $data->where(function ($provider_q) {
@@ -84,10 +80,10 @@ class OffersTaqaualController extends Controller
                     });
                 });
             }
-            $columns = request()->input('columns');
-            $buttons = ['view' => []];
+            $columns     = request()->input('columns');
+            $buttons     = ['view' => []];
             $total_count = ($data->count()) ? $data->count() : 1;
-            $returned = dynamicAjaxPaginate($data, $columns, $total_count, $buttons);
+            $returned    = dynamicAjaxPaginate($data, $columns, $total_count, $buttons);
 
             return $returned;
         }
@@ -109,6 +105,7 @@ class OffersTaqaualController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -120,22 +117,19 @@ class OffersTaqaualController extends Controller
      * Display the specified resource.
      *
      * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $thisContract = Contract::toMe()
-            ->taqawel()
-            ->pending()
-            ->with([
-                "contractNature",
-                "marketTaqawoulServices"
-            ]);
-        $thisContract = $thisContract->find($id)
-            ->load([
-                "contractLocations"
-            ]);;
-        $dateEnded = getDiffPeriodDay($thisContract->created_at,
+        $thisContract = Contract::toMe()->taqawel()->pending()->with([
+            "contractNature",
+            "marketTaqawoulServices",
+        ]);
+        $thisContract = $thisContract->findOrFail($id)->load([
+            "contractLocations",
+        ]);
+        $dateEnded    = getDiffPeriodDay($thisContract->created_at,
             $thisContract->contractType->setup->max_accept_period,
             $thisContract->contractType->setup->max_accept_period_type);
         if ($dateEnded >= Carbon::today()->format("Y-m-d")) {
@@ -150,6 +144,7 @@ class OffersTaqaualController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -161,7 +156,8 @@ class OffersTaqaualController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -173,6 +169,7 @@ class OffersTaqaualController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -185,27 +182,33 @@ class OffersTaqaualController extends Controller
  *
  */
     /**
-     * @param Requests\OffersDirectUploadRequest $
+     * @param OffersTaqawelRequest $offersTaqawelRequest
+     * @param                      $id
+     *
+     * @return string
+     * @internal param $ Requests\OffersDirectUploadRequest $
      */
     public function accept(OffersTaqawelRequest $offersTaqawelRequest, $id)
     {
         return "";
     }
 
-    /*
+    /**
+     * @param $id
      *
+     * @return mixed
      */
     public function approvepost($id)
     {
-        $contract = Contract::findOrFail($id);
-
+        $contract = Contract::toMe()->taqawel()->pending()->findOrFail($id);
 
         $contract->status = "approved";
+        $contract->save();
         $mail = [
             "mailFrom"     => config("mail.from.address"),
             "mailFromName" => config("mail.from.name"),
-            "mailTo"       => $contract->provider->email,
-            "mailToName"   => $contract->provider->name,
+            "mailTo"       => $contract->provider->responsibles->first()->responsible_email,
+            "mailToName"   => $contract->provider->responsibles->first()->responsible_name,
         ];
         Mail::queue('front.tqawel.offers.emails.approved', ['contract' => $contract],
             function ($m) use ($mail) {
@@ -215,11 +218,7 @@ class OffersTaqaualController extends Controller
                     $mail['mailToName'])->subject(trans("tqaweloffers.modal.accept.mail.subject"));
             });
 
-
-        $contract->save();
-
         return trans("tqaweloffers.modal.accept.offerAccepted");
-
     }
 
 
@@ -230,43 +229,46 @@ class OffersTaqaualController extends Controller
      */
     public function reject($id)
     {
-        $reasons = Reason::all()->where('parent_id', 2)->pluck("reason", "id");
-        $reasons->prepend('');
-
+        $reasons = Reason::where('parent_id', 2)->pluck("reason", "id");
+        $reasons->prepend("", "");
+        
         return view("front.tqawel.offers.reject", compact("reasons", "id"));
     }
 
     /**
      * @param OfferTaqawelRejectRequest $offerTaqawelRejectRequest
-     * @param $id
+     * @param                           $id
+     *
      * @return mixed
      * @internal param OfferRejectRequest $offerRejectRequest
      */
     public function rejectPost(OfferTaqawelRejectRequest $offerTaqawelRejectRequest, $id)
     {
-        $contract = Contract::findOrFail($id);
+        $contract                   = Contract::toMe()->taqawel()->pending()->findOrFail($id);
+        $contract->reason_id        = $offerTaqawelRejectRequest->reason_id;
+        $contract->rejection_reason = $offerTaqawelRejectRequest->extraDetails;
+        $contract->other_reasons    = $offerTaqawelRejectRequest->other_reason;
+        $contract->status           = Constants::CONTRACT_STATUSES['rejected'];
+        $contract->save();
+
         $mail = [
             "mailFrom"     => config("mail.from.address"),
             "mailFromName" => config("mail.from.name"),
-            "mailTo"       => $contract->provider->email,
-            "mailToName"   => $contract->provider->name,
+            "mailTo"       => $contract->provider->responsibles->first()->responsible_email,
+            "mailToName"   => $contract->provider->responsibles->first()->responsible_name,
         ];
         Mail::queue('front.tqawel.offers.emails.reject', ['contract' => $contract], function ($m) use ($mail) {
             $m->from($mail['mailFrom'], $mail['mailFromName']);
 
-            $m->to($mail['mailTo'], $mail['mailToName'])->subject(trans("offersdirect."));
+            $m->to($mail['mailTo'], $mail['mailToName'])->subject(trans("offersdirect.modal.reject.mail.subject"));
         });
-
-        $contract->reason_id = $offerTaqawelRejectRequest->reason_id;
-        $contract->rejection_reason = $offerTaqawelRejectRequest->other_reason;
-        $contract->status = "rejected";
-        $contract->save();
 
         return trans("tqaweloffers.modal.reject.rejectionSuc");
     }
 
     /**
      * Force Download Contract file
+     *
      * @param int $id hashed
      *
      * @return Response download file

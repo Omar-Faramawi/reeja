@@ -80,8 +80,14 @@ class RatingModelsController extends Controller
         }
         $createdTemplate->items()->attach($createdQuestionArray,
             ['created_by' => auth()->id(), 'updated_by' => auth()->id()]);
-        
-        return trans("ratingmodels.sumbitedsucc");
+        if ($ratingModelsRequest->next == 1) {
+            return json_encode(['msg' => trans("ratingmodels.sumbitedsucc"), 'taqeemID' => $createdTemplate->id]);
+        }
+        return json_encode([
+            'msg'      => trans("ratingmodels.sumbitedsucc"),
+            'taqeemID' => $createdTemplate->id,
+            'refresh'  => true
+        ]);
     }
 
     /**
@@ -178,10 +184,10 @@ class RatingModelsController extends Controller
      */
     public function destroy($id)
     {
-        $taqyeemTemplateItemsData = RatingModels::byId($id)->with('taqyeemTemplateItems', 'taqyeemDtl', 'taqyeems',
+        $taqyeemTemplateItemsData = RatingModels::byId($id)->with('taqyeemTemplateItems', 'taqyeems',
             'taqyeemTemplatePermission')
             ->firstOrFail();
-        if (count($taqyeemTemplateItemsData->taqyeemTemplateItems) || count($taqyeemTemplateItemsData->taqyeemDtl) || count($taqyeemTemplateItemsData->taqyeems) || count($taqyeemTemplateItemsData->taqyeemTemplatePermission)) {
+        if (count($taqyeemTemplateItemsData->taqyeemTemplateItems) || count($taqyeemTemplateItemsData->taqyeems) || count($taqyeemTemplateItemsData->taqyeemTemplatePermission)) {
             return response()->json(['error' => trans('ratingmodels.error_delete')], 422);
         }
         $taqyeemTemplateItemsData->delete();

@@ -49,21 +49,21 @@
                                     <tr role="row" class="heading">
                                         <th id="id" width="5%"> {{trans('ishaar_setup.attributes.ishaar_number')}}</th>
                                         @if(session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'])
-                                        <th id="contract.benf_name"
+                                        <th class="no-sort" id="contract.benf_name"
                                             width="20%"> {{trans('ishaar_setup.attributes.ishaar_establishment_name')}}</th>
                                         @else
-                                        <th id="contract.providername"
+                                        <th class="no-sort" id="contract.providername"
                                             width="20%"> {{trans('ishaar_setup.attributes.ishaar_cancel_provider')}}</th>
                                         @endif
-                                        <th id="hr_pool.name" width="5%"> {{trans('ishaar_setup.attributes.name')}}</th>
-                                        <th id="hr_pool.id_number" width="20%"> {{trans('ishaar_setup.attributes.id_number')}}</th>
-                                        <th id="hr_pool.job.job_name" width="5%"> {{trans('ishaar_setup.attributes.job')}}</th>
-                                        <th id="start_date"
+                                        <th class="no-sort" id="hr_pool.name" width="5%"> {{trans('ishaar_setup.attributes.name')}}</th>
+                                        <th class="no-sort" id="hr_pool.id_number" width="20%"> {{trans('ishaar_setup.attributes.id_number')}}</th>
+                                        <th class="no-sort" id="hr_pool.job.job_name" width="5%"> {{trans('ishaar_setup.attributes.job')}}</th>
+                                        <th class="no-sort" id="start_date"
                                             width="20%"> {{trans('ishaar_setup.attributes.ishaar_start_date')}}</th>
-                                        <th id="end_date"
+                                        <th class="no-sort" id="end_date"
                                             width="20%"> {{trans('ishaar_setup.attributes.ishaar_end_date')}}</th>
-                                        <th id="translated_status" width="10%"> {{trans('ishaar_setup.attributes.ishaar_status')}}</th>
-                                        <th id="details" class="no-sort"
+                                        <th class="no-sort" id="translated_status" width="10%"> {{trans('ishaar_setup.attributes.ishaar_status')}}</th>
+                                        <th class="no-sort" id="details" class="no-sort"
                                             width="20%"> {{trans('ishaar_setup.attributes.details')}}</th>
                                     </tr>
                                     <tr role="row" class="filter">
@@ -72,23 +72,7 @@
                                         </td>
                                         <td>
                                             <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
+                                                   name="benf_name">
                                         </td>
                                         <td>
                                             <input type="text" class="form-control form-filter input-sm"
@@ -96,7 +80,23 @@
                                         </td>
                                         <td>
                                             <input type="text" class="form-control form-filter input-sm"
-                                                   name="name">
+                                                   name="id_number">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control form-filter input-sm"
+                                                   name="job">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control form-filter date-picker" value=""
+                                                   name="start_date">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control form-filter date-picker" value=""
+                                                   name="end_date">
+                                        </td>
+                                        <td>
+                                            {!! Form::select('status', \Tamkeen\Ajeer\Utilities\Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter']) !!}
+
                                         </td>
                                         <td>
                                             <button class="btn btn-sm green btn-outline filter-submit margin-bottom">

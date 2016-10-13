@@ -46,6 +46,7 @@
     var locale = '{!! app()->getLocale() !!}';
     var default_placeholder = '{!! trans('ishaar_setup.attributes.default') !!}';
     var no_data = '{!! trans('labels.no_data') !!}';
+    var missing_required_fields = '{!! trans('labels.missing_required_fields') !!}';
     var loading_img = '{!! asset('assets/img/loading-spinner-grey.gif') !!}';
 </script>
 @if(app()->getLocale() == "ar")

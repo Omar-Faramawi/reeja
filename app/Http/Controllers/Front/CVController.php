@@ -34,9 +34,7 @@ class CVController extends Controller
             $regions = Region::lists('name', 'id');
         }
         
-        $jobs = Job::whereHas('nationalities', function ($nat_q) use ($data) {
-            $nat_q->where('nationalities.id', $data->nationality_id);
-        })->lists('job_name', 'id');
+        $jobs = Job::allowed(['job_name', 'id'], $data->nationality_id);
         
         $qualifications = Qualification::lists('name', 'id');
         $experiences    = Experience::lists('name', 'id');

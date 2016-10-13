@@ -57,4 +57,6 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'EstablishmentController@update',
         'as'   => 'establishment.profile.update',
     ]);
+
+     Route::resource('my_invoices', 'Front\InvoicesController');
 });

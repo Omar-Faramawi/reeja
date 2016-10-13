@@ -24,4 +24,9 @@ class TaqyeemDegrees extends BaseModel
     {
         return $this->belongsTo(TaqyeemItems::class, "taqyeem_item_id");
     }
+
+    public function taqyeemDtl()
+    {
+        return $this->hasMany(TaqyeemDtl::class, "degrees_id");
+    }
 }

@@ -1,5 +1,5 @@
 @extends('front.layout')
-@section('title', trans('contracts.work_completion_cert'))
+@section('title', trans('front.menu.work_completion_cert'))
 @section('content')
     <!-- BEGIN CONTENT BODY -->
     <!-- BEGIN PAGE HEAD-->
@@ -8,7 +8,7 @@
             <!-- BEGIN PAGE TITLE -->
             <div class="page-title">
                 <h1>{{ trans('labels.system_name') }}
-                    <small> {{trans('contracts.work_completion_cert')}}</small>
+                    <small> {{trans('front.menu.work_completion_cert')}}</small>
                 </h1>
             </div>
             <!-- END PAGE TITLE -->
@@ -31,7 +31,7 @@
                             <div class="portlet-title">
                                 <div class="caption">
                                     <i class="icon-file-text font-dark"></i>
-                                    <span class="caption-subject font-dark sbold uppercase"> {{trans('contracts.work_completion_cert')}}</span>
+                                    <span class="caption-subject font-dark sbold uppercase"> {{trans('contracts.contracts')}}</span>
                                 </div>
                             </div>
                             <div class="portlet-body">
@@ -132,8 +132,11 @@
                                                 aria-hidden="true">&times;</button>
                                         {!! trans('contracts.undo_invoice_notice') !!}
                                     </div>
-                                    <a href="javascript:;"
-                                       class="btn btn-info generate_invoice_btn">{!! trans('labels.generate_invoice') !!}</a>
+                                    <div class='font-red' id="after_invoice">
+
+                                                </div>
+                                    <a href="javascript" data-token="{{ csrf_token() }}"
+                                       class="btn btn-info generate_invoice_btn" id="certificate_generate_invoice">{!! trans('labels.generate_invoice') !!}</a>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>

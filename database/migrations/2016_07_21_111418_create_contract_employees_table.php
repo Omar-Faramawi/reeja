@@ -19,10 +19,11 @@ class CreateContractEmployeesTable extends Migration {
 			$table->integer('id_number');
 			$table->date('start_date')->nullable();
 			$table->date('end_date')->nullable();
+			$table->string('salary', 45)->nullable();
 			$table->enum('status', ['pending', 'rejected', 'pending_ownership','approved', 'cancelled', 'benef_cancel', 'provider_cancel']);
 			$table->unsignedInteger('reasons_id')->nullable()->index('fk_contract_employees_reasons1_idx');
 			$table->string('rejection_reason')->nullable();
-                        $table->string('other_reasons')->nullable();
+            $table->string('other_reasons')->nullable();
 			$table->string('conditions')->nullable();
 			$table->string('condition_approval', 1)->nullable();
 			$table->string('provider_rules_approval', 1)->nullable();

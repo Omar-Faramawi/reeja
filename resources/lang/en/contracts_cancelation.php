@@ -42,4 +42,5 @@ return [
     'direct'                => 'Direct',
     'indirect'              => 'Indirect',
     'details'               => 'Details',
+    'should_be_confirmed'   => 'You Should Accept all reports Firstly ..',
 ];

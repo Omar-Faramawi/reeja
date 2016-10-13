@@ -119,4 +119,37 @@ class IshaarSetup extends BaseModel
     {
         return $query->where('ishaar_type_id',Constants::CONTRACTTYPES['taqawel_free']);
     }
+
+    /**
+     * @param $max_ishaar_period
+     * @param $max_ishaar_period_type
+     *
+     * @return num of months
+     */
+    public static function calcMaxPeriodInMonths($max_date, $type){
+        $now  = Carbon::now();
+        switch ($type){
+            case 1:
+                return $max_date;
+            case 0:
+                return $now->diffInMonths($now->copy()->addDays($max_date));
+            case 2:
+                return $now->diffInMonths($now->copy()->addYears($max_date));
+
+        }
+    }
+
+    /**
+     * @param $max_date
+     * @param $minimun_date
+     *
+     * @return num of months
+     */
+    public static function calcTwoDatesDiffInMonths($min_date, $max_date){
+        $now  = Carbon::now();
+        $max = new Carbon($max_date);
+        $min = new Carbon($min_date);
+        $difference = $max->diff($min)->days;
+        return $now->diffInMonths($now->copy()->addDays($difference));
+    }
 }

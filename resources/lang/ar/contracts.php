@@ -1,8 +1,9 @@
 <?php
 
 return [
-    'contracts'        => 'العقود',
-    'edit_contract'    => 'تعديل العرض',
+    'contracts'          => 'العقود',
+    'edit_contract'      => 'تعديل العرض',
+    'edit_contract_data' => 'تعديل العقد',
     'save'             => 'حفظ',
     'reset'            => 'الغاء',
     'reset_back'       => 'تراجع عن الالغاء',
@@ -15,29 +16,31 @@ return [
     'other'           => ' أخرى',
     'reason'           => 'سبب الغاء العقد',
     'reason_id'        => 'سبب الرفص',
+    'ids_missing'      => 'العمالة',
     'rejection_reason' => 'سبب الغاء التعاقد',
     'updated'          => 'تم التعديل',
     'id'               => 'رقم العقد',
     "contractDetails" => "تفاصيل العقد",
     "contractStatus"  => "حالة العقد",
     'rejection_reasons_details' => 'تفاصيل أخري',
-    'work_completion_cert' => 'إصدار شهادات إتمام العمل المؤقت',
-    'status'               => 'حالة العقد',
-    'statuses'             => [
+    'work_completion_cert'      => 'إصدار شهادة إتمام عمل مؤقت',
+    'status'                    => 'حالة العقد',
+    'statuses'                  => [
+        'requested'         => 'طلب مرسل/ مستلم',
         'pending'           => 'بإنتظار الموافقة',
         'rejected'          => 'مرفوض',
-        'pending_ownership' => 'بإنتظار الموافقة من صاحب العمل',
-        'approved'          => 'تمت الموافقة عليه',
+        'pending_ownership' => 'بإنتظار موافقة الكفيل',
+        'approved'          => 'عقد مبرم',
         'cancelled'         => 'مُلغى',
         'benef_cancel'      => 'مُلغى بواسطة المستفيد',
         'provider_cancel'   => 'مُلغى بواسطة المقدم',
     ],
-    'attributes'           => [
+    'attributes'                => [
         'start_date' => 'تاريخ بداية العمل',
         'end_date'   => 'تاريخ نهاية العمل'
     ],
-    'undo_invoice_notice'  => '<strong>تنبيه: </strong> في حالة إصدار فاتورة ثم الرغبة في التراجع عن العملية، يجب الإنتظار 3 أيام حتى إنتهاء صلاحية الفاتورة وبالتالي يتم إلغاؤها تلقائياً',
-    'action_buttons'       => [
+    'undo_invoice_notice'       => '<strong>تنبيه: </strong> في حالة إصدار فاتورة ثم الرغبة في التراجع عن العملية، يجب الإنتظار 3 أيام حتى إنتهاء صلاحية الفاتورة وبالتالي يتم إلغاؤها تلقائياً',
+    'action_buttons'            => [
         'send_offer'              => 'تقديم عرض',
         'reject_request'          => 'رفض الطلب',
         'edit_offer'              => 'تعديل العرض',
@@ -53,22 +56,24 @@ return [
         'rate_provider'           => 'تقييم مقدم الخدمة',
         'view_offer'              => 'إستعراض العرض',
     ],
-    'status_alias'         => [
+    'status_alias'              => [
         '1' => [
-            'pending_acc'             => 'عرض مرسل - بإنتظار القبول',
-            'pending'                 => 'طلب مستلم - بإنتظار عرض',
-            'rejected'                => 'عرض مرفوض',
-            'pending_ownership'       => 'بإنتظار موافقة صاحب العمل',
-            'approved_without_ishaar' => 'عرض مقبول - عقد مبرم',
-            'approved'                => 'عقد مبرم - إشعار صادر',
-            'cancelled'               => 'عقد ملغي',
-            'benef_cancel'            => 'طلب إلغاء عقد مستلم - بإنتظار القبول',
-            'provider_cancel'         => 'طلب إلغاء عقد مرسل - بإنتظار الإعتماد',
-            'benef_cancel_employee'   => 'طلب إلغاء إشعار مستلم - بإنتظار القبول',
-            'provider_cancel_employee'=> 'طلب إلغاء إشعار مرسل - بإنتظار القبول',
-            'approved_finished'       => 'عقد منتهي',
+            'requested'                => 'طلب إرسال عقد لخدمة',
+            'pending_acc'              => 'عرض مرسل - بإنتظار القبول',
+            'pending'                  => 'طلب مستلم - بإنتظار عرض',
+            'rejected'                 => 'عرض مرفوض',
+            'pending_ownership'        => 'بإنتظار موافقة صاحب العمل',
+            'approved_without_ishaar'  => 'عرض مقبول - عقد مبرم',
+            'approved'                 => 'عقد مبرم - إشعار صادر',
+            'cancelled'                => 'عقد ملغي',
+            'benef_cancel'             => 'طلب إلغاء عقد مستلم - بإنتظار القبول',
+            'provider_cancel'          => 'طلب إلغاء عقد مرسل - بإنتظار الإعتماد',
+            'benef_cancel_employee'    => 'طلب إلغاء إشعار مستلم - بإنتظار القبول',
+            'provider_cancel_employee' => 'طلب إلغاء إشعار مرسل - بإنتظار القبول',
+            'approved_finished'        => 'عقد منتهي',
         ],
         '2' => [
+            'requested'                => 'طلب إرسال عقد لخدمة',
             'pending_acc'              => 'عرض مستلم - بإنتظار القبول',
             'pending'                  => 'طلب مرسل - بإنتظار عرض',
             'rejected'                 => 'عرض مرفوض',
@@ -78,9 +83,9 @@ return [
             'cancelled'                => 'عقد ملغي',
             'provider_cancel'          => 'طلب إلغاء عقد مستلم - بإنتظار القبول',
             'benef_cancel'             => 'طلب إلغاء عقد مرسل - بإنتظار الإعتماد',
-            'benef_cancel_employee'   => 'طلب إلغاء إشعار مستلم - بإنتظار القبول',
+            'benef_cancel_employee'    => 'طلب إلغاء إشعار مستلم - بإنتظار القبول',
             'provider_cancel_employee' => 'طلب إلغاء إشعار مرسل - بإنتظار القبول',
             'approved_finished'        => 'عقد منتهي',
-        ]
-    ]
+        ],
+    ],
 ];

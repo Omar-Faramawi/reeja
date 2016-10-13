@@ -33,6 +33,16 @@
                                 <i class="icon-settings font-dark"></i>
                                 <span class="caption-subject font-dark sbold uppercase"> {{trans('labor_market.labor_market')}}</span>
                             </div>
+                            @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['saudi'])
+                            <div class="col-md-12">
+                                <label for="service_type">{{ trans('temp_job.service_type') }}</label>
+                                <select class="form-control select2me bs-select" name="service_type" id="directHiring-type-select">
+                                    <option value="">{{ trans('labels.default') }}</option>
+                                    <option value="{{url('direct-hiring/labor-market')}}">{{ trans('temp_job.job_owner') }}</option>
+                                    <option value="{{url('job_search')}}" selected>{{ trans('temp_job.job_seeker') }}</option>
+                                </select>
+                            </div>
+                            @endif
                         </div>
                         <div class="portlet-body">
                             <div class="table-container">

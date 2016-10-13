@@ -29,14 +29,16 @@
                                                     {{$thisContract['providername']}}
                                                 </div>
                                             </div>
+											@if(isset($thisContract['provider']['est_activity']))
                                             <div class="row static-info">
                                                 <div class="col-md-3 name">
                                                     {{trans("offers.providerType")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['provider']['est_activity'] or "person"}}
+                                                    {{$thisContract['provider']['est_activity']}}
                                                 </div>
                                             </div>
+											@endif
                                         </div>
                                     </div>
 

@@ -29,5 +29,7 @@ return [
     'add_new'              => 'Add mork work location',
     'offer_contract'       => 'Offer Contract',
     'reject'               => 'Reject',
-    'cancel_reject_success'=> 'You have successfully cancelled your cancellation request'
+    'cancel_reject_success'=> 'You have successfully cancelled your cancellation request',
+    'inmonth'              => '(In Months)',
+    'minimum_contract_period'              => '(your contract period must be at least one month)',
 ];

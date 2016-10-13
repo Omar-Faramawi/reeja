@@ -26,7 +26,7 @@ class ContractsRequest extends Request
         return [
             'id'               => 'required|exists:contracts,id',
             'reason_id'        => 'required|integer|exists:reasons,id',
-            'other_reasons'    => 'required_if:reason_id,1|min:0|max:255',
+            'other_reasons'    => 'required_if:reason_id,32',
             'rejection_reason' => 'sometimes|min:0|max:255',
             'status'           => 'required|in:pending,rejected,pending_ownership,approved,cancelled,benef_cancel,provider_cancel',
         ];
@@ -43,6 +43,16 @@ class ContractsRequest extends Request
             'id'               => trans('contracts.id'),
             'rejection_reason' => trans('contracts.rejection_reason'),
             'reason_id'        => trans('contracts.reason_id'),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'other_reasons.required_if' => trans('offersdirect.modal.reject.other_reason'),
         ];
     }
 }

@@ -34,7 +34,11 @@
 
                             <div class="col-md-12">
                                 <label for="gender">{{ trans('temp_job.service_type') }}</label>
-                                {{ Form::select('service_type', \Tamkeen\Ajeer\Utilities\Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => url('temp_work/labor-market') , 'placeholder' => trans('labels.default')]) }}
+								@if( $occasionalWork )
+									{{ Form::select('service_type', \Tamkeen\Ajeer\Utilities\Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => url('occasional-work/labor-market') , 'placeholder' => trans('labels.default')]) }}
+								@else
+									{{ Form::select('service_type', \Tamkeen\Ajeer\Utilities\Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => url('temp_work/labor-market') , 'placeholder' => trans('labels.default')]) }}
+								@endif
                             </div>
 
                         </div>
@@ -55,8 +59,10 @@
                                                 <th id="check" class="no-sort"></th>
                                                 <th id="{{ ( session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'] ) ? 'vacancy_name' : 'provider_name' }}"
                                                     class="no-sort" width="120"> {{ ( session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>
+                                                @if( session()->get('service_type') === Constants::SERVICETYPES['benf'])
                                                 <th id="name" width="120"
                                                     class="no-sort"> {{ trans('temp_job.name') }} </th>
+                                                @endif
                                                 <th id="job.job_name"
                                                     class="no-sort"> {{ trans('temp_job.job_id') }} </th>
                                                 <th id="gender_name"
@@ -78,9 +84,11 @@
                                                 <td>
                                                     {{ Form::text('benf_id', null, ['class' => "form-control form-filter input-sm"]) }}
                                                 </td>
+                                                @if( session()->get('service_type') === Constants::SERVICETYPES['benf'])
                                                 <td>
                                                     {{ Form::text('name', null, ['class' => 'form-control form-filter input-sm']) }}
                                                 </td>
+                                                @endif
                                                 <td>
                                                     {{ Form::text('job_name', null, ['class' => 'form-control form-filter input-sm']) }}
                                                 </td>
@@ -138,9 +146,9 @@
                                 <div class="portlet-title">
                                     <div class="caption">{{ trans('temp_job.contract_requests') }}</div>
                                 </div>
-                                <div class="portlet-body">
-                                    <div class="table">
-                                        <table id="selected_employees_benf" class="table table-striped table-bordered table-hover table-checkable dataTable no-footer">
+                                <div class="portlet-body selected_employees_parent">
+                                    <div class="table table-responsive">
+                                        <table id="selected_employees_benf" class="table table-striped table-bordered">
                                             <thead>
                                                 <tr role="row" class="heading">
                                                     <th width="120"> {{ ( session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>

@@ -64,188 +64,188 @@
                     {!! Form::model($contractSetup, ['route' => ['admin.contractSetup.update', $contractSetup->hashids], 'id' => 'live_form', 'method' => 'PATCH']) !!}
                     {!! Form::hidden('contract_type_id',null, ['id' => 'contract_type_id']) !!}
 
-                    <div class="col-lg-10">
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.attributes.offer_accept_period')}}</label>
-                                        {!! Form::number('offer_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
-                                    </div>
-                                </div>
-                                <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-5">
-                                    <div class="form-group">
-                                        <label for="featured">&nbsp;</label>
-                                        <div class="select-wrapper select-arrow">
-                                            {!! Form::select('offer_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
-
-                                        </div>
-                                    </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="is_slider">{{trans('contract_setup.attributes.offer_accept_period')}}</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    {!! Form::number('offer_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.attributes.contract_cancel_period')}}</label>
-                                        {!! Form::number('contract_cancel_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
-                                    </div>
-                                </div>
-                                <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-5">
-                                    <div class="form-group">
-                                        <label for="featured">&nbsp;</label>
-                                        <div class="select-wrapper select-arrow">
-                                            {!! Form::select('contract_cancel_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.cancel_acc')}}</label>
-
-                                        <div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="provider_cancel_contract" class="active">
-                                                    {{--<input type="checkbox" name="provider_cancel_contract" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('provider_cancel_contract', 0) !!}
-                                                    {!! Form::checkbox('provider_cancel_contract') !!}
-
-                                                    <span>{{trans('contract_setup.provider')}}</span>
-                                                </label>
-                                            </div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="benf_cancel_contract" class="active">
-                                                    {{--<input type="checkbox" name="benf_cancel_contract" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('benf_cancel_contract', 0) !!}
-                                                    {!! Form::checkbox('benf_cancel_contract') !!}
-
-                                                    <span>{{trans('contract_setup.benf')}}</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.ishaar_cancel_acc')}}</label>
-
-                                        <div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="provider_cancel_ishaar" class="active">
-                                                    {{--<input type="checkbox" name="provider_cancel_ishaar" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('provider_cancel_ishaar', 0) !!}
-                                                    {!! Form::checkbox('provider_cancel_ishaar') !!}
-
-                                                    <span>{{trans('contract_setup.provider')}}</span>
-                                                </label>
-                                            </div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="benf_cancel_ishaar" class="active">
-                                                    {{--<input type="checkbox" name="benf_cancel_ishaar" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('benf_cancel_ishaar', 0) !!}
-                                                    {!! Form::checkbox('benf_cancel_ishaar') !!}
-
-                                                    <span>{{trans('contract_setup.benf')}}</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.attributes.saudi_service_avb')}}</label>
-
-                                        <div class="radio">
-                                            <label>
-                                                {!! Form::radio('saudi_service_avb', 0, 1) !!}
-                                                {{trans('labels.no')}}
-                                            </label>
-                                        </div>
-
-                                        <div class="radio">
-                                            <label>
-                                                {!! Form::radio('saudi_service_avb', 1) !!}
-                                                {{trans('labels.yes')}}
-                                            </label>
-                                        </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div class="select-wrapper select-arrow">
+                                        {!! Form::select('offer_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
 
                                     </div>
-                                </div>
-                            </div>
-
-
-                            <h4 style="background: #eee;padding: 4px">
-                                {{trans('contract_setup.additional_options')}}
-                            </h4>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.attributes.contract_accept_period')}}</label>
-                                        {!! Form::number('contract_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
-                                    </div>
-                                </div>
-                                <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-5">
-                                    <div class="form-group">
-                                        <label for="featured">&nbsp;</label>
-                                        <div class="select-wrapper select-arrow">
-                                            {!! Form::select('contract_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.attributes.substitute_percintage')}}</label>
-                                        {!! Form::number('substitute_percintage', null, ['min' => 0, 'max' => 100, 'class' => 'form-control valid', 'placeholder' => '%']) !!}
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.attributes.max_labor_avb')}}</label>
-                                        {!! Form::number('max_labor_avb', null, ['min' => 0, 'max' => 365, 'class' => 'form-control valid']) !!}
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col col-lg-2">
-                                    <label for="" class="col-md-3 control-label">&nbsp;</label>
-                                </div>
-                                <div class="col col-lg-10">
-                                    <button type="submit"
-                                            data-loading-text="{{ trans('contract_setup.saving') }}..."
-                                            class="demo-loading-btn btn blue">{{trans('contract_setup.save')}}</button>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="is_slider">{{trans('contract_setup.attributes.contract_cancel_period')}}</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    {!! Form::number('contract_cancel_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div class="select-wrapper select-arrow">
+                                        {!! Form::select('contract_cancel_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="is_slider">{{trans('contract_setup.cancel_acc')}}</label>
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="form-group">
+                                    <div class="md-checkbox-inline">
+                                        <div class="md-checkbox">
+                                            {!! Form::checkbox('provider_cancel_contract', @$contractSetup->provider_cancel_contract, null, ['class' => 'md-check', 'id' => 'provider_cancel_contract']) !!}
+                                            <label for="provider_cancel_contract" class="text-right">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> {{trans('contract_setup.provider')}}
+                                            </label>
+                                        </div>
+
+                                        <div class="md-checkbox">
+                                            {!! Form::checkbox('benf_cancel_contract', @$contractSetup->benf_cancel_contract, null, ['class' => 'md-check', 'id' => 'benf_cancel_contract']) !!}
+                                            <label for="benf_cancel_contract" class="text-right">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> {{trans('contract_setup.benf')}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="is_slider">{{trans('contract_setup.ishaar_cancel_acc')}}</label>
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="form-group">
+                                    <div class="md-checkbox-inline">
+                                        <div class="md-checkbox">
+                                            {!! Form::checkbox('provider_cancel_ishaar', @$contractSetup->provider_cancel_ishaar, null, ['class' => 'md-check', 'id' => 'provider_cancel_ishaar']) !!}
+                                            <label for="provider_cancel_ishaar" class="text-right">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> {{trans('contract_setup.provider')}}
+                                            </label>
+                                        </div>
+
+                                        <div class="md-checkbox">
+                                            {!! Form::checkbox('benf_cancel_ishaar', @$contractSetup->benf_cancel_ishaar, null, ['class' => 'md-check', 'id' => 'benf_cancel_ishaar']) !!}
+                                            <label for="benf_cancel_ishaar" class="text-right">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> {{trans('contract_setup.benf')}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="is_slider">{{trans('contract_setup.attributes.saudi_service_avb')}}</label>
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="form-group">
+                                    <div class="md-radio-inline">
+                                        <div class="md-radio">
+                                            {!! Form::hidden('saudi_service_avb') !!}
+                                            {!! Form::radio('saudi_service_avb', 1, null, ['class' => 'md-radiobtn', 'id' => 'saudi_service_avb_yes']) !!}
+                                            <label for="saudi_service_avb_yes">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> {{trans('labels.no')}} </label>
+                                        </div>
+                                        <div class="md-radio">
+                                            {!! Form::radio('saudi_service_avb', 0, null, ['class' => 'md-radiobtn', 'id' => 'saudi_service_avb_no']) !!}
+                                            <label for="saudi_service_avb_no">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> {{trans('labels.yes')}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-11">
+                                <h4 style="background: #eee;padding: 4px">
+                                    {{trans('contract_setup.additional_options')}}
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="is_slider">{{trans('contract_setup.attributes.contract_accept_period')}}</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    {!! Form::number('contract_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div class="select-wrapper select-arrow">
+                                        {!! Form::select('contract_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="is_slider">{{trans('contract_setup.attributes.substitute_percintage')}}</label>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    {!! Form::number('substitute_percintage', null, ['min' => 0, 'max' => 100, 'class' => 'form-control valid', 'placeholder' => '%']) !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label for="is_slider">{{trans('contract_setup.attributes.max_labor_avb')}}</label>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    {!! Form::number('max_labor_avb', null, ['min' => 0, 'max' => 365, 'class' => 'form-control valid']) !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="" class="col-md-3 control-label">&nbsp;</label>
+                            </div>
+                            <div class="col col-lg-10">
+                                <button type="submit"
+                                        data-loading-text="{{ trans('contract_setup.saving') }}..."
+                                        class="demo-loading-btn btn blue">{{trans('contract_setup.save')}}</button>
+                            </div>
+                        </div>
+
                     </div>
                     <!-- /.row (nested) -->
                     {!! Form::close() !!}

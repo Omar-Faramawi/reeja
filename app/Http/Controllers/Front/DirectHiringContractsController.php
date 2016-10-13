@@ -1,0 +1,238 @@
+<?php
+
+namespace Tamkeen\Ajeer\Http\Controllers\Front;
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tamkeen\Ajeer\Http\Controllers\Controller;
+use Tamkeen\Ajeer\Models\Contract;
+use Tamkeen\Ajeer\Models\Job;
+use Tamkeen\Ajeer\Models\Nationality;
+use Tamkeen\Ajeer\Models\Region;
+use Tamkeen\Ajeer\Models\ContractLocation;
+use Tamkeen\Ajeer\Models\Reason;
+use Tamkeen\Ajeer\Utilities\Constants;
+use Tamkeen\Ajeer\Http\Requests\ReceivedContractRequest;
+use Tamkeen\Ajeer\Models\HRPool;
+
+class DirectHiringContractsController extends Controller
+{
+
+    /**
+     * List all the current index for the contract 
+     *
+     * @param null $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index($id = null)
+    {
+        $isProvider = TRUE;
+
+        if ($id) {
+            if (in_array($id, Constants::SERVICETYPES)) {
+                session()->replace(['service_type' => $id]);    // save to session
+            }
+        } elseif (session()->get('service_type')) {
+            $id = session()->get('service_type');
+        } else {
+            $id = Constants::SERVICETYPES['provider'];
+            session()->replace(['service_type' => $id]);
+        }
+
+
+        if (Constants::SERVICETYPES['provider'] == $id) {
+            $myContracts = Contract::byMe()->getByContractType(Constants::CONTRACTTYPES['direct_emp'])
+                                   ->latest()->paginate(20);
+        } else {
+            $isProvider = FALSE;
+            $myContracts = Contract::toMe()->getByContractType(Constants::CONTRACTTYPES['direct_emp'])
+                                   ->latest()->paginate(20);
+        }
+
+        return view('front.labor_market.direct_contract.index', compact('contractTypeId', 'myContracts', 'isProvider'));
+
+    }
+
+
+    /**
+     * Show the direct contract to apply for offer
+     *
+     * @param $contract_id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show($contract_id)
+    {
+        try {
+            $contract = Contract::toMe()->directEmployee()->with('vacancy', 'vacancy.locations','contractEmployee','contractEmployee.hrPool','contractEmployee.hrPool.job', 'contractEmployee.hrPool.nationality','contractEmployee.hrPool.region')->requested()->findOrFail($contract_id);
+            $jobSeeker = $contract->contractEmployee[0]->hrPool;
+            $regions = Region::pluck('name', 'id')->toArray();
+
+            return view('front.labor_market.direct_contract.show_recieved_contracts', compact('regions', 'contract', 'contract_id', 'jobSeeker'));
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+    }
+
+    /**
+     * Send offer to employee
+     *
+     * @param $contract_id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function sendOfferToEmployee($employeeId)
+    {
+        try {
+            list($userId, $username) = getCurrentUserNameAndId();
+
+            $employee = HRPool::jobseeker()->byOthers()->checked()->with('region', 'nationality', 'job')->findOrFail($employeeId);
+            $regions = Region::pluck('name', 'id')->toArray();
+
+            return view('front.labor_market.direct_contract.send_offer_to_employee', compact('userId', 'username', 'regions', 'employeeId', 'employee'));
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+    }
+
+    /**
+     * Received Contracts Page
+     *
+     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function receivedContracts()
+    {
+        $regions       = Region::pluck('name', 'id')->toArray();
+        $nationalities = Nationality::pluck('name', 'id')->toArray();
+        $jobs          = Job::pluck('job_name', 'id')->toArray();
+
+        $mycontracts = Contract::toMe()->directEmployee()->with('vacancy.job', 'vacancy.region', 'vacancy.nationality')->requested()->orderBy('id', 'desc')->get();
+
+        return view('front.labor_market.direct_contract.show',
+            compact('regions', 'nationalities', 'jobs', 'contracts', 'vacancies', 'mycontracts', 'provider_id',
+                'provider_name', 'vacancy','occasionalWork'));
+     }
+
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View Edit the resource
+     *
+     * Edit the resource
+     */
+    public function edit($contract_id)
+    {
+        try {
+            $contract = Contract::toMe()->directEmp()->with('vacancy', 'contractLocations','contractEmployee','contractEmployee.hrPool','contractEmployee.hrPool.job', 'contractEmployee.hrPool.nationality','contractEmployee.hrPool.region')->editable()->findOrFail($contract_id);
+            $jobSeeker = $contract->contractEmployee[0]->hrPool;
+            $regions = Region::pluck('name', 'id')->toArray();
+
+            return view('front.labor_market.direct_contract.edit', compact('contract', 'contract_id', 'jobSeeker', 'regions'));
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+    }
+
+    /**
+     * @param ReceivedContractRequest $request
+     *
+     * @return string|\Symfony\Component\Translation\TranslatorInterface
+     */
+    public function update(ReceivedContractRequest $request)
+    {
+        $contract = Contract::toMe()->directEmp()->editable()->findOrFail($request->contract_id);
+
+        $data = array_except($request->only(array_keys($request->rules())),
+            ['contract_locations', 'region_id', 'contract_file']);
+        $data['job_type'] = $request->job_type_id;
+        $data['contract_amount'] = $request->contract_amount;
+
+        if ($contract->status == Constants::CONTRACT_STATUSES['requested']) {
+            $data['status'] = Constants::CONTRACT_STATUSES['pending'];
+        } elseif ($contract->status == Constants::CONTRACT_STATUSES['approved']) {
+            $data = [];
+            $data['status'] = Constants::CONTRACT_STATUSES['pending'];
+        }
+        if ($request->hasFile('contract_file')) {
+            $data['contract_file'] = customUploadFile('contract_file', 'TempWork');
+        }
+
+        $contract->update($data);
+
+        $contract->contractLocations()->delete();
+        $contract->contractLocations()->save(new ContractLocation([
+            'branch_id'     => session()->get('selected_establishment.branch_no') ?: 1,
+            'region_id'     => $request->region_id[0],
+            'desc_location' => $request->contract_locations
+        ]));
+
+        return trans('temp_job.added');
+    }
+    
+    /**
+     * @param ReceivedContractRequest $request
+     *
+     * @return string|\Symfony\Component\Translation\TranslatorInterface
+     */
+    public function createContract(ReceivedContractRequest $request)
+    {
+        $employee = HRPool::jobseeker()->byOthers()->checked()->with('region', 'nationality', 'job')->findOrFail($request->employee_id);
+        
+        $data = array_except($request->only(array_keys($request->rules())),
+            ['contract_locations', 'region_id', 'contract_file']);
+
+        $contract = [
+            'contract_type_id' => Constants::CONTRACTTYPES['direct_emp'],
+            'benf_id'          => getCurrentUserNameAndId()[0],
+            'benf_type'        => \Auth::user()->user_type_id,
+            'provider_type'    => $employee->provider_type,
+            'provider_id'      => $employee->provider_id,
+            'status'           => Constants::CONTRACT_STATUSES['pending'],
+            'start_date'       => $data['start_date'],
+            'end_date'         => $data['end_date'],
+            'contract_amount'  => $request->contract_amount,
+            'job_type'         => $request->job_type_id
+        ];
+
+        if ($request->hasFile('contract_file')) {
+            $contract['contract_file'] = customUploadFile('contract_file', 'TempWork');
+        }
+
+        if ($contract_record = Contract::create($contract)) {
+            $contract_record->employees()->create([
+                'id_number'  => $employee->id,
+                'start_date' => $data['start_date'],
+                'end_date'   => $data['end_date'],
+                'salary'     => $request->contract_amount,
+                'status'     => Constants::CONTRACT_STATUSES['pending'],
+                'ishaar_id'  => Constants::CONTRACTTYPES['direct_emp'],
+            ]);
+        }
+
+        $contract_record->contractLocations()->save(new ContractLocation([
+            'branch_id'     => session()->get('selected_establishment.branch_no') ?: 1,
+            'region_id'     => $request->region_id[0],
+            'desc_location' => $request->contract_locations
+        ]));
+
+        return trans('temp_job.added');
+    }
+
+    public function rejectRequest($id)
+    {
+        try {
+            $contract = Contract::toMe()->directEmp()->with('vacancy', 'vacancy.locations','contractEmployee','contractEmployee.hrPool','contractEmployee.hrPool.job', 'contractEmployee.hrPool.nationality','contractEmployee.hrPool.region')->findOrFail($id);
+            $jobSeeker = $contract->contractEmployee[0]->hrPool;
+            $reasons = Reason::forTempWorkCancel()->pluck('reason', 'id')->toArray();
+            $reasonLabel = 'contracts.cancel_reason';
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+
+        $status = 'rejected';
+
+        return view('front.contracts.directemp_details',
+            compact('contract', 'reasons', 'status', 'reasonLabel', 'jobSeeker'));
+
+    }
+}

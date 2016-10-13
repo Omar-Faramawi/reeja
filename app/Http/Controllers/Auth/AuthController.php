@@ -9,6 +9,8 @@ use Tamkeen\Ajeer\Models\Individual;
 use Tamkeen\Ajeer\Models\IndividualLabor;
 use Tamkeen\Ajeer\Models\HRPool;
 use Tamkeen\Ajeer\Models\Job;
+use Tamkeen\Ajeer\Models\Nationality;
+
 use Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Contracts\Auth\Guard;
@@ -18,7 +20,7 @@ use Tamkeen\Ajeer\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Tamkeen\Platform\MOL\Model\EstablishmentNumber;
-use Tamkeen\Platform\MOL\Repositories\MolDataRepository;
+use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository;
 use Tamkeen\Platform\MOL\OpenId\AuthenticationFailedException;
 use Tamkeen\Platform\MOL\OpenId\OpenIdService;
 use Tamkeen\Platform\NIC\Repositories\Citizens\CitizensRepository;
@@ -180,11 +182,14 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         if (isset($this->foreigner)) {
-            $ownership_id   = $this->foreigner->sponsor->getIdNumber();
-            $ownership_name = $this->foreigner->sponsor->getName();
-            $user_type_id   = 5;
-            $job_id         = null;
-            $birth_date     = $this->foreigner->getBirthDate();
+            $ownership_id      = $this->foreigner->sponsor->getIdNumber();
+            $ownership_name    = $this->foreigner->sponsor->getName();
+            $user_type_id      = 5;
+            $job_id            = null;
+            $birth_date        = $this->foreigner->getBirthDate();
+            $nationality       = $this->foreigner->getNationality();
+            $ajeer_nationality = Nationality::where('name', $nationality)->orWhere('eng_name', $nationality)->first();
+            $nationality_id    = $ajeer_nationality->id;
         } else {
             $ownership_id   = null;
             $ownership_name = null;
@@ -193,6 +198,7 @@ class AuthController extends Controller
             $job            = Job::where('job_name', $occupation)->first();
             $job_id         = !empty($job->id) ? $job->id : null;
             $birth_date     = $this->citizen->getBirthDate();
+            $nationality_id = 1;
         }
         $arr        = (array)$birth_date;
         $prefix     = chr(0) . '*' . chr(0);
@@ -238,19 +244,22 @@ class AuthController extends Controller
         // Save into hr pool
 
         $hr_pool = HRPool::create([
-            'id_number'     => $data['id_number'],
-            'provider_type' => $user_type_id,
-            'provider_id'   => $individual->id,
-            'name'          => $data['first_name'] . " " . $data['last_name'],
-            'gender'        => $data['gender'],
-            'job_id'        => $job_id,
-            'email'         => $data['email'],
-            'phone'         => $data['phone'],
-            'birth_date'    => $birth_date,
-            'religion'      => $data['religion'],
-            'chk'           => '0',
-            'status'        => '1',
+            'id_number'      => $data['id_number'],
+            'provider_type'  => $user_type_id,
+            'provider_id'    => $individual->id,
+            'name'           => $data['first_name'] . " " . $data['last_name'],
+            'gender'         => $data['gender'],
+            'job_id'         => $job_id,
+            'email'          => $data['email'],
+            'phone'          => $data['phone'],
+            'birth_date'     => $birth_date,
+            'religion'       => $data['religion'],
+            'nationality_id' => $nationality_id,
+            'chk'            => '0',
+            'status'         => '1',
         ]);
+
+        session()->set('auth.type', $user_type_id);
 
         return $user;
     }
@@ -285,21 +294,30 @@ class AuthController extends Controller
     ) {
         try {
             $userData = $openIdService->authenticate($request);
-
+            
+            if (env('APP_ENV') == 'local') {
+                $dummyEstablishments = config('mol.data.establishments');
+                if($dummyEstablishments) {
+                    $userData['establishments'] = [];
+                    foreach ($dummyEstablishments as $est) {
+                        $userData['establishments'][$est['labor_office_id'].'-'.$est['sequence_number']] = $est['name'];
+                    }
+                }
+            }
             if (!empty($userData['establishments'])) {
                 foreach ($userData['establishments'] as $LO_SN => $establishment) {
 
                     list($labor_office, $sequence_number) = explode('-', $LO_SN);
-                    $mol                                = $molDataRepository
-                        ->getEstablishmentByNumber(
-                            EstablishmentNumber::make($labor_office,
-                                $sequence_number));
+
+                    $mol = $molDataRepository->findEstablishmentByNumber($labor_office, $sequence_number);
+
                     $userData['establishments'][$LO_SN] = $mol;
                 }
             }
         } catch (AuthenticationFailedException $e) {
             return redirect($openIdService->getAuthenticationEndpoint());
         }
+
 
         try {
             $user = User::findByIdNumberOrCreate(data_get($userData, 'id_number'), $userData, false);
@@ -326,10 +344,19 @@ class AuthController extends Controller
      */
     public function logout(OpenIdService $openIdService)
     {
-        session()->forget('selected_establishment');
-        session()->flush();
+    	$user_type = Auth::user()->user_type_id;
 
-        return redirect($openIdService->getLogoutUrl());
+	    if( $user_type == 1 ) {
+	        // then it's admin
+		    Auth::guard($this->getGuard())->logout();
+		    return redirect()->intended('/admin');
+	    }
+
+	    session()->forget('selected_establishment');
+	    session()->flush();
+
+	    return redirect($openIdService->getLogoutUrl());
+
     }
 
     /**

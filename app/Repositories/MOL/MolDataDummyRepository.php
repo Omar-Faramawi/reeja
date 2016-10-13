@@ -149,11 +149,25 @@ class MolDataDummyRepository implements MolDataRepository
      */
     public function fetchEstablishmentLaborers($establishmentId)
     {
-        $establishmentLaborers = array_where($this->laborers(), function ($laborer) use ($establishmentId) {
+        $establishmentLaborers = array_where($this->laborers(), function ($key, $laborer) use ($establishmentId) {
             return data_get($laborer, 'FK_establishment_id') == $establishmentId;
         });
-        
+
         return collect($establishmentLaborers);
+    }
+
+    /**
+     * @param $establishmentId
+     *
+     * @return int
+     */
+    public function fetchEstablishmentLaborersCount($establishmentId)
+    {
+        $establishmentLaborers = array_where($this->laborers(), function ($key, $laborer) use ($establishmentId) {
+            return data_get($laborer, 'FK_establishment_id') == $establishmentId;
+        });
+
+        return collect($establishmentLaborers)->count();
     }
     
     /**
@@ -184,6 +198,11 @@ class MolDataDummyRepository implements MolDataRepository
         return collect($this->jobs())->keyBy('id');
     }
     
+    /**
+     * @param $establishment_id
+     *
+     * @return mixed
+     */
     public function getLaborersByEstablishmentId($establishment_id)
     {
         return array_filter($this->laborers(), function ($laborer) use ($establishment_id) {
@@ -222,14 +241,14 @@ class MolDataDummyRepository implements MolDataRepository
                 'status_id'                    => 1,
                 'status'                       => 'قائمة',
                 'cr_number'                    => 100,
-                'cr_end_date'                  => '01-01-2016',
+                'cr_end_date'                  => '01-01-2018',
                 'statement_number'             => '13215-25',
                 'statement_end_date'           => '01-01-2016',
                 'wasel_status'                 => 1,
-                'wasel_end_date'               => '01-01-2016',
-                'wasel_expiry_date'            => '10-12-2016',
-                'nitaqat_color_id'             => self::NITAQAT_LOW_GREEN_ID,
-                'nitaqat_color'                => 'أخضر منخفض',
+                'wasel_end_date'               => '01-01-2018',
+                'wasel_expiry_date'            => '01-01-2018',
+                'nitaqat_color_id'             => self::NITAQAT_PLATINUM_PREFIX,
+                'nitaqat_color'                => 'بلاتينيوم',
                 'size_id'                      => self::SIZE_SMALL,
                 'unused_visas'                 => 1,
                 'owner'                        => '1068212040',
@@ -255,10 +274,10 @@ class MolDataDummyRepository implements MolDataRepository
                 'statement_number'             => '13215-25',
                 'statement_end_date'           => '10-10-2015',
                 'wasel_status'                 => 1,
-                'wasel_end_date'               => '01-01-2016',
-                'wasel_expiry_date'            => '10-12-2015',
-                'nitaqat_color_id'             => self::NITAQAT_LOW_GREEN_ID,
-                'nitaqat_color'                => 'أخضر منخفض',
+                'wasel_end_date'               => '01-01-2018',
+                'wasel_expiry_date'            => '01-01-2018',
+                'nitaqat_color_id'             => self::NITAQAT_RED_PREFIX,
+                'nitaqat_color'                => 'احمر منخفض',
                 'size_id'                      => self::SIZE_SMALL,
                 'unused_visas'                 => 1,
                 'owner'                        => '1068212040',
@@ -283,9 +302,9 @@ class MolDataDummyRepository implements MolDataRepository
                 'cr_end_date'                  => '01-01-2016',
                 'statement_number'             => '13215-25',
                 'statement_end_date'           => '01-01-2016',
-                'wasel_status'                 => 1,
+                'wasel_status'                 => 0,
                 'wasel_end_date'               => '01-01-2016',
-                'wasel_expiry_date'            => '10-12-2015',
+                'wasel_expiry_date'            => '01-01-2016',
                 'nitaqat_color_id'             => self::NITAQAT_LOW_GREEN_ID,
                 'nitaqat_color'                => 'أخضر منخفض',
                 'size_id'                      => self::SIZE_SMALL,
@@ -308,15 +327,166 @@ class MolDataDummyRepository implements MolDataRepository
                 'FK_sub_economic_activity_id'  => 1408,
                 'status_id'                    => 1,
                 'status'                       => 'قائمة',
+                'note'                         => '',
                 'cr_number'                    => 203252352350,
-                'cr_end_date'                  => '01-01-2017',
+                'cr_end_date'                  => '01-01-2018',
                 'statement_number'             => '13215-25',
                 'statement_end_date'           => '01-01-2017',
                 'wasel_status'                 => 1,
-                'wasel_end_date'               => '01-01-2017',
-                'wasel_expiry_date'            => '10-12-2016',
-                'nitaqat_color_id'             => self::NITAQAT_LOW_GREEN_ID,
-                'nitaqat_color'                => 'أخضر منخفض',
+                'wasel_end_date'               => '01-01-2018',
+                'wasel_expiry_date'            => '01-01-2018',
+                'nitaqat_color_id'             => self::NITAQAT_YELLOW_PREFIX,
+                'nitaqat_color'                => 'أصفر',
+                'size_id'                      => self::SIZE_MEDIUM,
+                'low_green_quota'              => 10,
+                'owner'                        => '1068212040',
+                'district'                     => 'غرناطة',
+                'region'                       => 'النسيم الغربي',
+                'city'                         => 'الرياض',
+                'street'                       => '1',
+                'phone'                        => '2393282',
+            ],
+            [
+                'FK_establishment_id'          => 5,
+                'labor_office_id'              => 1,
+                'sequence_number'              => 5,
+                'name'                         => 'منشأة تجريبية #5',
+                'FK_economic_activity_id'      => 37,
+                'economic_activity'            => 'المدارس',
+                'FK_main_economic_activity_id' => 10,
+                'FK_sub_economic_activity_id'  => 1408,
+                'status_id'                    => 2,
+                'status'                       => 'غير قائمة',
+                'note'                         => 'لديها ملاحظات بإيقاف الخدمات عنها',
+                'cr_number'                    => 203252352350,
+                'cr_end_date'                  => '01-01-2018',
+                'statement_number'             => '13215-25',
+                'statement_end_date'           => '01-01-2017',
+                'wasel_status'                 => 1,
+                'wasel_end_date'               => '01-01-2018',
+                'wasel_expiry_date'            => '01-01-2018',
+                'nitaqat_color_id'             => self::NITAQAT_YELLOW_PREFIX,
+                'nitaqat_color'                => 'أصفر',
+                'size_id'                      => self::SIZE_MEDIUM,
+                'low_green_quota'              => 10,
+                'owner'                        => '1068212040',
+                'district'                     => 'غرناطة',
+                'region'                       => 'النسيم الغربي',
+                'city'                         => 'الرياض',
+                'street'                       => '1',
+                'phone'                        => '2393282',
+            ],
+            [
+                'FK_establishment_id'          => 6,
+                'labor_office_id'              => 1,
+                'sequence_number'              => 6,
+                'name'                         => 'منشأة تجريبية #6',
+                'FK_economic_activity_id'      => 37,
+                'economic_activity'            => 'المدارس',
+                'FK_main_economic_activity_id' => 10,
+                'FK_sub_economic_activity_id'  => 1408,
+                'status_id'                    => 2,
+                'status'                       => 'غير قائمة',
+                'note'                         => 'لديها مشاكل متعلقة بنظام حماية الأجور',
+                'cr_number'                    => 203252352350,
+                'cr_end_date'                  => '01-01-2018',
+                'statement_number'             => '13215-25',
+                'statement_end_date'           => '01-01-2017',
+                'wasel_status'                 => 1,
+                'wasel_end_date'               => '01-01-2018',
+                'wasel_expiry_date'            => '01-01-2018',
+                'nitaqat_color_id'             => self::NITAQAT_YELLOW_PREFIX,
+                'nitaqat_color'                => 'أصفر',
+                'size_id'                      => self::SIZE_MEDIUM,
+                'low_green_quota'              => 10,
+                'owner'                        => '1068212040',
+                'district'                     => 'غرناطة',
+                'region'                       => 'النسيم الغربي',
+                'city'                         => 'الرياض',
+                'street'                       => '1',
+                'phone'                        => '2393282',
+            ],
+            [
+                'FK_establishment_id'          => 7,
+                'labor_office_id'              => 1,
+                'sequence_number'              => 7,
+                'name'                         => 'منشأة تجريبية #7',
+                'FK_economic_activity_id'      => 37,
+                'economic_activity'            => 'المدارس',
+                'FK_main_economic_activity_id' => 10,
+                'FK_sub_economic_activity_id'  => 1408,
+                'status_id'                    => 2,
+                'status'                       => 'غير قائمة',
+                'note'                         => 'لديها مشاكل متعلقة بنظام حماية الأجور',
+                'cr_number'                    => 203252352350,
+                'cr_end_date'                  => '01-01-2018',
+                'statement_number'             => '13215-25',
+                'statement_end_date'           => '01-01-2017',
+                'wasel_status'                 => 1,
+                'wasel_end_date'               => '01-01-2018',
+                'wasel_expiry_date'            => '01-01-2018',
+                'nitaqat_color_id'             => self::NITAQAT_YELLOW_PREFIX,
+                'nitaqat_color'                => 'أصفر',
+                'size_id'                      => self::SIZE_MEDIUM,
+                'low_green_quota'              => 10,
+                'owner'                        => '1068212040',
+                'district'                     => 'غرناطة',
+                'region'                       => 'النسيم الغربي',
+                'city'                         => 'الرياض',
+                'street'                       => '1',
+                'phone'                        => '2393282',
+            ],
+            [
+                'FK_establishment_id'          => 8,
+                'labor_office_id'              => 1,
+                'sequence_number'              => 8,
+                'name'                         => 'منشأة تجريبية #8',
+                'FK_economic_activity_id'      => 37,
+                'economic_activity'            => 'المدارس',
+                'FK_main_economic_activity_id' => 10,
+                'FK_sub_economic_activity_id'  => 1408,
+                'status_id'                    => 1,
+                'status'                       => 'قائمة',
+                'note'                         => '',
+                'cr_number'                    => 203252352350,
+                'cr_end_date'                  => '01-01-2018',
+                'statement_number'             => '13215-25',
+                'statement_end_date'           => '01-01-2017',
+                'wasel_status'                 => 1,
+                'wasel_end_date'               => '01-01-2014',
+                'wasel_expiry_date'            => '01-01-2014',
+                'nitaqat_color_id'             => self::NITAQAT_YELLOW_PREFIX,
+                'nitaqat_color'                => 'أصفر',
+                'size_id'                      => self::SIZE_MEDIUM,
+                'low_green_quota'              => 10,
+                'owner'                        => '1068212040',
+                'district'                     => 'غرناطة',
+                'region'                       => 'النسيم الغربي',
+                'city'                         => 'الرياض',
+                'street'                       => '1',
+                'phone'                        => '2393282',
+            ],
+            [
+                'FK_establishment_id'          => 9,
+                'labor_office_id'              => 1,
+                'sequence_number'              => 9,
+                'name'                         => 'منشأة تجريبية #9',
+                'FK_economic_activity_id'      => 37,
+                'economic_activity'            => 'المدارس',
+                'FK_main_economic_activity_id' => 10,
+                'FK_sub_economic_activity_id'  => 1408,
+                'status_id'                    => 2,
+                'status'                       => 'غير قائمة',
+                'note'                         => 'غير مسجلة في خدمة العنوان الوطني لدى مؤسسة البريد السعودي',
+                'cr_number'                    => 203252352350,
+                'cr_end_date'                  => '01-01-2018',
+                'statement_number'             => '13215-25',
+                'statement_end_date'           => '01-01-2017',
+                'wasel_status'                 => 1,
+                'wasel_end_date'               => '01-01-2018',
+                'wasel_expiry_date'            => '01-01-2018',
+                'nitaqat_color_id'             => self::NITAQAT_YELLOW_PREFIX,
+                'nitaqat_color'                => 'أصفر',
                 'size_id'                      => self::SIZE_MEDIUM,
                 'low_green_quota'              => 10,
                 'owner'                        => '1068212040',
@@ -346,7 +516,7 @@ class MolDataDummyRepository implements MolDataRepository
                 'FK_establishment_id' => 1,
                 'gender'              => 1,
                 'age'                 => 24,
-                'religion'            => 1      
+                'religion'            => 1,
             ],
             [
                 'id_number'           => '2020202020',
@@ -408,6 +578,17 @@ class MolDataDummyRepository implements MolDataRepository
     private function jobs()
     {
         return collect([
+            ['id' => 911330, 'name' => 'ابن مواطنة'],
+            ['id' => 911080, 'name' => 'أب'],
+            ['id' => 911150, 'name' => 'أب محرم'],
+            ['id' => 911070, 'name' => 'أبن'],
+            ['id' => 911220, 'name' => 'أبن الأخت محرم'],
+            ['id' => 911100, 'name' => 'أبن الزوجة'],
+            ['id' => 911210, 'name' => 'أبن محرم'],
+            ['id' => 911090, 'name' => 'أخ'],
+            ['id' => 911120, 'name' => 'أخ محرم'],
+            ['id' => 911050, 'name' => 'ربة بيت'],
+            ['id' => 911110, 'name' => 'مرافق'],
             ['id' => 6132035, 'name' => 'عامل تنظيف مستشفيات'],
             ['id' => 6132055, 'name' => 'عامل تنظيف سجاد'],
             ['id' => 6132075, 'name' => 'عامل منزلي'],
@@ -471,7 +652,7 @@ class MolDataDummyRepository implements MolDataRepository
     public function fetchNationalitiesLookup()
     {
         return collect([
-        
+
         ]);
     }
 }

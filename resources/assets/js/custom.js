@@ -19,23 +19,26 @@ $(function () {
      * @constructor
      */
     function molConnect(error_out, success_out) {
+        $(".form-body .alert-danger").remove();
+        
         var labour_office_no = $("#labour_office_no").val();
         var sequence_no = $("#sequence_no").val();
         var id_number = $("#id_number").val();
 
-        if (!id_number && (!sequence_no || !labour_office_no)) {
-            toastr.error("", error_out);
+        if (!id_number || !sequence_no || !labour_office_no) {
+            toastr.error("", missing_required_fields);
             return;
         }
+
         var params = "?labour_office_no=" + labour_office_no + "&sequence_no=" + sequence_no + "&id_number=" + id_number;
 
         $.ajax({
             url: $(location).attr('href') + "/establishmentData" + params
             , success: function (data) {
                 if (data.status == true) {
-                    $("#labour_office_no").val(data.est.labor_office_id);
-                    $("#sequence_no").val(data.est.sequence_number);
-                    $("#id_number").val(data.est.FK_establishment_id);
+                    //$("#labour_office_no").val(data.est.labor_office_id);
+                    //$("#sequence_no").val(data.est.sequence_number);
+                    //$("#id_number").val(data.est.FK_establishment_id);
                     $("#name").val(data.est.name);
                     $("#est_activity").val(data.est.economic_activity);
                     $("#est_size").val(data.est.size_id);
@@ -86,11 +89,61 @@ $(function () {
         });
     }
 
+    function prepare_inputs() {
+        $('.bs-select').selectpicker({
+            iconBase: 'fa',
+            tickIcon: 'fa-check'
+        });
+        ComponentsSelect2.init();
+
+        var error_out = $(".modal-body").data("no_data");
+        var success_data = $(".modal-body").data("success_data");
+        $("#mol_search_co").click(function () {
+            molConnect(error_out, success_data);
+        });
+        $("#labour_office_no,#sequence_no,#id_number").keypress(function (e) {
+            if (e.which == 13) {
+                e.preventDefault();
+                molConnect(error_out, success_data);
+            }
+        });
+
+        $(".make-switch").bootstrapSwitch();
+
+        $(".date-picker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true
+        });
+
+        if (App.isRTL()) {
+            $(".date-picker").datepicker("option", "dayNames", ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"]);
+            $(".date-picker").datepicker("option", "dayNamesMin", ["ح", "ن", "ث", "ع", "خ", "ج", "س", "ح"]);
+            $(".date-picker").datepicker("option", "dayNamesShort", ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت", "أحد"]);
+            $(".date-picker").datepicker("option", "monthNames", ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]);
+            $(".date-picker").datepicker("option", "isRTL", true);
+            $(".date-picker").datepicker("option", "monthNamesShort", ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]);
+            $(".date-picker").datepicker("option", "currentText", 'الان');
+            $(".date-picker").datepicker("option", "firstDay", 6);
+        }
+
+        $('#main').on('click', '#taqawel_services', function () {
+            $("#taqawel_services_div").toggle(this.checked);
+        });
+        $('#main').on('click','#hire_labore',function () {
+            $("#hire_labore_div").toggle(this.checked);
+        });
+        $('#main').on('click','#direct_emp', function () {
+            $("#direct_emp_div").toggle(this.checked);
+        });
+
+    }
     validate_form();
+    prepare_inputs();
 
     $("#form, #another_form, #another_form1").on("submit", function (e) {
         var btn = $("[type='submit']").button('loading');
         var form = $(this);
+        $(".form-body .alert-danger").remove();
         e.preventDefault();
         $.ajax({
             type: "POST",
@@ -108,7 +161,6 @@ $(function () {
                 if (msg.status == 401 || msg.status == 404) {
                     window.location = msg.getResponseHeader('Location')
                 }
-                $(".form-body .alert-danger").fadeOut(500);
                 var json = $.parseJSON(msg.responseText);
                 var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
                 $.each(json, function (k, v) {
@@ -122,7 +174,9 @@ $(function () {
 
     $("#live_form").on("submit", function (e) {
         var btn = $("[type='submit']").button('loading');
+        $(".form-body .alert-danger").remove();
         e.preventDefault();
+        var current = $(this);
         $.ajax({
             type: "POST",
             url: $(this).attr('action'),
@@ -131,13 +185,18 @@ $(function () {
             contentType: false,
             success: function (msg) {
                 toastr.success('', msg);
+                if(current.data('back-url'))
+                {
+                    setTimeout(function () {
+                        window.location = current.data('back-url');
+                    }, 2000);
+                }
                 btn.button('reset');
             },
             error: function (msg) {
                 if (msg.status == 401 || msg.status == 404) {
                     window.location = msg.getResponseHeader('Location')
                 }
-                $(".form-body .alert-danger").fadeOut(500);
                 var json = $.parseJSON(msg.responseText);
                 var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
                 $.each(json, function (k, v) {
@@ -190,15 +249,19 @@ $(function () {
                 toastr.info('', data);
                 if (type == 'approve') {
                     $('td#' + target_id).html("<span class='badge bg-green-seagreen bg-font-green-seagreen'>" + trans + "</span>");
+                    $('#taqyeem_enable_btn').hide();
+                    $('#taqyeem_disable_btn').show();
                 }
                 else {
                     $('td#' + target_id).html("<span class='badge label-sm label-danger'>" + trans + "</span>");
+                    $('#taqyeem_enable_btn').show();
+                    $('#taqyeem_disable_btn').hide();
                 }
             }
         });
     });
     $('#main').on('show.bs.modal', function (e) {
-        $("#main .modal-content").html('<div class="modal-dialog"><div class="modal-content"> <div class="modal-body">'+"<img class='loading' src='" + loading_img + "' />"+'</div> </div> </div> </div>');
+        $("#main .modal-content").html('<div class="modal-dialog"><div class="modal-content"> <div class="modal-body">' + "<img class='loading' src='" + loading_img + "' />" + '</div> </div> </div> </div>');
 
         var route = $(e.relatedTarget).data('href');
         $.ajax({
@@ -207,47 +270,16 @@ $(function () {
             url: route,
             success: function (data) {
                 $("#main .modal-content").html(data);
-
-                $('.bs-select').selectpicker({
-                    iconBase: 'fa',
-                    tickIcon: 'fa-check'
-                });
-                ComponentsSelect2.init();
+                prepare_inputs();
 
                 var error_out = $(".modal-body").data("no_data");
                 var success_data = $(".modal-body").data("success_data");
-                $("#mol_search_co").click(function () {
-                    molConnect(error_out, success_data);
-                });
-                $("#labour_office_no,#sequence_no,#id_number").keypress(function (e) {
-                    if (e.which == 13) {
-                        e.preventDefault();
-                        molConnect(error_out, success_data);
-                    }
-                });
-
-                $(".make-switch").bootstrapSwitch();
-
-                $(".date-picker").datepicker({
-                    dateFormat: 'yy-mm-dd',
-                    changeYear: true
-                });
-
-                if (App.isRTL()) {
-                    $(".date-picker").datepicker("option", "dayNames", ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"]);
-                    $(".date-picker").datepicker("option", "dayNamesMin", ["ح", "ن", "ث", "ع", "خ", "ج", "س", "ح"]);
-                    $(".date-picker").datepicker("option", "dayNamesShort", ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت", "أحد"]);
-                    $(".date-picker").datepicker("option", "monthNames", ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]);
-                    $(".date-picker").datepicker("option", "isRTL", true);
-                    $(".date-picker").datepicker("option", "monthNamesShort", ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]);
-                    $(".date-picker").datepicker("option", "currentText", 'الان');
-                    $(".date-picker").datepicker("option", "firstDay", 6);
-                }
 
                 validate_form();
 
                 $("#form").on("submit", function (e) {
                     var btn = $("[type='submit']").button('loading');
+                    $(".form-body .alert-danger").remove();
                     e.preventDefault();
                     $.ajax({
                         type: "POST",
@@ -265,7 +297,6 @@ $(function () {
                             if (msg.status == 401 || msg.status == 404) {
                                 window.location = msg.getResponseHeader('Location')
                             }
-                            $(".form-body .alert-danger").fadeOut(500);
                             var json = $.parseJSON(msg.responseText);
                             var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
                             $.each(json, function (k, v) {
@@ -276,6 +307,7 @@ $(function () {
                         }
                     });
                 });
+                
                 $(document).on('click', '.sessionClose', function (e) {
                     e.preventDefault();
                     $(this).closest('.submitform').fadeOut(300, function () {
@@ -295,7 +327,7 @@ $(function () {
                         }
                     });
 
-                })
+                });
                 $(document).on('click', '.btn-add', function (e) {
                     e.preventDefault();
                     $elementsGroup = $(this).closest('.divAdd').clone();
@@ -309,51 +341,7 @@ $(function () {
                 $(document).on('click', '.remove', function () {
                     $(this).closest('.divAdd').remove();
                 });
-
-
-                $(document).on("click", "#btn-save", function (e) {
-                    var btn = $("#btn-save").button("loading");
-                    e.preventDefault();
-                    var route = $(this).data('action');
-                    var token = $(this).data('token');
-                    var question = $("#question").val();
-                    var answers = [];
-                    $('input[id^="answer"]').each(function (input) {
-                        answers.push($(this).val());
-                        var value = $(this).val();
-                        var id = $(this).attr('id');
-                    });
-                    console.log()
-                    $.ajax({
-                        type: "post",
-                        data: {_method: 'patch', _token: token, question: question, answers: answers},
-                        url: route,
-                        success: function (data) {
-                            $(".QAalert").remove();
-                            $(".resultdiv").html(data);
-                            $("#question").val("");
-                            $(".answerClass").val("");
-                            btn.button('reset');
-
-                        },
-                        error: function (msg) {
-                            if (msg.status == 401 || msg.status == 404) {
-                                window.location = msg.getResponseHeader('Location')
-                            }
-                            $(".form-body .alert-danger").fadeOut(500);
-                            var json = $.parseJSON(msg.responseText);
-                            var error = '<div class="alert alert-block alert-danger fade in QAalert"><button type="button" class="close" data-dismiss="alert"></button> <p>';
-                            $.each(json, function (k, v) {
-                                error += v + "</p>";
-                            });
-                            $(".form-body").prepend(error + '</div>');
-                            btn.button('reset');
-                        }
-
-                    });
-                });
-
-
+                
                 /* Banks Checkbox toggles*/
                 $('input[name="type"]').on('change', function (e) {
                     var checked = $(this).attr('id');
@@ -380,6 +368,7 @@ $(function () {
                         console.log("Save");
                     }
                     var that = $(this);
+                    $(".form-body .alert-danger").remove();
                     e.preventDefault();
                     $.ajax({
                         type: "POST",
@@ -392,7 +381,6 @@ $(function () {
                                 toastr.success('', msg);
                                 $('input[name="name"').val('');
                                 btn.button('reset');
-                                $(".form-body .alert-danger").fadeOut(500);
                             } else {
                                 toastr.success('', msg);
                                 setTimeout(function () {
@@ -404,7 +392,6 @@ $(function () {
                             if (msg.status == 401 || msg.status == 404) {
                                 window.location = msg.getResponseHeader('Location')
                             }
-                            $(".form-body .alert-danger").fadeOut(500);
                             var json = $.parseJSON(msg.responseText);
                             var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
                             $.each(json, function (k, v) {
@@ -427,7 +414,6 @@ $(function () {
 
 
     //Remove unchecked checkboxes before form submission
-
     $('form.removeCheckboxes button[type=submit]').on('click', function () {
         $('.gov_activity input:checkbox:not(:checked)').each(function (k, v) {
             $(v).closest('tr.gov_activity').find('.act_checked').attr('value', 0);
@@ -435,7 +421,6 @@ $(function () {
     });
 
     // Show/hide boxes on checkbox check/uncheck
-
     function valueChanged(selector, checked) {
         if (checked)
             $(selector).show();
@@ -505,5 +490,259 @@ $(function () {
         });
     });
 
+    $('#main').on('change','input[name=taqyeem_type]', function(){
+        $(".form-body .alert-danger").remove();
+        $('.partial-resident-div').empty();
+        $('.partial-page-content').empty();
+        var that = $(this);
+
+        $.ajax({
+            url: $(this).data('url'),
+            beforeSend: function (xhr) {
+                $('.partial-div .page-loader').first().fadeIn();
+            },
+            success: function (response) {
+                $('.partial-div .page-loader').first().fadeOut();
+                
+                if(that.val() == "2") {
+                    $('.partial-resident-div').append(response);
+                    that.closest('.row').nextAll('.details').show();
+                } else {
+                    $('.partial-page-content').append(response);
+                    that.closest('.row').nextAll('.details').hide();
+                }
+            }
+        });
+    });
+
+    $('#main').on('change','input[name=residents]', function(){
+        var that = $(this);
+        if(that.val() == 2) {
+            $('.residents_search').remove();
+            $.ajax({
+                url: $(this).data('url'),
+                beforeSend: function (xhr) {
+                    $('.resident-div .page-loader').first().fadeIn();
+                },
+                success: function (response) {
+                    $('.resident-div .page-loader').first().fadeOut();
+                    $(response).insertAfter('.residents_type');
+                }
+            });
+        } else {
+            $('.residents_search').remove();
+        }
+    });
+
+    $('#main').on('change','input[name=periodic_or_date]', function(){
+        if($(this).val() == 1) {
+            $('#taqyeem_date_div').hide();
+            $('#taqyeem_period').show();
+        } else {
+            $('#taqyeem_period').hide();
+            $('#taqyeem_date_div').show();
+        }
+    });
+    
+    $('#main').on('click', '#search-users', function(){
+        $('.search-results').empty();
+        var that = $(this);
+        var inputValue = that.closest('.row').find('input').val();
+        var selectorValue = that.closest('.row').find('select').val();
+        $.ajax({
+            url: that.data('url'),
+            data: {
+                name: inputValue,
+                type: selectorValue
+            },
+            beforeSend: function (xhr) {
+                $('.resident-div .page-loader').first().fadeIn();
+            },
+            success: function (response) {
+                $('.resident-div .page-loader').first().fadeOut();
+                $('.search-results').append(response);
+            }
+        });
+    });
+
+
+    $('#main').on('click', 'a[rel]', function(e){
+        e.preventDefault();
+        $('.search-results').empty();
+        var that = $(this);
+        var searchUsers = $('#search-users');
+        $.ajax({
+            url: that.attr('href'),
+            data: {
+                name: searchUsers.closest('.row').find('input').val(),
+                type: searchUsers.closest('.row').find('select').val()
+            },
+            beforeSend: function (xhr) {
+                $('.resident-div .page-loader').first().fadeIn();
+            },
+            success: function (response) {
+                $('.resident-div .page-loader').first().fadeOut();
+                $('.search-results').append(response);
+            }
+        });
+    });
+
+    var inputValue = new Array();
+
+    $('#main').on('change', '.input-id', function(e){
+        e.preventDefault();
+        var that = $(this);
+        if(that.is(':checked')) {
+            if (!$("#taqyeem_row_" + that.attr('data-userType') + '_' + that.val()).length) {
+                var tr = that.closest('tr');
+                var tableDiv = $('.table-div');
+                var clonedTr = tr.clone();
+                tableDiv.show();
+                clonedTr.attr('id', "#taqyeem_row_" + that.attr('data-userType') + '_' + that.val());
+                clonedTr.find("td:first").remove();
+                clonedTr = clonedTr.append('<td><input type="hidden" name="ids[]" value="'+that.val()+'"><input type="hidden" name="userType[]" value="'+that.attr('data-userType')+'"><button class="remove-row btn btn-danger error">&times;</button></td>');
+
+                tableDiv.find('tbody').append(clonedTr);
+                tableDiv.show();
+            }
+        }
+    });
+
+    $('#main').on('click', '.remove-row', function(e){
+        e.preventDefault();
+        $(this).closest('tr').remove();
+        if ($('.table-div tbody tr').length) {
+            $('.table-div').show();
+        } else {
+            $('.table-div').hide();
+        }
+    });
+
+    $(document).on("click", "#btn-save", function (e) {
+        var btn = $("#btn-save").button("loading");
+        $(".form-body .alert-danger").remove();
+        e.preventDefault();
+        var route = $(this).data('action');
+        var token = $(this).data('token');
+        var question = $("#question").val();
+        var answers = [];
+        $('input[id^="answer"]').each(function (input) {
+            if($(this).val() != '')
+                answers.push($(this).val());
+            //var value = $(this).val();
+        });
+        if(!answers[0])
+            answers.push('');
+        $.ajax({
+            type: "post",
+            data: {_method: 'patch', _token: token, question: question, answers: answers},
+            url: route,
+            success: function (data) {
+                $(".QAalert").remove();
+                $(".resultdiv").html(data);
+                $("#question").val("");
+                $(".answerClass").val("");
+                btn.button('reset');
+
+            },
+            error: function (msg) {
+                if (msg.status == 401 || msg.status == 404) {
+                    window.location = msg.getResponseHeader('Location')
+                }
+                var json = $.parseJSON(msg.responseText);
+                var error = '<div class="alert alert-block alert-danger fade in QAalert"><button type="button" class="close" data-dismiss="alert"></button> <p>';
+                $.each(json, function (k, v) {
+                    error += v + "</p>";
+                });
+                $(".form-body").prepend(error + '</div>');
+                btn.button('reset');
+            }
+
+        });
+    });
+    $('body').on('submit', '#taqeemform', function (e) {
+        var btn = $("[type='submit']").button('loading');
+        $(".form-body .alert-danger").remove();
+        e.preventDefault();
+        var route = $('#nextButton').data('href');
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('action'),
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (msg) {
+                toastr.success('', msg['msg']);
+                if (msg['refresh'] == true) {
+                    setTimeout(function () {
+                        location.reload(1);
+                    }, 1000);
+                } else {
+                    $("#main .modal-content").html('<div class="modal-dialog"><div class="modal-content"> <div class="modal-body">' + "<img class='loading' src='" + loading_img + "' />" + '</div> </div> </div> </div>');
+                    $.ajax({
+                        type: "get",
+                        data: {},
+                        url: route + '/' + msg['taqeemID'],
+                        success: function (data) {
+                            $("#main .modal-content").html(data);
+                        }
+                        , error: function (data) {
+                            if (data.status == 401 || data.status == 404) {
+                                window.location = data.getResponseHeader('Location')
+                            }
+                        }
+                    });
+                }
+            },
+            error: function (msg) {
+                if (msg.status == 401 || msg.status == 404) {
+                    window.location = msg.getResponseHeader('Location')
+                }
+                var json = $.parseJSON(msg.responseText);
+                var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
+                $.each(json, function (k, v) {
+                    error += v + "</p>";
+                });
+                $(".form-body").prepend(error + '</div>');
+                btn.button('reset');
+            }
+        });
+    });
+
+    $('body').on('submit', '#taqyeem_permissions_form', function (e) {
+        var btn = $("[type='submit']").button('loading');
+        $(".form-body .alert-danger").remove();
+        e.preventDefault();
+        var current = $(this);
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('action'),
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            success: function (msg) {
+                toastr.success('', msg);
+                if(current.data('back-url'))
+                {
+                    setTimeout(function () {
+                        window.location = current.data('back-url');
+                    }, 2000);
+                }
+            },
+            error: function (msg) {
+                if (msg.status == 401 || msg.status == 404) {
+                    window.location = msg.getResponseHeader('Location')
+                }
+                var json = $.parseJSON(msg.responseText);
+                var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
+                $.each(json, function (k, v) {
+                    error += v + "</p>";
+                });
+                $(".form-body").prepend(error + '</div>');
+                btn.button('reset');
+            }
+        });
+    });
     jQuery.extend(jQuery.validator.messages, {});
 });

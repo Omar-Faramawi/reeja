@@ -245,7 +245,7 @@ select[name='datatable_ajax_length'] {
 }
 
 .follow_contracts_table th:nth-child(4), .follow_contracts_table td:nth-child(4), .follow_contracts_table th:nth-child(5), .follow_contracts_table td:nth-child(5)
-, .follow_contracts_table th:nth-child(6), .follow_contracts_table td:nth-child(6){
+, .follow_contracts_table th:nth-child(6), .follow_contracts_table td:nth-child(6), .follow_contracts_table th:nth-child(7), .follow_contracts_table td:nth-child(7){
     display: none !important;
 }
 
@@ -256,15 +256,21 @@ select[name='datatable_ajax_length'] {
 {
    display: none !important;
 }
+.selected_employees_parent{
+    padding-top: 15px !important;
+}
+#selected_employees, #selected_employees_benf, .selected_employees_parent div{
+    margin-bottom: 0;
+}
 
 .no-padding-top{
 	padding-top: 0 !important;
 }
 .padding-top-8{
-	padding-top: 8px;
+	padding-top: 8px !important;
 }
 .padding-top-5{
-	padding-top: 5px;
+	padding-top: 5px !important;
 }
 
 .del_tr {
@@ -277,4 +283,13 @@ select[name='datatable_ajax_length'] {
 
 .pull-right{
     float: left;
+}
+
+.establishment {
+   font-size: 12px;
+    color: #a39a9a;
+}
+
+table.dataTable {
+    width: auto !important;
 }

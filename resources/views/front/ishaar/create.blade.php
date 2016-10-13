@@ -120,7 +120,7 @@
                                             <div class="form-group last">
                                                 <label class="col-md-3 control-label">{{trans('ishaar_setup.form_attributes.work_areas')}}</label>
                                                 <div class="col-md-4">
-                                                    <span class="form-control-static">@foreach($contract->contractLocations as $cc){{$cc->desc_location}} @endforeach </span>
+                                                    <span class="form-control-static">@foreach($contract->contractLocations as $cc){!! nl2br($cc->desc_location) !!} @endforeach </span>
                                                 </div>
                                             </div>
 

@@ -8,6 +8,7 @@ use Tamkeen\Ajeer\Http\Controllers\Controller;
 
 use Tamkeen\Ajeer\Http\Requests\ContractsRequest;
 use Tamkeen\Ajeer\Http\Requests\ReceivedContractRequest;
+use Tamkeen\Ajeer\Http\Requests\TaqawelContractRequest;
 use Tamkeen\Ajeer\Models\Contract;
 use Tamkeen\Ajeer\Models\Establishment;
 use Tamkeen\Ajeer\Models\Individual;
@@ -246,7 +247,8 @@ class TaqawelContractController extends Controller
     public function acceptTaqawelContractCancel(Request $request)
     {
         if (!$request->confirmed) {
-            throw new Exception;
+            return response()->json(['error' => trans('contracts_cancelation.should_be_confirmed')],
+                        422);
         } else {
             switch ($request->type) {
                 case 'contract':
@@ -270,14 +272,14 @@ class TaqawelContractController extends Controller
      *
      * @return mixed
      */
-    public function refuseTaqawelContractCancel(Request $request)
+    public function refuseTaqawelContractCancel(TaqawelContractRequest $request)
     {
         if ($request->reason != 'other') {
             //save selected reason
             switch ($request->type_r) {
                 case 'contract':
                     $contract = Contract::findOrFail($request->id_r);
-                    $contract->status = 'approved';
+                    $contract->status = Constants::CONTRACT_STATUSES['approved'];
                     $contract->reason_id = $request->reason;
 										if($request->details){
                       $contract->rejection_reason  = $request->details;
@@ -288,44 +290,42 @@ class TaqawelContractController extends Controller
 
                 case 'ishaar':
                     $ishaar = ContractEmployee::findOrFail($request->id_r);
-                    $ishaar->status = 'approved';
+                    $ishaar->status = Constants::CONTRACT_STATUSES['approved'];
                     $ishaar->reasons_id = $request->reason;
-										if($request->details){
-											$ishaar->rejection_reason  = $request->details;
-										}
+                    if($request->details){
+                            $ishaar->rejection_reason  = $request->details;
+                    }
                     $ishaar->save();
                     return trans('contracts_cancelation.refused');
                     break;
             }
 
         } else {
-            if (!$request->other) {
-                throw new Exception;
-            } else {
+            
                 //save other reason
                 switch ($request->type_r) {
                     case 'contract':
                         $contract = Contract::findOrFail($request->id_r);
-                        $contract->status = 'approved';
-												$contract->other_reasons = $request->other;
-												if($request->details){
-													$contract->rejection_reason  = $request->details;
-												}
+                        $contract->status = Constants::CONTRACT_STATUSES['approved'];
+                        $contract->other_reasons = $request->other;
+                        if($request->details){
+                                $contract->rejection_reason  = $request->details;
+                        }
                         $contract->save();
                         return trans('contracts_cancelation.refused');
                         break;
 
                     case 'ishaar':
                         $ishaar = ContractEmployee::findOrFail($request->id_r);
-                        $ishaar->status = 'approved';
-												$ishaar->other_reasons = $request->other;
+                        $ishaar->status = Constants::CONTRACT_STATUSES['approved'];
+                        $ishaar->other_reasons = $request->other;
                         if($request->details){
                           $ishaar->rejection_reason = $request->details;
                         }
                         $ishaar->save();
                         return trans('contracts_cancelation.refused');
                         break;
-                }
+              
             }
         }
     }

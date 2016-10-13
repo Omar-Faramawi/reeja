@@ -84,6 +84,7 @@
     var only_one_employee = "{!! trans('ishaar_setup.only_one_employee') !!}";
     var must_have_employee = '{!! trans('ishaar_setup.must_have_employee') !!}';
     var already_added = '{!! trans('ishaar_setup.already_added') !!}';
+    var minimum_contract_period = '{!! trans('tqawel_offer_contract.minimum_contract_period') !!}';
 </script>
 @if(app()->getLocale() == "ar")
     <script src="{{ asset('assets/js/front-rtl.js') }}"></script>

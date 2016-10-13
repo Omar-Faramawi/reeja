@@ -29,31 +29,30 @@ class OfferDirectController extends Controller
     public function index()
     {
         if (request()->ajax()) {
+            $data = Contract::byMe()->directEmp()->pending()
+                ->with([
+                    'vacancy' => function ($v_q) {
+                        $v_q->with(['job', 'region']);
+                    }
+                    ,
+                ]);
 
-            $data = Contract::byMe()->
-            directEmp()->
-            with([
-                'vacancy' => function ($v_q) {
-                    $v_q->with(['job', 'region']);
-                }
-                ,
-            ]);
-
-            $data = $data->whereHas('vacancy', function ($q) {
-                if (request()->input('job_name')) {
-                    $q->whereHas('job', function ($job_q) {
-                        $job_q->where('job_name', 'LIKE', '%' . request()->input('job_name') . '%');
-                    });
-                }
-                if (request()->input('region_name')) {
-                    $q->whereHas('region', function ($reg_q) {
-                        $reg_q->where('name', 'LIKE', '%' . request()->input('region_name') . '%');
-                    });
-                }
-            });
-
+            if (request()->input('job_name') || request()->input('region_name')) {
+                $data = $data->whereHas('vacancy', function ($q) {
+                    if (request()->input('job_name')) {
+                        $q->whereHas('job', function ($job_q) {
+                            $job_q->where('job_name', 'LIKE', '%' . request()->input('job_name') . '%');
+                        });
+                    }
+                    if (request()->input('region_name')) {
+                        $q->whereHas('region', function ($reg_q) {
+                            $reg_q->where('name', 'LIKE', '%' . request()->input('region_name') . '%');
+                        });
+                    }
+                });
+            }
+            
             if (request()->input('benef_name')) {
-
                 $data = $data->where(function ($benf_q) {
                     $benf_q->whereHas('benfEstablishment', function ($est_q) {
                         $est_q->where('name', 'LIKE', '%' . request()->input('benef_name') . '%');

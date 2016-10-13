@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-    <h4 class="modal-title">{{ trans('taqawoul.headings.Add') }}</h4>
+    <h4 class="modal-title">{{ trans('taqawoul.tqawel_services_add') }}</h4>
 </div>
 @if(isset($service))
     {{ Form::model($service, ['route' => ['taqawel.publishservice.update', $service->id], 'method' => 'patch', 'id'=>'formTest']) }}
@@ -18,7 +18,9 @@
                     <span class="required"> * </span>
                 </label>
                 <div class="col-md-8">
-                    {{Form::select("contract_nature_id",$service_types,null,["class"=>"form-control edited",'required'=>'required'])}}
+                    {{Form::select("contract_nature_id",$service_types,null,["class"=>"form-control edited",'required'=>'required', 'id'=>'taqawel_service_type'])}}
+                    <br/>
+                    <div id="new_service"></div>
                 </div>
             </div>
             <div class="form-group form-md-line-input">
@@ -27,8 +29,7 @@
                 <div class="col-sm-8">
                     {{ Form::textarea('description', null, ['class' => 'form-control','id'=>'description']) }}
                     <div class="form-control-focus"></div>
-                                                <span class="help-block">{{ trans('taqawoul.form_attributes.service_description') }}
-                                                    ...</span>
+                    <span class="help-block">{{ trans('taqawoul.form_attributes.service_description') }}...</span>
                 </div>
             </div>
         </div>

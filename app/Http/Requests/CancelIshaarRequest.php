@@ -25,7 +25,7 @@ class CancelIshaarRequest extends Request
     {
         return [
             'reason'        => 'required',
-            'other'         => 'required_if:reason,other|min:0|max:255',
+            'other'         => 'required_if:reason,34|min:0|max:255',
         ];
     }
 
@@ -41,4 +41,17 @@ class CancelIshaarRequest extends Request
             'reason'        => trans('contracts.reason_id'),
         ];
     }
+
+     /**
+     * Get Custom Messages for validation errors .
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'other.required_if' => trans('offersdirect.modal.reject.other_reason'),
+        ];
+    }
+
 }

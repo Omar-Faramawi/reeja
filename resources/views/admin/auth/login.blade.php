@@ -21,8 +21,9 @@
 <body class=" login">
 <!-- BEGIN LOGO -->
 <div class="logo">
-    <a href="{{ url('/') }}">
-        <img src="{{ asset('assets/img/logo.png') }}" alt=""/> </a>
+
+    <img src="{{ asset('assets/img/logo.png') }}" alt=""/>
+
 </div>
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->
@@ -76,11 +77,11 @@
                 </li>
             </ul>
         </div>
-        <div class="create-account">
+        <!--<div class="create-account">
             <p>
                 <a href="{{ url("/") }}">{{ trans('labels.back_to_main') }}</a>
             </p>
-        </div>
+        </div>-->
     </form>
     <!-- END LOGIN FORM -->
     <!-- BEGIN FORGOT PASSWORD FORM -->

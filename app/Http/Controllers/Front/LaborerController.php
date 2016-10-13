@@ -32,48 +32,48 @@ class LaborerController extends Controller
             $columns = request()->input('columns');
 
             if (request()->input('id')) {
-                $data = $data->where('id', request()->input('id'));
+                $data->where('id', request()->input('id'));
             }
             if (request()->input('name')) {
-                $data = $data->where('name', 'like', '%' . request()->input('name') . '%');
+                $data->where('name', 'like', '%' . request()->input('name') . '%');
             }
             if (request()->input('id_number')) {
-                $data = $data->where('id_number', request()->input('id_number'));
+                $data->where('id_number', request()->input('id_number'));
             }
             if (request()->input('nationality')) {
                 $nationality = Nationality::where('name', 'like',
                     '%' . request()->input('nationality') . '%')->get()->first();
                 if ($nationality !== null) {
-                    $data = $data->where('hr_pool.nationality_id', $nationality->id);
+                    $data->where('hr_pool.nationality_id', $nationality->id);
                 }
             }
             if (request()->input('job')) {
                 $job = Job::where('job_name', 'like', '%' . request()->input('job') . '%')->get()->first();
                 if ($job !== null) {
-                    $data = $data->where('hr_pool.job_id', $job->id);
+                    $data->where('hr_pool.job_id', $job->id);
                 }
             }
             if (request()->input('age')) {
-                $data = $data->where('age', request()->input('age'));
+                $data->where('age', request()->input('age'));
             }
             if (request()->input('religion')) {
-                $data = $data->where('religion', request()->input('religion'));
+                $data->where('religion', request()->input('religion'));
             }
-            if (request()->input('gender')) {
-                $data = $data->where('gender', request()->input('gender'));
+            if (request()->input('gender') || request()->input('gender') === '0') {
+                $data->where('gender', request()->input('gender'));
             }
 
-            $buttons   = ['view' => [], 'edit' => []];
+            $buttons   = [];
             $extraHtml = ["column" => [], "html" => []];
 
             $total_count = ($data->count()) ? $data->count() : 1;
 
             return dynamicAjaxPaginate($data, $columns, $total_count, $buttons, true, $extraHtml);
         }
-        
+
         return view('front.laborer.index');
     }
-    
+
     /**
      * @param                      $id
      * @param ForeignersRepository $nic
@@ -104,7 +104,7 @@ class LaborerController extends Controller
             return 'false';
         }
     }
-    
+
     /**
      * @param LaborerRequest       $request
      * @param ForeignersRepository $nic
@@ -134,7 +134,7 @@ class LaborerController extends Controller
         if ($nationality !== null) {
             $HRPool->nationality_id = $nationality->id;
         }
-        
+
         if (session('auth.type') == 'mol') {
             $provider_type = '3';
         } else {
@@ -142,7 +142,8 @@ class LaborerController extends Controller
         }
 
         $HRPool->gender        = $laborer->gender->__toString();
-        //$HRPool->age           = $age;
+        $HRPool->age           = $age;
+        $HRPool->birth_date    = $laborer->getBirthDate()->getHijriDate();
         $HRPool->id_number     = $request->id_number;
         $HRPool->chk           = 0;
         $HRPool->name          = $laborer->getFullName()->__toString();
@@ -152,10 +153,10 @@ class LaborerController extends Controller
         $HRPool->religion      = 1; /* To do : get this value from NIC */
 
         $HRPool->save();
-        
+
         return trans('add_laborer.laboreradded');
     }
-    
+
     /**
      * @param PublishLaborerRequest $request
      *

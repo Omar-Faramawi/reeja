@@ -40,9 +40,9 @@ class ContractEmployee extends BaseModel
         return $this->belongsTo(Contract::class, 'contract_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
     public function hrPool()
     {
         return $this->belongsTo(HRPool::class, 'id_number');
@@ -111,6 +111,24 @@ class ContractEmployee extends BaseModel
     public function getTranslatedStatusAttribute()
     {
         return \Tamkeen\Ajeer\Utilities\Constants::contract_statuses($this->status,['file' => 'contracts.statuses']);
+    }
+
+    public static function MaxIshaarsForBenf($benf_id){
+        return self::whereHas('contract',function ($cont) use($benf_id) {
+                        $cont->byMe()->approved()->taqawel()->where('benf_id',$benf_id);
+                    })->count();
+    }
+
+    public static function MaxEmployeeIshaarsForBenfInPeriod($benf_id, $id_number){
+        return self::whereHas('contract',function ($cont) use($benf_id) {
+                        $cont->byMe()->approved()->taqawel()->where('benf_id',$benf_id);
+                    })->where('id_number',$id_number)->max('end_date');
+    }
+
+    public static function MinEmployeeIshaarsForBenfInPeriod($benf_id, $id_number){
+        return self::whereHas('contract',function ($cont) use($benf_id) {
+                        $cont->byMe()->approved()->taqawel()->where('benf_id',$benf_id);
+                    })->where('id_number',$id_number)->min('start_date');
     }
 
 }

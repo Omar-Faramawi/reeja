@@ -25,7 +25,8 @@ return [
     'form_attributes' => [
         'service_type' => 'نوع الخدمة',
         'service_description' => 'نبذة عن الخدمة',
-        'other' => 'أخرى',
+        'other'    => 'أخرى',
+        'othermsg' => 'يتوجب عليك إضافة خدمة جديدة فى حالة ما إذا اخترت أخرى فى نوع الخدمة',
     ],
     'success_data'        => 'تمت الاضافة بنجاح',
     'success_update'      => 'تم التعديل بنجاح',

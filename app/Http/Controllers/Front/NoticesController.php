@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tamkeen\Ajeer\Utilities\Constants;
 use Illuminate\Support\Facades\Route;
+use Tamkeen\Platform\Billing\Connectors\Connector;
 use Carbon\Carbon;
 
 class NoticesController extends Controller
@@ -32,9 +33,17 @@ class NoticesController extends Controller
      */
     public function index($id = null)
     {
-        if (strpos(Route::getCurrentRoute()->uri(),'direct_ishaar') !== false)
+        $can_generate_ishaar = Constants::SERVICETYPES['provider'];
+        if (strpos(Route::getCurrentRoute()->uri(),'direct_ishaar') !== false){
                 $url = '/direct_ishaar';
-        else $url = '/ishaar';
+                $can_generate_ishaar = Constants::SERVICETYPES['benf'];
+                if(auth()->user()->user_type_id == Constants::USERTYPES['job_seeker']){
+                    session()->replace(['service_type' => Constants::SERVICETYPES['provider']]);
+                }elseif (!in_array(auth()->user()->user_type_id, [Constants::USERTYPES['saudi'],Constants::USERTYPES['job_seeker']])){
+                    session()->replace(['service_type' => Constants::SERVICETYPES['benf']]);
+                }
+
+        }else $url = '/ishaar';
 
         // Get the current service type id ( provider or benf )
         // check if we got the right one before continue
@@ -68,7 +77,7 @@ class NoticesController extends Controller
                             $cont_q->toMe()->approved()->hireLabor();
                         }
                     }
-                   
+
                 }
                 )->with(['hrPool.job', 'contract', 'contract.contractLocations']);
 
@@ -100,11 +109,14 @@ class NoticesController extends Controller
             return dynamicAjaxPaginate($ishaars, $columns, $total_count,
                 $buttons);
         }
-        if (Route::getCurrentRoute()->getPath() == 'direct_ishaar')
-                $contracts = Contract::byMe()->approved()->directEmployee()->get();
-        else $contracts = Contract::byMe()->approved()->hireLabor()->get();
+        if (Route::getCurrentRoute()->getPath() == 'direct_ishaar'){
+            $contracts = Contract::toMe()->approved()->directEmployee()->get();
+        }else{
+            $contracts = Contract::byMe()->approved()->hireLabor()->get();
 
-        return view('front.ishaar.index', compact('contracts', 'url'));
+        }
+
+        return view('front.ishaar.index', compact('contracts', 'url', 'can_generate_ishaar'));
     }
 
     /**
@@ -118,24 +130,18 @@ class NoticesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store()
-    {
-        
-
-    }
-
-    /**
      * generate a newly invoice in storage.
      *
      * @return Response
      */
-    public function generateInvoice($id)
+    public function generateInvoice($id, Connector $connector)
     {
         $contract_id = $id;
+        if (Route::getCurrentRoute()->getcompiled()->getstaticPrefix() == '/direct_ishaar')
+            $invoice_type=Constants::INVOICE_TYPES['contract_direct_employee'];
+        else
+            $invoice_type=Constants::INVOICE_TYPES['contract_hire_labor'];
+       
         // Check if the user can make new invoice or not
         $open_invoice = Invoice::where('contracts_id', $contract_id)->where('status',Invoice::STATUS_PENDING)->first();
         if (!empty($open_invoice)) {
@@ -145,32 +151,51 @@ class NoticesController extends Controller
         if($contract){
         $benef_name = $contract->benf_name;
         $ishaar_setup = IshaarSetup::where('ishaar_type_id',$contract->contract_type_id)->first();
-        $amount = ($ishaar_setup->amount)*($contract->contractEmployee->count());
-        $days = $ishaar_setup->payment_period;
-        $issueDate = Carbon::now()->toDateTimeString();
-        $expiryDate = Carbon::now()->addDays($days);
-        $accountNumber = rand(1000, 1000000);
-        //create Invoice
-        $invoice = new Invoice;
-        $invoice->contracts_id = $contract_id;
-        $invoice->amount = $amount;
-        $invoice->account_no = $accountNumber;
-        $invoice->benf_name = $benef_name;
-        $invoice->issue_date = $issueDate;
-        $invoice->expiry_date = $expiryDate;
-        $invoice->status = Invoice::STATUS_PENDING;
-        $invoice->save();
-        foreach ($contract->contractEmployee as $ce){
-            $notice = ContractEmployee::findOrFail($ce->id);
-                $notice->invoices_id = $invoice->id;
-                $notice->save();
-            }
-            return response()->json(trans('ishaar_setup.add_invoice_success',['number' => $invoice->id,'contract' => $id,'amount' => $amount]));
+        if($contract->contractEmployee->count()) {
+                $amount = ($ishaar_setup->amount) * ($contract->contractEmployee->count());
+                $days = $ishaar_setup->payment_period;
+                $issueDate = Carbon::now()->toDateTimeString();
+                $expiryDate = Carbon::now()->addDays($days);
+                $accountNumber = getLoggedAccountNumber($connector);
+                $items = [
+                    [
+                        'item_name' => trans('ishaar_setup.headings.create'),
+                        'item_count' => 1,
+                        'item_price' => $amount,
+                    ],
+                ];
+                $createdBill = $connector->createBill($accountNumber, $amount,
+                    $items, $expiryDate);
+                //create Invoice
+                $invoice = new Invoice;
+                $invoice->contracts_id = $contract_id;
+                $invoice->amount = $amount;
+                $invoice->account_no = $accountNumber;
+                $invoice->benf_name = $benef_name;
+                $invoice->issue_date = $issueDate;
+                $invoice->expiry_date = $expiryDate;
+                $invoice->description = trans('ishaar_setup.headings.create');
+                $invoice->status = Constants::INVOICE_STATUS['pending'];
+                $invoice->provider_type = Auth::user()->user_type_id;
+                $invoice->provider_id = getCurrentUserNameAndId()[0];
+                $invoice->invoice_type = $invoice_type;
+                $invoice->save();
+                foreach ($contract->contractEmployee as $ce) {
+                    $notice = ContractEmployee::findOrFail($ce->id);
+                    $notice->invoices_id = $invoice->id;
+                    $notice->save();
+                }
+                return response()->json(trans('ishaar_setup.add_invoice_success',
+                            ['number' => $invoice->id, 'contract' => $id, 'amount' => $amount]));
+            } else{
+            return response()->json(['error' => trans('ishaar_setup.no_contractEmployee')], 422);
+
+        }
         }else{
             return response()->json(['error' => trans('ishaar_setup.no_contract')], 422);
 
         }
-       
+
     }
 
     /**
@@ -182,7 +207,11 @@ class NoticesController extends Controller
      */
     public function show($id)
     {
-        $contract = Contract::findOrFail($id);
+        if(Route::getCurrentRoute()->getcompiled()->getstaticPrefix()== '/direct_ishaar')
+            $contract = Contract::toMe()->directEmployee()->approved()->findOrFail($id);
+        else
+            $contract = Contract::byMe()->hireLabor()->approved()->findOrFail($id);
+
 
         return view('front.ishaar.create', compact('contract'));
     }
@@ -196,35 +225,27 @@ class NoticesController extends Controller
      */
     public function showIshaar($id)
     {
-        $contract = ContractEmployee::findOrFail($id);
+
+        if (session()->get('service_type') === Constants::SERVICETYPES['benf']) {
+            $contract = ContractEmployee::whereHas('contract', function ($cont_q) {
+                    if(Route::getCurrentRoute()->getcompiled()->getstaticPrefix()== '/direct_ishaar')
+                        $cont_q->toMe()->approved()->directEmployee();
+                    else
+                        $cont_q->toMe()->approved()->hireLabor();
+
+                })->findOrFail($id);
+        } else{
+            $contract = ContractEmployee::whereHas('contract', function ($cont_q) {
+                if(Route::getCurrentRoute()->getcompiled()->getstaticPrefix()== '/direct_ishaar')
+                        $cont_q->byMe()->approved()->directEmployee();
+                    else
+                        $cont_q->byMe()->approved()->hireLabor();
+            })->findOrFail($id);
+        }
+
         $reasons  = Reason::where('parent_id',6)->get();
 
         return view('front.ishaar.show', compact('contract','reasons'));
-    }
-
-    /**
-     * change the status of specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function cancelIshaar($id)
-    {
-        $auth = ContractEmployee::has_permission_cancelIshaar($id);
-        if ($auth == '1') {
-            $ishaar = ContractEmployee::findOrFail($id);
-            if (!in_array($ishaar->status,
-                    ['cancelled', 'provider_cancel', 'benef_cancel'])) {
-                $ishaar->update(['status' => 'provider_cancel']);
-
-                return trans('ishaar_setup.cancelIshaar_success');
-            } else {
-                return response()->json(['error' => trans('ishaar_setup.cancelIshaar_refused')], 422);
-            }
-        } else {
-                return response()->json(['error' => trans('labels.not_authorized')], 422);
-        }
     }
 
     /**
@@ -274,7 +295,7 @@ class NoticesController extends Controller
                 return response()->json(['error' => trans('ishaar_setup.cancelIshaar_refused')],
                         422);
             }
-            
+
             return abort(401);
     }
 }

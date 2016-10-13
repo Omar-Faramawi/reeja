@@ -40,12 +40,14 @@ return [
         'taqyeem'              => 'التقييم',
         'laborer'              => 'اضافة عمالة الى سوق العمل',
         'hire_labor'           => 'تأجير العمالة',
-        'publish_cv'           => 'نشر سيرتي الذاتية',
+        'publish_cv'           => 'السيرة الذاتية',
         'taqawel_services'     => 'خدمات التقاول',
         'taqawel_requests'     => 'طلبات التقاول',
         'taqawel_notices'      => 'إشعارات التقاول',
         'receivedOffers'       => 'العروض المستلمة',
-        'packageSubscribe'       => 'الاشتراك في احد الباقات المدفوعة',
+        'packageSubscribe'     => 'الاشتراك في احد الباقات المدفوعة',
+        'contracts_and_notices'=> 'العقود والإشعارات',
+		'work_completion_cert' => 'إصدار شهادة إتمام العمل'
     ],
     'dashboard' => [
         'establishment'        => 'المنشأة',

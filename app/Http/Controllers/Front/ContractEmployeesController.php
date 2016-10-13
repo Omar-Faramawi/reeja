@@ -26,7 +26,7 @@ class ContractEmployeesController extends Controller
         if (request()->ajax()) {
 
             $query       = HRPool::with('region', 'nationality', 'job');
-            $total_count = $query->ByMe()->count();
+            $total_count = ($query->ByMe()->count()) ? $query->ByMe()->count() : 1;
             $columns     = request()->input('columns');
 
             $inputs = request()->only([
@@ -38,7 +38,7 @@ class ContractEmployeesController extends Controller
 
             foreach ($inputs as $key => $input) {
                 if (request()->input($key) != '') {
-                    $query = $query->where($key, $input);
+                    $query->where($key, $input);
                 }
             }
 
@@ -46,23 +46,11 @@ class ContractEmployeesController extends Controller
                 $query->where('name', 'LIKE', '%' . request()->input('name') . '%');
             }
 
-            if (request()->input('nationality') != '') {
-                $query = $query->where('nationality_id', request()->input('nationality'));
-            }
-
-            if (request()->input('gender') != '') {
-                $query = $query->where('gender', request()->input('gender'));
-            }
-
-            if (request()->input('religion') != '') {
-                $query = $query->where('religion', request()->input('religion'));
-            }
-
             if ($age = request()->input('age') != '') {
                 $to   = Carbon::now()->subYears($age);
                 $from = Carbon::now()->subYears($age)->startOfYear();
 
-                $query = $query->whereBetween('birth_date', [$from, $to]);
+                $query->whereBetween('birth_date', [$from, $to]);
             }
 
             $buttons = [
@@ -76,6 +64,60 @@ class ContractEmployeesController extends Controller
             return dynamicAjaxPaginate($query, $columns, $total_count, $buttons, true);
         }
     }
+
+
+    /**
+     * @return mixed
+     *
+     */
+    public function contractEmployees($contract_id)
+    {
+        if (request()->ajax()) {
+
+            $query       = HRPool::whereHas('contractEmployee', function($query) use ($contract_id){
+                $query->where('contract_id', '=', $contract_id);
+
+                if (request()->input('name') != '') {
+                    $query->where('name', 'LIKE', '%' . request()->input('name') . '%');
+                }
+
+                if (request()->input('nationality') != '') {
+                    $query->where('nationality_id', request()->input('nationality'));
+                }
+
+                if (request()->input('gender') != '' || request()->input('gender') === '0') {
+                    $query->where('gender', request()->input('gender'));
+                }
+
+                if (request()->input('religion') != '') {
+                    $query->where('religion', request()->input('religion'));
+                }
+
+                if ($age = request()->input('age') != '') {
+                    $to   = Carbon::now()->subYears($age);
+                    $from = Carbon::now()->subYears($age)->startOfYear();
+
+                    $query->whereBetween('birth_date', [$from, $to]);
+                }
+
+            });
+
+            $total_count = ($query->count()) ? $query->count() : 1;
+            $columns     = request()->input('columns');
+
+            $buttons = [
+                'view' => [
+                    'text' => trans('temp_job.add'),
+                    'css_class' => 'blue select_emp',
+                    'url' => '#'
+                ]
+            ];
+
+            return dynamicAjaxPaginate($query, $columns, $total_count, $buttons, true);
+        }
+    }
+
+
 
 
 }

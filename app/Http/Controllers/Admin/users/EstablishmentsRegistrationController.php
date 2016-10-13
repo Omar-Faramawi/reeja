@@ -174,7 +174,7 @@ class EstablishmentsRegistrationController extends Controller
         $id_number        = $request->input('id_number');
         $labour_office_no = $request->input('labour_office_no');
         $sequence_no      = $request->input('sequence_no');
-        $establishment    = $mol->findEstablishmentByNumber($labour_office_no, $sequence_no);
+        $establishment    = $mol->findEstablishmentByOwner($id_number, $labour_office_no, $sequence_no);
         $return_arr       = ['status' => false];
         if ($establishment) {
             $return_arr['status'] = true;

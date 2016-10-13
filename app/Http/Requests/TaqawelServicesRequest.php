@@ -15,7 +15,7 @@ class TaqawelServicesRequest extends Request
     {
         return true;
     }
-
+    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,27 +23,12 @@ class TaqawelServicesRequest extends Request
      */
     public function rules()
     {
-        if (Request::get('status') == 0) {
-            return [];
-        } else {
-            if(Request::get('service_type') == 'other'){
-               return [
-                    'status'          => 'numeric',
-                    'new_service'     => 'required',
-                    'description'     => 'min:3',
-                ];
-
-            }else{
-            
-                return [
-                    'service_type'    => 'required',
-                    'status'          => 'numeric',
-                    'description'     => 'min:3',
-                ];
-            }
-            }
+        return [
+            'contract_nature_id' => 'required|required_if:new_service,null|'.$this->determineRule(Request::get('contract_nature_id')),
+            'new_service'        => 'required_if:contract_nature_id,other',
+            'description'        => 'min:3',
+        ];
     }
-       
     
     /**
      * Get custom attributes for validator errors.
@@ -53,10 +38,38 @@ class TaqawelServicesRequest extends Request
     public function attributes()
     {
         return [
-            'service_type'       => trans('taqawoul.form_attributes.service_type'),
+            'contract_nature_id' => trans('taqawoul.form_attributes.service_type'),
             'description'        => trans('taqawoul.form_attributes.service_description'),
-            'new_service'          => trans('taqawoul.form_attributes.other'),
-            
+            'new_service'        => trans('taqawoul.form_attributes.other'),
         ];
     }
+
+
+    /**
+     * Get Custom Messages for validation errors .
+     * 
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'new_service.required_if' => trans('taqawoul.form_attributes.othermsg'),
+        ];
+    }
+
+
+    /**
+     * check if contract nature id n't equal other we must check
+     * if exists in table or n't
+     * 
+     * @param contract_nature_id
+     *
+     * @return string
+     */
+    protected function determineRule($contract_nature_id)
+    {
+        return ($contract_nature_id == 'other') ? '' : 'exists:contract_nature,id';
+    }
+
+    
 }

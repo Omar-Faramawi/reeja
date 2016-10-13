@@ -40,12 +40,13 @@ return [
         'taqyeem'              => 'Rating',
         'laborer'              => 'Add Employee to work market',
         'hire_labor'           => 'Hire Labor',
-        'publish_cv'           => 'Publish my CV',
+        'publish_cv'           => 'CV',
         'taqawel_services'     => 'Taqawel Services',
         'taqawel_requests'     => 'Taqawel Requests',
         'taqawel_notices'      => 'Taqawel Notices',
-        'packageSubscribe'       => "Subscribe to paid bundle",
-
+        'packageSubscribe'     => "Subscribe to paid bundle",
+        'contracts_and_notices'=> 'Contracts and Notices',
+		'work_completion_cert' => 'Generate Work Completion Certificate'
     ],
     'dashboard' => [
         'establishment'        => 'Establishment',

@@ -34,5 +34,7 @@ return [
     "trailNotAvailable"                            => "you can't select trail bundle for now",
     "trailActivated"                               => "Trail Bundle Activated",
     "invoiceDetails"                               => "You buy :ishaarNu with amount of  :billingAmount  bill number :account_no",
+    "shouldChoosePackage"                          => "Firstly , You Should Have only one Available Package .",
+    "shouldChooseContract"                          => "Firstly , You Should Choose One Contract To continue ."
 
 ];

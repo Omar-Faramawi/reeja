@@ -84,4 +84,16 @@ class Reason extends BaseModel
     {
         return $query->where('parent_id', 4);
     }
+
+    /**
+     * reasons for taqawel cancel
+     *
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeForTempWorkCancel($query)
+    {
+        return $query->where('parent_id', 3);
+    }
 }

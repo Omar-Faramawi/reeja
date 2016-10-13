@@ -1,5 +1,5 @@
 {!! Form::hidden('id', $contract->id) !!}
-{!! Form::hidden('status', $newStatus) !!}
+{!! Form::hidden('status', isset($newStatus) ? $newStatus : $status) !!}
 
 <div class="form-group form-md-line-input">
     {!! Form::select('reason_id', $reasons,  null, [ 'placeholder' => trans('labels.enter') . " " . trans($reasonLabel),'id' => 'select_reason', 'class' => 'form-control']) !!}

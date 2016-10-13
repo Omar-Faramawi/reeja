@@ -3,7 +3,6 @@
 namespace Tamkeen\Ajeer\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Temp Model For TaqyeemTemplateItems
@@ -13,13 +12,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Taqyeems extends BaseModel
 {
-    use SoftDeletes;
 
     protected $table = 'taqyeems';
-    protected $dates = ['deleted_at'];
 
     public function ratingModels()
     {
         return $this->belongsTo(RatingModels::class, "taqyeem_template_id");
+    }
+
+    public function taqyeemDtl()
+    {
+    	return $this->hasMany(TaqyeemDtl::class, "taqyeems_id");
     }
 }

@@ -351,21 +351,15 @@
                                                 <div class="row">
                                                     <div class="col-md-offset-1 col-md-9">
 
-                                                        <button type="submit" class="btn btn-primary" name="status"
-                                                                value="0"
-                                                                id="save_draft">{{trans('vacancies.buttons.save_draft')}}</button>
-
-                                                        <button type="submit" class="btn green" name="status" value="1"
+                                                        <button type="submit" class="btn green"
                                                                 data-loading-text="{{ trans('labels.loading') }}..."
                                                                 id="save_and_publish">{{trans('vacancies.buttons.save_and_publish')}}</button>
-
-                                                        <button type="reset" class="btn default"
-                                                                name="cancel">{{trans('vacancies.buttons.cancel')}}</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 {{form::close()}}
                             </section>
                         </div>

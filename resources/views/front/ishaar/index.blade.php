@@ -34,13 +34,25 @@
                                 <span class="caption-subject font-dark sbold uppercase">{{trans('ishaar_setup.headings.list')}}</span>
                             </div>
                         </div>
+                        @if($url == '/direct_ishaar')
+                        @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['saudi'])
                         <div class="col-md-2">
+
+                                <label for="service_type">{{ trans('temp_job.service_type') }}</label>
+                        </div>
+                        <div class="col-md-10">
+                                {{ Form::select('service_type', \Tamkeen\Ajeer\Utilities\Constants::directServiceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'taqawel-type-select', 'data-route' => url($url) , 'placeholder' => trans('labels.default')]) }}
+                        </div>
+                        @endif
+                        @else
+                         <div class="col-md-2">
 
                                 <label for="service_type">{{ trans('temp_job.service_type') }}</label>
                         </div>
                         <div class="col-md-10">
                                 {{ Form::select('service_type', \Tamkeen\Ajeer\Utilities\Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'taqawel-type-select', 'data-route' => url($url) , 'placeholder' => trans('labels.default')]) }}
                         </div>
+                        @endif
                         <div class="portlet-body">
                             <div class="table-container">
                                 <table class="table table-striped table-bordered table-hover table-checkable"
@@ -48,16 +60,19 @@
                                     <thead>
                                     <tr role="row" class="heading">
                                         <th id="id" width="5%"> {{trans('ishaar_setup.attributes.ishaar_number')}}</th>
-                                        <th id="contract.benf_name"
-                                            width="20%"> {{trans('ishaar_setup.attributes.ishaar_establishment_name')}}</th>
-                                        <th id="hr_pool.name" width="5%"> {{trans('ishaar_setup.attributes.name')}}</th>
-                                        <th id="hr_pool.id_number" width="20%"> {{trans('ishaar_setup.attributes.id_number')}}</th>
-                                        <th id="hr_pool.job.job_name" width="5%"> {{trans('ishaar_setup.attributes.job')}}</th>
+                                       @if(session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'])
+                                        <th id="contract.provider_name" class="no-sort" width="20%">@if($url == '/direct_ishaar'){{ trans('temp_job.job_owner') }} @else {{ trans('temp_job.benf_id') }} @endif</th>
+                                        @else
+                                        <th id="contract.benf_name" class="no-sort" width="20%">@if($url == '/direct_ishaar'){{ trans('temp_job.job_seeker') }} @else {{ trans('temp_job.provider_id') }} @endif</th>
+                                        @endif
+                                        <th id="hr_pool.name" class="no-sort" width="5%"> {{trans('ishaar_setup.attributes.name')}}</th>
+                                        <th id="hr_pool.id_number" class="no-sort" width="20%"> {{trans('ishaar_setup.attributes.id_number')}}</th>
+                                        <th id="hr_pool.job.job_name" class="no-sort" width="5%"> {{trans('ishaar_setup.attributes.job')}}</th>
                                         <th id="start_date"
                                             width="20%"> {{trans('ishaar_setup.attributes.ishaar_start_date')}}</th>
                                         <th id="end_date"
                                             width="20%"> {{trans('ishaar_setup.attributes.ishaar_end_date')}}</th>
-                                        <th id="translated_status"
+                                        <th id="translated_status" class="no-sort"
                                             width="10%"> {{trans('ishaar_setup.attributes.ishaar_status')}}</th>
                                         <th id="details" class="no-sort"
                                             width="20%"> {{trans('ishaar_setup.attributes.details')}}</th>
@@ -111,7 +126,8 @@
                         </div>
                     </div>
                     <!-- End: list -->
-@if(session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'])
+                    
+                    @if(session()->get('service_type') ===$can_generate_ishaar)
                     <!-- Begin: Add Emplyee Contract -->
                     <div class="portlet light portlet-fit portlet-datatable ">
                         <div class="portlet-title">

@@ -23,24 +23,24 @@
 
                                 <div class="form-body">
 
-                                    @if(!$canCancel)
+                                    @if(isset($canCancel) && !$canCancel)
                                         <div class="alert alert-info">
                                             {{ trans('contracts.can_delete') }}
                                         </div>
                                     @endif
                                     <div class="form-group form-md-line-input">
                                         <p>{{ trans('temp_job.service_provider_name') }}</p>
-                                        <p><i>{{ $username  }}</i></p>
+                                        <p><i>{{ $contract->provider_name  }}</i></p>
                                     </div>
 
                                     <div class="form-group form-md-line-input">
                                         <p>{{ trans('temp_job.service_provider_number') }}</p>
-                                        <p><i>{{ $userId }}</i></p>
+                                        <p><i>{{ $contract->provider_id }}</i></p>
                                     </div>
 
                                     <div class="form-group form-md-line-input">
                                         <p>{{ trans('temp_job.service_benf_name') }}</p>
-                                        <p><i>{{ $benfName }}</i></p>
+                                        <p><i>{{ $contract->benf_name }}</i></p>
                                     </div>
 
                                     <div class="form-group form-md-line-input">
@@ -51,7 +51,7 @@
                                     <div class="caption">
                                         <h5>{{ trans('temp_job.application_info') }}</h5><br>
                                     </div>
-
+                                    @if(isset($contract->vacancy))
                                     <div class="form-group form-md-line-input">
                                         <p>{{ trans('temp_job.job_id') }}</p>
                                         <p><i>{{ @$contract->vacancy->job->job_name }}</i></p>
@@ -65,53 +65,56 @@
                                     <div class="form-group form-md-line-input">
                                         <p>{{ trans('temp_job.gender.name') }}</p>
                                         <p>
-                                            <i>{{ \Tamkeen\Ajeer\Utilities\Constants::GENDER($contract->vacancy->gender) }}</i>
+                                            <i>{{ $contract->vacancy->gender_name or '' }}</i>
                                         </p>
                                     </div>
 
                                     <div class="form-group form-md-line-input">
                                         <p>{{ trans('temp_job.religion_id') }}</p>
                                         <p>
-                                            <i>{{ \Tamkeen\Ajeer\Utilities\Constants::RELIGIONS($contract->vacancy->religion) }}</i>
+                                            <i>{{ $contract->vacancy->religion_name or '' }}</i>
                                         </p>
-                                    </div>
-
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('temp_job.work_start_date') }}</p>
-                                        <p><i>{{ $contract->vacancy->work_start_date }}</i></p>
-                                    </div>
-
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('temp_job.work_end_date') }}</p>
-                                        <p><i>{{ $contract->vacancy->work_end_date }}</i></p>
                                     </div>
 
                                     <div class="form-group form-md-line-input">
                                         <p>{{ trans('temp_job.job_type.name') }}</p>
                                         <p>
-                                            <i>{{ \Tamkeen\Ajeer\Utilities\Constants::JOBTYPES($contract->vacancy->job_type)  }}</i>
+                                            <i>{{ $contract->vacancy->job_type_text or '' }}</i>
                                         </p>
                                     </div>
+                                    @endif
 
+                                    <div class="form-group form-md-line-input">
+                                        <p>{{ trans('temp_job.work_start_date') }}</p>
+                                        <p><i>{{ $contract->start_date }}</i></p>
+                                    </div>
+
+                                    <div class="form-group form-md-line-input">
+                                        <p>{{ trans('temp_job.work_end_date') }}</p>
+                                        <p><i>{{ $contract->end_date }}</i></p>
+                                    </div>
                                 </div>
                             </div>
 
                         </div>
 
-                        @if($canCancel)
+                        <div class="text-align-left col-md-12">
 
-                            <div class="text-align-left col-md-12">
-
+                            @if($contract->status == 'requested')
+                                <div class="text-align-left col-md-12">
+                                    <button type="button" class="btn btn-primary btn-danger btn-lg" data-toggle="modal" data-target="#myModal">{{ trans('temp_job.refuse') }}</button>
+                                    @include('components.modal', ['id' => 'myModal', 'title' => trans('contracts.cancel_reason'), 'content' => 'front.contracts.partials.change-status', 'route' => 'contracts.update_status', 'dataUrl' => route('received-contracts.view') ])
+                                </div>
+                            @elseif($canCancel)
                                 <button type="button" class="btn btn-primary btn-danger btn-lg" data-toggle="modal"
                                         data-target="#myModal">
                                     {{ trans('contracts.reset') }}
                                 </button>
+                                @include('components.modal', ['id' => 'myModal', 'title' => trans('contracts.reason'), 'content' => 'front.contracts.partials.cancel', 'route' => 'contracts.update_status', 'dataUrl' => route('tempwork.contracts') ])
+                            @endif
+                        </div>
+                        <br><br>
 
-                                @include('components.modal', ['id' => 'myModal', 'title' => trans('contracts.cancel_reason'), 'content' => 'front.contracts.partials.cancel', 'route' => 'contracts.update_status', 'dataUrl' => route('contracts.index') ])
-                            </div>
-                            <br><br>
-
-                        @endif
                     </div>
                 </div>
             </div>

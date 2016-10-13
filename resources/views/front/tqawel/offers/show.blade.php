@@ -1,5 +1,5 @@
 @extends('front.layout')
-@section('title', trans('user.home'))
+@section('title', trans('tqaweloffers.offerDetails'))
 @section("content")
     <div class="page-content">
         <div class="container">
@@ -165,8 +165,7 @@
                                     {{Form::open(['url' => url('/taqawel/offers/accept/' . $thisContract['id']), 'data-url'=>url('/taqawel/offers/' . $thisContract['id']), 'id'=>'acceptform',"method"=>"PUT","role"=>"form"])}}
                                     <div class="row static-info">
                                         <div class="col-lg-3">{{trans("tqaweloffers.offerValideTo")}}</div>
-                                        <div class="col-lg-2">{{$dateEnded}}</div>
-                                        <div class="col-lg-7">{{trans("tqaweloffers.offerValideToDescrition")}}</div>
+                                        <div class="col-lg-9">{{$dateEnded}}</div>
                                     </div>
                                     @if ($thisContract['contract_file'])
 

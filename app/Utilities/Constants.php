@@ -30,10 +30,10 @@ final class Constants
      * cons user types
      */
     const USERTYPES = [
-        'admin' => '1',
-        'gov' => '2',
-        'est' => '3',
-        'saudi' => '4',
+        'admin'      => '1',
+        'gov'        => '2',
+        'est'        => '3',
+        'saudi'      => '4',
         'job_seeker' => '5',
     ];
 
@@ -42,7 +42,15 @@ final class Constants
      */
     const SERVICETYPES = [
         'provider' => '1',
-        'benf' => '2',
+        'benf'     => '2',
+    ];
+
+    /**
+     * const direct hiring service types
+     */
+    const DIRECTSERVICETYPES = [
+        'job_seeker' => '1',
+        'job_owner'     => '2',
     ];
 
 
@@ -51,16 +59,16 @@ final class Constants
      */
     const GENDER = [
         'female' => '0',
-        'male' => '1',
+        'male'   => '1',
     ];
 
     /**
      * const religions
      */
     const RELIGION = [
-        'muslim' => '1',
+        'muslim'     => '1',
         'non_muslim' => '2',
-        'na' => '3',
+        'na'         => '3',
     ];
 
     /**
@@ -68,23 +76,23 @@ final class Constants
      */
     const JOBTYPES = [
         'no_salary' => '0',
-        'salary' => '1',
+        'salary'    => '1',
     ];
     /*
      * cons period types
      */
     const PERIODTYPES = [
-        'day' => '1',
+        'day'   => '1',
         'month' => '2',
-        'year' => '3'
+        'year'  => '3'
     ];
     /*
      * Establishment Statuses
      */
     const EST_STATUS = [
-        'pending' => '0',
-        'approved' => '1',
-        'rejected' => '2',
+        'pending'       => '0',
+        'approved'      => '1',
+        'rejected'      => '2',
         'hajj_approved' => '3',
         'catt_approved' => '4',
     ];
@@ -111,12 +119,12 @@ final class Constants
     ];
 
     const CONTRACT_STATUSES_MAP = [
-        'pending_acc'              => [
+        'pending'                  => [
             '1' => ['edit_offer', 'cancel_offer'],
             '2' => ['view_offer'],
 
         ],
-        'pending'                  => [
+        'requested'                => [
             '1' => ['send_offer', 'reject_request'],
             '2' => ['details'],
 
@@ -179,8 +187,18 @@ final class Constants
     ];
     const INVOICE_STATUS = [
         'pending' => '0',
-        'paid' => '1',
+        'paid'    => '1',
         'expired' => '2',
+    ];
+
+    /*
+     * Invoice Types
+     */
+    const INVOICE_TYPES = [
+        'bundle'                     => '1',
+        'certificate'                => '2',
+        'contract_hire_labor'        => '3',
+        'contract_direct_employee'   => '4',
     ];
 
     /**
@@ -271,6 +289,16 @@ final class Constants
     /**
      * @return mixed
      *
+     * Get type of the direct hiring service either job seeker or job_owner
+     */
+    private static function directServiceTypes()
+    {
+        return array_flip(self::DIRECTSERVICETYPES);
+    }
+
+    /**
+     * @return mixed
+     *
      * Get list of contract statuses
      */
     private static function contract_statuses()
@@ -289,12 +317,32 @@ final class Constants
     }
 
     /**
+     * @return mixed
+     *
+     * Get The Invoice Types
+     */
+    private static function invoiceTypes()
+    {
+        return array_flip(self::INVOICE_TYPES);
+    }
+
+    /**
+     * @return mixed
+     *
+     * Get The Invoice Status
+     */
+    private static function invoiceStatues()
+    {
+        return array_flip(self::INVOICE_STATUS);
+    }
+
+    /**
      * @param $name
      * @param $arguments
      *
      * @return string
      * you get a list of any dropdown translated
-     * if you want to get specfic value just pass the key
+     * if you want to get specific value, just pass the key
      *
      * Example:
      * Constants::religions();
@@ -321,12 +369,12 @@ final class Constants
             if (count($values) === 1) {
                 $value = Arr::flatten($values);
 
-                return trans($file.'.'.$value[0]);
+                return trans($file . '.' . $value[0]);
             }
         }
 
         $translatedValues = array_map(function ($value) use ($file) {
-            return trans($file.'.'.$value);
+            return trans($file . '.' . $value);
         }, $values);
 
         return $translatedValues;

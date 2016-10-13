@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Tamkeen\Ajeer\Utilities\Constants;
 
 /**
  * Class Invoice
@@ -63,8 +64,17 @@ class Invoice extends BaseModel
         'provider_type',
         'provider_id',
     ];
-    
-    
+
+    /**
+     * Appends attributes.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'status_name',
+        'trans_invoice_type',
+    ];
+
     /**
      * @return bool
      */
@@ -101,7 +111,7 @@ class Invoice extends BaseModel
     
     public function scopePaid(Builder $query)
     {
-        return $query->where('status', static::STATUS_PENDING);
+        return $query->where('status', static::STATUS_PAID);
     }
     
     public function scopePending(Builder $query)
@@ -144,5 +154,35 @@ class Invoice extends BaseModel
             'status'    => self::STATUS_PAID,
             'paid_date' => Carbon::now(),
         ]);
+    }
+
+    public function scopeNotExpired(Builder $query)
+    {
+        return $query->where('expiry_date', '>', Carbon::now());
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function certificates()
+    {
+        return $this->hasMany(ContractCertificate::class, "invoice_id");
+    }
+
+    public function getStatusNameAttribute()
+    {
+        if (is_null($this->status)) {
+            return '';
+        }
+
+        return Constants::invoiceStatues(['file' => 'invoices.statuses'], $this->status);
+    }
+    public function getTransInvoiceTypeAttribute()
+    {
+        if (is_null($this->invoice_type)) {
+            return '';
+        }
+
+        return Constants::invoiceTypes(['file' => 'invoices.types'], $this->invoice_type);
     }
 }

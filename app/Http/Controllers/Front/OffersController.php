@@ -25,8 +25,8 @@ class OffersController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $contracts = new Contract();
-            $data = Contract::toMe()->hireLabor()->with([
+
+            $data = Contract::toMe()->pending()->hireLabor()->with([
                 'vacancy' => function ($v_q) {
                     $v_q->with(['job', 'region']);
                 },
@@ -34,18 +34,20 @@ class OffersController extends Controller
             $total_count = ($data->count()) ? $data->count() : 1;
 
             $columns = request()->input('columns');
-            $data = $data->whereHas('vacancy', function ($q) {
-                if (request()->input('job_name')) {
-                    $q->whereHas('job', function ($job_q) {
-                        $job_q->where('job_name', 'LIKE', '%' . request()->input('job_name') . '%');
-                    });
-                }
-                if (request()->input('region_name')) {
-                    $q->whereHas('region', function ($reg_q) {
-                        $reg_q->where('name', 'LIKE', '%' . request()->input('region_name') . '%');
-                    });
-                }
-            });
+            if (request()->input('job_name') || request()->input('region_name')) {
+                $data = $data->whereHas('vacancy', function ($q) {
+                    if (request()->input('job_name')) {
+                        $q->whereHas('job', function ($job_q) {
+                            $job_q->where('job_name', 'LIKE', '%' . request()->input('job_name') . '%');
+                        });
+                    }
+                    if (request()->input('region_name')) {
+                        $q->whereHas('region', function ($reg_q) {
+                            $reg_q->where('name', 'LIKE', '%' . request()->input('region_name') . '%');
+                        });
+                    }
+                });
+            }
             if (request()->input('provider_name')) {
 
                 $data = $data->where(function ($provider_q) {
@@ -113,27 +115,24 @@ class OffersController extends Controller
      */
     public function show($id)
     {
-
-        $contract = new  Contract();
-//        $thisContract = $contract->findOrFail($id)->toMe()->hireLabor()
-        $thisContract = $contract->with([
-            'contractEmployee' => function ($v_q) {
-                $v_q->with([
-                    'hrPool' => function ($hr_q) {
-                        $hr_q->with(["job", "region", "nationality"]);
-                    }
-                ]);
-            }
-        ]);
-        $thisContract = $thisContract->find($id)->load(['provider', 'benef']);
+        $thisContract = Contract::toMe()->hireLabor()
+            ->with([
+                'contractEmployee' => function ($v_q) {
+                    $v_q->with([
+                        'hrPool' => function ($hr_q) {
+                            $hr_q->with(["job", "region", "nationality"]);
+                        }
+                    ]);
+                }
+            ])
+            ->findOrFail($id);
         $dateEnded = getDiffPeriodDay($thisContract->created_at,
             $thisContract->contractType->setup->max_accept_period,
             $thisContract->contractType->setup->max_accept_period_type);
-        if (Carbon::now() < $dateEnded) {
+        if (Carbon::now()->format("Y-m-d") <= $dateEnded) {
             $canAccept = true;
         }
         $thisContract = $thisContract->toArray();
-        //dd($thisContract);
 
         return view("front.offers.show", compact("thisContract", "dateEnded", "canAccept"));
     }
@@ -258,54 +257,54 @@ class OffersController extends Controller
                 },
             ])
             ->findOrFail($id);
-        if (!is_object($thisContract)) {
-            return response()->json(['error' => trans('offers.cannotaccept')], 422);
-        }
+
         /*
          * check if offer is still available or not
          */
         $dateEnded = getDiffPeriodDay($thisContract->created_at,
             $thisContract->contractType->setup->max_accept_period,
             $thisContract->contractType->setup->max_accept_period_type);
-        if (Carbon::now() > $dateEnded) {
+        if (Carbon::now()->format("Y-m-d") > $dateEnded) {
             return response()->json(['error' => trans('offers.cannotaccept')], 422);
         }
 
-        //TODO: CHECK ON EMPLOYESS COUNT
+        if (isset($thisContract->vacancy)) {
+            //TODO: CHECK ON EMPLOYESS COUNT
 
-        /*
-         * get all Available vacancies
-         */
-        $allVacancies = $thisContract->vacancy->no_of_vacancies;
-        /*
-         * get this contract employees
-         */
-        $thisContractEmployee = $thisContract->contractEmployee->count();
-        /*
-         * get vacancy approved contracts
-         */
-        $vacancy = new Vacancy();
-        $newVacancy = $vacancy
-            ->with([
-                "contract" => function ($v_q) {
-                    $v_q->approved();
-                }
-            ])->find($thisContract->vacancy->id);
-        $contracts = $newVacancy->contract;
+            /*
+             * get all Available vacancies
+             */
+            $allVacancies = $thisContract->vacancy->no_of_vacancies;
+            /*
+             * get this contract employees
+             */
+            $thisContractEmployee = $thisContract->contractEmployee->count();
+            /*
+             * get vacancy approved contracts
+             */
+            $vacancy = new Vacancy();
+            $newVacancy = $vacancy
+                ->with([
+                    "contract" => function ($v_q) {
+                        $v_q->approved();
+                    }
+                ])->find($thisContract->vacancy->id);
+            $contracts = $newVacancy->contract;
 
-        /*
-         * Count vacancy approved contract employees
-         */
-        $contractEmployee = 0;
-        foreach ($contracts as $contract) {
-            $contractEmployee += $contract->contractEmployee->count();
-        }
-        /*
-         * check if there yet available vacancies
-         * if no return error
-         */
-        if ($allVacancies < ($contractEmployee + $thisContractEmployee)) {
-            return response()->json(['error' => trans("offers.vacanciesexceeded")], 422);
+            /*
+             * Count vacancy approved contract employees
+             */
+            $contractEmployee = 0;
+            foreach ($contracts as $contract) {
+                $contractEmployee += $contract->contractEmployee->count();
+            }
+            /*
+             * check if there yet available vacancies
+             * if no return error
+             */
+            if ($allVacancies < ($contractEmployee + $thisContractEmployee)) {
+                return response()->json(['error' => trans("offers.vacanciesexceeded")], 422);
+            }
         }
 
         /*

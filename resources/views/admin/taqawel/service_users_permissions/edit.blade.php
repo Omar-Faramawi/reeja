@@ -231,10 +231,9 @@
                                             @foreach($activities as $key => $act)
                                                 <tr class="gov_activity">
                                                     {!! Form::hidden('gover_activities['.$key.'][activity_id]', $act['id']) !!}
-                                                    <td>{!! Form::checkbox('gover_activities['.$key.'][activity_id]', $act['id'],  in_array($act['id'], array_column($estServ->goverActivities->toArray(), 'activity_id')) ? 1 : 0 ) !!}</td>
+                                                    <td>{!! Form::checkbox('gover_activities['.$key.'][service_users_permission_id]',1,(empty($act['governments'])?false:true)) !!}</td>
                                                     <td>{{$act['name']}}</td>
-                                                    {!! Form::hidden('gover_activities['.$key.'][service_users_permission_id]', 1) !!}
-                                                    {!! Form::hidden('gover_activities['.$key.'][checked]', 1, ['class' => 'act_checked']) !!}
+                                                    
                                                 </tr>
                                             @endforeach
                                             </tbody>

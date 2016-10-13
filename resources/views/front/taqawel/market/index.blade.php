@@ -54,12 +54,12 @@
                            <thead>
                               <tr role="row" class="heading">
                                  <th id="id" width="10%"> {{ trans('taqawel_market.id') }}</th>
-                                 <th id="providername" width="200">{{ trans('taqawel_market.provider_name') }} </th>
-                                 <th id="contract_nature.name" width="200"> {{ trans('taqawel_market.service_type') }}</th>
-                                 <th id="responsible_email" width="200">{{ trans('taqawel_market.email') }}</th>
-                                 <th id="responsible_mobile" width="200">{{ trans('taqawel_market.phone') }}</th>
-                                 <th id="description" width="200">{{ trans('taqawel_market.description') }}</th>
-                                 <th id="service_details" data-> {{ trans('labels.details') }}</th>
+                                 <th class="no-sort" id="providername" width="200">{{ trans('taqawel_market.provider_name') }} </th>
+                                 <th class="no-sort" id="contract_nature.name" width="200"> {{ trans('taqawel_market.service_type') }}</th>
+                                 <th class="no-sort" id="responsible_email" width="200">{{ trans('taqawel_market.email') }}</th>
+                                 <th class="no-sort" id="responsible_mobile" width="200">{{ trans('taqawel_market.phone') }}</th>
+                                 <th class="no-sort" id="description" width="200">{{ trans('taqawel_market.description') }}</th>
+                                 <th class="no-sort" id="service_details" data-> {{ trans('labels.details') }}</th>
                               </tr>
                               <tr role="row" class="filter">
                                  <td>

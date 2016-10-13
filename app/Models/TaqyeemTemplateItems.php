@@ -13,10 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TaqyeemTemplateItems extends BaseModel
 {
-    use SoftDeletes;
 
     protected $table = 'taqyeem_template_items';
-    protected $dates = ['deleted_at'];
 
     public function ratingModels()
     {

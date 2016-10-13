@@ -23,6 +23,11 @@ class Authenticate
             } else {
                 return redirect()->guest('login');
             }
+        } elseif(Auth::user()->user_type_id == '1') {
+            session()->forget('selected_establishment');
+            session()->flush();
+
+            return redirect('login');
         }
 
         return $next($request);

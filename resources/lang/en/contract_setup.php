@@ -51,4 +51,7 @@ return [
     'additional_options'         => 'Additional options related to seasonal direct employment contractscontracts:',
     'ishaar_cancel_acc'          => 'Ishaar cancellation requires acceptance of',
     'ownership_att_time'         => 'Ownership attraction time',
+    'add_invoice_success'        => 'Invoice Successfully Generated , Invoice Number:number , Invoice Amount:amount ',
+    'generate_description'       => 'Generate Contracts Certificates for :number counts',
+    'cant_add_invoice'           => 'Sorry, you have an unpaid invoice for this contract, please check your invoices',
 ];

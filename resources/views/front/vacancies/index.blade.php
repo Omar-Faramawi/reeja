@@ -39,11 +39,11 @@
                         </div>
                         <div class="portlet-body">
                             <div class="table-container">
-                                <table class="table table-striped table-bordered table-hover table-checkable"
+                                <table class="table table-striped table-bordered table-hover"
                                        id="datatable_ajax">
                                     <thead>
                                     <tr role="row" class="heading">
-                                        <th id="id">#</th>
+                                        <th id="id" width="8%">#</th>
                                         <th id='job.job_name' class="no-sort">{{ trans('vacancies.list_attributes.job') }}</th>
                                         <th id='region.name'
                                             class="no-sort">{{ trans('vacancies.list_attributes.work_area') }}</th>

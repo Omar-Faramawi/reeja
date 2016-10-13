@@ -19,8 +19,18 @@ class TaqyeemDtl extends BaseModel
     protected $table = 'taqyeem_dtl';
     protected $dates = ['deleted_at'];
 
-    public function ratingModels()
+    public function taqyeemsTemplateItems()
     {
-        return $this->belongsTo(RatingModels::class, "taqyeem_template_item_id");
+        return $this->belongsTo(TaqyeemTemplateItems::class, "taqyeem_template_item_id");
+    }
+
+    public function degrees()
+    {
+    	return $this->belongsTo(TaqyeemDegrees::class, "degrees_id");
+    }
+
+    public function taqyeems()
+    {
+    	return $this->belongsTo(Taqyeems::class, "taqyeems_id");
     }
 }

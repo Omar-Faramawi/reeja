@@ -58,4 +58,12 @@ class ContractType extends BaseModel
     {
         return $this->hasMany(Contract::class, 'contract_type_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function permissionServiceEnviroment()
+    {
+        return $this->hasMany(PermissionServiceEnviroment::class, 'contract_type_id');
+    }
 }

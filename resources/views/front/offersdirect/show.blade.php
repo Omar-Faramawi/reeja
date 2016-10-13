@@ -31,14 +31,16 @@
                                                     {{$thisContract['benf_name']}}
                                                 </div>
                                             </div>
+											@if(isset($thisContract['benef']['est_activity']))
                                             <div class="row static-info">
                                                 <div class="col-md-3 name">
                                                     {{trans("offersdirect.providerType")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['benef']['est_activity'] or "person"}}
+                                                    {{$thisContract['benef']['est_activity']}}
                                                 </div>
                                             </div>
+											@endif
                                         </div>
                                     </div>
 
@@ -167,8 +169,7 @@
                                     {{Form::open(['url' => url('/offersdirect/accept/' . $thisContract['id']), 'data-url'=>url('/offersdirect/' . $thisContract['id']), 'id'=>'acceptform',"method"=>"PUT","role"=>"form"])}}
                                     <div class="row static-info">
                                         <div class="col-lg-3">{{trans("offersdirect.offerValideTo")}}</div>
-                                        <div class="col-lg-2">{{$dateEnded}}</div>
-                                        <div class="col-lg-7">{{trans("offersdirect.offerValideToDescrition")}}</div>
+                                        <div class="col-lg-9">{{$dateEnded}}</div>
                                     </div>
                                     <div class="row static-info">
                                         <div class="col-lg-3">{{trans("offersdirect.qualifications")}}</div>

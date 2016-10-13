@@ -142,7 +142,7 @@
                                             <div class="form-group last">
                                                 <label class="col-md-3 control-label">{{trans('vacancies.form_attributes.work_areas')}}</label>
                                                 <div class="col-md-4">
-                                                    <span class="form-control-static">@foreach($vacancy->locations as $cc){{$cc->location}} @endforeach </span>
+                                                    <span class="form-control-static">@foreach($vacancy->locations as $cc){{$cc->location}}<br> @endforeach </span>
                                                 </div>
                                             </div>
                                             <div class="form-actions">

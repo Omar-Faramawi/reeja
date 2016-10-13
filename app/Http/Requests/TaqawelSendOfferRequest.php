@@ -32,11 +32,11 @@ class TaqawelSendOfferRequest extends Request
                 'contract_desc'      => 'sometimes|min:2|max:225|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
                 'contract_amount'    => 'sometimes|integer|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
                 'start_date'         => 'sometimes|date|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
-                'end_date'           => 'sometimes|after:start_date|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
+                'end_date'           => 'sometimes|after:start_date|after:'.date('Y-m-d').'|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
                 'contract_ref_no'    => 'required_if:contract_type,1|integer|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
-                'desc_location.*'    => 'sometimes',
-                'file_contract'      => 'sometimes|mimes:jpeg,bmp,png,doc,docx|max:10000',
-                'status'             => 'required|in:pending,approved',
+                'desc_location.*'    => 'required|min:3',
+                'file_contract'      => 'sometimes|mimes:jpeg,bmp,png,doc,docx,pdf|max:20000',
+                'status'             => 'sometimes|required|in:pending,approved',
             ];
         } else {
             return [
@@ -44,11 +44,11 @@ class TaqawelSendOfferRequest extends Request
                 'contract_desc'      => 'required|min:2|max:225',
                 'contract_amount'    => 'required|integer',
                 'start_date'         => 'required|date',
-                'end_date'           => 'required|after:start_date',
+                'end_date'           => 'required|after:start_date|after:'.date('Y-m-d'),
                 'contract_ref_no'    => 'required_if:contract_type,1|integer',
                 'desc_location.*'    => 'required',
-                'file_contract'      => 'required|mimes:jpeg,bmp,png,doc,docx|max:10000',
-                'status'             => 'required|in:pending,approved',
+                'file_contract'      => 'required|mimes:jpeg,bmp,png,doc,docx,pdf|max:20000',
+                'status'             => 'sometimes|required|in:pending,approved',
             ];
         }
 

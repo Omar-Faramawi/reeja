@@ -34,4 +34,6 @@ return [
     "trailNotAvailable"                            => "لا يمكنك الاشتراك في الباقه التجريبية الان ",
     "trailActivated"                               => "تم تفعيل الباقة المجانية بنجاح",
     "invoiceDetails"                               => "لقد تم اختيار شراء :ishaarNu قيمة السداد :billingAmount رقم فاتورة السداد :account_no",
+    "shouldChoosePackage"                          => " يجب عليك الاشتراك فى أحد الباقات المتاحة أولا .",
+    "shouldChooseContract"                          => " يجب عليك اختيار عقد أولا ..",
 ];

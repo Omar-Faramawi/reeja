@@ -10,12 +10,13 @@
             </div>
             {!! Form::open(['id' => 'form', 'route' => $route, 'data-url' => $dataUrl ]) !!}
             <div class="modal-body form-body">
-                @include($content, ['status' => 'benef_cancel'])
+                @include($content)
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('labels.cancel') }}
                 </button>
-                <button type="submit" class="btn btn-primary">{{ trans('labels.save') }}</button>
+                <button type="submit" data-loading-text="{{ trans('labels.loading') }}..." class="demo-loading-btn btn blue">
+        <i class="fa fa-check"></i> {{ trans('labels.save') }} </button>
             </div>
             {!! Form::close() !!}
         </div>

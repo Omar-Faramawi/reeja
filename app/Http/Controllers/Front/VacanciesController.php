@@ -27,6 +27,9 @@ class VacanciesController extends Controller
             $vacancies   = Vacancy::byMe()->notSeasonal();
             $total_count = ($vacancies->count()) ? $vacancies->count() : 1;
             $columns     = request()->input('columns');
+            if (request()->input('id')) {
+                $vacancies = $vacancies->where('id', request()->input('id'));
+            }
             if (request()->input('job')) {
                 $vacancies = $vacancies->whereHas('job', function ($job_q) {
                     $job_q->where('job_name', 'LIKE', '%' . request()->input('job') . '%');
@@ -100,16 +103,16 @@ class VacanciesController extends Controller
         $data              = $request->only(array_keys($request->rules()));
         $data['benf_id']   = $benef_id;
         $data['benf_type'] = \Auth::user()->user_type_id;
+        $data['status']    = 1;
+        if (!$data['hide_salary']) {
+            $data['hide_salary'] = '0';
+        }
         $save              = Vacancy::create($data);
         if ($request->work_areas) {
-            $locations = explode(PHP_EOL, $request->work_areas);
-            //TODO: Using attach and sync
-            foreach ($locations as $location) {
-                $add               = new VacancyLocations;
-                $add->location     = $location;
-                $add->vacancies_id = $save->id;
-                $add->save();
-            }
+            $add               = new VacancyLocations;
+            $add->location     = $request->work_areas;
+            $add->vacancies_id = $save->id;
+            $add->save();
         }
 
         return trans('vacancies.success_data');
@@ -146,17 +149,10 @@ class VacanciesController extends Controller
         $data = $request->only(array_keys($request->rules()));
         $update = Vacancy::findOrFail($id)->update($data);
         if ($request->work_areas) {
-            $locations = explode(PHP_EOL, trim($request->work_areas));
-            VacancyLocations::where('vacancies_id', $id)->delete();
-            //TODO: Using attach and sync
-            foreach ($locations as $location) {
-                if (strlen(trim($location)) > 0) {
-                    $add = new VacancyLocations;
-                    $add->location = $location;
-                    $add->vacancies_id = $id;
-                    $add->save();
-                }
-            }
+            $add = new VacancyLocations;
+            $add->location = $request->work_areas;
+            $add->vacancies_id = $id;
+            $add->save();
         }
 
         return trans('vacancies.success_update');

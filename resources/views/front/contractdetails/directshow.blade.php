@@ -31,14 +31,16 @@
                                                     {{$thisContract['benf_name']}}
                                                 </div>
                                             </div>
+                                            @if(isset($thisContract['benef']['est_activity']))
                                             <div class="row static-info">
                                                 <div class="col-md-3 name">
                                                     {{trans("offersdirect.providerType")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['benef']['est_activity'] or "person"}}
+                                                    {{$thisContract['benef']['est_activity']}}
                                                 </div>
                                             </div>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -82,7 +84,7 @@
                                                     {{trans("offersdirect.job")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['job']['job_name']}}
+                                                    {{$thisContract['vacancy']['job']['job_name'] or $thisContract['contract_employee'][0]['hr_pool']['job']['job_name']}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -90,7 +92,7 @@
                                                     {{trans("offersdirect.nationality")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['nationality']['name']}}
+                                                    {{$thisContract['vacancy']['nationality']['name'] or $thisContract['contract_employee'][0]['hr_pool']['nationality']['name']}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -98,7 +100,7 @@
                                                     {{trans("offersdirect.gender")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['gender_name']}}
+                                                    {{$thisContract['vacancy']['gender_name'] or $thisContract['contract_employee'][0]['hr_pool']['gender_name']}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -106,7 +108,7 @@
                                                     {{trans("offersdirect.religion")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['religion_name']}}
+                                                    {{$thisContract['vacancy']['religion_name'] or $thisContract['contract_employee'][0]['hr_pool']['religion_name']}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -114,7 +116,7 @@
                                                     {{trans("offersdirect.workStartDate")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['work_start_date']}}
+                                                    {{$thisContract['start_date']}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -122,7 +124,7 @@
                                                     {{trans("offersdirect.workEndDate")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['work_end_date']}}
+                                                    {{$thisContract['end_date']}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -130,7 +132,7 @@
                                                     {{trans("offersdirect.region")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['region']['name']}}
+                                                    {{$thisContract['vacancy']['region']['name'] or $thisContract['contract_employee'][0]['hr_pool']['region']['name']}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -138,7 +140,7 @@
                                                     {{trans("offersdirect.jobtype")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['job_type_text']}}
+                                                    {{$thisContract['vacancy']['job_type_text'] or $thisContract['contract_employee'][0]['hr_pool']['job_type_name']}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -146,7 +148,7 @@
                                                     {{trans("offersdirect.salary")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['salary']}}
+                                                    {{$thisContract['contract_amount']}}
                                                 </div>
                                             </div>
                                             @if (is_array($thisContract['contract_locations']))
@@ -156,7 +158,7 @@
                                                             {{trans("offersdirect.workplaces")}}
                                                         </div>
                                                         <div class="col-md-9 value">
-                                                            {{$location['desc_location']}}
+                                                            {!! nl2br($location['desc_location']) !!}
                                                         </div>
                                                     </div>
                                                 @endforeach

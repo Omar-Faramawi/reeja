@@ -46,7 +46,7 @@ return [
     "saudi"                       => "سعودي",
     "admin"                       => "مدير النظام",
     "est"                         => "منشأة",
-    "gov"                         => "حكومة",
+    "gov"                         => "جهة حكومية",
     "home"                        => "الرئيسية",
     "job_seeker"                  => "باحث عن عمل",
     "max_arrived"                 => "غير مسموح لك بدخول هذه الصفحه",
@@ -59,6 +59,8 @@ return [
     ],
     "accept"                      => "تفعيل",
     "reject"                      => "ايقاف التفعيل",
+    "reject2"                     => "تعطيل",
+    "stopreject2"                 => "تم التعطيل",
     "activated"                   => "تم التفعيل ",
     "stopactivated"               => "تم ايقاف التفعيل ",
     "request_approve"             => "طلب التفعيل",
@@ -69,19 +71,19 @@ return [
         "no_data" => "لم يتم ادخال بيانات ",
     ],
     "saveAndAdd"                  => "حفظ و اضافة جديد",
-    
+
     "span_classes" => [
         ""  => "badge label-sm label-danger",
         "0" => "badge label-sm label-danger",
         "1" => "badge label-sm label-success",
     ],
-    
-    "menu"                => [
+
+    "menu"                       => [
         'ishaar_name'   => 'الاشعارات',
         'contract_name' => 'العقود',
         'taqeem_name'   => 'التقييم',
     ],
-    "pagination"          => [
+    "pagination"                 => [
         "search"        => "ابحث",
         "sProcessing"   => "جار التحميل .....",
         "sLengthMenu"   => " _MENU_ سجل ",
@@ -106,27 +108,27 @@ return [
             "sSortDescending" => " العرض التنازلي",
         ],
     ],
-    "customActionMessage" => "تم تحميل البيانات",
-    "gender"              => [
+    "customActionMessage"        => "تم تحميل البيانات",
+    "gender"                     => [
         "" => "",
         0  => "أنثى",
         1  => "ذكر",
     ],
-    'religion'            => [
+    'religion'                   => [
         '0' => 'غير مسلم',
         '1' => 'مسلم',
         '2' => 'غير محدد',
     ],
-    "view"                  => "مشاهده",
-    "number"                => "رقم",
-    "empty_record"          => "لا يوجد",
-    "choose"                => "اختر من القائمة",
-    "day"                   => "يوم",
-    "month"                 => "شهر",
-    "year"                  => "سنة",
-    "details"               => "التفاصيل",
-    'generate_invoice'      => 'إصدار فاتورة',
-    'ishaar_status'         => [
+    "view"                       => "مشاهده",
+    "number"                     => "رقم",
+    "empty_record"               => "لا يوجد",
+    "choose"                     => "اختر من القائمة",
+    "day"                        => "يوم",
+    "month"                      => "شهر",
+    "year"                       => "سنة",
+    "details"                    => "التفاصيل",
+    'generate_invoice'           => 'إصدار فاتورة',
+    'ishaar_status'              => [
         'pending'           => 'بانتظار الموافقة',
         'rejected'          => 'مرفوض',
         'pending_ownership' => 'بانتظار المسئول',
@@ -135,7 +137,8 @@ return [
         'benef_cancel'      => 'ملغى من قبل المستفيد',
         'provider_cancel'   => 'ملغى من قبل المزود',
     ],
-    'contractStatus'        => [
+    'contractStatus'             => [
+        'requested'         => 'طلب مرسل / مستلم',
         'pending'           => 'بانتظار الموافقة',
         'rejected'          => 'مرفوض',
         'pending_ownership' => 'بانتظار المسئول',
@@ -144,8 +147,10 @@ return [
         'benef_cancel'      => 'ملغى من قبل المستفيد',
         'provider_cancel'   => 'ملغى من قبل المزود',
     ],
-    "noneSelectedTextValue" => "اختر من فضلك",
-    'as_provider'         => 'كمقدم للخدمة',
-    'as_benf'             => 'كمستفيد من الخدمة',
-    "noneSelectedTextValueSmall" => "اختر"
+    "noneSelectedTextValue"      => "اختر من فضلك",
+    'as_provider'                => 'كمقدم للخدمة',
+    'as_benf'                    => 'كمستفيد من الخدمة',
+    "noneSelectedTextValueSmall" => "اختر",
+    'next'                       => 'التالي',
+    'missing_required_fields'    => 'يرجى إدخال الحقول المطلوبة',
 ];

@@ -34,7 +34,7 @@
                                 <span class="caption-subject font-dark sbold uppercase">{{trans('add_laborer.sub-headings')}}</span>
                             </div>
                             <div class="actions">
-                                <a class="btn btn-lg btn-circle green" data-toggle="modal"
+                                <a class="btn btn-lg green" data-toggle="modal"
                                    href="#basic">{{ trans('add_laborer.addnew') }}</a>
                                 <a class="btn btn-sm green" data-toggle="modal"
                                    href="#publish">{{ trans('add_laborer.publish-title') }}</a>
@@ -46,30 +46,25 @@
                                        id="datatable_ajax">
                                     <thead>
                                     <tr role="row" class="heading">
-                                        <th id="id" width="10%"> {{ trans('add_laborer.labels.id') }} #</th>
+                                      <th id='check' class="no-sort"></th>
                                         <th id="id_number" width="200">{{ trans('add_laborer.labels.idnumber') }}</th>
-                                        <th id='check' class="no-sort"></th>
                                         <th id="name" width="200"> {{ trans('add_laborer.labels.name') }}</th>
                                         <th id="nationality.name"
-                                            width="200"> {{ trans('add_laborer.labels.nationality') }}</th>
-                                        <th id="gender_name" width="200"> {{ trans('add_laborer.labels.gender') }}</th>
+                                            width="200" class="no-sort"> {{ trans('add_laborer.labels.nationality') }}</th>
+                                        <th id="gender_name" width="200" class="no-sort"> {{ trans('add_laborer.labels.gender') }}</th>
                                         <th id="job.job_name"
-                                            width="200"> {{ trans('add_laborer.labels.occupation') }}</th>
-                                        <th id="age" width="200"> {{ trans('add_laborer.labels.age') }}</th>
+                                            width="200" class="no-sort"> {{ trans('add_laborer.labels.occupation') }}</th>
+                                        <th id="age" width="200" class="no-sort"> {{ trans('add_laborer.labels.age') }}</th>
                                         <th id="religion_name"
-                                            width="200"> {{ trans('add_laborer.labels.religion') }}</th>
-                                        <th id="details"> {{ trans('labels.details') }}</th>
+                                            width="200" class="no-sort"> {{ trans('add_laborer.labels.religion') }}</th>
+                                        <th id="details" class="no-sort"> {{ trans('labels.details') }}</th>
                                     </tr>
                                     <tr role="row" class="filter">
-                                        <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
-                                        </td>
+                                      <td></td>
                                         <td>
                                             <input type="text" class="form-control form-filter input-sm"
                                                    name="id_number">
                                         </td>
-                                        <td></td>
                                         <td>
                                             <input type="text" class="form-control form-filter input-sm"
                                                    name="name">
@@ -79,11 +74,7 @@
                                                    name="nationality">
                                         </td>
                                         <td>
-                                            <select name="gender" class="form-control form-filter bs-select"
-                                                    placeholder='....'>
-                                                <option value="1">ذكر</option>
-                                                <option value="0">أنثى</option>
-                                            </select>
+                                            {{ Form::select('gender', \Tamkeen\Ajeer\Utilities\Constants::gender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                         </td>
                                         <td>
                                             <input type="text" class="form-control form-filter input-sm"
@@ -94,12 +85,7 @@
                                                    name="age">
                                         </td>
                                         <td>
-                                            <select name="religion" class="form-control bs-select form-filter"
-                                                    placeholder='...'>
-                                                <option value="1">{{ trans('labels.religion.1') }}</option>
-                                                <option value="0">{{ trans('labels.religion.0') }}</option>
-                                                <option value="2">{{ trans('labels.religion.2') }}</option>
-                                            </select>
+                                            {{ Form::select('religion', \Tamkeen\Ajeer\Utilities\Constants::religions() , '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                         </td>
                                         <td>
                                             <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
@@ -134,7 +120,7 @@
             <div class="modal-body form-body">
                 <div class="form-group form-md-line-input has-success form-md-floating-label">
                     <div class="input-icon">
-                        {{ Form::text('id_number', null, ['id'=>'id_number', 'autocomplete' => 'off','class'=>'form-control','required'=>'required']) }}
+                        {{ Form::text('id_number', null, ['id'=>'laborer_id_number', 'autocomplete' => 'off','class'=>'form-control','required'=>'required']) }}
                         <label for="form_control_1">{{ trans('add_laborer.labels.idnumber') }}</label>
                         <span class="help-block">{{trans('add_laborer.sub-headings')}}</span>
                         <i class="fa fa-user"></i>
@@ -195,7 +181,6 @@
                     <div class="col-md-12">
                         <table class="table table-bordered table-striped table-condensed flip-content" id='in-modal-table'>
                             <tr role="row" class="heading">
-                                <th id="id" width="10%"> {{ trans('add_laborer.labels.id') }}&nbsp;#</th>
                                 <th id='check' class="no-sort"></th>
                                 <th id="id_number" width="200">{{ trans('add_laborer.labels.idnumber') }}</th>
                                 <th id="name" width="200"> {{ trans('add_laborer.labels.name') }}</th>
@@ -205,7 +190,6 @@
                                 <th id="job.job_name" width="200"> {{ trans('add_laborer.labels.occupation') }}</th>
                                 <th id="age" width="200"> {{ trans('add_laborer.labels.age') }}</th>
                                 <th id="religion" width="200"> {{ trans('add_laborer.labels.religion') }}</th>
-                                <th id="details"> {{ trans('labels.details') }}</th>
                             </tr>
                             <tr></tr>
                         </table>

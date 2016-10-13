@@ -177,4 +177,9 @@ return [
     'already_added'               => 'This Employee Already AddedS..',
     'date_not_in_range'           => 'Sorry , Start & End Date Should Be In Contract Period  ..',
     'ask_cancel_ishaar_success'   => 'Your Request Sent Successfully',
+    'no_contractEmployee'         => 'Sorry , You Should Have Employees to Generate Your Invoice ',
+    'max_labor_times'             => 'Sorry , You Have Exceeded Tha Max Labor Times For Employee Number :id ',
+    'max_total_period_labor'      => 'Sorry , Your Employee Number:id  Has Exceeded Tha Max Total Period Labor ',
+    'max_ishaar_for_benf'         => 'Sorry , You Have Exceeded Tha Max Ishaar Number With This Benef Establishment',
+    'max_ishaar_for_benf_in_period'  => 'Sorry , You Have Exceeded Tha Max Ishaar Number With This Benef Establishment',
 ];

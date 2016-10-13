@@ -16,6 +16,8 @@ elixir(function (mix) {
     mix.copy('resources/assets/js/respond.min.js', 'public/assets/js/respond.min.js');
     mix.copy('resources/assets/js/excanvas.min.js', 'public/assets/js/excanvas.min.js');
     mix.copy('resources/assets/fonts', 'public/assets/fonts');
+    mix.copy('resources/assets/css/ltr/modal-large.css', 'public/assets/css/modal-large.css');
+    mix.copy('resources/assets/css/rtl/modal-large-rtl.css', 'public/assets/css/modal-large-rtl.css');
 
     mix.styles([
         'font-awesome.min.css',
@@ -43,7 +45,6 @@ elixir(function (mix) {
         'bootstrap-switch.min.css',
         'components-md.min.css',
         'plugins-md.min.css',
-        'datatables.min.css',
         'datatables.min.css',
         'layout3.min.css',
         'default3.min.css',
@@ -93,7 +94,6 @@ elixir(function (mix) {
         'bootstrap-switch-rtl.min.css',
         'components-md-rtl.min.css',
         'plugins-md-rtl.min.css',
-        'datatables.min.css',
         'datatables.min.css',
         'layout-rtl3.min.css',
         'default-rtl3.min.css',
@@ -190,6 +190,8 @@ elixir(function (mix) {
         'toastr.min.js',
         'bootstrap-fileinput.js',
         'bootstrap-select.min.js',
+        'select2.full.min.js',
+        'components-select2.js',
         'app.min.js',
         'layout.min.js',
         'custom.js',

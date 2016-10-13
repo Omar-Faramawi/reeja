@@ -82,7 +82,14 @@ interface MolDataRepository
      * @return Collection
      */
     public function fetchEstablishmentLaborers($establishmentId);
-
+    
+    /**
+     * @param int $establishmentId
+     *
+     * @return int
+     */
+    public function fetchEstablishmentLaborersCount($establishmentId);
+    
     /**
      * Get the laborer data.
      *

@@ -28,8 +28,7 @@
                 </p>
                 <div class="row">
                     <div class="col-lg-3">{{trans("offers.offerValideTo")}}</div>
-                    <div class="col-lg-2">{{$dateEnded}}</div>
-                    <div class="col-lg-7">{{trans("offers.offerValideToDescrition")}}</div>
+                    <div class="col-lg-9">{{$dateEnded}}</div>
                 </div>
                 <br>
                 <div class="row">

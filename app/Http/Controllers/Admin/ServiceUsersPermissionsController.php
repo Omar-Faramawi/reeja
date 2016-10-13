@@ -35,14 +35,13 @@ class ServiceUsersPermissionsController extends Controller
 
         $activities = Activity::orWhereHas('establishments', function ($q) use ($serUserPermId) {
             $q->where('service_users_permission_id', '=', $serUserPermId);
-        })->with([
+        })->with(['governments',
             'establishments' => function ($q) use ($serUserPermId) {
                 $q->where('service_users_permission_id', '=', $serUserPermId);
             }
         ])->get();
 
         $activities = $activities->toArray() + Activity::all()->toArray();
-
         return view('admin.taqawel.service_users_permissions.edit',
             compact('estServ', 'indvServ', 'activities', 'serUserPermId'));
     }
@@ -63,7 +62,6 @@ class ServiceUsersPermissionsController extends Controller
 
         // Government activities coming in the request
         $govReq = $request->get('gover_activities');
-
         // Checks if the activity permission exists in the DB, if so, it will be updated, if not, it will be created.
         foreach ($estReq as $value) {
             $est_record = EstablishmentPermissionActivity::firstOrNew([
@@ -79,27 +77,22 @@ class ServiceUsersPermissionsController extends Controller
                 $est_record->save();
             }
         }
-
         // Checks if the activity permission exists in the DB, if so, it will be updated, if not, it will be created.
         foreach ($govReq as $value) {
-            if ($value['checked'] == 0) {
-                $gres = GovernmentPermissionActivity::where(
-                    [
-                        'activity_id'                 => $value['activity_id'],
-                        'service_users_permission_id' => $value['service_users_permission_id'],
-                    ]
-                )->first();
-
+           if (array_key_exists('service_users_permission_id', $value)) {
+                $gres = GovernmentPermissionActivity::where('activity_id',$value['activity_id'])->first();
                 // Remove unchecked activities
                 if ($gres) {
-                    $gres->delete();
-                }
-            } else {
-                GovernmentPermissionActivity::firstOrCreate([
+                    $gres->update(['service_users_permission_id' => $value['service_users_permission_id']]);
+                }else{
+                    GovernmentPermissionActivity::Create([
                     'service_users_permission_id' => $value['service_users_permission_id'],
                     'activity_id'                 => $value['activity_id'],
                     'created_by'                  => auth()->id()
                 ]);
+                }
+            } else {
+                GovernmentPermissionActivity::where('activity_id',$value['activity_id'])->delete();
             }
         }
 

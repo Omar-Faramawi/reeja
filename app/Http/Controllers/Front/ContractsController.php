@@ -16,124 +16,34 @@ use Tamkeen\Ajeer\Models\ContractEmployee;
 use Tamkeen\Ajeer\Models\HRPool;
 use Tamkeen\Ajeer\Models\Reason;
 use Tamkeen\Ajeer\Models\Job;
+use Tamkeen\Ajeer\Models\Invoice;
+use Tamkeen\Ajeer\Models\ContractCertificate;
 use Tamkeen\Ajeer\Models\Nationality;
 use Tamkeen\Ajeer\Models\Region;
 use Tamkeen\Ajeer\Models\User;
 use Tamkeen\Ajeer\Utilities\Constants;
-
+use Tamkeen\Platform\Billing\Connectors\Connector;
+use Tamkeen\Ajeer\Models\ContractSetup;
+use Carbon\Carbon;
+use Tamkeen\Ajeer\Http\Requests\ContractCertificateRequest;
+use Illuminate\Support\Facades\Auth;
 /**
  * Class ContractsController
  * @package Tamkeen\Ajeer\Http\Controllers\Front
  */
 class ContractsController extends Controller
 {
-
-    /**
-     *
-     * Show the contracts here
-     */
-    public function index($contractTypeId = 3)
-    {
-        if (request()->ajax()) {
-            $query = Contract::byMe()->getByContractType($contractTypeId);
-
-            $total_count = $query->count();
-            $columns = request()->input('columns');
-
-
-            $buttons = [
-                'edit'    => [
-                    "text"      => trans("labels.edit"),
-                    "url"       => url($contractTypeId . "/contracts"),
-                    "col"       => "id",
-                    "uri"       => "edit",
-                    "css_class" => "blue",
-                ],
-                'cancel'  => [
-                    "text"      => trans("labels.cancel"),
-                    "url"       => url("/contracts"),
-                    "col"       => "id",
-                    "uri"       => "cancel",
-                    "css_class" => "red",
-                ],
-                'details' => [
-                    "text"      => trans("labels.details"),
-                    "url"       => url("/contracts"),
-                    "col"       => "id",
-                    "uri"       => "details",
-                    "css_class" => "white",
-                ],
-
-            ];
-
-            return dynamicAjaxPaginate($query, $columns, $total_count, $buttons);
-        }
-
-        return view('front.contracts.index', compact('contractTypeId'));
-    }
-
-    /**
-     * @param $id
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View Edit the resource
-     *
-     * Edit the resource
-     */
-    public function edit($contractTypeId = 3, $id)
-    {
-        $contract = Contract::byMe()->getByContractType($contractTypeId)
-            ->with('vacancy.job', 'vacancy.nationality', 'contractLocations')
-            ->findOrFail($id);
-
-        $jobs = Job::pluck('job_name', 'id')->toArray();
-        $nationalities = Nationality::pluck('name', 'id')->toArray();
-        $providers = User::pluck('name', 'id')->toArray();
-        $regions = Region::pluck('name', 'id')->toArray();
-
-        return view('front.contracts.edit', compact('contract', 'jobs', 'nationalities', 'providers', 'regions'));
-    }
-
-    /**
-     * @param ReceivedContractRequest $request
-     *
-     * @return string|\Symfony\Component\Translation\TranslatorInterface
-     */
-    public function update(ReceivedContractRequest $request, $id)
-    {
-
-        $vacancyData = $request->only(['start_date', 'end_date']);
-        $contractData = $request->only(['job_id', 'nationality_id', 'gender', 'job_type']);
-
-        try {
-            $contract = Contract::byMe()->findOrFail($id);
-
-            if (isset($request->region_id)) {
-                foreach ($request->region_id as $region) {
-                    $contract->contractLocations()->updateOrCreate([
-                        'branch_id' => session()->get('selected_establishment.id'),
-                        'region_id' => $region,
-                    ]);
-                }
-            }
-
-            $contract->update($vacancyData);
-            $contract->vacancy()->update($contractData);
-
-        } catch (ModelNotFoundException $exception) {
-            abort(404);
-        }
-
-        return trans('contracts.updated');
-    }
-
-
     public function benfCancel($id)
     {
         list($userId, $username) = getCurrentUserNameAndId();
 
         try {
-            $contract = Contract::byMe()->with('vacancy.job', 'vacancy.nationality')->findOrFail($id);
-            $reasons = Reason::pluck('reason', 'id')->reverse()->toArray();
+            if (session()->get('service_type') == Constants::SERVICETYPES['benf']) {
+                $contract = Contract::toMe()->with('vacancy.job', 'vacancy.nationality')->findOrFail($id);
+            } else {
+                $contract = Contract::byMe()->with('vacancy.job', 'vacancy.nationality')->findOrFail($id);
+            }
+            $reasons = Reason::forTempWorkCancel()->pluck('reason', 'id')->toArray();
 
             if ($contract->status == "pending" || $contract->status == "approved") {
                 $canCancel = true;
@@ -147,12 +57,30 @@ class ContractsController extends Controller
             abort(404);
         }
 
+        $status = 'provider_cancel';
 
         return view('front.contracts.details',
-            compact('userId', 'username', 'contract', 'benfName', 'canCancel', 'reasons'));
+            compact('userId', 'username', 'contract', 'benfName', 'canCancel', 'reasons', 'status'));
 
     }
 
+    public function rejectRequest($id)
+    {
+        try {
+            $contract = Contract::byMe()->with('vacancy.job', 'vacancy.nationality')->findOrFail($id);
+            $reasons = Reason::forTempWorkCancel()->pluck('reason', 'id')->toArray();
+
+            $reasonLabel = 'contracts.cancel_reason';
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+
+        $status = 'rejected';
+
+        return view('front.contracts.details',
+            compact('contract', 'reasons', 'status', 'reasonLabel'));
+
+    }
 
     public function updateStatus(ContractsRequest $request)
     {
@@ -166,6 +94,27 @@ class ContractsController extends Controller
         return trans('contracts.updated');
     }
 
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function CancelResetContract($id)
+    {
+        if (session()->get('service_type') == Constants::SERVICETYPES['benf']) {
+            $contract = Contract::toMe()->status(Constants::CONTRACT_STATUSES['benef_cancel'])->findOrFail($id);
+        } else {
+            $contract = Contract::byMe()->status(Constants::CONTRACT_STATUSES['provider_cancel'])->findOrFail($id);
+        }
+        $contract->status = Constants::CONTRACT_STATUSES['approved'];
+
+        if ($contract->save()) {
+            return trans('tqawel_offer_contract.cancel_reject_success');
+        } else {
+            return abort(401);
+        }
+    }
+    
     /**
      * @param $id
      *
@@ -384,7 +333,7 @@ class ContractsController extends Controller
         $contract = Contract::where('id', $id)->with('contractEmployee.hrPool', 'vacancy')->firstOrFail();
         $reasons  = Reason::where('parent_id', 7)->get();
 
-        return view('Front.contracts.cancelation.hire_labor.contract.show', compact('contract', 'reasons'));
+        return view('front.contracts.cancelation.hire_labor.contract.show', compact('contract', 'reasons'));
     }
 
     /**
@@ -397,7 +346,7 @@ class ContractsController extends Controller
         $contractEmployee = ContractEmployee::where('id', $id)->with('contract', 'hrPool')->firstOrFail();
         $reasons  = Reason::where('parent_id', 8)->get();
 
-        return view('Front.contracts.cancelation.hire_labor.ishaar.show', compact('contractEmployee', 'reasons'));
+        return view('front.contracts.cancelation.hire_labor.ishaar.show', compact('contractEmployee', 'reasons'));
 
     }
 
@@ -596,7 +545,7 @@ class ContractsController extends Controller
             return dynamicAjaxPaginate($data, $columns, $total_count, $buttons);
         }
 
-        return view('Front.contracts.cancelation.direct_hiring.contract.index');
+        return view('front.contracts.cancelation.direct_hiring.contract.index');
     }
 
     /**
@@ -685,7 +634,7 @@ class ContractsController extends Controller
 
         }
 
-        return view('Front.contracts.cancelation.direct_hiring.ishaar.index');
+        return view('front.contracts.cancelation.direct_hiring.ishaar.index');
     }
 
     /**
@@ -698,7 +647,7 @@ class ContractsController extends Controller
         $contract = Contract::where('id', $id)->with('contractEmployee.hrPool', 'vacancy')->firstOrFail();
         $reasons  = Reason::where('parent_id', 7)->get();
 
-        return view('Front.contracts.cancelation.direct_hiring.contract.show', compact('contract', 'reasons'));
+        return view('front.contracts.cancelation.direct_hiring.contract.show', compact('contract', 'reasons'));
     }
 
     /**
@@ -711,7 +660,7 @@ class ContractsController extends Controller
         $contractEmployee = ContractEmployee::where('id', $id)->with('contract', 'hrPool')->firstOrFail();
         $reasons  = Reason::where('parent_id', 8)->get();
 
-        return view('Front.contracts.cancelation.direct_hiring.ishaar.show', compact('contractEmployee', 'reasons'));
+        return view('front.contracts.cancelation.direct_hiring.ishaar.show', compact('contractEmployee', 'reasons'));
     }
 
     /**
@@ -945,79 +894,6 @@ class ContractsController extends Controller
     }
 
 
-    public function taqawelOfferContract()
-    {
-        if (request()->ajax()) {
-
-
-            if (request()->route()->getName() === "occasional-labor-market.index") {
-                $query = $query->onlyMuslims();
-            }
-
-            $total_count = $query->count();
-            $columns = request()->input('columns');
-
-            $inputs = request()->only([
-                'id',
-                "gender",
-                "nationality_id",
-                "work_start_date",
-                "work_end_date",
-            ]);
-
-            foreach ($inputs as $key => $input) {
-                if (request()->input($key)) {
-                    $query = $query->where($key, $input);
-                }
-            }
-
-            if ($job_name = request()->input('job_name')) {
-                $query = $query->whereHas('job', function ($q) use ($job_name) {
-                    return $q->where('job_name', 'LIKE', '%' . $job_name . '%');
-                });
-            }
-
-
-            if (session()->get('service_type') === Constants::SERVICETYPES['provider']) {
-
-                $buttons = [
-                    'show' => [
-                        "text"      => trans("temp_job.show_offer"),
-                        "url"       => url(request()->segment(1) . "/received-contracts"),
-                        "col"       => "id",
-                        "uri"       => "show",
-                        "css_class" => "blue",
-                    ],
-                ];
-
-            } else {
-
-                $buttons = [
-                    'show' => [
-                        "text"      => trans("temp_job.ask_offer"),
-                        "url"       => null,
-                        "col"       => null,
-                        "uri"       => null,
-                        "css_class" => "ask-offer-benf blue",
-                    ],
-                ];
-            }
-
-            return dynamicAjaxPaginate($query, $columns, $total_count, $buttons);
-
-
-        }
-        // current logged in to this page is provider type
-        session()->replace(['service_type' => Constants::SERVICETYPES['provider']]);
-
-        $currentRouteName = request()->route()->getName();
-        $regions = Region::all()->pluck('name', 'id')->toArray();
-        $jobs = Job::all()->pluck('job_name', 'id')->toArray();
-        $nationalities = Nationality::all()->pluck('name', 'id')->toArray();
-
-        return view('front.labor_market.tqawel.index', compact('regions', 'jobs', 'nationalities', 'currentRouteName'));
-    }
-
     public function followContract($ct_id, $prvd_benf)
     {
         if (!in_array($ct_id, array_values(Constants::CONTRACTTYPES)) || !in_array($prvd_benf, [1, 2])) {
@@ -1054,7 +930,7 @@ class ContractsController extends Controller
             if (request()->input('status')) {
                 $data = $data->where('status', request()->input('status'));
             }
-
+            
 
             $buttons = [
                 'details'                 => [
@@ -1139,7 +1015,7 @@ class ContractsController extends Controller
                     'text'                                          => trans('contracts.action_buttons.generate_ishaar'),
                     'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/{contract_type_id}/contracts/{contracts}/edit',
                     'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/{contract_type_id}/contracts/{contracts}/edit',
-                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/offer-taqawel-contract/{contracts}/edit',
+                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/notices/{contracts}',
                     'params'                                        => [
                         'contracts'        => ['name' => 'id', 'value' => null],
                         'contract_type_id' => ['name' => '', 'value' => request()->route()->parameter('ct_id')]
@@ -1152,9 +1028,9 @@ class ContractsController extends Controller
                 'cancel_ishaar'           => [
                     'repeated'                                      => true,
                     'text'                                          => trans('contracts.action_buttons.cancel_ishaar'),
-                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/direct_ishaar/{id}/cancel_ishaar',
-                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/ishaar/{id}/cancel_ishaar',
-                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/notices/{id}/cancel_ishaar',
+                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/direct_ishaar/{id}/show_ishaar',
+                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/ishaar/{id}/show_ishaar',
+                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/notices/{id}/show_ishaar',
                     'params'                                        => ['id' => ['name' => 'id', 'value' => null]],
                     "css_class"                                     => "green",
                     "attributes"                                    => [
@@ -1165,7 +1041,7 @@ class ContractsController extends Controller
                     'text'                                          => trans('contracts.action_buttons.request_contract_cancel'),
                     'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/contracts/{contracts}/cancel',
                     'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/contracts/{contracts}/cancel',
-                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/offer-taqawel-contract/{id}/cancel',
+                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/offer-taqawel-contract/{contracts}/cancel',
                     'params'                                        => [
                         'contracts' => [
                             'name'  => 'id',
@@ -1206,7 +1082,7 @@ class ContractsController extends Controller
                     'text'                                          => trans('contracts.action_buttons.process_cancel_request'),
                     'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/contracts/cancelation/ishaar/direct_hiring/{type}/{id}',
                     'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/contracts/cancelation/ishaar/{type}/{id}',
-                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/notices/{id}/cancel_ishaar',
+                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/notices/{id}/show_ishaar',
                     'params'                                        => [
                         'id'   => ['name' => 'id', 'value' => null],
                         'type' => ['value' => request()->route()->parameter('prvd_benf') == Constants::PRVD_BENF_SHORTCUT['1'] ? 'provider' : 'beneficial']
@@ -1267,5 +1143,65 @@ class ContractsController extends Controller
         }
 
         return view('front.follow_contracts.index', compact('data', 'prvd_benf', 'ct_id'));
+    }
+
+     /**
+     * generate a newly invoice in storage.
+     *
+     * @return Response
+     */
+    public function generateCertificateInvoice( ContractCertificateRequest $request, Connector $connector)
+    {
+       
+        $contracts_id = $request->contract_ids;
+        // Check if the user can make new invoice or not
+        $open_invoices = ContractCertificate::whereIn('contract_id',$contracts_id)->whereHas('invoice', function($query){
+                $query->pending()->notExpired();
+        })->count();
+        
+        if ($open_invoices) {
+            return response()->json(['error' => trans('contract_setup.cant_add_invoice')], 422);
+        }
+        $contract_setup = ContractSetup::where('contract_type_id',Constants::CONTRACTTYPES['direct_emp'])->first();
+        $amount = $contract_setup->experience_certificate_amount * count($contracts_id);
+        $days = 3;
+        $issueDate = Carbon::now()->toDateTimeString();
+        $expiryDate = Carbon::now()->addDays($days);
+        $accountNumber = getLoggedAccountNumber($connector);
+        $provider_id  = getCurrentUserNameAndId()[0];
+         $items         = [
+            [
+                'item_name'  => trans('contract_setup.generate_description',['number' => count($contracts_id)]),
+                'item_count' => count($contracts_id),
+                'item_price' => $amount,
+            ],
+        ];
+        $createdBill   = $connector->createBill($accountNumber, $amount, $items, $expiryDate);
+        //End Making Invoice
+
+        //create Invoice
+        $invoice                = new Invoice;
+        $invoice->bill_number   = $createdBill['bill_number'];
+        $invoice->amount = $amount;
+        $invoice->account_no = $accountNumber;
+        $invoice->benf_name = "";
+        $invoice->issue_date = $issueDate;
+        $invoice->expiry_date = $expiryDate;
+        $invoice->description = trans('contract_setup.generate_description',['number' => count($contracts_id)]);
+        $invoice->status = Constants::INVOICE_STATUS['pending'];
+        $invoice->provider_type = Auth::user()->user_type_id;
+        $invoice->provider_id   = $provider_id;
+        $invoice->invoice_type  = Constants::INVOICE_TYPES['certificate'];
+        $invoice->save();
+
+        // track all contracts & invoices
+        foreach($contracts_id as $contract_id){
+        $certificate = new ContractCertificate;
+        $certificate->contract_id = $contract_id;
+        $certificate->invoice_id = $invoice->id;
+        $certificate->save();
+        }
+        return response()->json(trans('contract_setup.add_invoice_success',['number' => $invoice->bill_number,'amount' => $amount]));
+        
     }
 }

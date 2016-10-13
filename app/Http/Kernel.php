@@ -3,6 +3,8 @@
 namespace Tamkeen\Ajeer\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Tamkeen\Ajeer\Http\Middleware\EstablishmentSelected;
+use Tamkeen\Ajeer\Http\Middleware\EstablishmentUpdated;
 
 class Kernel extends HttpKernel
 {
@@ -22,7 +24,7 @@ class Kernel extends HttpKernel
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Tamkeen\Ajeer\Http\Middleware\VerifyCsrfToken::class,
     ];
-
+    
     /**
      * The application's route middleware groups.
      *
@@ -40,7 +42,7 @@ class Kernel extends HttpKernel
             'throttle:60,1',
         ],
     ];
-
+    
     /**
      * The application's route middleware.
      *
@@ -55,13 +57,12 @@ class Kernel extends HttpKernel
         'guest'                        => \Tamkeen\Ajeer\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'                     => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin_auth'                   => \Tamkeen\Ajeer\Http\Middleware\AdminAuth::class,
-        'contractCancelation'          => \Tamkeen\Ajeer\Http\Middleware\contractCancelation::class,
-        'laborer'                      => \Tamkeen\Ajeer\Http\Middleware\Laborer::class,
         'individual'                   => \Tamkeen\Ajeer\Http\Middleware\Individual::class,
         'establishment'                => \Tamkeen\Ajeer\Http\Middleware\Establishment::class,
         'hajj_government'              => \Tamkeen\Ajeer\Http\Middleware\HajjGovernment::class,
-        'shwagher_auth'                => \Tamkeen\Ajeer\Http\Middleware\ShwagherAuth::class,
         'indvidualContractCancelation' => \Tamkeen\Ajeer\Http\Middleware\IndvidualContractCancelation::class,
-        'establishment' => \Tamkeen\Ajeer\Http\Middleware\Establishment::class,
+        'EstablishmentSelected'        => \Tamkeen\Ajeer\Http\Middleware\EstablishmentSelected::class,
+        'EstablishmentUpdated'         => \Tamkeen\Ajeer\Http\Middleware\EstablishmentUpdated::class,
+        'rating'                       => \Tamkeen\Ajeer\Http\Middleware\Rating::class,
     ];
 }

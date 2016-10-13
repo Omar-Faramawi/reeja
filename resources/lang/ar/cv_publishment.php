@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'cv_publishment'      => 'نشر السيرة الذاتية',
+    'cv_publishment'      => 'السيرة الذاتية',
     'paid'                => 'بأجر',
     'not_paid'            => 'بدون أجر',
     'years'               => 'عام',

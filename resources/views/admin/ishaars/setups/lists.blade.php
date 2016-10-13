@@ -30,11 +30,9 @@
                         <div class="row">
                             <div class="col-md-6 pull-right">
                                 <div class="btn-group pull-right">
-                                    <button data-toggle="modal" data-target="#main"
-                                            data-href="{{ route('admin.ishaar_setup.create') }}"
-                                            class="btn sbold green"> {{ trans('labels.add') }}
-                                        <i class="fa fa-plus"></i>
-                                    </button>
+                                    <a href="{{ route('admin.ishaar_setup.create') }}" class="btn sbold green">
+                                        {{ trans('labels.add') }} <i class="fa fa-plus"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -61,11 +59,9 @@
                                     <td> {{ implode( '- ', $single->regions->pluck('name')->toArray() ) }} </td>
                                     <td>
                                         <div class="btn-group btn-group-lg btn-group-solid margin-bottom-10">
-                                            <button data-toggle="modal" data-target="#main"
-                                                    data-href="{{ route('admin.ishaar_setup.edit', $single->hashids) }}"
-                                                    class="btn blue">
+                                            <a href="{{ route('admin.ishaar_setup.edit', $single->hashids) }}" class="btn blue">
                                                 <i class="fa fa-edit"></i> {{ trans('labels.edit') }}
-                                            </button>
+                                            </a>
                                             <a class="btn green" href="{{ url('/admin/ishaarPermissions/'.$single->hashids.'/edit') }}">{{ trans('ishaar_setup.edit_permission') }}</a>
                                         </div>
                                     </td>

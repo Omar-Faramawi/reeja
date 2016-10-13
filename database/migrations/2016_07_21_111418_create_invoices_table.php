@@ -27,8 +27,9 @@ class CreateInvoicesTable extends Migration {
 			$table->string('paid_date', 45)->nullable();
 			$table->string('upload_invoice')->nullable();
 			$table->string('status', 1);
-            $table->string('provider_type', 1)->nullable();
-            $table->unsignedInteger('provider_id')->nullable();
+                        $table->string('provider_type', 1)->nullable();
+                        $table->unsignedInteger('provider_id')->nullable();
+                        $table->unsignedInteger('invoice_type')->nullable();
 			$table->timestamps();
 			$table->unsignedInteger('created_by');
 			$table->unsignedInteger('updated_by')->nullable();

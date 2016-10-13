@@ -13,6 +13,7 @@ use Tamkeen\Ajeer\Models\Bundle;
 use Tamkeen\Ajeer\Models\Invoice;
 use Tamkeen\Ajeer\Models\InvoiceBundle;
 use Tamkeen\Ajeer\Models\IshaarSetup;
+use Tamkeen\Ajeer\Utilities\Constants;
 
 class PackageSubscribeController extends Controller
 {
@@ -21,7 +22,7 @@ class PackageSubscribeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Connector $connector)
+    public function index()
     {
         $paidbundles       = Bundle::paid()->get();
         $trialBundles      = Bundle::trail()->firstOrFail();
@@ -138,9 +139,12 @@ class PackageSubscribeController extends Controller
         $ishaar_setup = IshaarSetup::taqawelPaid()->firstOrFail();
         $amount       = ($packageSelectRequest->requestedIshaars * $bundle->monthly_amount);
         $period       = $ishaar_setup->paid_ishaar_payment_expiry_period;
+        $bundlePeriod       = $ishaar_setup->paid_ishaar_valid_expiry_period;
         $issueDate    = Carbon::today()->format("Y-m-d");
         $periodtype   = $ishaar_setup->paid_ishaar_payment_expiry_period_type;
-        $expiryDate   = getDiffPeriodDay($issueDate, $period, $periodtype);
+        $bundleperiodtype   = $ishaar_setup->paid_ishaar_valid_expiry_period_type;
+        $invoiceExpiryDate   = getDiffPeriodDay($issueDate, $period, $periodtype);
+        $bundleExpiryDate   = getDiffPeriodDay($issueDate, $bundlePeriod, $bundleperiodtype);
         $provider_id  = getCurrentUserNameAndId()[0];
         
         // Start Making Invoice
@@ -152,7 +156,7 @@ class PackageSubscribeController extends Controller
                 'item_price' => $bundle->monthly_amount,
             ],
         ];
-        $createdBill   = $connector->createBill($accountNumber, $amount, $items, $expiryDate);
+        $createdBill   = $connector->createBill($accountNumber, $amount, $items, $invoiceExpiryDate);
         //End Making Invoice
         
         //create Invoice
@@ -163,8 +167,9 @@ class PackageSubscribeController extends Controller
         $invoice->provider_type = Auth::user()->user_type_id;
         $invoice->provider_id   = $provider_id;
         $invoice->issue_date    = $issueDate;
-        $invoice->expiry_date   = $expiryDate;
+        $invoice->expiry_date   = $invoiceExpiryDate;
         $invoice->status        = Invoice::STATUS_PENDING;
+        $invoice->invoice_type  = Constants::INVOICE_TYPES['bundle'];
         $invoice->save();
         $open_invoice_bundles = InvoiceBundle::where('bundle_id', $bundle_id)->where('status',
             Invoice::STATUS_PENDING)
@@ -178,8 +183,8 @@ class PackageSubscribeController extends Controller
         $invoiceBundles->provider_id           = $provider_id;
         $invoiceBundles->num_of_notices        = $packageSelectRequest->requestedIshaars;
         $invoiceBundles->num_remaining_notices = $packageSelectRequest->requestedIshaars;
-        $invoiceBundles->status                = Invoice::STATUS_PENDING;
-        $invoiceBundles->expire_date           = $expiryDate;
+        $invoiceBundles->status                = Constants::INVOICE_STATUS['pending'];
+        $invoiceBundles->expire_date           = $bundleExpiryDate;
         $invoiceBundles->save();
     }
     
@@ -194,9 +199,9 @@ class PackageSubscribeController extends Controller
         
         $trialBundles = Bundle::trail()->firstOrFail();
         $ishaar_setup = IshaarSetup::taqawelFree()->firstOrFail();
-        $period       = $ishaar_setup->paid_ishaar_payment_expiry_period;
+        $period       = $ishaar_setup->paid_ishaar_valid_expiry_period;
         $issueDate    = Carbon::today()->format("Y-m-d");
-        $periodtype   = $ishaar_setup->paid_ishaar_payment_expiry_period_type;
+        $periodtype   = $ishaar_setup->paid_ishaar_valid_expiry_period_type;
         $expiryDate   = getDiffPeriodDay($issueDate, $period, $periodtype);
         $provider_id  = getCurrentUserNameAndId()[0];
         
@@ -206,7 +211,7 @@ class PackageSubscribeController extends Controller
         $invoiceBundles->provider_id           = $provider_id;
         $invoiceBundles->num_of_notices        = $trialBundles->max_of_num_ishaar;
         $invoiceBundles->num_remaining_notices = $trialBundles->max_of_num_ishaar;
-        $invoiceBundles->status                = Invoice::STATUS_PENDING;
+        $invoiceBundles->status                = Invoice::STATUS_PAID;
         $invoiceBundles->expire_date           = $expiryDate;
         $invoiceBundles->save();
         

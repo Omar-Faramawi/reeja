@@ -46,6 +46,7 @@
                                            width="100%">
                                         <thead>
                                             <tr role="row" class="heading">
+                                                <th id="id" width="10%"> {{ trans('taqawel_market.id') }}</th>
                                                 <th width="550" id="provider.name" class="no-sort">{{ trans
                                                 ('tqawel_offer_contract.name') }}  </th>
                                                 <th width="150" id="contract_nature.name"
@@ -58,6 +59,9 @@
                                             </tr>
                                             <tr role="row" class="filter">
                                                 <td class="id">
+                                                    <input type="text" class="form-control form-filter input-sm" name="id">
+                                                </td>
+                                                <td>
                                                     {{ Form::text('name', null, ['class' => "form-control form-filter input-sm", "placeholder" => trans('tqawel_offer_contract.name')]) }}
                                                 </td>
                                                 <td>
@@ -72,6 +76,9 @@
                                                     <div class="margin-bottom-5">
                                                         <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
                                                             <i class="fa fa-search"></i> {{ trans('temp_job.searches') }}
+                                                        </button>
+                                                        <button class="btn btn-sm red btn-outline filter-cancel">
+                                                            <i class="fa fa-times"></i> {{ trans('labels.reset') }}
                                                         </button>
                                                     </div>
                                                 </td>

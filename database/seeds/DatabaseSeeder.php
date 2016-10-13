@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call(IndividualSeeder::class);
         $this->call(JobSeeder::class);
         $this->call(ReasonSeeder::class);
-        $this->call(MarketTaqaualServicesTableSeeder::class);
+        //$this->call(MarketTaqaualServicesTableSeeder::class);
         $this->call(ContractNatureTableSeeder::class);
         $this->call(IshaarSetupSeeder::class);
         $this->call(BundlesSeeder::class);

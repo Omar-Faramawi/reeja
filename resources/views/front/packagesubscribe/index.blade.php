@@ -1,5 +1,5 @@
 @extends('front.layout')
-@section('title', trans('user.home'))
+@section('title', trans('packagesubscribe.mainTitle'))
 @section("content")
     <div class="page-content">
         <div class="container">
@@ -14,6 +14,12 @@
                                 </div>
                             </div>
                             <div class="portlet-body">
+                                @if(session()->has('msg_error'))
+                                    <div class="alert alert-block alert-danger fade in">
+                                        <button type="button" class="close" data-dismiss="alert"></button>
+                                        <p>{!! session()->pull('msg_error') !!} </p>
+                                    </div>
+                                @endif
                                 <div class="portlet grey-cascade box">
                                     <div class="portlet-title">
                                         <div class="caption">
@@ -37,7 +43,7 @@
                                             </div>
                                             <div class="col-md-7 value">
                                                 {{$ishaarSetup->paid_ishaar_valid_expiry_period}}
-                                                {{\Tamkeen\Ajeer\Utilities\Constants::periodTypes($ishaarSetup->paid_ishaar_valid_expiry_period_type)}}
+                                                {{ \Tamkeen\Ajeer\Utilities\Constants::periodTypes($ishaarSetup->paid_ishaar_valid_expiry_period_type)}}
                                             </div>
                                         </div>
                                         <div class="row static-info">
@@ -46,7 +52,7 @@
                                             </div>
                                             <div class="col-md-7 value">
                                                 {{$ishaarSetup->max_ishaar_period}}
-                                                {{\Tamkeen\Ajeer\Utilities\Constants::periodTypes($ishaarSetup->max_ishaar_period_type)}}
+                                                {{ \Tamkeen\Ajeer\Utilities\Constants::periodTypes($ishaarSetup->max_ishaar_period_type)}}
 
                                             </div>
                                         </div>
@@ -86,32 +92,30 @@
                                         </div>
                                     </div>
                                     <div class="portlet-body">
-                                        <div class="row">
-                                            @if ($ishaarSetup->labor_same_benef_max_num_of_ishaar)
-                                                <div class="row static-info">
-                                                    <div class="col-md-5 name">
-                                                        {{trans("packagesubscribe.useForSameEmp")}}
-                                                    </div>
-                                                    <div class="col-md-7 value">
-                                                        {{$ishaarSetup->labor_same_benef_max_num_of_ishaar}}
-                                                        {{trans("packagesubscribe.ishaar")}}
-
-                                                    </div>
+                                        @if ($ishaarSetup->labor_same_benef_max_num_of_ishaar)
+                                            <div class="row static-info">
+                                                <div class="col-md-5 name">
+                                                    {{trans("packagesubscribe.useForSameEmp")}}
                                                 </div>
-                                            @endif
-                                            @if ($ishaarSetup->labor_same_benef_max_period_of_ishaar)
-                                                <div class="row static-info">
-                                                    <div class="col-md-5 name">
-                                                        {{trans("packagesubscribe.totalTimeOfuseForSameEmp")}}
-                                                    </div>
-                                                    <div class="col-md-7 value">
-                                                        {{$ishaarSetup->labor_same_benef_max_period_of_ishaar}}
-                                                        {{\Tamkeen\Ajeer\Utilities\Constants::periodTypes($ishaarSetup->labor_same_benef_max_period_of_ishaar_type)}}
+                                                <div class="col-md-7 value">
+                                                    {{$ishaarSetup->labor_same_benef_max_num_of_ishaar}}
+                                                    {{trans("packagesubscribe.ishaar")}}
 
-                                                    </div>
                                                 </div>
-                                            @endif
-                                        </div>
+                                            </div>
+                                        @endif
+                                        @if ($ishaarSetup->labor_same_benef_max_period_of_ishaar)
+                                            <div class="row static-info">
+                                                <div class="col-md-5 name">
+                                                    {{trans("packagesubscribe.totalTimeOfuseForSameEmp")}}
+                                                </div>
+                                                <div class="col-md-7 value">
+                                                    {{$ishaarSetup->labor_same_benef_max_period_of_ishaar}}
+                                                    {{\Tamkeen\Ajeer\Utilities\Constants::periodTypes($ishaarSetup->labor_same_benef_max_period_of_ishaar_type)}}
+
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="portlet grey-cascade box">

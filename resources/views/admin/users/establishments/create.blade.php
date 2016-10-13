@@ -29,7 +29,7 @@
                     <div class="form-group form-md-line-input form-md-floating-label">
                         {{ Form::number('id_number', null, ['class' => 'form-control', 'id' => 'id_number']) }}
                         <label for="id_number">{{ trans('establishments_registration.attributes.id_number') }}
-                            <span class="required">*</span></label>
+                        <span class="required">*</span></label>
                         <span class="help-block">{{ trans('establishments_registration.attributes.id_number') }}
                             ....</span>
                     </div>

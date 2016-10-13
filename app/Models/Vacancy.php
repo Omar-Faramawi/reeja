@@ -152,6 +152,26 @@ class Vacancy extends BaseModel
      *
      * @return mixed
      */
+    public function scopeByOthers($query)
+    {
+        if (session()->get('selected_establishment')) {
+            $benfId = session()->get('selected_establishment.id');
+        } elseif (session()->get('government')) {
+            $benfId = session()->get('government.id');
+        } else {
+            $benfId = auth()->user()->id_no;
+        }
+        $query->whereRaw('(benf_id != '.$benfId.' and benf_type = '.\Auth::user()->user_type_id.')');
+        $query->orWhereRaw('(benf_id = '.$benfId.' and benf_type != '.\Auth::user()->user_type_id.')');
+        $query->orWhereRaw('(benf_id != '.$benfId.' and benf_type != '.\Auth::user()->user_type_id.')');
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopeNotSeasonal($query)
     {
         return $query->where('region_id', '!=', 1);

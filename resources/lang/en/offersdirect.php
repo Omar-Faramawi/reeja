@@ -51,6 +51,7 @@ return [
             "reason"         => "rejection reason",
             "reasonRequired" => "you should select rejection reason",
             "other"          => "other",
+            "other_reason"   => "You Must Fill Other Reason Field",
             "extraDetails"   => "Extra details",
             "send"           => "Send",
             "rejectionSuc"   => "Offer rejected successfully",

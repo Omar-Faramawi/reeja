@@ -33,7 +33,16 @@ class RatingModelsRequest extends Request
             $rules['question'] = "required_with:name";
             $rules['answer.*'] = "required_with:question";
         }
-        
+
         return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required'          => trans('ratingmodels.formTitleValidationError'),
+            'question.required_with' => trans('ratingmodels.messages.questionRequired'),
+            'answer.*.required_with'   => trans('ratingmodels.messages.answersRequired'),
+        ];
     }
 }

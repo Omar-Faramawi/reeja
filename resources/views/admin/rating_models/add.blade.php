@@ -5,7 +5,7 @@
 @if(isset($ratingModels))
     {{ Form::model($ratingModels, ["files"=>"true", 'route' => ['admin.ratingmodels.update', $ratingModels->hashids], 'method' => 'patch', 'id'=>'form']) }}
 @else
-    {{ Form::open(['route' => 'admin.ratingmodels.index', "files"=>"true", 'id'=>'form']) }}
+    {{ Form::open(['route' => 'admin.ratingmodels.index', "files"=>"true", 'id'=>'taqeemform']) }}
 @endif
 <div class="modal-body">
     <div class="row">
@@ -55,7 +55,8 @@
                         <button type="button" data-loading-text="{{ trans('labels.loading') }}..."
                                 class="btn btn-primary" id="btn-save"
                                 data-action="{{ url('admin/ratingmodels/addSession') }}"
-                                data-token="{{ csrf_token() }}"><i class="fa fa-check"></i>{{ trans('ratingmodels.addQA') }}</button>
+                                data-token="{{ csrf_token() }}"><i
+                                    class="fa fa-check"></i>{{ trans('ratingmodels.addQA') }}</button>
                     </div>
                 </div>
             </div>
@@ -67,6 +68,9 @@
 <div class="modal-footer">
     <button type="submit" data-loading-text="{{ trans('labels.loading') }}..." class="demo-loading-btn btn blue">
         <i class="fa fa-check"></i> {{ trans('labels.save') }} </button>
+    <button type="submit" data-loading-text="{{ trans('labels.loading') }}..." class="demo-loading-btn btn blue"
+            name="next" value="1" id="nextButton" data-href="{{route('nextToTaqyeemFromForm')}}">
+        <i class="fa fa-check"></i> {{ trans('labels.next') }} </button>
     <button type="button" data-dismiss="modal" class="btn default">{{ trans('labels.cancel') }}</button>
 </div>
 {{form::close()}}

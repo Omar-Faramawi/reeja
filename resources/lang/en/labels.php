@@ -53,6 +53,8 @@ return [
     "reject"                      => "Stop Active",
     "activated"                   => "Activated",
     "stopactivated"               => "Stoped Activated ",
+    "reject2"                     => "Stop Active",
+    "stopreject2"                 => "Stoped Activated",
     "request_approve"             => "Request Approve",
     "project_status"              => "Status",
     "reload"                      => "Reload",
@@ -71,19 +73,19 @@ return [
     ],
     "saveAndAdd"                  => "Save and add more",
     "no_data"                     => "Sorry! no data for displaying",
-    
+
     "span_classes" => [
         ""  => "badge label-sm label-danger",
         "0" => "badge label-sm label-danger",
         "1" => "badge label-sm label-success",
     ],
-    
+
     "menu" => [
         'ishaar_name'   => 'Ishaars',
         'contract_name' => 'Contracts',
         'taqeem_name'   => 'Taqeems',
     ],
-    
+
     "pagination"          => [
         "search"        => "Search ",
         "sProcessing"   => "Loading ...",
@@ -122,17 +124,17 @@ return [
         '1' => 'Muslim',
         '2' => 'NA',
     ],
-    
-    "view"                  => "View",
-    "number"                => "Number",
-    "empty_record"          => "Not available",
-    "choose"                => "Please select",
-    "day"                   => "Day",
-    "month"                 => "Month",
-    "year"                  => "Year",
-    "details"               => "Details",
-    'generate_invoice'      => 'Generate Invoice',
-    'ishaar_status'         => [
+
+    "view"                       => "View",
+    "number"                     => "Number",
+    "empty_record"               => "Not available",
+    "choose"                     => "Please select",
+    "day"                        => "Day",
+    "month"                      => "Month",
+    "year"                       => "Year",
+    "details"                    => "Details",
+    'generate_invoice'           => 'Generate Invoice',
+    'ishaar_status'              => [
         'pending'           => 'Pending',
         'rejected'          => 'Rejected',
         'pending_ownership' => 'Pending Ownership',
@@ -141,7 +143,8 @@ return [
         'benef_cancel'      => 'Benef Cancel',
         'provider_cancel'   => 'Provide Cancel',
     ],
-    'contractStatus'        => [
+    'contractStatus'             => [
+        'requested'         => 'Requested',
         'pending'           => 'Pending',
         'rejected'          => 'Rejected',
         'pending_ownership' => 'Pending Ownership',
@@ -150,8 +153,10 @@ return [
         'benef_cancel'      => 'Benef Cancel',
         'provider_cancel'   => 'Provide Cancel',
     ],
-    "noneSelectedTextValue" => "Please Select",
-    'as_provider'         => 'As a service Provider',
-    'as_benf'             => 'As a service Beneficial',
-    "noneSelectedTextValueSmall" => "Choose"
+    "noneSelectedTextValue"      => "Please Select",
+    'as_provider'                => 'As a service Provider',
+    'as_benf'                    => 'As a service Beneficial',
+    "noneSelectedTextValueSmall" => "Choose",
+    'next'                       => 'Next',
+    'missing_required_fields'    => 'Missing required field(s)',
 ];

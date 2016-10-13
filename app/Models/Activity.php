@@ -33,6 +33,6 @@ class Activity extends BaseModel
      */
     public function governments()
     {
-        return $this->hasMany(GovernmentPermissionActivity::class);
+        return $this->hasOne(GovernmentPermissionActivity::class);
     }
 }

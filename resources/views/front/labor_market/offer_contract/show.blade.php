@@ -39,29 +39,30 @@
                                         <table class="table table-striped table-bordered table-hover table-checkable">
                                             <thead>
                                             <tr role="row" class="heading">
-                                                <th width="8%">{{ trans('temp_job.record') }}</th>
-                                                <th width="26%">{{ trans('temp_job.benf_id') }}</th>
-                                                <th width="8%">{{ trans('temp_job.job_id') }}</th>
-                                                <th width="8%">{{ trans('temp_job.nationality_id')  }}</th>
-                                                <th width="8%"> {{ trans('temp_job.region_id') }}</th>
-                                                <th width="12%">{{ trans('temp_job.work_start_date') }}</th>
-                                                <th width="12%">{{ trans('temp_job.work_end_date') }}</th>
-                                                <th width="50%">{{ trans('temp_job.details') }}</th>
+                                                <th>#</th>
+                                                <th>{{ trans('temp_job.benf_id') }}</th>
+                                                <th>{{ trans('temp_job.job_id') }}</th>
+                                                <th>{{ trans('temp_job.nationality_id')  }}</th>
+                                                <th>{{ trans('temp_job.region_id') }}</th>
+                                                <th>{{ trans('temp_job.work_start_date') }}</th>
+                                                <th>{{ trans('temp_job.work_end_date') }}</th>
+                                                <th>{{ trans('temp_job.details') }}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($mycontracts as $contract )
                                                 <tr>
                                                     <td>{{ $contract->id }}</td>
-                                                    <td>{{ \Tamkeen\Ajeer\Models\Contract::getName($contract->benf_type, $contract->benf_id) }}</td>
+                                                    <td>{{ $contract->benf_name }}</td>
                                                     <td>{{ @$contract->vacancy->job->job_name  }}</td>
                                                     <td>{{ @$contract->vacancy->nationality->name }}</td>
                                                     <td>{{ @$contract->vacancy->region->name }}</td>
                                                     <td>{{ $contract->start_date }}</td>
                                                     <td>{{ $contract->end_date }}</td>
                                                     <td>
-                                                        <a type="button" href="{{ url('/temp_work/received-contracts/'.$contract->id.'/show') }}" class="btn blue btn-sm">{{ trans('temp_job.offer_contract') }}</a>
-                                                        <a type="button" class="btn red btn-sm">{{ trans('temp_job.reset') }}</a>
+                                                        <a type="button" style="float:right" href="{{ url('/temp_work/received-contracts/'.$contract->id.'/show-received-contract') }}" class="btn blue btn-sm">{{ trans('temp_job.offer_contract') }}</a>
+                                                        <a type="button" href="{{ url('/contracts/'.$contract->id.'/reject') }}" class="btn red btn-sm">{{ trans('temp_job.refuse') }}</a>
+
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -88,7 +89,11 @@
                             </div>
                             <div class="portlet-body">
                                 <!-- BEGIN FORM-->
-                                {!! Form::model($vacancy, ['route' => 'received-contracts.update', 'id' => 'form', 'files' => true , 'data-url' => url('/temp_work/labor-market') ]) !!}
+                                @if( $occasionalWork )
+									{!! Form::model($vacancy, ['route' => 'received-contracts.sendVacancyOffer', 'id' => 'form', 'files' => true , 'data-url' => url('/occasional-work/labor-market') ]) !!}
+								@else
+									{!! Form::model($vacancy, ['route' => 'received-contracts.sendVacancyOffer', 'id' => 'form', 'files' => true , 'data-url' => url('/temp_work/labor-market') ]) !!}
+								@endif
                                 {!! Form::hidden('vacancy_id', @$vacancy_id) !!}
 
                                 <div class="form-body">
@@ -208,6 +213,7 @@
                                                     {!! Form::text('end_date', $vacancy->work_end_date, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.work_end_date'), 'class' => 'form-control date-picker' ]) !!}
                                                 </div>
                                             </div>
+
                                             <div class="row static-info">
                                                 <div class="col-md-3 name padding-top-8">
                                                     {{ trans('temp_job.region_id') }}
@@ -221,6 +227,17 @@
                                                     @endif
                                                 </div>
                                             </div>
+
+
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                    {{ trans('temp_job.contract_locations') }}
+                                                    <span class="required">*</span>
+                                                </div>
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    {!! Form::textarea('contract_locations', null, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.contract_locations'), 'class' => 'form-control' ]) !!}
+                                                </div>
+                                            </div>
                                             <div class="row static-info">
                                                 <div class="col-md-3 name padding-top-5">
                                                     {{ trans('temp_job.job_type.name') }}
@@ -229,7 +246,7 @@
                                                 <div class="col-md-9 value form-group form-md-line-input no-padding-top">
                                                     <div class="md-radio-inline">
                                                         <div class="md-radio">
-                                                            <input type="radio" id="radio6" name="job_type_id" value="1"
+                                                            <input type="radio" id="radio6" name="job_type" value="1"
                                                                 class="md-radiobtn" @if($vacancy->job_type ==1) checked @endif>
                                                             <label for="radio6">
                                                                 <span></span>
@@ -239,7 +256,7 @@
                                                         </div>
 
                                                         <div class="md-radio">
-                                                            <input type="radio" id="radio7" name="job_type_id" value="0"
+                                                            <input type="radio" id="radio7" name="job_type" value="0"
                                                                 class="md-radiobtn" @if($vacancy->job_type ==0) checked @endif>
                                                             <label for="radio7">
                                                                 <span></span>
@@ -250,16 +267,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-									
-                                    <div class="col-md-12">
-                                        <div class="form-group form-md-line-input">
-                                            {!! Form::text('contract_amount', null, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.salary'), 'class' => 'form-control', 'readonly' => 'readonly' ]) !!}
-                                            <label for="form_control_1">{{ trans('temp_job.salary') }}
-                                                <span class="required">*</span>
-                                            </label>
-                                            <span class="help-block">{{ trans('temp_job.salary') }}</span>
+
+
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                    {{ trans('temp_job.attachment') }}
+                                                </div>
+                                                <div class="col-md-9 form-group">
+                                                    @include('components.fileupload', ['name' => 'contract_file'])
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -339,9 +356,9 @@
                                     <div class="portlet-title">
                                         <div class="caption">{{ trans('temp_job.registered_employee') }}</div>
                                     </div>
-                                    <div class="portlet-body">
-                                        <div class="table">
-                                            <table id="selected_employees" class="table table-striped table-bordered table-hover table-checkable dataTable no-footer">
+                                    <div class="portlet-body selected_employees_parent">
+                                        <div class="table table-responsive">
+                                            <table id="selected_employees" class="table table-striped table-bordered">
                                                 <thead>
                                                     <tr role="row" class="heading">
                                                         <th id="id" class="no-sort">{{ trans('temp_job.record') }}</th>

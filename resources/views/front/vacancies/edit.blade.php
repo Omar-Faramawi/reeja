@@ -268,15 +268,14 @@
                                                             ...</span>
                                                     </div>
                                                 </div>
-                                                <div class="form-group form-md-checkboxes">
+												<div class="form-group form-md-checkboxes">
                                                     <label class="col-md-5 control-label text-right"
                                                            for="form_control_1">{{trans('vacancies.hide_option')}}</label>
                                                     <div class="col-md-1">
                                                         <div class="md-checkbox-list">
                                                             <div class="md-checkbox">
-                                                                <input type="checkbox" name="hide_salary" value="1"
-                                                                       class="md-check"
-                                                                       @if (old('hide_salary')==1 || $vacancy->hide_salary ==1) checked @endif />
+                                                                <input type="checkbox" name="hide_salary"
+                                                                       id="hide_salary" class="md-check" value="1" @if (old('hide_salary')=='1' || $vacancy->hide_salary =='1') checked @endif />
                                                                 <label for="hide_salary">
                                                                     <span></span>
                                                                     <span class="check"></span>
@@ -285,7 +284,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group form-md-line-input">
                                                     <label class="control-label text-right col-md-4">{{trans('vacancies.form_attributes.work_start_date')}}</label>
                                                     <div class="col-md-6">
@@ -351,7 +349,7 @@
                                                     <div class="col-md-offset-1 col-md-9">
 
                                                         <button type="submit" class="btn btn-primary" name="status"
-                                                                value="0"
+                                                                value="0" data-loading-text="{{ trans('labels.loading') }}..."
                                                                 id="update_draft">{{trans('vacancies.buttons.update_draft')}}</button>
 
                                                         <button type="submit" class="btn green" name="status" value="1"

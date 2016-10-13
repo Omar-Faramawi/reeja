@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'cv_publishment'      => 'CV Publishing',
+    'cv_publishment'      => 'CV',
     'paid'                => 'Paid',
     'not_paid'            => 'Not Paid',
     'years'               => 'Years',

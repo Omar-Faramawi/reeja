@@ -4,7 +4,7 @@
 Route::controller('/admin/auth', 'Admin\Auth\AuthController');
 Route::controllers(['/admin/password' => 'Admin\Auth\PasswordController']);
 Route::group(['middleware' => ['admin_auth']], function () {
-    
+
     Route::group(['prefix' => 'admin'], function () {
         Route::resource("/contractnatures", "Admin\ContractNatureController");
         Route::patch("/contractnatures/approve/{id}", "Admin\ContractNatureController@approve");
@@ -15,6 +15,27 @@ Route::group(['middleware' => ['admin_auth']], function () {
         Route::patch("/ratingmodels/approve/{id}", "Admin\RatingModelsController@approve");
         Route::patch("/ratingmodels/reject/{id}", "Admin\RatingModelsController@reject");
         Route::get('contractSetup/{id}/edit', 'Admin\ContractSetupController@edit')->name('admin.contractSetup.edit');
+        Route::get('contract-members-taqyeem',
+            ['as' => 'nextToTaqyeemFromForm', 'uses' => 'Admin\ContractMembersTaqyeemController@index']);
+        Route::get('contract-members-taqyeem/{id}',
+            ['as' => 'nextToTaqyeem', 'uses' => 'Admin\ContractMembersTaqyeemController@index']);
+        Route::post('contract-members-taqyeem',
+            ['as' => 'nextToTaqyeemPost', 'uses' => 'Admin\ContractMembersTaqyeemController@store']);
+        
+	    Route::get('view-resident-details', ['as' => 'view.resident.details', 'uses' => 'Admin\ContractMembersTaqyeemController@viewResidentDetails']);
+        Route::get('view-taqyeem-ajeer/{taqyeem_tempplate_id}', [
+            'as'   => 'view.taqyeem.ajeer',
+            'uses' => 'Admin\ContractMembersTaqyeemController@viewTaqyeemContractAjeer'
+        ]);
+        Route::get('view-taqyeem-individuals/{taqyeem_template_id}', [
+            'as'   => 'view.taqyeem.individuals',
+            'uses' => 'Admin\ContractMembersTaqyeemController@viewTaqyeemContractIndividuals'
+        ]);
+        Route::get('searchTaqyeemUsers', [
+            'as'   => 'view.taqyeem.search.users',
+            'uses' => 'Admin\ContractMembersTaqyeemController@searchTaqyeemUsers'
+        ]);
+
         Route::patch('contractSetup/{id}/update',
             'Admin\ContractSetupController@update')->name('admin.contractSetup.update');
         Route::get('serviceUsersPermissions/contractType/{id}/edit',
@@ -26,8 +47,8 @@ Route::group(['middleware' => ['admin_auth']], function () {
         Route::patch("/contracttypes/approve/{id}", "Admin\ContractTypeController@approve");
         Route::patch("/contracttypes/reject/{id}", "Admin\ContractTypeController@reject");
         Route::resource('/', 'Admin\AdminController');
-        
-        
+
+
         // Users Routes
         Route::group(['prefix' => 'users'], function () {
             Route::resource('/user_types', 'Admin\Users\UserTypesController');
@@ -39,9 +60,9 @@ Route::group(['middleware' => ['admin_auth']], function () {
             Route::resource('/establishments_registeration', 'Admin\Users\EstablishmentsRegistrationController');
             Route::resource('/individuals', 'Admin\Users\IndividualsController');
         });
-        
+
         Route::resource('/ishaar_types', 'Admin\IshaarTypeController');
-        
+
         /* Settings Routes */
         Route::group(['prefix' => 'settings'], function () {
             Route::get('professions', 'Admin\Settings\ProfessionsController@index');
@@ -66,12 +87,12 @@ Route::group(['middleware' => ['admin_auth']], function () {
         Route::resource('/regions', 'Admin\RegionsController');
         Route::resource('/ishaar_setup', 'Admin\IshaarSetupsController');
         Route::resource('saudi_percentage', 'Admin\SaudiPercentageController');
-        
+
         Route::get('/taqawel_ishaar_management',
             'Admin\IshaarSetupsController@taqawelIshaarManagement')->name('admin.taqawel_ishaar_management.edit');
         Route::patch('/taqawel_ishaar_management/{id}',
             'Admin\IshaarSetupsController@updateTaqawelIshaarManagement')->name('admin.taqawel_ishaar_management.update');
-        
+
         Route::get('/loan_pcnt', 'Admin\LoanPcntController@index');
         Route::patch('/loan_pcnt', 'Admin\LoanPcntController@update');
     });

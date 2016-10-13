@@ -32,7 +32,10 @@ class MarketTaqawoulServices extends BaseModel
     protected $dates = ['deleted_at'];
 
 
-    protected $appends = ['providername', 'responsible_email', "responsible_mobile"];
+	/**
+	 * @var array
+	 */
+	protected $appends = ['providername', 'responsible_email', "responsible_mobile"];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -111,7 +114,7 @@ class MarketTaqawoulServices extends BaseModel
             case 2:
                 return $this->provider->email;
             case 3:
-                if (count($this->provider->responsibles) > 0) {
+                if (isset($this->provider->responsibles)) {
                     return $this->provider->responsibles[0]->responsible_email;
                 } else {
                     return null;
@@ -129,7 +132,7 @@ class MarketTaqawoulServices extends BaseModel
             case 2:
                 return null;
             case 3:
-                if (count($this->provider->responsibles) > 0) {
+                if (isset($this->provider->responsibles)) {
                     return $this->provider->responsibles[0]->responsible_phone;
                 } else {
                     return null;
@@ -174,13 +177,13 @@ class MarketTaqawoulServices extends BaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function government($column = "provider_id")
+    public function government($column = "service_id")
     {
         return $this->belongsTo(Government::class, $column);
     }
 
 
-    public function individual($column = "provider_id")
+    public function individual($column = "service_id")
     {
         return $this->belongsTo(Individual::class, $column);
     }
@@ -190,7 +193,7 @@ class MarketTaqawoulServices extends BaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function establishment($column = "provider_id")
+    public function establishment($column = "service_id")
     {
         return $this->belongsTo(Establishment::class, $column);
     }

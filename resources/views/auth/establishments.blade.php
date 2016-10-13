@@ -23,10 +23,17 @@
         <!-- END PAGE BREADCRUMBS -->
         <!-- BEGIN PAGE CONTENT INNER -->
         <div class="page-content-inner">
+            @if(session()->has('choose_est_message'))
+            <div class="alert alert-block alert-danger fade in">
+                <button type="button" class="close" data-dismiss="alert"></button>
+                <p>{!! session()->pull('choose_est_message') !!} </p>
+            </div>
+            @endif
+            
             @if(session()->get('selected_establishment'))
-                <div class="row">
-                    {{ trans('front.dashboard.establishment_select') }}
-                    {{ session()->get('selected_establishment')->name }}
+                <div class="note note-info">
+                    <h5 class="success">{{ trans('front.dashboard.establishment_select') }}</h5>
+                    <p>{{ session()->get('selected_establishment')->name }}</p>
                 </div>
             @endif
             <div class="row">
@@ -36,16 +43,16 @@
                         <div class="dashboard-stat2 ">
                             <div class="display">
                                 <div class="number">
-                                    <a href="{{ route('establishment.choose',['office'=> $establishment->number()->laborOfficeId(),'sequence'=> $establishment->number()->sequenceNumber()]) }}">
+                                    <a href="{{ route('establishment.choose',['office'=> $establishment->labor_office_id,'sequence'=> $establishment->sequence_number]) }}">
                                         <h4 class="font-green-sharp">
-                                            {{ $establishment->name() }}
+                                            {{ $establishment->name }}
                                         </h4>
                                         <small>{{ trans('establishments_registration.attributes.labour_office_no') }} :
-                                            {{ $establishment->number()->laborOfficeId() }}
+                                            {{ $establishment->labor_office_id }}
                                         </small>
                                         <br/>
                                         <small>{{ trans('establishments_registration.attributes.sequence_no') }} :
-                                            {{ $establishment->number()->sequenceNumber() }}
+                                            {{ $establishment->sequence_number }}
                                         </small>
                                     </a>
                                 </div>

@@ -29,14 +29,16 @@
                                                     {{$thisContract['providername']}}
                                                 </div>
                                             </div>
+											@if(isset($thisContract['provider']['est_activity']))
                                             <div class="row static-info">
                                                 <div class="col-md-3 name">
                                                     {{trans("offers.providerType")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['provider']['est_activity'] or "person"}}
+                                                    {{$thisContract['provider']['est_activity']}}
                                                 </div>
                                             </div>
+											@endif
                                         </div>
                                     </div>
 
@@ -114,10 +116,10 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-3">{{trans("offers.offerValideTo")}}</div>
-                                        <div class="col-lg-2">{{$dateEnded}}</div>
-                                        <div class="col-lg-7">{{trans("offers.offerValideToDescrition")}}</div>
+                                        <div class="col-lg-9">{{$dateEnded}}</div>
                                     </div>
                                     <br>
+                                    @if(isset($canAccept))
                                     <div class="row">
                                         <div class="col-lg-12 col-lg-6">
                                             <div class="input-group">
@@ -133,7 +135,7 @@
                                     <br>
                                     <div class="row">
 
-                                        @if(isset($canAccept))
+                                        
                                             <div class="col-lg-6"></div>
                                             <div class="col-lg-6">
                                                 <div class="form-actions">
@@ -148,12 +150,15 @@
                                                 </div>
 
                                             </div>
-                                        @else
+                                        
+                                    </div>
+                                    @else
+                                        <div class="row">
                                             <div class="alert alert-warning">
                                                 {{trans("offers.cannotaccept")}}
                                             </div>
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         @else

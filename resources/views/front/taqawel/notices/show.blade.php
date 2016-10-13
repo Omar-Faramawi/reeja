@@ -117,9 +117,9 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">{{trans('ishaar_setup.form_attributes.work_region')}}</label>
+                                                <label class="col-md-3 control-label">{{trans('ishaar_setup.attributes.ishaar_status')}}</label>
                                                 <div class="col-md-4">
-                                                    <input type="text" class="form-control input-circle" value="{{$contract->hrPool->region->name or ''}}" disabled="disabled">
+                                                    <input type="text" class="form-control input-circle" value="{{$contract->translated_status or ''}}" disabled="disabled">
                                                 </div>
                                             </div>
 
@@ -127,7 +127,7 @@
                                             <div class="form-group last">
                                                 <label class="col-md-3 control-label">{{trans('ishaar_setup.form_attributes.work_areas')}}</label>
                                                 <div class="col-md-4">
-                                                    <span class="form-control-static">@foreach($contract->contract->contractLocations as $cc){{$cc->desc_location}} @endforeach </span>
+                                                    <span class="form-control-static">@foreach($contract->contract->contractLocations as $cc){{$cc->desc_location}}<br/> @endforeach </span>
                                                 </div>
                                             </div>
                                      
@@ -175,9 +175,9 @@
                                         <div class="form-actions">
                                             <div class="row">
                                                 <div class="col-md-offset-3 col-md-9">
-
+                                                    @if($contract->status != 'cancelled' && $contract->status != 'benef_cancel' && $contract->status != 'provider_cancel')
                                                     <button type="button" class="btn btn-danger" id='refuse_cancel' data-toggle="modal" href="#refuse" data-type="contract">{{ trans('ishaar_setup.actions.ask_cancel') }}</button>
-
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -217,7 +217,6 @@
                         <option value="{{ $reason->id }}">{{ $reason->reason}}</option>
                      @endforeach
                      @endif
-                        <option value='other'>{{ trans('contracts_cancelation.other') }}</option>
                </select>
                <label for="form_control_1">{{ trans('contracts_cancelation.refusereason') }}</label>
             </div>

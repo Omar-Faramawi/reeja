@@ -1,4 +1,5 @@
 $(function () {
+    App.setAssetsPath('/assets/');
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -324,7 +325,7 @@ $(function () {
             }
         });
     });
-    
+
     $("#form").validate({
         errorElement: 'span', //default input error message container
         errorClass: 'help help-block help-block-error', // default input error message class
@@ -381,6 +382,7 @@ $(function () {
     /** datetables **/
     function apply_to_vacancy() {
         $('.apply_vacancy').click(function (e) {
+            var btn = $(this).button('loading');
             e.preventDefault();
             $.ajax({
                 type: "GET",
@@ -405,6 +407,9 @@ $(function () {
                         error += v + "</p>";
                     });
                     toastr.error("", error);
+                },
+                complete: function() {
+                    btn.button('reset');
                 }
             });
         })
@@ -509,7 +514,7 @@ $(function () {
                 url: route,
                 success: function (data) {
                     $(button).closest('tr').remove();
-                    toastr.error('', data);
+                    toastr.success('', data);
                 },
                 error: function (data) {
                     if (data.status == 401 || data.status == 404) {
@@ -540,7 +545,7 @@ $(function () {
 
         var columns = [];
         $("#datatable_ajax th").each(function () {
-            columns.push({"defaultContent": defaultContent, data: $(this).attr("id"), name: $(this).attr("id")});
+            columns.push({"defaultContent": '', data: $(this).attr("id"), name: $(this).attr("id")});
         });
 
         var handleRecords = function () {
@@ -575,7 +580,7 @@ $(function () {
 
                     //show & hide cancel Ishaar Button
                     deleteTaqawelService();
-                    
+
                     //delete publish service
                     deletePublishService();
                 },
@@ -591,7 +596,7 @@ $(function () {
                         "headers": {
                             "X-CSRF-TOKEN": $("#datatable_ajax").attr('data-token')  // incase you using post request
                         },
-                        "url": $("#datatable_ajax").attr('data-url') ? $("#datatable_ajax").attr('data-url') : window.location,
+                        "url": $("#datatable_ajax").attr('data-url') ? $("#datatable_ajax").attr('data-url') : '',
                         "type": $("#datatable_ajax").attr('data-type') ? $("#datatable_ajax").attr('data-type') : "get",
                     },
                     "columnDefs": [{
@@ -625,7 +630,7 @@ $(function () {
                     },
                     "bInfo": false,
                     "columns": columns,
-                    "ordering": false,
+                    "ordering": true,
                     "order": [
                         [0, "desc"]
                     ]
@@ -768,7 +773,7 @@ $(function () {
         var id = $(this).val();
         var base = window.location.protocol + "//" + window.location.host;
         var current = $("#current_route").text();
-        $("#add_ishaar").attr("href", base + current +'/' + id);
+        $("#add_ishaar").attr("href", base + current + '/' + id);
     });
 
     //Taqawel Ishaar selecet contract
@@ -808,7 +813,7 @@ $(function () {
     /**
      * Add laborers Handlers, check if laborer exists in mol
      */
-    $('input[name="id_number"]').on('keyup', function (e) {
+    $('#laborer_id_number').on('keyup', function (e) {
         $('#status-label').addClass('hidden');
         var id = jQuery.trim($(this).val());
         var url = '/laborer';
@@ -825,7 +830,7 @@ $(function () {
             $('#status-label-not-exist').removeClass('hidden');
         });
     });
-
+    
     /**
      * publish Laborer to labor market handlers
      */
@@ -834,6 +839,7 @@ $(function () {
             if ($(this).is(':checked')) {
                 var tr = $(this).parents('tr');
                 var clone = tr.clone();
+                clone.find("td:last").remove();
                 $('#in-modal-table').append(clone);
             } else {
                 var modal_tr = $('#in-modal-table').find('.select-checkbox[value="' + $(this).val() + '"]').parents('tr');
@@ -936,21 +942,21 @@ $(function () {
     }
 
 
-    //$("select[name=reason_id]").on('change', function () {
-    //    if ($(this).val() == "1") {
-    //        $("textarea[name=rejection_reason]").parent('div').show();
-    //    } else {
-    //        $("textarea[name=rejection_reason]").parent('div').hide();
-    //    }
-    //});
+    $("select[name=reason_id]").on('change', function () {
+        if ($(this).val() == "14") {
+            $("#other").parent('div').show();
+        } else {
+            $("#other").parent('div').hide();
+        }
+    });
 
 
-    $('#select_reason').on('change', function() {
+    $('#select_reason').on('change', function () {
         var selectedOptionValue = $('#select_reason option:selected').val();
         var lastOptionValue = $('#select_reason option:last-child').val();
-        if(selectedOptionValue == lastOptionValue){
+        if (selectedOptionValue == lastOptionValue) {
             $('#other_reason').show();
-        }else{
+        } else {
             $('#other').val('');
             $('#other_reason').hide();
         }
@@ -1010,7 +1016,7 @@ window.onload = function () {
     $(document).on('click', '.generate_cert', function () {
         if ($('.contracts_cert_list tbody tr#cid_' + $(this).data('cid')).length > 0)
             return false;
-
+        $('.table_container #certificate_generate_invoice').attr("href","certificate_generate_invoice");
         var record = $(this).closest('tr').clone();
         record.attr('id', 'cid_' + $(this).data('cid'));
         var remove_btn = $('<a />').addClass('btn btn-danger remove_record').text(remove);
@@ -1116,6 +1122,13 @@ $('document').ready(function () {
                         }
                     });
                 });
+                $("#taqawel_service_type").change(function () {
+                    if ($(this).val() == 'other') {
+                        $('#new_service').append('<input id="myInput" class="form-control" name="new_service" type="text" />');
+                    } else {
+                        $('#myInput').remove();
+                    }
+                });
             }
             , error: function (data) {
                 if (data.status == 401 || data.status == 404) {
@@ -1123,7 +1136,6 @@ $('document').ready(function () {
                 }
             }
         });
-
     });
     $('#ask-offer').on('click', function () {
         $.ajax({
@@ -1158,11 +1170,14 @@ $('document').ready(function () {
     });
 
     $(".date-picker-event").datepicker({
+        rtl: App.isRTL(),
+        autoclose: true,
         dateFormat: 'yy-mm-dd',
         changeYear: true,
         onSelect: function (date) {
             var from, to;
             if ($(this).hasClass('from')) {
+                $(".duration").prop('disabled', false);
                 from = new Date(date);
                 to = $('.to').val().length !== 0 ? new Date($('.to').val()) : from;
             } else if ($(this).hasClass('to')) {
@@ -1170,12 +1185,36 @@ $('document').ready(function () {
                 from = $('.from').val().length !== 0 ? new Date($('.from').val()) : to;
             }
             var timeDiff = Math.abs(to.getTime() - from.getTime());
-            var duration = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            $('.duration').val(duration);
+            var duration = Math.ceil(timeDiff / (1000 * 3600 * 24))/30;
+            if(duration >= 1){
+                $('#not_allowed_period').text("");
+                $('.duration').val(Math.round(duration));
+            }
+            else
+            $('#not_allowed_period').text(minimum_contract_period);
 
         },
     });
-
+    if (App.isRTL()) {
+        $(".date-picker-event").datepicker("option", "dayNames", ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"]);
+        $(".date-picker-event").datepicker("option", "dayNamesMin", ["ح", "ن", "ث", "ع", "خ", "ج", "س", "ح"]);
+        $(".date-picker-event").datepicker("option", "dayNamesShort", ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت", "أحد"]);
+        $(".date-picker-event").datepicker("option", "monthNames", ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]);
+        $(".date-picker-event").datepicker("option", "isRTL", true);
+        $(".date-picker-event").datepicker("option", "monthNamesShort", ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]);
+        $(".date-picker-event").datepicker("option", "currentText", 'الان');
+        $(".date-picker-event").datepicker("option", "firstDay", 6);
+    }
+    
+    $(".duration").on('change', function (){
+       var x = parseInt($(this).val());
+       var from = $(".from").val();
+       var CurrentDate = new Date(from);
+      CurrentDate.setMonth(CurrentDate.getMonth() + x);
+       $('.to').datepicker("setDate", CurrentDate);
+    })
+    
+   
     $('input[name=contract_type]').on('change', function () {
         if ($(this).val() == 1) {
             $('select[name=contract_ref_no]').closest('div').slideDown();
@@ -1187,10 +1226,18 @@ $('document').ready(function () {
 
     $('.add-new').on('click', function (e) {
         e.preventDefault();
-        $('.add-input').clone()
-            .find('.desc-location').val("")
-            .first()
-            .appendTo('.container-inputs');
+        $('.container-inputs').append('<input class="bs-select form-control desc-location" name="desc_location[]" type="text" value="">');
+    });
+    
+    $('.update_contract').click(function () {
+        $(':input[type="text"]').filter(function (e) {
+            if (this.value.length === 0) {
+                return true;
+            }
+        }).remove();
+        if (!$('.container-inputs').find('input').length) { 
+            $('.container-inputs').append('<input class="bs-select form-control desc-location" name="desc_location[]" type="text" value="">');
+        }
     });
 
 
@@ -1330,11 +1377,13 @@ $('document').ready(function () {
                         toastr.error('', bug_msg);
                     }
                     var json = $.parseJSON(msg.responseText);
-                    var error = '<p>';
+                    var error = '';
                     $.each(json, function (k, v) {
-                        error += v + "</p>";
+                        error += "<span>" + v + "</span><br/>";
                     });
                     toastr.error('', error);
+                    $(".alert-danger").removeClass('hidden');
+                    $(".alert-danger").append(error);
                 }
             });
 
@@ -1353,6 +1402,15 @@ $('document').ready(function () {
             window.location = route + '/type/' + val;
         else
             window.location = route;
+
+    });
+    
+    // detect job seeker or job owner in DirectHiring labor market
+    $('#directHiring-type-select').on('change', function () {
+        var val = $(this).val();
+        if (val)
+            window.location = val;
+       
 
     });
 });
@@ -1381,49 +1439,49 @@ $(document).on('click', '.service', function () {
     });
 });
 
-$(document).ready(function(){
-    $('select#prvd_benf').on('change', function(){
-        window.location = $(this).data('url'+$(this).val());
+$(document).ready(function () {
+    $('select#prvd_benf').on('change', function () {
+        window.location = $(this).data('url' + $(this).val());
     });
 });
 
 
-function selectEmployee( selected_row, id ) {
-    if ( $( "#selected_row_" + id ).length )
+function selectEmployee(selected_row, id) {
+    if ($("#selected_row_" + id).length)
         return false;
     row = $(selected_row).closest('tr').html();
     $('#contract_requests').show();
     $('#selected_employees tbody').append('<tr id="selected_row_' + id + '">' + row + '</tr>');
     $('#selected_row_' + id).find("td:first").remove();
     $('#selected_row_' + id).find("td:last").remove();
-    $('#selected_row_' + id).append('<td><div class="form-group">'+
-        '<input class="form-control form-filter input-sm salary-input" name="salary[]" type="text">'+
-    '</div></td>');
-    $('#selected_row_' + id).append('<td><div class="form-group">'+
-        '<div class="col-md-3">'+
-            '<div class="fileinput fileinput-new" data-provides="fileinput">'+
-                '<div class="input-group input-small">'+
-                    '<div class="form-control input-fixed input-small" data-trigger="fileinput">'+
-                        '<i class="fa fa-file fileinput-exists"></i>&nbsp;'+
-                        '<span class="fileinput-filename"> </span>'+
-                    '</div>'+
-                    '<span class="input-group-addon btn default btn-file">'+
-                    '<span class="fileinput-new"> '+select_file+'</span>'+
-                    '<span class="fileinput-exists">'+change+'</span>'+
-                    '<input type="file" name="fileupload_' + id +'"> </span>'+
-                    '<a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">'+
-                    remove+'</a>'+
-                '</div>'+
-            '</div>'+
-        '</div>'+
-    '</div></td>');
+    $('#selected_row_' + id).append('<td><div class="form-group">' +
+        '<input class="form-control form-filter input-sm salary-input" name="salary[]" type="text">' +
+        '</div></td>');
+    $('#selected_row_' + id).append('<td><div class="form-group">' +
+        '<div class="col-md-3">' +
+        '<div class="fileinput fileinput-new" data-provides="fileinput">' +
+        '<div class="input-group input-small">' +
+        '<div class="form-control input-fixed input-small" data-trigger="fileinput">' +
+        '<i class="fa fa-file fileinput-exists"></i>&nbsp;' +
+        '<span class="fileinput-filename"> </span>' +
+        '</div>' +
+        '<span class="input-group-addon btn default btn-file">' +
+        '<span class="fileinput-new"> ' + select_file + '</span>' +
+        '<span class="fileinput-exists">' + change + '</span>' +
+        '<input type="file" name="fileupload_' + id + '"> </span>' +
+        '<a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">' +
+        remove + '</a>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div></td>');
     $('#selected_row_' + id).append('<td><a class="del_tr"></a><input type="hidden" name="ids[]" value="' + id + '" /></td>');
 
     return true;
 }
 
-function selectEmployeeFromMarket( selected_row, id ) {
-    if ( $( "#selected_row_" + id ).length )
+function selectEmployeeFromMarket(selected_row, id) {
+    if ($("#selected_row_" + id).length)
         return false;
     row = $(selected_row).closest('tr').html();
     $('#contract_requests').show();
@@ -1433,7 +1491,7 @@ function selectEmployeeFromMarket( selected_row, id ) {
     $('#selected_row_' + id).append('<td><a class="del_tr" rel="' + id + '"></a><input type="hidden" name="ids[]" value="' + id + '" /></td>');
 
     ids_str = $('#ask-offer').val();
-    if(ids_str)
+    if (ids_str)
         ids = ids_str.split(',');
     else
         ids = [];
@@ -1442,71 +1500,124 @@ function selectEmployeeFromMarket( selected_row, id ) {
     return true;
 }
 
-$('document').ready(function(){
-    $('#labor_click').on('click', function(){
+$('document').ready(function () {
+    $('#labor_click').on('click', function () {
         var check_pass = '';
-        $(".select-checkbox:checked").each(function(){
+        $(".select-checkbox:checked").each(function () {
             check_pass = '1';
             $(this).attr('checked', false);
             $(this).parent().removeClass("checked");
             selectEmployee(this, $(this).val());
         });
-        if(check_pass){
+        if (check_pass) {
             $("html, body").animate({
                 scrollTop: $('#selected_employees').offset().top
             }, 500);
         }
-        else{
+        else {
             toastr.error('', select_at_least_one);
         }
     });
-    $('#select_employees_benf').on('click', function(){
+    $('#select_employees_benf').on('click', function () {
         var check_pass = '';
-        $(".select-checkbox:checked").each(function(){
+        $(".select-checkbox:checked").each(function () {
             check_pass = '1';
             $(this).attr('checked', false);
             $(this).parent().removeClass("checked");
             selectEmployeeFromMarket(this, $(this).val());
         });
-        if(check_pass){
+        if (check_pass) {
             $("html, body").animate({
                 scrollTop: $('#selected_employees').offset().top
             }, 500);
         }
-        else{
+        else {
             toastr.error('', select_at_least_one);
         }
     });
-    $('.labor_employee_data').on('click', '.select_emp', function(e) {
+    $('.labor_employee_data').on('click', '.select_emp', function (e) {
         e.preventDefault();
         var href = $(this).attr('href');
         id = href.replace("#/", "");
         return selectEmployee(this, id);
     });
-    $('#selected_employees').on('click', '.del_tr', function(e) {
+    $('#selected_employees').on('click', '.del_tr', function (e) {
         $(this).parent().parent().remove();
-        if($('#selected_employees tbody tr').length == 0)
+        if ($('#selected_employees tbody tr').length == 0)
             $('#contract_requests').hide();
     });
 
-    $('.labor_employee_data_benf').on('click', '.select_emp', function(e) {
+    $('.labor_employee_data_benf').on('click', '.select_emp', function (e) {
         e.preventDefault();
         var href = $(this).attr('href');
         id = href.replace("#/", "");
         return selectEmployeeFromMarket(this, id);
     });
-    $('#selected_employees_benf').on('click', '.del_tr', function(e) {
+    $('#selected_employees_benf').on('click', '.del_tr', function (e) {
         $(this).parent().parent().remove();
-        if($('#selected_employees_benf tbody tr').length == 0)
+        if ($('#selected_employees_benf tbody tr').length == 0)
             $('#contract_requests').hide();
 
         id = $(this).attr('rel');
         ids_str = $('#ask-offer').val();
         ids = ids_str.split(',');
         var index = ids.indexOf(id);
-        if( index > -1 ) {
+        if (index > -1) {
             ids.splice(index, 1);
         }
         $('#ask-offer').attr('value', ids.join());
     });
+    
+    //append contract id to cancellation modal
+    $('#taqawelModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var modal = $(this);
+        var id = button.data('contract_id');
+        modal.find(".modal-body input[name=id]").val(id);
+       
+});
+
+//certificate generate Invoice
+$('#certificate_generate_invoice').click(function (e) {
+    e.preventDefault();
+    {
+        var button = $(this);
+        var IDs = [];
+        $('.contracts_cert_list > tbody  > tr').each(function(){
+            IDs.push($(this).find('td:first-child').text()); 
+        });
+        console.log(IDs);
+        $.ajax({
+            type: "POST",
+            url: $(this).attr('href'),
+            data:{
+                contract_ids :IDs,
+                _token : button.data('token')
+            },
+            headers: {'XSRF-TOKEN': button.data('token')},
+            success: function (msg) {
+                console.log(msg);
+                $("#after_invoice").text(msg + after_generate_invoice);
+                $(button).css('display', 'none');
+                toastr.success('', msg);
+            },
+            error: function (msg) {
+                if (msg.status == 401 || msg.status == 404) {
+                    window.location = msg.getResponseHeader('Location')
+                }
+                if (msg.status == 500 || msg.status == 405) {
+                    toastr.error("", bug_msg);
+                }
+                var json = $.parseJSON(msg.responseText);
+                var error = '<p>';
+                $.each(json, function (k, v) {
+                    error += v + "</p>";
+                });
+                toastr.error("", error);
+            }
+        });
+
+    }
+});
+
 });

@@ -76,7 +76,7 @@
                                         <td>{{ $ratingModel->name }} </td>
                                         <td id="{{ $ratingModel->hashids }}">
                                             @if($ratingModel->status == 0)
-                                                <span class="badge label-sm label-info"> {{ trans('labels.status.'.$ratingModel->status) }} </span>
+                                                <span class="badge label-sm label-danger"> {{ trans('labels.status.'.$ratingModel->status) }} </span>
                                         </td>
                                         @elseif($ratingModel->status == 1)
                                             <span class="badge bg-green-seagreen bg-font-green-seagreen"> {{ trans('labels.status.'.$ratingModel->status) }} </span></td>
@@ -85,8 +85,7 @@
                                         @endif
                                         <td width="20%">
                                             <div class="btn-group btn-group-lg btn-group-solid margin-bottom-10">
-
-                                                <button data-popout="true" data-token="{{ csrf_token() }}"
+                                                <button data-popout="true" data-token="{{ csrf_token() }}" id="taqyeem_enable_btn" @if($ratingModel->status == 1) style="display:none" @endif
                                                         data-id="{{ $ratingModel->hashids }}"
                                                         data-hreff="{{ url('admin/ratingmodels/approve/'. $ratingModel->hashids) }}"
                                                         class="btn green action-ajax" data-type="approve"
@@ -97,30 +96,26 @@
                                                         data-btn-ok-label="{{ trans('labels.accept') }}"
                                                         data-btn-cancel-label="{{ trans('labels.cancel') }}">
                                                     <i class="fa fa-check"></i> {{ trans('labels.accept') }}</button>
-                                                <button data-popout="true" data-type="reject"
+                                                <button data-popout="true" data-type="reject" id="taqyeem_disable_btn" @if($ratingModel->status == 0) style="display:none" @endif
                                                         data-token="{{ csrf_token() }}"
                                                         data-id="{{ $ratingModel->hashids }}"
                                                         data-hreff="{{ url('admin/ratingmodels/approve/'. $ratingModel->hashids) }}"
                                                         class="btn yellow action-ajax" data-toggle="confirmation"
                                                         data-trans="{{ trans('labels.status.0') }}"
-                                                        data-original-title="{{ trans('labels.reject') }}"
+                                                        data-original-title="{{ trans('labels.reject2') }}"
                                                         data-placement="top"
-                                                        data-btn-ok-label="{{ trans('labels.reject') }}"
+                                                        data-btn-ok-label="{{ trans('labels.reject2') }}"
                                                         data-btn-cancel-label="{{ trans('labels.cancel') }}">
-                                                    <i class="fa fa-times"></i> {{ trans('labels.reject') }}</button>
+                                                    <i class="fa fa-times"></i> {{ trans('labels.reject2') }}</button>
                                                 <button data-toggle="modal" data-target="#main"
                                                         data-href="{{ url('admin/ratingmodels/'.$ratingModel->hashids . "/edit") }}"
                                                         class="btn blue"><i
                                                             class="fa fa-edit"></i> {{ trans('labels.edit') }}</button>
-                                                <button data-popout="true" data-token="{{ csrf_token() }}"
-                                                        data-id="{{ $ratingModel->hashids }}"
-                                                        data-hreff="{{ route('admin.ratingmodels.destroy', $ratingModel->hashids) }}"
-                                                        class="btn red-mint delete-ajax" data-toggle="confirmation"
-                                                        data-original-title="{{ trans('labels.delete_confirmation_message') }}"
-                                                        data-placement="top"
-                                                        data-btn-ok-label="{{ trans('labels.delete') }}"
-                                                        data-btn-cancel-label="{{ trans('labels.cancel') }}">
-                                                    <i class="fa fa-trash-o"></i> {{ trans('labels.delete') }}</button>
+
+                                                <button data-toggle="modal" data-target="#main"
+                                                        data-href="{{ route('nextToTaqyeem',$ratingModel->id ) }}"
+                                                        class="btn blue"><i
+                                                            class="fa fa-edit"></i> {{ trans('contractmembertaqyeem.access') }}</button>
                                             </div>
                                         </td>
                                     </tr>

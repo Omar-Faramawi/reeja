@@ -53,20 +53,20 @@
                            <div class="btn-group pull-right">
                               <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                               @if(Request::is('contracts/cancelation/direct_hiring/ishaar/beneficial'))
-                              {{ trans('contracts_cancelation.benficial') }}
+                              {{ trans('temp_job.job_owner') }}
                               @else
-                              {{ trans('contracts_cancelation.provider') }}
+                              {{ trans('temp_job.job_seeker') }}
                               @endif  
                               <i class="fa fa-angle-down"></i>
                               </button>
                               <ul class="dropdown-menu pull-right" role="menu">
                                  <li>
                                     <a href="{{ url('contracts/cancelation/direct_hiring/ishaar/provider') }}">
-                                    <i class="icon-user"></i> {{ trans('contracts_cancelation.provider') }}</a>
+                                    <i class="icon-user"></i> {{ trans('temp_job.job_seeker') }}</a>
                                  </li>
                                  <li>
                                     <a href="{{ url('contracts/cancelation/direct_hiring/ishaar/beneficial') }}">
-                                    <i class="icon-user"></i> {{ trans('contracts_cancelation.benficial') }}</a>
+                                    <i class="icon-user"></i> {{ trans('temp_job.job_owner') }}</a>
                                  </li>
                               </ul>
                            </div>
@@ -79,12 +79,16 @@
                            <thead>
                               <tr role="row" class="heading">
                                  <th id="id" width="10%"> {{ trans('contracts_cancelation.ishaar_number') }}</th>
-                                 <th id="start_date" width="200">{{ trans('contracts_cancelation.ishaar_start_date') }} </th>
-                                 <th id="end_date" width="200"> {{ trans('contracts_cancelation.ishaar_end_date') }}</th>
-                                 <th id="hr_pool.name" width="200">{{ trans('contracts_cancelation.ishaar_benef') }}</th>
-                                 <th id="hr_pool.job.job_name" width="200">{{ trans('contracts_cancelation.job') }}</th>
-                                 <th id="contract.providername" width="200">{{ trans('contracts_cancelation.contract_provider') }}</th>
-                                 <th id="details"> {{ trans('labels.details') }}</th>
+                                 <th class="no-sort" id="start_date" width="200">{{ trans('contracts_cancelation.ishaar_start_date') }} </th>
+                                 <th class="no-sort" id="end_date" width="200"> {{ trans('contracts_cancelation.ishaar_end_date') }}</th>
+                                 <th class="no-sort" id="hr_pool.name" width="200">{{ trans('contracts_cancelation.ishaar_benef') }}</th>
+                                 <th class="no-sort" id="hr_pool.job.job_name" width="200">{{ trans('contracts_cancelation.job') }}</th>
+                                 @if(Request::is('contracts/cancelation/direct_hiring/ishaar/beneficial'))
+                                 <th class="no-sort" id="contract.providername" width="200">{{ trans('labor_market.job_seeker_name') }}</th>
+                                 @else
+                                 <th class="no-sort" id="contract.benf_name" width="200">{{ trans('labor_market.job_owner') }}</th>
+                                 @endif
+                                 <th class="no-sort" id="details"> {{ trans('labels.details') }}</th>
                               </tr>
                               <tr role="row" class="filter">
                                  <td>
@@ -98,7 +102,6 @@
                                  <td>
                                     <input type="text" class="form-control input-sm date-picker"
                                        name="end_date">
-                                 </td>
                                  </td>
                                  <td>
                                     <input type="text" class="form-control form-filter input-sm"

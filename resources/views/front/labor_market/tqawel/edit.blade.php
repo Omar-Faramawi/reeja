@@ -196,8 +196,11 @@
 
 
                                 <div class="form-group form-md-line-input" @if(!$contract->contract_ref_no) style="display: none;" @endif>
+                                     @if($contract->status == 'approved')
+                                        {!! Form::text('contract_ref_no', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_ref_no'), 'class' => 'form-control', 'disabled' => 'disabled' ]) !!}
+                                    @else
                                     {!! Form::select('contract_ref_no', $contracts, [$contract->contract_ref_no], [ 'placeholder' =>  trans('tqawel_offer_contract.contract_ref_no'), 'class' => 'form-control' ]) !!}
-
+                                     @endif
                                     <label for="form_control_1">{{ trans('tqawel_offer_contract.contract_ref_no')
                                         }}</label>
                                         <span class="help-block">{{ trans('tqawel_offer_contract.contract_ref_no')
@@ -268,7 +271,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="text-align-left col-md-12">
-                    <button type="submit" name="status" class="btn green"
+                    <button type="submit" name="status" class="btn green update_contract"
                             value="pending">{{ trans('temp_job.save_and_send') }}</button>
                 </div>
             </div>

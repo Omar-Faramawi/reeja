@@ -32,7 +32,7 @@
                             </div>
                         @endif
 
-                        {!! Form::model($est, ['route' => 'establishment.profile.update', 'method' => 'patch', 'id'=> 'form','class' =>"form-horizontal", "data-url"=> route('establishment.profile.edit')]) !!}
+                        {!! Form::model($est, ['route' => 'establishment.profile.update', 'method' => 'patch', 'id'=> 'form','class' =>"form-horizontal", "data-url"=> (session()->has('red_url'))?url(session()->pull('red_url')): route('establishment.profile.edit')]) !!}
                         <div class="form-body">
                             {{-- Est Name--}}
                             <div class="form-group form-md-line-input">

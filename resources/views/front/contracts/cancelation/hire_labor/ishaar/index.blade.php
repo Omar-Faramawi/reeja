@@ -79,12 +79,12 @@
                            <thead>
                               <tr role="row" class="heading">
                                  <th id="id" width="10%"> {{ trans('contracts_cancelation.ishaar_number') }}</th>
-                                 <th id="start_date" width="200">{{ trans('contracts_cancelation.ishaar_start_date') }} </th>
-                                 <th id="end_date" width="200"> {{ trans('contracts_cancelation.ishaar_end_date') }}</th>
-                                 <th id="hr_pool.name" width="200">{{ trans('contracts_cancelation.ishaar_benef') }}</th>
-                                 <th id="hr_pool.job.job_name" width="200">{{ trans('contracts_cancelation.job') }}</th>
-                                 <th id="contract.providername" width="200">{{ trans('contracts_cancelation.contract_provider') }}</th>
-                                 <th id="details"> {{ trans('labels.details') }}</th>
+                                 <th class="no-sort" id="start_date" width="200">{{ trans('contracts_cancelation.ishaar_start_date') }} </th>
+                                 <th class="no-sort" id="end_date" width="200"> {{ trans('contracts_cancelation.ishaar_end_date') }}</th>
+                                 <th class="no-sort" id="hr_pool.name" width="200">{{ trans('contracts_cancelation.ishaar_benef') }}</th>
+                                 <th class="no-sort" id="hr_pool.job.job_name" width="200">{{ trans('contracts_cancelation.job') }}</th>
+                                 <th class="no-sort" id="contract.providername" width="200">{{ trans('contracts_cancelation.contract_provider') }}</th>
+                                 <th class="no-sort" id="details"> {{ trans('labels.details') }}</th>
                               </tr>
                               <tr role="row" class="filter">
                                  <td>

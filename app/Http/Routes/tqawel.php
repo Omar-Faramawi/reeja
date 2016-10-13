@@ -1,81 +1,78 @@
 <?php
 
 /** Taqawel */
+use Illuminate\Routing\Router;
 
-Route::group(['prefix' => 'taqawel', 'middleware' => ['auth']], function () {
-    Route::get("offer-contract",
-        ['as' => 'taqawel.offer_contract', 'uses' => 'Front\ContractsController@taqawelOfferContract']);
-    Route::post('market/offer', 'Front\TaqawelServicesController@askTaqawelOffer');
-    Route::get('taqawelService/{id}/delete', 'Front\TaqawelServicesController@destroy');
-    Route::get('market/{id?}', ['as' => 'taqawel.market', 'uses' => 'Front\TaqawelServicesController@market']);
-    Route::get("offer-taqawel-contract/{id}/show", [
+$router->group(['prefix' => 'taqawel', 'middleware' => ['auth', 'EstablishmentSelected', 'EstablishmentUpdated']], function (Router $router) {
+    $router->post('market/offer', 'Front\TaqawelServicesController@askTaqawelOffer');
+    $router->get('taqawelService/{id}/delete', 'Front\TaqawelServicesController@destroy');
+    $router->get('market/{id?}', ['as' => 'taqawel.market', 'uses' => 'Front\TaqawelServicesController@listMarketServices']);
+    $router->get("offer-taqawel-contract/{id}/show", [
         'as'   => 'taqawel.apply_taqawel_contract',
-        'uses' =>
-            'Front\TaqawelServicesController@applyTaqawelContract',
+        'uses' => 'Front\TaqawelServicesController@applyTaqawelContract',
     ]);
-    Route::post("offer-taqawel-contract/store", [
+    $router->post("offer-taqawel-contract/store", [
         'as'   => 'taqawel.store',
-        'uses' =>
-            'Front\TaqawelServicesController@storeTaqawelContract',
+        'uses' => 'Front\TaqawelServicesController@storeTaqawelContract',
     ]);
-    Route::get("received-contracts", [
+    $router->get("received-contracts", [
         'as'   => 'taqawel.received-contracts',
         'uses' => 'Front\TaqawelServicesController@showRecievedOffers',
     ]);
-    Route::get("contracts/{id?}", [
+    $router->get("contracts/{id?}", [
         'as'   => 'taqawel.contracts',
         'uses' => 'Front\TaqawelServicesController@showContracts',
     ]);
-    Route::get("offer-taqawel-contract/{id}/edit", [
+    $router->get("offer-taqawel-contract/{id}/edit", [
         'as'   => 'taqawel.contracts.edit',
         'uses' => 'Front\TaqawelServicesController@editContract',
     ]);
 
-    Route::put("offer-taqawel-contract/update/{contract}", [
+    $router->put("offer-taqawel-contract/update/{contract}", [
         'as'   => 'taqawel.contracts.update',
         'uses' => 'Front\TaqawelServicesController@updateContract',
     ]);
 
-    Route::get("offer-taqawel-contract/{id}/details", 'Front\TaqawelServicesController@showReceivedOffersDetails');
-    Route::get("offer-taqawel-contract/{id}/cancel", 'Front\TaqawelServicesController@cancelReceivedOffers');
-    Route::get("offer-taqawel-contract/{id}/reject", 'Front\TaqawelServicesController@rejectReceivedRequest');
-    Route::put("offer-taqawel-contract/{id}/cancel_reset", 'Front\TaqawelServicesController@CancelResetContract');
+    $router->get("offer-taqawel-contract/{id}/details", 'Front\TaqawelServicesController@showReceivedOffersDetails');
+    $router->get("offer-taqawel-contract/{id}/cancel", 'Front\TaqawelServicesController@cancelReceivedOffers');
+    $router->get("offer-taqawel-contract/{id}/reject", 'Front\TaqawelServicesController@rejectReceivedRequest');
+    $router->put("offer-taqawel-contract/{id}/cancel_reset", 'Front\TaqawelServicesController@CancelResetContract');
     
-    Route::group(['prefix' => 'offers'], function () {
-        Route::get("downloadfile/{id}", 'Front\OffersTaqaualController@downloadFile');
-        Route::get("reject/{id}", 'Front\OffersTaqaualController@reject');
-        Route::put("reject/{id}", 'Front\OffersTaqaualController@rejectPost');
-        Route::get("{id}", "Front\OffersTaqaualController@show");
-        Route::put("accept/approve/{id}", 'Front\OffersTaqaualController@approvePost');
-        Route::PUT("accept/{id}", "Front\OffersTaqaualController@accept");
-        Route::resource("", "Front\OffersTaqaualController");
+    $router->group(['prefix' => 'offers'], function (Router $router) {
+        $router->get("downloadfile/{id}", 'Front\OffersTaqaualController@downloadFile');
+        $router->get("reject/{id}", 'Front\OffersTaqaualController@reject');
+        $router->put("reject/{id}", 'Front\OffersTaqaualController@rejectPost');
+        $router->get("{id}", "Front\OffersTaqaualController@show");
+        $router->put("accept/approve/{id}", 'Front\OffersTaqaualController@approvePost');
+        $router->PUT("accept/{id}", "Front\OffersTaqaualController@accept");
+        $router->resource("", "Front\OffersTaqaualController");
     });
-    Route::group(['prefix' => 'packagesubsribe'], function () {
-        Route::put("accept/approve", "Front\PackageSubscribeController@approve");
-        Route::put("accept", "Front\PackageSubscribeController@accept");
-        Route::put("activate", "Front\PackageSubscribeController@activate");
-        Route::get("invoice",  "Front\PackageSubscribeController@invoice");
-        Route::resource("", "Front\PackageSubscribeController");
+    $router->group(['prefix' => 'packagesubsribe'], function (Router $router) {
+        $router->put("accept/approve", "Front\PackageSubscribeController@approve");
+        $router->put("accept", "Front\PackageSubscribeController@accept");
+        $router->put("activate", "Front\PackageSubscribeController@activate");
+        $router->get("invoice", "Front\PackageSubscribeController@invoice");
+        $router->resource("", "Front\PackageSubscribeController");
     });
 
-
-    Route::resource('taqawelService', 'Front\TaqawelServicesController');
-    Route::get('taqawelService/{id}/delete', 'Front\TaqawelServicesController@destroy');
-    Route::resource('notices', 'Front\TaqawelNoticesController');
-    Route::get('notices/type/{id}', 'Front\TaqawelNoticesController@index');
-    Route::get('notices/{id}/cancel_ishaar', 'Front\TaqawelNoticesController@cancelIshaar');
-    Route::get('notices/{id}/show_ishaar', 'Front\TaqawelNoticesController@showIshaar');
-    Route::post('notices/ask_cancel', 'Front\TaqawelNoticesController@askCancelIshaar');
-    Route::resource('publishservice', 'Front\PublishServiceTaqaualController');
+    $router->resource('taqawelService', 'Front\TaqawelServicesController');
+    $router->get('taqawelService/{id}/delete', 'Front\TaqawelServicesController@destroy');
+    $router->resource('notices', 'Front\TaqawelNoticesController');
+    $router->get('notices/type/{id}', 'Front\TaqawelNoticesController@index');
+    $router->get('notices/{id}/cancel_ishaar', 'Front\TaqawelNoticesController@cancelIshaar');
+    $router->get('notices/{id}/show_ishaar', 'Front\TaqawelNoticesController@showIshaar');
+    $router->post('notices/ask_cancel', 'Front\TaqawelNoticesController@askCancelIshaar');
+    $router->resource('publishservice', 'Front\PublishServiceTaqaualController');
+    
+    /** Approve Taqawel contracts cancellation */
+    $router->group(['prefix' => 'contracts/cancellation'], function (Router $router) {
+            $router->get("/ishaar/{type}", "Front\TaqawelContractController@taqawelIshaarsList");
+            $router->get("/ishaar/{type}/{id}", "Front\TaqawelContractController@singleTaqawelIshaar");
+            $router->get("/{type}", "Front\TaqawelContractController@taqawelContractsList");
+            $router->get("/{type}/{id}", "Front\TaqawelContractController@singleTaqawelContract");
+            $router->post("/accept", "Front\TaqawelContractController@acceptTaqawelContractCancel");
+            $router->post("/refuse", "Front\TaqawelContractController@refuseTaqawelContractCancel");
+        }
+    );
+    
 });
-
-/** Approve Taqawel contracts cancellation */
-Route::group(['prefix' => 'taqawel/contracts/cancellation', 'middleware' => ['auth', 'contractCancelation']],
-    function () {
-        Route::get("/ishaar/{type}", "Front\TaqawelContractController@taqawelIshaarsList");
-        Route::get("/ishaar/{type}/{id}", "Front\TaqawelContractController@singleTaqawelIshaar");
-        Route::get("/{type}", "Front\TaqawelContractController@taqawelContractsList");
-        Route::get("/{type}/{id}", "Front\TaqawelContractController@singleTaqawelContract");
-        Route::post("/accept", "Front\TaqawelContractController@acceptTaqawelContractCancel");
-        Route::post("/refuse", "Front\TaqawelContractController@refuseTaqawelContractCancel");
-    });

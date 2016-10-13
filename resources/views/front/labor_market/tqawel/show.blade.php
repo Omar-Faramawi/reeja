@@ -1,5 +1,5 @@
 @extends('front.layout')
-@section('title', trans('tqawel_offer_contract.offer-contracts'))
+@section('title', trans('temp_job.offer_contract'))
 @section('content')
 
         <!-- BEGIN CONTENT BODY -->
@@ -98,7 +98,7 @@
 
 
                                 <div class="form-group form-md-line-input">
-                                    {!! Form::text('contract_amount', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_amount'), 'class' => 'form-control' ]) !!}
+                                    {!! Form::number('contract_amount', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_amount'), 'class' => 'form-control' ]) !!}
                                     <label for="form_control_1">{{ trans('tqawel_offer_contract.contract_amount')
                                         }}</label>
                                         <span class="help-block">{{ trans('tqawel_offer_contract.contract_amount')
@@ -125,9 +125,8 @@
 
 
                                 <div class="form-group form-md-line-input">
-                                    {!! Form::text('duration', null, [ 'placeholder' => trans('tqawel_offer_contract.duration'), 'class' => 'form-control date-picker-event duration', 'disabled' => 'disabled' ]) !!}
-                                    <label for="form_control_1">{{ trans('tqawel_offer_contract.duration')
-                                        }}</label>
+                                    {!! Form::number('duration', null, [ 'placeholder' => trans('tqawel_offer_contract.duration'), 'class' => 'form-control  duration', 'disabled' => 'disabled']) !!}
+                                    <label for="form_control_1">{{ trans('tqawel_offer_contract.duration')}} {{ trans('tqawel_offer_contract.inmonth')}}</label> <div id="not_allowed_period" class="font-red"></div>
                                         <span class="help-block">{{ trans('tqawel_offer_contract.duration')
                                         }}</span>
                                 </div>
@@ -138,7 +137,7 @@
                                     <div class="col-md-9">
                                          <div class="md-radio-inline">
                                             <div class="md-radio">
-                                                <input type="radio" id="radio6" name="contract_type" checked value="2" class="md-radiobtn"checked>
+                                                <input type="radio" id="radio6" name="contract_type" checked value="2" class="md-radiobtn">
                                                 <label for="radio6">
                                                     <span></span>
                                                     <span class="check"></span>
@@ -172,7 +171,7 @@
 
                                 <div class="form-group form-md-line-input add-input">
                                     <label class="control-label col-md-1">{{ trans('tqawel_offer_contract.work_locations') }}</label>
-                                    <div class="col-md-11 container-inputs">
+                                    <div class="col-md-10 container-inputs">
                                         {!! Form::text('desc_location[]', null, ['class' => 'bs-select form-control desc-location']) !!}
                                     </div>
                                 </div>
@@ -190,7 +189,6 @@
                                 <br><br>
                                 <div class="form-group">
                                     <label class="control-label col-md-1">{{ trans('tqawel_offer_contract.attached_file') }}</label>
-                                    {{--<label class="control-label col-md-1">{{ trans('tqawel_offer_contract.file_upload') }}</label>--}}
                                     @include('components.fileupload', ['name' => 'file_contract'])
                                 </div>
 

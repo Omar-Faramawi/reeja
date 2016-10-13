@@ -35,27 +35,33 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                                data-close-others="true">
                                 <img alt="" class="img-circle" src="{{ asset('assets/img/avatar.png') }}">
-                                <span class="username username-hide-mobile">{{ $auth_user->name }}</span>
+                                <span class="username username-hide-mobile">{{ $auth_user->name }}
+                                @if(session()->has('selected_establishment.name'))
+                                    <br><span class="establishment">{{ session('selected_establishment.name')  }}</span>
+                                @endif
+                                </span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
-                                <li>
+                                {{--<li>
                                     <a href="#">
                                         <i class="icon-user"></i> {{ trans('front.header.profile') }} </a>
                                 </li>
+                                <li class="divider"></li>--}}
                                 @if(session('auth.type') == 'mol')
                                     <li>
                                         <a href="{{ url('/establishments') }}">
                                             <i class="icon-reload"></i> {{ trans('establishments_registration.change') }}
                                         </a>
                                     </li>
+                                    <li class="divider"></li>
                                 @elseif(session('auth.type') == 3)
                                     <li>
                                         <a href="{{ url('establishment/edit') }}">
                                             <i class="icon-reload"></i> {{ trans('establishment.can_change') }}
                                         </a>
                                     </li>
+                                    <li class="divider"></li>
                                 @endif
-                                <li class="divider"></li>
                                 <li>
                                     <a href="{{ url('/logout') }}">
                                         <i class="icon-logout"></i> {{ trans('front.header.logout') }} </a>
@@ -96,7 +102,7 @@
                                 <a href="{{ url('/about') }}"
                                    class="nav-link  "> {{ trans('front.menu.definition') }}</a>
                             </li>
-                            <li class="">
+                            {{--<li class="">
                                 <a href="{{ url('/terms') }}" class="nav-link  "> {{ trans('front.menu.terms') }}</a>
                             </li>
                             <li class="">
@@ -106,11 +112,13 @@
                                 <a href="{{ url('/support') }}"> {{ trans('front.menu.help') }}
                                     <span class="arrow"></span>
                                 </a>
-                            </li>
+                            </li>--}}
                         </ul>
                     </li>
 
-                    <li class="menu-dropdown mega-menu-dropdown">
+                    @if(auth()->check())
+                    @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['job_seeker'])
+                    <li class="menu-dropdown classic-menu-dropdown">
                         <a><i class="icon-briefcase"></i>
                             <span class="arrow"></span>
                             {{ trans('labor_market.job_seeker') }}
@@ -126,9 +134,21 @@
                                     {{trans('labor_market.labor_market')}}
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{url('/offersdirect')}}">
+                                    {{trans('offersdirect.receivedOffers')}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{url('/work_completion_certificate')}}">
+                                    {{trans('front.menu.work_completion_cert')}}
+                                </a>
+                            </li>
                             <li class="dropdown-submenu">
-                                <a
-                                        class="nav-link"> {{ trans('front.menu.cancel_approve') }}</a>
+                                <a class="nav-link nav-toggle">
+                                    {{ trans('front.menu.cancel_approve') }}
+                                    <span class="arrow"></span>
+                                </a>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a href="{{ url('contracts/cancelation/seeker/direct_hiring/provider') }}"
@@ -140,23 +160,27 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="{{url('/offersdirect')}}">
-                                    {{trans('offersdirect.receivedOffers')}}
-                                </a>
-                            </li>
                         </ul>
                     </li>
-
-                    <li class="menu-dropdown mega-menu-dropdown {{ ( in_array($current_route_name, ["labor-market.index", "received-contracts.view"]) ) ? "active" : "" }}">
+                    <li class="menu-dropdown mega-menu-dropdown">
+                        <a href="{{url('/my_invoices')}}">
+                            <i class="icon-layers"></i>
+                            {{ trans('front.menu.invoices') }}
+                            <span class="arrow"></span>
+                        </a>
+                    </li>
+                    @else
+                    <li class="menu-dropdown classic-menu-dropdown {{ ( in_array($current_route_name, ["labor-market.index", "received-contracts.view"]) ) ? "active" : "" }}">
                         <a class=""> <i
                                     class="icon-briefcase"></i> {{ trans('front.menu.temp_work') }}
                             <span class="arrow"></span>
                         </a>
                         <ul class="dropdown-menu pull-left">
                             <li class="dropdown-submenu">
-                                <a href="{{ route("labor-market.index") }}"
-                                   class="nav-link"> {{ trans('front.menu.hire_labor') }}</a>
+                                <a class="nav-link nav-toggle">
+                                    {{ trans('front.menu.hire_labor') }}
+                                    <span class="arrow"></span>
+                                </a>
                                 <ul class="dropdown-menu">
                                     <li class="">
                                         <a href="{{ url('laborer') }}"
@@ -179,11 +203,13 @@
                                            class="nav-link"> {{ trans('offers.receivedOffers') }}</a>
                                     </li>
                                     <li class="">
-                                        <a href="{{ url('contracts/' . \Tamkeen\Ajeer\Utilities\Constants::CONTRACTTYPES['hire_labor']) }}"
+                                        <a href="{{ route('tempwork.contracts') }}"
                                            class="nav-link"> {{ trans('front.menu.temp_work_contracts') }}</a>
                                     </li>
                                     <li class="dropdown-submenu">
-                                        <a class="nav-link"> {{ trans('front.menu.cancel_approve') }}</a>
+                                        <a class="nav-link"> {{ trans('front.menu.cancel_approve') }}
+                                            <span class="arrow"></span>
+                                        </a>
                                         <ul class="dropdown-menu">
                                             <li>
                                                 <a class="nav-link"
@@ -197,9 +223,6 @@
                                     </li>
                                     <li><a href="{{route('follow_contracts', ['ct_id' => \Tamkeen\Ajeer\Utilities\Constants::CONTRACTTYPES['hire_labor'], 'prvd_benf' => 1])}}">{{trans('front.menu.contract_follow')}}</a></li>
                                     <li class="">
-                                        <a class="nav-link"> {{ trans('front.menu.invoices') }}</a>
-                                    </li>
-                                    <li class="">
                                         <a href="{{url('/vacancies')}}"
                                            class="nav-link"> {{ trans('vacancies.headings.tab_head') }}</a>
                                     </li>
@@ -211,48 +234,72 @@
                                 </ul>
                             </li>
                             <li class="dropdown-submenu ">
-                                <a
-                                        class="nav-link"> {{ trans('front.menu.temp_direct_contract') }}</a>
+                                <a class="nav-link">
+                                    {{ trans('front.menu.temp_direct_contract') }}
+                                    <span class="arrow"></span>
+                                </a>
                                 <ul class="dropdown-menu">
+                                    @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['saudi'])
                                     <li class="">
                                         <a href="{{url('/cv')}}"
                                            class="nav-link"> {{ trans('front.menu.publish_cv') }}</a>
                                     </li>
+                                    @endif
 
                                     <li class="">
-                                        <a href="{{url('/job_search')}}"
+                                        <a href="{{url('/direct-hiring/labor-market')}}"
                                            class="nav-link"> {{ trans('front.menu.work_market') }}</a>
                                     </li>
                                     <li class="">
-                                        <a class="nav-link"> {{ trans('front.menu.received') }}</a>
+                                        <a href="{{ route('direct_hiring.contracts.received-contracts') }}" class="nav-link"> {{ trans('front.menu.received') }}</a>
                                     </li>
+
+                                    @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['saudi'])
+                                    <li>
+                                        <a href="{{url('/offersdirect')}}">
+                                            {{trans('offersdirect.receivedOffers')}}
+                                        </a>
+                                    </li>
+                                    @endif
+
                                     <li class="">
-                                        <a href="{{ url('contracts/' . \Tamkeen\Ajeer\Utilities\Constants::CONTRACTTYPES['direct_emp']) }}"
+                                        <a href="{{ route('direct_hiring.contracts') }}"
                                            class="nav-link"> {{ trans('front.menu.temp_direct_contract') }}</a>
                                     </li>
                                     <li class="dropdown-submenu">
-                                        <a
-                                                class="nav-link"> {{ trans('front.menu.cancel_approve') }}</a>
+                                        <a class="nav-link">
+                                            {{ trans('front.menu.cancel_approve') }}
+                                            <span class="arrow"></span>
+                                        </a>
                                         <ul class="dropdown-menu">
                                             <li>
 
-                                                <a href="{{ url('contracts/cancelation/direct_hiring/provider') }}"
+                                                <a href="{{ url('contracts/cancelation/direct_hiring/beneficial') }}"
                                                    class='nav-link'>{{ trans('contracts_cancelation.contracts') }}</a>
                                             </li>
                                             <li>
-                                                <a href="{{ url('contracts/cancelation/direct_hiring/ishaar/provider') }}"
+                                                <a href="{{ url('contracts/cancelation/direct_hiring/ishaar/beneficial') }}"
                                                    class='nav-link'>{{ trans('contracts_cancelation.ishaar') }}</a>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a href="{{route('follow_contracts', ['ct_id' => \Tamkeen\Ajeer\Utilities\Constants::CONTRACTTYPES['direct_emp'], 'prvd_benf' => 1])}}">{{ trans('front.menu.contract_follow') }}</a></li>
+                                    <li><a href="{{route('follow_contracts', ['ct_id' => \Tamkeen\Ajeer\Utilities\Constants::CONTRACTTYPES['direct_emp'], 'prvd_benf' => 2])}}">{{ trans('front.menu.contract_follow') }}</a></li>
                                     <li class="">
-                                        <a class="nav-link"> {{ trans('front.menu.invoices') }}</a>
+                                        <a href="{{url('/vacancies')}}"
+                                           class="nav-link"> {{ trans('vacancies.headings.tab_head') }}</a>
                                     </li>
                                     <li class="">
                                         <a href="{{url('/direct_ishaar')}}"
                                            class="nav-link"> {{ trans('front.menu.notices') }}</a>
                                     </li>
+
+                                    @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['saudi'])
+                                    <li>
+                                        <a href="{{url('/work_completion_certificate')}}">
+                                            {{trans('front.menu.work_completion_cert')}}
+                                        </a>
+                                    </li>
+                                    @endif
                                 </ul>
                             </li>
 
@@ -264,15 +311,9 @@
                                     </li>
                                 @endif
                             @endif
-                            @if(auth()->check())
-                                @if(in_array(auth()->user()->user_type_id, [\Tamkeen\Ajeer\Utilities\Constants::USERTYPES['saudi'], \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['job_seeker']]))
-                                    <li><a href="{{url('/work_completion_certificate')}}"
-                                           class="nav-link">{{trans('contracts.work_completion_cert')}}</a></li>
-                                @endif
-                            @endif
                         </ul>
                     </li>
-                    <li class="menu-dropdown mega-menu-dropdown">
+                    <li class="menu-dropdown classic-menu-dropdown">
                         <a> <i class="icon-briefcase"></i>
                             {{ trans('front.menu.tqawel') }}
                             <span class="arrow"></span>
@@ -292,18 +333,19 @@
                             </li>
                             <li><a href="{{route('follow_contracts', ['ct_id' => \Tamkeen\Ajeer\Utilities\Constants::CONTRACTTYPES['taqawel'], 'prvd_benf' => 1])}}">{{trans('front.menu.contract_follow')}}</a></li>
                             <li class="dropdown-submenu">
-                                <a class="nav-link"> {{ trans('front.menu.cancel_approve') }}</a>
+                                <a class="nav-link nav-toggle">
+                                    {{ trans('front.menu.cancel_approve') }}
+                                    <span class="arrow"></span>
+                                </a>
                                 <ul class="dropdown-menu">
-                                    <li>
+                                    <li class="">
                                         <a href="{{ url('taqawel/contracts/cancellation/provider') }}" class="nav-link">{{ trans('contracts_cancelation.contracts') }}</a>
+                                    </li>
+                                    <li class="">
                                         <a href="{{ url('taqawel/contracts/cancellation/ishaar/provider') }}" class="nav-link">{{ trans('contracts_cancelation.ishaar') }}</a>
                                     </li>
                                 </ul>
                             </li>
-
-                        <!--li class="">
-                                <a class="nav-link"> {{ trans('front.menu.invoices') }}</a>
-                            </li-->
                             <li class="">
                                 <a class="nav-link"
                                    href="{{url('/taqawel/publishservice')}}"> {{ trans('front.menu.taqawel_services') }}</a>
@@ -322,13 +364,21 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-dropdown mega-menu-dropdown">
+                    {{-- <li class="menu-dropdown mega-menu-dropdown">
                         <a> <i class="icon-bar-chart"></i>
                             {{ trans('front.menu.taqyeem') }}
                             <span class="arrow"></span>
                         </a>
+                    </li> --}}
+                    <li class="menu-dropdown mega-menu-dropdown">
+                         <a href="{{url('/my_invoices')}}">
+                          <i class="icon-layers"></i>
+                            {{ trans('front.menu.invoices') }}
+                            <span class="arrow"></span>
+                        </a>
                     </li>
-
+                    @endif
+                    @endif
                 </ul>
             </div>
             <!-- END MEGA MENU -->

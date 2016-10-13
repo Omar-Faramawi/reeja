@@ -29,5 +29,9 @@ return [
     'add_new'              => 'اضافة موقع عمل اخر',
     'offer_contract'       => 'تقديم عرض',
     'reject'               => 'رفض',
-    'cancel_reject_success'=> 'تم التراجع عن طلب الإلغاء'
+    'cancel_reject_success'=> 'تم التراجع عن طلب الإلغاء',
+    'inmonth'              => '(بالشهر )',
+    'minimum_contract_period' => 'مدة العقد يجب أن تكون شهرا على الأقل .',
 ];
+
+

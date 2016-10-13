@@ -79,11 +79,11 @@
                            <thead>
                               <tr role="row" class="heading">
                                  <th id="id" width="10%"> {{ trans('contracts_cancelation.contract_number') }}</th>
-                                 <th id="start_date" width="200">{{ trans('contracts_cancelation.contract_start_date') }} </th>
-                                 <th id="end_date" width="200"> {{ trans('contracts_cancelation.contract_end_date') }}</th>
-                                 <th id="benf_name" width="200">{{ trans('contracts_cancelation.contract_benef') }}</th>
-                                 <th id="providername" width="200">{{ trans('contracts_cancelation.contract_provider') }}</th>
-                                 <th id="details"> {{ trans('labels.details') }}</th>
+                                 <th class="no-sort" id="start_date" width="200">{{ trans('contracts_cancelation.contract_start_date') }} </th>
+                                 <th class="no-sort" id="end_date" width="200"> {{ trans('contracts_cancelation.contract_end_date') }}</th>
+                                 <th class="no-sort" id="benf_name" width="200">{{ trans('contracts_cancelation.contract_benef') }}</th>
+                                 <th class="no-sort" id="providername" width="200">{{ trans('contracts_cancelation.contract_provider') }}</th>
+                                 <th class="no-sort" id="details"> {{ trans('labels.details') }}</th>
                               </tr>
                               <tr role="row" class="filter">
                                  <td>

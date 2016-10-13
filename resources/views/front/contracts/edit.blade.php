@@ -1,7 +1,6 @@
 @extends('front.layout')
 @section('title', trans('contracts.edit_contract'))
 @section('content')
-
     <!-- BEGIN PAGE CONTENT BODY -->
     <div class="page-content">
         <div class="container">
@@ -31,6 +30,7 @@
                                         <h5>{{ trans('temp_job.application_info') }}</h5><br>
                                     </div>
 
+                                    @if(!empty($contract->vacancy_id))
                                     <div class="form-group form-md-line-input">
                                         {!! Form::select('job_id', $jobs, @$contract->vacancy->job->id, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.job_id'), 'class' => 'form-control' ]) !!}
                                         <label for="form_control_1">{{ trans('temp_job.job_id') }}</label>
@@ -55,6 +55,7 @@
                                         <span class="help-block">{{ trans('temp_job.religion_id') }}</span>
                                     </div>
 
+                                    @endif
 
                                     <div class="form-group form-md-line-input">
                                         {!! Form::text('start_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.work_start_date'), 'class' => 'form-control date-picker' ]) !!}
@@ -112,6 +113,21 @@
                                     </div>
                                     <br><br>
 
+                                    <div class="form-group form-md-line-input">
+                                        <label class="control-label col-md-1">{{ trans('temp_job.contract_locations') }}</label>
+                                        <div class="col-md-11">
+                                            {!! Form::text('contract_locations', $contract->contract_locations , ['class' => 'form-control',  'placeholder' => trans("temp_job.region_id") ]) !!}
+                                        </div>
+                                    </div>
+                                    <br><br>
+
+                                     <div class="form-group form-md-line-input">
+                                        <label class="control-label col-md-1">{{ trans('temp_job.attachment') }}</label>
+                                        @include('components.fileupload', ['name' => 'contract_file'])
+                                    </div>
+                                    <br><br>
+
+
 
                                     <div class="caption page-container">
                                         <i class="icon-layers font-blue-sharp title"></i>
@@ -119,7 +135,7 @@
 
                                         <div class="table-container">
                                             <table class="table table-striped table-bordered table-hover table-checkable"
-                                                   id="datatable_ajax" data-url="{{ route('contract-employee.index') }}"
+                                                   id="datatable_ajax" data-url="{{ route('contract-employee.list_contract_employees', ['id' => $contract->id]) }}"
                                                    data-token="{{ csrf_token() }}" data-type="POST">
                                                 <thead>
                                                 <tr role="row" class="heading">
@@ -156,7 +172,7 @@
                                                     </td>
 
                                                     <td>
-                                                        {{ Form::select('gender', \Tamkeen\Ajeer\Utilities\Constants::gender(), null, ['class' => 'form-control form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
+                                                        {{ Form::select('gender_name', \Tamkeen\Ajeer\Utilities\Constants::gender(), null, ['class' => 'form-control form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
                                                     </td>
 
                                                     <td>

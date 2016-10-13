@@ -59,7 +59,7 @@ class RatingModels extends BaseModel
      */
     public function taqyeemTemplatePermission()
     {
-        return $this->hasMany(TaqyeemTemplatePermission::class, "taqyeem_template_id");
+        return $this->hasOne(TaqyeemTemplatePermission::class, "taqyeem_template_id");
     }
 
     /**

@@ -40,8 +40,21 @@
 
 
                                 <div class="table-container">
-
-                                    <div class="col-md-3">
+                                        @if($ct_id == 4)
+                                        @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['saudi'])
+                                        <div class="col-md-3">
+                                        {!! Form::select('prvd_benf',Constants::directServiceTypes(['file' => 'temp_job'])
+                                        , $prvd_benf,
+                                         ['class' => 'form-control bs-select form-filter',
+                                        'id' => 'prvd_benf',
+                                        'data-url1' => route('follow_contracts', ['ct_id' => $ct_id, 'prvd_benf' => 1]),
+                                        'data-url2' => route('follow_contracts', ['ct_id' => $ct_id, 'prvd_benf' => 2])])
+                                        !!}
+                                        </div>
+                                         <br><br>
+                                        @endif
+                                        @else
+                                        <div class="col-md-3">
                                         {!! Form::select('prvd_benf',[ 1 => trans('labels.as_provider'), 2 => trans('labels.as_benf')]
                                         , $prvd_benf,
                                          ['class' => 'form-control bs-select form-filter',
@@ -49,8 +62,10 @@
                                         'data-url1' => route('follow_contracts', ['ct_id' => $ct_id, 'prvd_benf' => 1]),
                                         'data-url2' => route('follow_contracts', ['ct_id' => $ct_id, 'prvd_benf' => 2])])
                                         !!}
-                                    </div>
-                                    <br><br>
+                                        </div>
+                                        <br><br>
+                                        @endif
+                               
                                     <table class="table table-striped table-bordered table-hover table-checkable follow_contracts_table"
                                            id="datatable_ajax" data-token="{{ csrf_token() }}">
                                         <thead>
@@ -58,7 +73,11 @@
                                             <th id="id" width="5%">{{trans('contracts.id')}}</th>
                                             <th id="{{$prvd_benf == 1 ? 'benf_name' : 'providername'}}" class="no-sort"
                                                 width="20%">
+                                                @if($ct_id == 4)
+                                                {{$prvd_benf == 1 ? trans('labor_market.job_owner') : trans('labor_market.job_seeker_name')}}
+                                                @else
                                                 {{$prvd_benf == 1 ? trans('contract_setup.benf') : trans('contract_setup.provider')}}
+                                                @endif
                                             </th>
                                             <th id="status_alias"
                                                 class="no-sort"
@@ -72,6 +91,9 @@
                                             <th id="cancelled_employees"
                                                 class="no-sort"
                                                 width="0%">{{trans('contracts.end_date')}}</th>
+                                            <th id="provider_type"
+                                                class="no-sort"
+                                                width="0%">{{trans('contracts.end_date')}}</th>
                                             <th id="follow_contract_options" class="no-sort"
                                                 width="25%">{{trans('labor_market.details')}}</th>
                                         </tr>
@@ -83,8 +105,9 @@
                                                 {!! Form::text($prvd_benf == 1 ? 'benf_name' : 'providername', null, ['class' => 'form-control form-filter input-sm']) !!}
                                             </td>
                                             <td>
-                                                {!! Form::select('status', \Tamkeen\Ajeer\Utilities\Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter']) !!}
+                                                {!! Form::select('status', Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter']) !!}
                                             </td>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -125,6 +148,9 @@
                                                 class="no-sort"
                                                 width="0%">{{trans('contracts.attributes.end_date')}}</th>
                                             <th id="cancelled_employees"
+                                                class="no-sort"
+                                                width="0%">{{trans('contracts.attributes.end_date')}}</th>
+                                            <th id="provider_type"
                                                 class="no-sort"
                                                 width="0%">{{trans('contracts.attributes.end_date')}}</th>
                                             <th id="follow_contract_options" class="no-sort"
