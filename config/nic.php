@@ -1,14 +1,9 @@
 <?php
-
 return [
     'dummy'  => env('DUMMY_NIC', true),
-
     'username' => env('MOL_NIC_USERNAME'),
-
     'password' => env('MOL_NIC_PASSWORD'),
-
     'operatorId' => 1008143230,   // Eng. Waleed's NID
-
     'data' => [
         'citizens'   => [
             [
@@ -32,7 +27,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'معلم',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -59,7 +62,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'occupation',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -86,7 +97,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'occupation',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive',
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -113,7 +132,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'occupation',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -140,7 +167,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'occupation',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -167,7 +202,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'occupation',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -194,7 +237,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'occupation',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -221,7 +272,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'occupation',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -248,7 +307,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'occupation',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -275,7 +342,15 @@ return [
                 ],
                 'gender'         => 1,
                 'occupation'     => 'occupation',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive',
+                        'label' => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'martial_status' => [
                     'code' => 1,
                     'name' => '',
@@ -324,7 +399,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'ابن مواطنة',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -404,7 +486,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'ابن مواطنة',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -484,7 +573,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'ابن مواطنة',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -565,7 +661,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'طباخ منزلي',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -596,7 +699,7 @@ return [
                     ],
                 ],
                 'visa' => [
-                    'type'              => 'name',
+                    'type'              => 'زيارة سياحية',
                     'final_exit_issued' => 'name',
                     'expiry_date'       => [
                         'h' => '14400101',
@@ -645,7 +748,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل برشمة -ضغط هوائي',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -676,7 +786,7 @@ return [
                     ],
                 ],
                 'visa' => [
-                    'type'              => 'name',
+                    'type'              => 'زيارة تجارية',
                     'final_exit_issued' => 'name',
                     'expiry_date'       => [
                         'h' => '14400101',
@@ -725,7 +835,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'لحام المركبات المعدنية',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -756,7 +873,7 @@ return [
                     ],
                 ],
                 'visa' => [
-                    'type'              => 'name',
+                    'type'              => 'زيارة عائلية',
                     'final_exit_issued' => 'name',
                     'expiry_date'       => [
                         'h' => '14400101',
@@ -805,7 +922,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل قطع باللهب يدويا',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -836,7 +960,7 @@ return [
                     ],
                 ],
                 'visa' => [
-                    'type'              => 'name',
+                    'type'              => 'زيارة شخصية',
                     'final_exit_issued' => 'name',
                     'expiry_date'       => [
                         'h' => '14400101',
@@ -846,7 +970,7 @@ return [
             ],
             [
                 'residency' => [
-                    'number'      => 4010101071,
+                    'number'      => 4010103036,
                     'expiry_date' => [
                         'h' => '14400101',
                         'g' => '2016-01-01',
@@ -885,7 +1009,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل طلاء السلك بالماكينة',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -916,17 +1047,17 @@ return [
                     ],
                 ],
                 'visa' => [
-                    'type'              => 'name',
+                    'type'              => 'زيارة علاج',
                     'final_exit_issued' => 'name',
                     'expiry_date'       => [
-                        'h' => '14350101',
-                        'g' => '2013-01-01',
+                        'h' => '14400101',
+                        'g' => '2018-01-01',
                     ],
                 ],
             ],
             [
                 'residency' => [
-                    'number'      => 4010101089,
+                    'number'      => 4010103044,
                     'expiry_date' => [
                         'h' => '14400101',
                         'g' => '2016-01-01',
@@ -951,7 +1082,7 @@ return [
                     'name' => '',
                 ],
                 'name'     => [
-                    'first'  => 'kareem',
+                    'first'  => 'fahmy',
                     'second' => '',
                     'third'  => '',
                     'last'   => 'ahmed',
@@ -964,8 +1095,15 @@ return [
                 'gender'         => [
                     'code' => 1,
                 ],
-                'occupation'     => 'رباب اواني نحاسية',
-                'status'         => 1,
+                'occupation'     => 'عامل طلاء السلك بالماكينة',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -996,11 +1134,185 @@ return [
                     ],
                 ],
                 'visa' => [
-                    'type'              => 'name',
+                    'type'              => 'زيارة رجال أعمال',
                     'final_exit_issued' => 'name',
                     'expiry_date'       => [
-                        'h' => '14340101',
-                        'g' => '2012-01-01',
+                        'h' => '14400101',
+                        'g' => '2018-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 4168321083,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'سوري',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'Omar',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'طباخ منزلي',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '4294967295',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'زيارة سياحية',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 4010101006,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'سوري',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'Kareem',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'عامل برشمة -ضغط هوائي',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '4294967295',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'زيارة تجارية',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
                     ],
                 ],
             ],
@@ -1043,10 +1355,17 @@ return [
                     'g' => '2000-01-01',
                 ],
                 'gender'         => [
-                    'code' => 0,
+                    'code' => 2,
                 ],
                 'occupation'     => 'عامل طلاء السلك بالماكينة',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1077,7 +1396,7 @@ return [
                     ],
                 ],
                 'visa' => [
-                    'type'              => 'name',
+                    'type'              => 'زيارة مرافق',
                     'final_exit_issued' => 'name',
                     'expiry_date'       => [
                         'h' => '14350101',
@@ -1123,10 +1442,17 @@ return [
                     'g' => '2000-01-01',
                 ],
                 'gender'         => [
-                    'code' => 0,
+                    'code' => 2,
                 ],
                 'occupation'     => 'رباب اواني نحاسية',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1165,7 +1491,6 @@ return [
                     ],
                 ],
             ],
-
             //Yemni
             [
                 'residency' => [
@@ -1208,7 +1533,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'أخصائي أجهزة طبية',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1288,7 +1620,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'ممرضة منزلية',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1368,7 +1707,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل تكسية معادن بالغمر',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1448,7 +1794,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل تكسية',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1528,7 +1881,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل طلاء المعادن بالازرق',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1608,7 +1968,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل تنظيف المعادن بالرش بالمعادن',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1647,9 +2014,8 @@ return [
                     ],
                 ],
             ],
-
             //Female Yemni vistor
-             [
+            [
                 'residency' => [
                     'number'      => 4010102046,
                     'expiry_date' => [
@@ -1687,10 +2053,17 @@ return [
                     'g' => '2000-01-01',
                 ],
                 'gender'         => [
-                    'code' => 0,
+                    'code' => 2,
                 ],
                 'occupation'     => 'عامل طلاء المعادن بالازرق',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1767,10 +2140,17 @@ return [
                     'g' => '2000-01-01',
                 ],
                 'gender'         => [
-                    'code' => 0,
+                    'code' => 2,
                 ],
                 'occupation'     => 'عامل تنظيف المعادن بالرش بالمعادن',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1809,7 +2189,6 @@ return [
                     ],
                 ],
             ],
-
             // vistor not syrian not yemni
             [
                 'residency' => [
@@ -1852,7 +2231,101 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'ابن مواطنة',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '4294967295',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'name',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 4010101063,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'أفغانستاني',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'Rashed',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'ابن مواطنة',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -1932,7 +2405,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل طلاء بالغمس الساخن',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2012,7 +2492,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل مراجعة معادن',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2092,7 +2579,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل طلاء بالغمس الساخن',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2131,7 +2625,6 @@ return [
                     ],
                 ],
             ],
-
             // female vistor not syrian not yemni
             [
                 'residency' => [
@@ -2171,10 +2664,17 @@ return [
                     'g' => '2000-01-01',
                 ],
                 'gender'         => [
-                    'code' => 0,
+                    'code' => 2,
                 ],
                 'occupation'     => 'عامل مراجعة معادن',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2213,9 +2713,7 @@ return [
                     ],
                 ],
             ],
-
             //Morafqeen
-
             [
                 'residency' => [
                     'number'      => 2014060400,
@@ -2257,7 +2755,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل تنظيف سجاد',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  17,
+                        'name'  => 'Left not returned'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2279,7 +2784,7 @@ return [
                 ],
                 'sponsor' => [
                     'name'       => 'name',
-                    'id_number'  => '2012160400',
+                    'id_number'  => '1000011021',
                     'occupation' => 'name',
                     'status'     => 1,
                     'type'       => [
@@ -2337,7 +2842,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل تنظيف سجاد',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2417,7 +2929,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل تنظيف سجاد',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2497,7 +3016,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'مشغل مخرطة اتوماتيكية',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2577,7 +3103,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'مساعد براد',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2657,7 +3190,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل تركيب مواسير عام',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2737,7 +3277,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'مشغل فرن الدست',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2817,7 +3364,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'مشغل الة تشغيل مبرمجة',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2839,7 +3393,7 @@ return [
                 ],
                 'sponsor' => [
                     'name'       => 'name',
-                    'id_number'  => '2012160400',
+                    'id_number'  => '1000011021',
                     'occupation' => 'name',
                     'status'     => 1,
                     'type'       => [
@@ -2897,7 +3451,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'مشغل ثناية صفيح اليه',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2919,7 +3480,7 @@ return [
                 ],
                 'sponsor' => [
                     'name'       => 'name',
-                    'id_number'  => '2012160400',
+                    'id_number'  => '1000011021',
                     'occupation' => 'name',
                     'status'     => 1,
                     'type'       => [
@@ -2977,7 +3538,14 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل صنع نماذج ارانيك معدنية السبك',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -2999,7 +3567,7 @@ return [
                 ],
                 'sponsor' => [
                     'name'       => 'name',
-                    'id_number'  => '2012160400',
+                    'id_number'  => '1000011021',
                     'occupation' => 'name',
                     'status'     => 1,
                     'type'       => [
@@ -3057,7 +3625,449 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل تصليح بنادق صيد',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '1000011021',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'name',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 2010101091,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'موريتاني',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'fahad',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'عامل تشكيل المعدن يدويا',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  1,
+                        'name'  => 'Alive'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '1000011021',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'name',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 2010103006,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'موريتاني',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'fahad',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'عامل تشكيل المعدن يدويا',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  0,
+                        'name'  => 'Dead'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '1000011021',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'name',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 2010103014,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'موريتاني',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'fahad',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'عامل تشكيل المعدن يدويا',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  0,
+                        'name'  => 'Dead'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '1000011021',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'name',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 2010103022,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'موريتاني',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'fahad',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'عامل تشكيل المعدن يدويا',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  7,
+                        'name'  => 'Final exit'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '1000011021',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'name',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 2010103030,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'موريتاني',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'fahad',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'عامل تشكيل المعدن يدويا',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  7,
+                        'name'  => 'Final exit'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [
@@ -3098,7 +4108,7 @@ return [
             ],
             [
                 'residency' => [
-                    'number'      => 2010101090,
+                    'number'      => 2010103105,
                     'expiry_date' => [
                         'h' => '14400101',
                         'g' => '2016-01-01',
@@ -3137,7 +4147,275 @@ return [
                     'code' => 1,
                 ],
                 'occupation'     => 'عامل تشكيل المعدن يدويا',
-                'status'         => 1,
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  6,
+                        'name'  => 'Wanted for criminal deport'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '2012160400',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'name',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 2010103113,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'موريتاني',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'fahad',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'عامل تشكيل المعدن يدويا',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  3,
+                        'name'  => 'Absent'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '2012160400',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'name',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 2010103121,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'موريتاني',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'fahad',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'عامل تشكيل المعدن يدويا',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  8,
+                        'name'  => 'Transfer requested'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
+                'travel'         => [
+                    'travel_status' => 'داخل المملكة',
+                    'entry_date'    => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_entry_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'last_exit_date'  => [
+                        'h' => '14000101',
+                        'g' => '2000-01-01',
+                    ],
+                    'passport_expiry_date'  => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+                'sponsor' => [
+                    'name'       => 'name',
+                    'id_number'  => '2012160400',
+                    'occupation' => 'name',
+                    'status'     => 1,
+                    'type'       => [
+                        'code' => 1,
+                        'name' => '',
+                    ],
+                ],
+                'visa' => [
+                    'type'              => 'name',
+                    'final_exit_issued' => 'name',
+                    'expiry_date'       => [
+                        'h' => '14400101',
+                        'g' => '2020-01-01',
+                    ],
+                ],
+            ],
+            [
+                'residency' => [
+                    'number'      => 2010104004,
+                    'expiry_date' => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                    'id_type'     => 'رب أسرة',
+                    'issue_place' => 'الرياض',
+                    'issue_date'  => [
+                        'h' => '14400101',
+                        'g' => '2016-01-01',
+                    ],
+                ],
+                'marital_status' => [
+                    'code' => 1,
+                    'name' => '',
+                ],
+                'nationality' => [
+                    'code' => 111,
+                    'name' => 'موريتاني',
+                ],
+                'relationship' => [
+                    'code' => 111,
+                    'name' => '',
+                ],
+                'name'     => [
+                    'first'  => 'fahad',
+                    'second' => '',
+                    'third'  => '',
+                    'last'   => 'ahmed',
+                ],
+                'birth_place' => 'birth place',
+                'birth_date'  => [
+                    'h' => '14000101',
+                    'g' => '2000-01-01',
+                ],
+                'gender'         => [
+                    'code' => 1,
+                ],
+                'occupation'     => 'عامل تشكيل المعدن يدويا',
+                'status'         => [
+                    'person'  => [
+                        'code'  =>  8,
+                        'name'  => 'Transfer requested'
+                    ],
+                    'fingerprint'   => false,
+                    'prisoner'      => false,
+                ],
                 'travel'         => [
                     'travel_status' => 'داخل المملكة',
                     'entry_date'    => [

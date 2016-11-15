@@ -23,6 +23,7 @@ class VacanciesController extends Controller
      */
     public function index()
     {
+
         if (request()->ajax()) {
             $vacancies   = Vacancy::byMe()->notSeasonal();
             $total_count = ($vacancies->count()) ? $vacancies->count() : 1;
@@ -80,7 +81,16 @@ class VacanciesController extends Controller
         $regions       = Region::all(['id', 'name']);
         $nationalities = Nationality::all(['id', 'name']);
 
-        return view('front.vacancies.add', compact('jobs', 'regions', 'nationalities', 'taeed_vacancies'));
+        if (session()->has('selected_establishment')) {
+            $hajj = session()->has('selected_establishment.hajj');
+            if( !empty($hajj) ) {
+                $regions = $regions->filter(function($value, $key){
+                    return $key == 0;
+                });
+            }
+        }
+
+        return view('front.vacancies.add', compact('jobs', 'regions', 'nationalities', 'taeed_vacancies', 'hajj'));
     }
 
     /**

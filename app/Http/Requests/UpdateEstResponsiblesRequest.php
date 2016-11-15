@@ -25,10 +25,10 @@ class UpdateEstResponsiblesRequest extends Request
     {
         $rules = [];
         foreach ($this->get('resp_data') as $key => $data) {
-            $rules['resp_data.' . $key . '.id_number'] = 'required|numeric|min:0|max:4294967295';
+            $rules['resp_data.' . $key . '.id_number'] = 'required|integer|min:0|max:9999999999999';
             $rules['resp_data.' . $key . '.responsible_name'] = 'required|min:3|max:255';
             $rules['resp_data.' . $key . '.job_name'] = 'required|min:3|max:255';
-            $rules['resp_data.' . $key . '.responsible_phone'] = 'required|numeric|min:0|max:9999999999999';
+            $rules['resp_data.' . $key . '.responsible_phone'] = 'required|integer|min:0|max:9999999999999';
             $rules['resp_data.' . $key . '.responsible_email'] = 'required|email';
             $rules['resp_data.' . $key . '.id'] = 'exists:est_responsibles,id';
         }
@@ -45,7 +45,7 @@ class UpdateEstResponsiblesRequest extends Request
 
         foreach ($this->get('resp_data') as $key => $data) {
             foreach ($data as $k => $v) {
-                $attributes['resp_data.' . ($key) . '.' . $k] = $trans_attributes[$k] . ' ' . trans('labels.number') . ' ' . strval($key + 1);
+                $attributes['resp_data.' . ($key) . '.' . $k] = $trans_attributes[$k] . ' (' . strval($key + 1).') ';
             }
         }
 
@@ -58,7 +58,9 @@ class UpdateEstResponsiblesRequest extends Request
     public function messages()
     {
         $messages['est_type'] = trans('est_profile.est_type_error_message');
-
+        foreach ($this->get('resp_data') as $key => $data) {
+            $messages['resp_data.' . $key . '.id_number.max'] = trans('est_profile.responsibles_attributes.id_number').' '.trans('labels.number').' ('.strval($key+1).') '.trans('est_profile.invalid');
+        }
         return $messages;
     }
 }

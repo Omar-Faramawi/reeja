@@ -58,10 +58,10 @@
                         <div class="alert alert-info">{{ Session::pull('msg') }}</div>
                     @endif
                     <div class="table-scrollable">
-                        <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                        <table class="table table-striped table-bordered table-hover order-column">
                             <thead>
                             <tr class="odd gradeX">
-                                <th class="table-checkbox" width="5%"></th>
+                                {{-- <th class="table-checkbox" width="5%"></th> --}}
                                 <th>{{ trans('ratingmodels.formTitle') }}</th>
                                 <th>{{ trans('labels.project_status') }}</th>
                                 <th width="20%">{{ trans('labels.options') }}</th>
@@ -71,8 +71,8 @@
                             @if(!empty($ratingModels))
                                 @foreach($ratingModels as $ratingModel)
                                     <tr class="odd gradeX {{ $ratingModel->hashids }}">
-                                        <td width="5%"><input type="checkbox" class="checkboxes"
-                                                              value="{{ $ratingModel->hashids }}"/></td>
+                                        {{-- <td width="5%"><input type="checkbox" class="checkboxes"
+                                                              value="{{ $ratingModel->hashids }}"/></td> --}}
                                         <td>{{ $ratingModel->name }} </td>
                                         <td id="{{ $ratingModel->hashids }}">
                                             @if($ratingModel->status == 0)

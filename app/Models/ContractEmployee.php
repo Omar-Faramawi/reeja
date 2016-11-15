@@ -3,6 +3,7 @@
 namespace Tamkeen\Ajeer\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Tamkeen\Ajeer\Utilities\Constants;
 
 class ContractEmployee extends BaseModel
 {
@@ -40,9 +41,9 @@ class ContractEmployee extends BaseModel
         return $this->belongsTo(Contract::class, 'contract_id');
     }
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-	 */
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function hrPool()
     {
         return $this->belongsTo(HRPool::class, 'id_number');
@@ -57,15 +58,15 @@ class ContractEmployee extends BaseModel
         try {
             $ishaar = Self::findOrFail($id);
             if ($ishaar) {
-                $auth = ContractSetup::where('contract_type_id',$ishaar->contract->contract_type_id)->first();
-                if($auth){
-                    if(session()->get('service_type') == \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider']){
+                $auth = ContractSetup::where('contract_type_id', $ishaar->contract->contract_type_id)->first();
+                if ($auth) {
+                    if (session()->get('service_type') == Constants::SERVICETYPES['provider']) {
                         return $auth->benf_cancel_ishaar;
-                    }else{
+                    } else {
 
                         return $auth->provider_cancel_ishaar;
                     }
-                
+
                 }
             }
         } catch (ModelNotFoundException $e) {
@@ -110,25 +111,128 @@ class ContractEmployee extends BaseModel
      */
     public function getTranslatedStatusAttribute()
     {
-        return \Tamkeen\Ajeer\Utilities\Constants::contract_statuses($this->status,['file' => 'contracts.statuses']);
+        return Constants::contract_statuses($this->status, ['file' => 'contracts.statuses']);
     }
 
-    public static function MaxIshaarsForBenf($benf_id){
-        return self::whereHas('contract',function ($cont) use($benf_id) {
-                        $cont->byMe()->approved()->taqawel()->where('benf_id',$benf_id);
+    public static function MaxIshaarsForBenf($benf_id)
+    {
+        return self::whereHas('contract', function ($cont) use ($benf_id) {
+            $cont->byMe()->approved()->taqawel()->where('benf_id', $benf_id);
+        })->count();
+    }
+
+    public static function MaxEmployeeIshaarsForBenfInPeriod($benf_id, $id_number)
+    {
+        return self::whereHas('contract', function ($cont) use ($benf_id) {
+            $cont->byMe()->approved()->taqawel()->where('benf_id', $benf_id);
+        })->where('id_number', $id_number)->max('end_date');
+    }
+
+    public static function MinEmployeeIshaarsForBenfInPeriod($benf_id, $id_number)
+    {
+        return self::whereHas('contract', function ($cont) use ($benf_id) {
+            $cont->byMe()->approved()->taqawel()->where('benf_id', $benf_id);
+        })->where('id_number', $id_number)->min('start_date');
+    }
+
+    public static function MaxIshaarsForProvider($provider_id){
+        return self::whereHas('contract',function ($cont) use($provider_id) {
+                        $cont->byMe()->approved()->taqawel()->where('provider_id',$provider_id);
                     })->count();
     }
 
-    public static function MaxEmployeeIshaarsForBenfInPeriod($benf_id, $id_number){
-        return self::whereHas('contract',function ($cont) use($benf_id) {
-                        $cont->byMe()->approved()->taqawel()->where('benf_id',$benf_id);
-                    })->where('id_number',$id_number)->max('end_date');
+    /**
+     * @return mixed
+     */
+    public function scopeTaqawel($query)
+    {
+        return $query->whereHas('contract', function ($q) {
+            $q->where('contract_type_id', Constants::CONTRACTTYPES['taqawel']);
+        });
     }
 
-    public static function MinEmployeeIshaarsForBenfInPeriod($benf_id, $id_number){
-        return self::whereHas('contract',function ($cont) use($benf_id) {
-                        $cont->byMe()->approved()->taqawel()->where('benf_id',$benf_id);
-                    })->where('id_number',$id_number)->min('start_date');
+    /**
+     * @return mixed
+     */
+    public function scopeTempWork($query)
+    {
+        return $query->whereHas('contract', function ($q) {
+            $q->whereIn('contract_type_id', [
+                Constants::CONTRACTTYPES['direct_emp'],
+                Constants::CONTRACTTYPES['hire_labor'],
+            ])->whereHas('vacancy', function ($q2) {
+                $q2->notSeasonal();
+            });
+        });
     }
 
+    /**
+     * @return mixed
+     */
+    public function scopeTempInHajj($query)
+    {
+        return $query->whereHas('contract', function ($q) {
+            $q->whereIn('contract_type_id', [
+                Constants::CONTRACTTYPES['direct_emp'],
+                Constants::CONTRACTTYPES['hire_labor'],
+            ])->whereHas('vacancy', function ($q2) {
+                $q2->seasonal();
+            });
+        });
+    }
+
+    /**
+     * @return mixed
+     */
+    public function scopeEstablishmentBeneficialWithActivity($query, $activity_id)
+    {
+        return $query->whereHas('contract', function ($q) use ($activity_id) {
+            $q->establishmentBeneficial()->whereHas('benfEstablishment',
+                function ($q1) use ($activity_id) {
+                    $q1->whereActivityId($activity_id);
+                });
+        });
+    }
+
+    /**
+     * @return mixed
+     */
+    public function scopeEstablishmentProviderWithActivity($query, $activity_id)
+    {
+        return $query->whereHas('contract', function ($q) use ($activity_id) {
+            $q->establishmentBeneficial()->whereHas('establishment',
+                function ($q1) use ($activity_id) {
+                    $q1->whereActivityId($activity_id);
+                });
+        });
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function scopeEstablishmentBeneficial($query)
+    {
+        return $query->whereHas('contract', function ($q) {
+            $q->establishmentBeneficial();
+        });
+    }
+
+    /**
+     * @return mixed
+     */
+    public function scopeEstablishmentProvider($query)
+    {
+        return $query->whereHas('contract', function ($q) {
+            $q->establishmentBeneficial();
+        });
+    }
+
+    public function benfIdPattern()
+    {
+        $benf_id = $this->contract->benf_id;
+        $benf_type = $this->contract->benf_type;
+
+        return $benf_id . '_' . $benf_type . '_' . $this->id_number;
+    }
 }

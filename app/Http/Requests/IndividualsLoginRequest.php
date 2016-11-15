@@ -3,6 +3,7 @@
 namespace Tamkeen\Ajeer\Http\Requests;
 
 use Tamkeen\Ajeer\Http\Requests\Request;
+use Illuminate\Contracts\Validation\Validator;
 
 class IndividualsLoginRequest extends Request
 {
@@ -36,19 +37,24 @@ class IndividualsLoginRequest extends Request
     public function rules()
     {
         return [
-            'national_id'    => 'required|numeric|digits:10',
-            'password' 		   => 'required|min:6',
+            'national_id'    => 'required|integer|digits:10',
+            'password' 		 => 'required|min:6',
         ];
     }
 
     public function messages()
     {
       return [
-        'national_id.required'    => trans('auth.messages.invalid_username_password'),
-        'national_id.numeric'     => trans('auth.messages.invalid_username_password'),
-        'national_id.digits'      => trans('auth.messages.invalid_username_password'),
-        'password.required' 		  => trans('auth.messages.invalid_username_password'),
-        'password.min' 		        => trans('auth.messages.invalid_username_password')
+        'national_id.required'    => trans('auth.messages.invalid_nid_password'),
+        'national_id.integer'     => trans('auth.messages.invalid_nid_password'),
+        'national_id.digits'      => trans('auth.messages.invalid_nid_password'),
+        'password.required'       => trans('auth.messages.invalid_nid_password'),
+        'password.min' 		      => trans('auth.messages.invalid_nid_password')
       ];
+    }
+
+    protected function formatErrors(Validator $validator)
+    {
+        return array_unique($validator->errors()->all());
     }
 }

@@ -69,4 +69,9 @@ class Individual extends BaseModel
     {
         return $this->hasOne(IndividualLabor::class, 'indviduals_id_number');
     }
+
+    public function hrPool()
+    {
+        return $this->hasOne(HRPool::class, 'provider_id');
+    }
 }

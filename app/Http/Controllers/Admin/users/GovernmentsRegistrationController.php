@@ -10,6 +10,7 @@ use Tamkeen\Ajeer\Http\Requests\GovernmentsRegisterRequest;
 use Tamkeen\Ajeer\Models\Government;
 use Illuminate\Auth\Passwords\TokenRepositoryInterface;
 use Tamkeen\Ajeer\Models\User;
+use Tamkeen\Ajeer\Utilities\Constants;
 use Mail;
 
 class GovernmentsRegistrationController extends Controller
@@ -91,8 +92,9 @@ class GovernmentsRegistrationController extends Controller
     public function edit($id)
     {
         $data = Government::byId($id)->firstOrFail();
+        $user = User::where('id_no',$data->id)->where('user_type_id', Constants::USERTYPES['gov'])->first(['id','password']);
         
-        return view('admin.users.governments.edit', compact('data'));
+        return view('admin.users.governments.edit', compact('data','user'));
     }
     
     /**
@@ -106,12 +108,24 @@ class GovernmentsRegistrationController extends Controller
     public function update(GovernmentsRegisterRequest $request, $id)
     {
         $data        = Government::byId($id)->with('users')->firstOrFail();
-        $update_data = $request->only(['name', 'hajj']);
+        $oldEmail    = $data->email;
+        $update_data = $request->only(['name','email', 'hajj']);
         $data->fill($update_data);
         $data->save();
         
         // Update the user data
         $data->users()->update(['name' => $data->name]);
+        
+        if ($oldEmail != $update_data['email']) {
+            $token     = Password::getRepository()->create($data->users);
+
+            // Sending set password email
+            Mail::queue('auth.emails.password', ['token' => $token], function ($m) use ($update_data) {
+                $m->from(config('mail.from.address'), config('mail.from.name'));
+                $m->to($update_data['email']);
+                $m->subject(trans('auth.forget_pass_email_subject'));
+            });
+        }
         
         return trans('governments_registeration.updated');
     }

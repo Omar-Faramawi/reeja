@@ -2,7 +2,7 @@
 
 return [
     'headings'     => [
-        'list'   => 'Individuals Registration',
+        'list'   => 'Individuals Edit',
         'list1'  => 'Individuals',
         'create' => 'Create a new individual',
         'edit'   => 'Edit individual',

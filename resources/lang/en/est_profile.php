@@ -11,6 +11,7 @@ return [
     'hajj_est'                => 'Hajj Establishment',
     'catering_est'            => 'Catering/Transportation Establishment',
     'est_type_error_message'  => 'You must choose at least on establishment type',
+    'invalid'                 => 'is invalid',
     'attributes'              => [
         'FK_establishment_id' => 'Establishment number',
         'name'                => 'Establishment name',
@@ -24,11 +25,11 @@ return [
     'approved'                => 'Approved',
     'rejected'                => 'Rejected',
     'responsibles_attributes' => [
-        'id_number'         => 'Responsible ID Number',
-        'responsible_name'  => 'Responsible Name',
-        'job_name'          => 'Responsible Job Name',
-        'responsible_phone' => 'Responsible Phone Number',
-        'responsible_email' => 'Responsible Email Address',
+        'id_number'         => 'ID Number of Responsible',
+        'responsible_name'  => 'Name of Responsible',
+        'job_name'          => 'Job Name of Responsible',
+        'responsible_phone' => 'Phone Number of Responsible',
+        'responsible_email' => 'Email Address of Responsible',
         'id'                => 'Responsible'
     ]
 ];

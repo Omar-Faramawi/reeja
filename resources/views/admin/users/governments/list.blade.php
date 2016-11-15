@@ -40,10 +40,10 @@
                     </div>
                 </div>
                 <div class="table-scrollable">
-                    <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                    <table class="table table-striped table-bordered table-hover order-column">
                         <thead>
                         <tr class="odd gradeX">
-                            <th width="5%" class="table-checkbox"></th>
+                            {{-- <th width="5%" class="table-checkbox"></th> --}}
                             <th>{{ trans('governments_registeration.attributes.name') }}</th>
                             <th>{{ trans('governments_registeration.attributes.email') }}</th>
                             <th width="20%">{{ trans('labels.options') }}</th>
@@ -55,7 +55,7 @@
                         @else
                             @foreach($data as $single)
                                 <tr class="odd gradeX {{ $single->hashids }}">
-                                    <td><input type="checkbox" class="checkboxes" value="{{ $single->hashids }}"/></td>
+                                    {{-- <td><input type="checkbox" class="checkboxes" value="{{ $single->hashids }}"/></td> --}}
                                     <td> {{ $single->name }} </td>
                                     <td> {{ $single->email }} </td>
                                     <td>

@@ -15,10 +15,15 @@ use Tamkeen\Ajeer\Models\Reason;
 use Tamkeen\Ajeer\Http\Requests\TaqawelNoticesRequest;
 use Tamkeen\Ajeer\Http\Requests\CancelIshaarRequest;
 use Tamkeen\Ajeer\Utilities\Constants;
+use Tamkeen\Ajeer\Models\BaseModel;
+use Illuminate\Support\Facades\Auth;
+use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository;
+use Tamkeen\Ajeer\Models\SaudiPercentage;
+use Tamkeen\Ajeer\Models\Establishment;
 
 class TaqawelNoticesController extends Controller
 {
-    
+
     /**
      * Show Ishaar Layout.
      *
@@ -49,7 +54,7 @@ class TaqawelNoticesController extends Controller
 
         if (request()->ajax()) {
             $columns = request()->input('columns');
-            
+
             if ($isProvider) {
                 $ishaars = ContractEmployee::whereHas('contract',
                     function ($cont_q) {
@@ -75,7 +80,7 @@ class TaqawelNoticesController extends Controller
                     });
                 });
             }
-            
+
             if ($job = request()->input('job')) {
                 $ishaars = $ishaars->whereHas('hrPool', function ($q) use ($job) {
                     $q->whereHas('job', function ($q) use ($job) {
@@ -102,7 +107,7 @@ class TaqawelNoticesController extends Controller
             if (request()->input('status')) {
                 $ishaars = $ishaars->where('status', request()->input('status'));
             }
-            
+
             $total_count = $ishaars->count() ? $ishaars->count() : 1;
             if($can_cancel){
             $buttons = [
@@ -129,7 +134,7 @@ class TaqawelNoticesController extends Controller
                 ],
             ];
             }
-            
+
             return dynamicAjaxPaginate($ishaars, $columns, $total_count,
                 $buttons);
         }
@@ -137,11 +142,16 @@ class TaqawelNoticesController extends Controller
         $contracts = [];
         if ($isProvider) {
             $contracts = Contract::byMe()->approved()->taqawel()->get();
+            if (Auth::user()->user_type_id == Constants::USERTYPES['est']) {
+                $canBeProvider = BaseModel::estCanBeProvider();
+            }  elseif (Auth::user()->user_type_id == Constants::USERTYPES['saudi']) {
+                $canBeProvider = BaseModel::indvCanBeProvider();
+            }
         }
-        
-        return view('front.taqawel.notices.index', compact('contracts'));
+
+        return view('front.taqawel.notices.index', compact('contracts','canBeProvider'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -151,13 +161,13 @@ class TaqawelNoticesController extends Controller
     {
         return view('front.taqawel.notices.create');
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-    public function store(TaqawelNoticesRequest $request)
+    public function store(TaqawelNoticesRequest $request,MolDataRepository $mol)
     {
         $contract_id = request()->input('contract_id');
         $emp_ids     = request()->input('ids');
@@ -166,7 +176,55 @@ class TaqawelNoticesController extends Controller
         $end_date    = request()->input('end_date');
         $contract    = Contract::byMe()->approved()->taqawel()->findOrFail($contract_id);
         $benf_id     = $contract->benf_id;
+        $provider_id = $contract->provider_id;
 
+        // check if current Establishment or It's Benef Est Exceed percentage of loan Or Borrow
+        $curr_est = session()->get('selected_establishment');
+        if ($curr_est) {
+            //check if current user provider exceed the saudian percentage or not
+        $contract_ishaars = $contract->contractEmployee;
+        if ($contract_ishaars) {
+                $contract_emps = count($contract->hrPool) + count($emp_ids);
+                if($contract->benf_type == Constants::USERTYPES['est']) {
+                    $benf_size = Establishment::find($benf_id)->est_size;
+                    $pcr = SaudiPercentage::taqawel()->where('provider_activity_id',
+                                request()->input('provider_activity'))
+                            ->where('benf_activity_id',
+                                request()->input('benf_activity'))
+                            ->where('provider_size_id', $benf_size)
+                            ->where('benf_size_id', request()->input('provider_activity'))->first(['saudi_pct']);
+                    if($pcr){
+                    if (filter_var(($contract_emps / $pcr->saudi_pct),FILTER_VALIDATE_INT)) {
+                        $allowed_pct = ($pcr->saudi_pct / 100) * $contract_emps;
+                        if ($contract_emps > $allowed_pct) {
+                            return response()->json(['error' => trans('ishaar_setup.max_saudian_percentage')],
+                                    422);
+                        }
+                    }
+                    }
+                }
+            }
+            //Provider Loan percentage
+            $est_emp_count = $mol->fetchEstablishmentLaborersCount($curr_est->FK_establishment_id);
+            $loan_pct = BaseModel::estLoanPercentage(request()->input('provider_activity'));
+            if ($loan_pct >0) {
+                $Lpercentage = ($loan_pct / 100) * $est_emp_count;
+                $emps = ContractEmployee::MaxIshaarsForProvider($provider_id) + count($emp_ids);
+                if( $emps > $Lpercentage){
+                    return response()->json(['error' => trans('ishaar_setup.max_loan_percentage')], 422);
+                }
+            }
+            //benf borrow percentage
+            $est_emp_count = $mol->fetchEstablishmentLaborersCount(request()->input('benf_FK'));
+            $borrow_pct = BaseModel::estBorrowPercentage(request()->input('benf_activity'));
+            if ($borrow_pct >0) {
+                $Bpercentage = ($borrow_pct / 100) * $est_emp_count;
+                $emps = ContractEmployee::MaxIshaarsForBenf($benf_id) + count($emp_ids);
+                if ($emps > $Bpercentage) {
+                    return response()->json(['error' => trans('ishaar_setup.max_borrow_percentage')], 422);
+                }
+            }
+        }
         //check if Notice Dates between contract period
         $start_in_period = checkInRange(request()->input('contract_start_date'), request()->input('contract_end_date'),
             $start_date);
@@ -244,7 +302,7 @@ class TaqawelNoticesController extends Controller
         }
 
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -269,7 +327,7 @@ class TaqawelNoticesController extends Controller
             $columns     = request()->input('columns');
             $employees   = HRPool::byMe()->allowedEmployeesType($type)->allowedEmployeesGender($type)->with('job', 'nationality', 'region');
             $total_count = $employees->count() ? $employees->count() : 1;
-            
+
             if (request()->input('id_number')) {
                 $employees = $employees->where('id_number', request()->input('id_number'));
             }
@@ -279,7 +337,7 @@ class TaqawelNoticesController extends Controller
             if (request()->input('job_id')) {
                 $employees = $employees->where('job_id', request()->input('job_id'));
             }
-            
+
             $buttons = [
                 'add' => [
                     "text"      => trans("ishaar_setup.actions.add_emp"),
@@ -296,11 +354,11 @@ class TaqawelNoticesController extends Controller
         $contract      = Contract::byMe()->findOrFail($id);
         $maxdays = $ishaar_setup->calcMaxPeriodInDays($ishaar_setup->max_ishaar_period,
             $ishaar_setup->max_ishaar_period_type);
-        
+
         return view('front.taqawel.notices.create',
             compact('contract', 'jobs', 'nationalities', 'accountType', 'maxdays'));
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -320,10 +378,10 @@ class TaqawelNoticesController extends Controller
             })->findOrFail($id);
         }
         $reasons  = Reason::where('parent_id', 5)->get();
-        
+
         return view('front.taqawel.notices.show', compact('contract', 'reasons'));
     }
-        
+
     /**
      * change the status of specified resource from storage.
      *
@@ -343,9 +401,9 @@ class TaqawelNoticesController extends Controller
                 } else {
                     $status = 'benef_cancel';
                 }
-                
+
                 $msg = trans('ishaar_setup.ask_cancel_ishaar_success');
-                
+
             } else {
                 $status = 'cancelled';
                 $msg    = trans('ishaar_setup.cancelIshaar_success');
@@ -355,7 +413,7 @@ class TaqawelNoticesController extends Controller
                 $ishaar->reasons_id       = $request->reason;
                 $ishaar->rejection_reason = $request->details;
                 $ishaar->save();
-                
+
                 return $msg;
             } else {
                 if (!$request->other) {
@@ -365,7 +423,7 @@ class TaqawelNoticesController extends Controller
                     $ishaar->rejection_reason = $request->details;
                     $ishaar->other_reasons    = $request->other;
                     $ishaar->save();
-                    
+
                     return $msg;
                 }
             }
@@ -373,7 +431,7 @@ class TaqawelNoticesController extends Controller
             return response()->json(['error' => trans('ishaar_setup.cancelIshaar_refused')],
                 422);
         }
-        
+
         return response()->json(['error' => trans('labels.not_authorized')], 422);
     }
 }

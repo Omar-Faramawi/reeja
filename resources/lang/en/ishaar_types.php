@@ -24,11 +24,11 @@ return [
     'error_updated' => 'Can\'t update, This type contains ishaars',
     'users_list'    => 'Users',
     'names'        => [
-        'taqawel'    => 'Taqawel',
+        'taqawel'    => 'Taqawol',
         'temp_work'  => 'Temp Work',
         'hire_labor' => 'Hire Labor',
         'direct_emp' => 'Direct Employment',
-        'taqawel_free' => 'Free Taqawel Ishaars',
-        'taqawel_paid' => 'Paid Taqawel Ishaars',
+        'taqawel_free' => 'Free Taqawol Ishaars',
+        'taqawel_paid' => 'Paid Taqawol Ishaars',
     ]
 ];

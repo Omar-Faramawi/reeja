@@ -24,7 +24,7 @@ class PackageSelectRequest extends Request
     public function rules()
     {
         return [
-            "requestedIshaars"=>"required|numeric",
+            "requestedIshaars"=>"required|integer|min:0",
         ];
     }
 
@@ -32,7 +32,7 @@ class PackageSelectRequest extends Request
     {
         return [
             "requestedIshaars.required"=>trans("packagesubscribe.noRequired"),
-            "requestedIshaars.numeric"=>trans("packagesubscribe.mustNo"),
+            "requestedIshaars.*"=>trans("packagesubscribe.mustNo"),
         ];
     }
 }

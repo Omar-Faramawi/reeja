@@ -1,6 +1,7 @@
 <?php
 
 namespace Tamkeen\Ajeer\Models;
+use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -8,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Activity
  * @package Tamkeen\Ajeer\Models
  */
-class Activity extends BaseModel
+class Activity extends Model
 {
     /**
      * @var string

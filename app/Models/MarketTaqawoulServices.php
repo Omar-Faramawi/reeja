@@ -5,7 +5,6 @@ namespace Tamkeen\Ajeer\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tamkeen\Ajeer\Utilities\Constants;
 
-
 /**
  * Class MarketTaqawoulServices
  * @package Tamkeen\Ajeer\Models
@@ -14,14 +13,12 @@ class MarketTaqawoulServices extends BaseModel
 {
 
     use SoftDeletes;
-
     /**
      * @var string
      */
     protected $table = 'market_taqaual_services';
 
     const Provider = 1;
-
     const Beneficial = 2;
 
     protected $guarded = ['id'];
@@ -31,30 +28,27 @@ class MarketTaqawoulServices extends BaseModel
      */
     protected $dates = ['deleted_at'];
 
-
-	/**
-	 * @var array
-	 */
-	protected $appends = ['providername', 'responsible_email', "responsible_mobile"];
+    /**
+     * @var array
+     */
+    protected $appends = ['providername', 'responsible_email', "responsible_mobile"];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-
     public function contractNature()
     {
         return $this->belongsTo(ContractNature::class, "contract_nature_id");
     }
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function serviceProviderBeneficial()
     {
-        return $this->belongsTo(ServiceProviderBeneficial::class, 'service_prvdr_benf_id');
+        return $this->belongsTo(ServiceProviderBeneficial::class,
+                'service_prvdr_benf_id');
     }
-
 
     /**
      * @param $query
@@ -69,15 +63,14 @@ class MarketTaqawoulServices extends BaseModel
             $query = $query->where('service_id',
                 session()->get('selected_establishment.id'));
         } elseif (session()->get('government')) {
-            $query = $query->where('service_id',
-                session()->get('government.id'));
+            $query = $query->where('service_id', session()->get('government.id'));
         } else {
             $query = $query->where('service_id', \Auth::user()->id_no);
         }
 
-        return $query->where('service_prvdr_benf_id', \Auth::user()->user_type_id);
+        return $query->where('service_prvdr_benf_id',
+                \Auth::user()->user_type_id);
     }
-
 
     /**
      * @param $query
@@ -90,7 +83,6 @@ class MarketTaqawoulServices extends BaseModel
     {
         return $query->where('provider_or_benf', Constants::SERVICETYPES['provider']);
     }
-
 
     /**
      * @param $query
@@ -140,7 +132,6 @@ class MarketTaqawoulServices extends BaseModel
         }
     }
 
-
     /**
      * @return mixed
      */
@@ -169,7 +160,6 @@ class MarketTaqawoulServices extends BaseModel
             case 2:
                 return $this->government("service_id");
         }
-
     }
 
     /**
@@ -181,7 +171,6 @@ class MarketTaqawoulServices extends BaseModel
     {
         return $this->belongsTo(Government::class, $column);
     }
-
 
     public function individual($column = "service_id")
     {
@@ -198,7 +187,6 @@ class MarketTaqawoulServices extends BaseModel
         return $this->belongsTo(Establishment::class, $column);
     }
 
-
     public function scopeActive($query)
     {
         return $query->where('status', '1');
@@ -212,5 +200,31 @@ class MarketTaqawoulServices extends BaseModel
     public function contracts()
     {
         return $this->hasMany(Contract::class, "market_taqaual_services_id");
+    }
+
+    public function scopeProviderHasPermission($query)
+    {
+        if (!$this->estCanBeBenf()) {
+            return $query->where ('service_prvdr_benf_id', "!=", Constants::USERTYPES['est']);
+        }
+    }
+
+    public function scopeBenfHasPermission($query)
+    {
+        if (!$this->estCanBeProvider()) {
+            return $query->where ('service_prvdr_benf_id', "!=", Constants::USERTYPES['est']);
+        }
+    }
+
+    public function scopeProviderHasActivities($query)
+    {
+        return $query->whereIn('contract_nature_id',
+                $this->estProviderPermittedActivities());
+    }
+
+    public function scopeBenfHasActivities($query)
+    {
+        return $query->whereIn('contract_nature_id',
+                $this->estBenfPermittedActivities());
     }
 }

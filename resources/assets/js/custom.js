@@ -91,10 +91,15 @@ $(function () {
 
     function prepare_inputs() {
         $('.bs-select').selectpicker({
+            noneSelectedText: noneSelectedTextValue,
+            noneResultsText: noSearchResult+" {0}",
+            countSelectedText:function(a,b){return 1==a?"{0} "+itemSelected:"{0} "+itemsSelected},
+            selectAllText: selectAll,
+            deselectAllText: deselectAll,
             iconBase: 'fa',
             tickIcon: 'fa-check'
         });
-        ComponentsSelect2.init();
+        //ComponentsSelect2.init();
 
         var error_out = $(".modal-body").data("no_data");
         var success_data = $(".modal-body").data("success_data");
@@ -140,7 +145,7 @@ $(function () {
     validate_form();
     prepare_inputs();
 
-    $("#form, #another_form, #another_form1").on("submit", function (e) {
+    $("#form").on("submit", function (e) {
         var btn = $("[type='submit']").button('loading');
         var form = $(this);
         $(".form-body .alert-danger").remove();
@@ -168,11 +173,14 @@ $(function () {
                 });
                 form.find(".form-body").prepend(error + '</div>');
                 btn.button('reset');
+                $('html,body').animate({
+                    scrollTop: ($(".form-body").offset().top - 200)
+                }, 1000);
             }
         });
     });
 
-    $("#live_form").on("submit", function (e) {
+    $("#live_form, #another_form, #another_form1").on("submit", function (e) {
         var btn = $("[type='submit']").button('loading');
         $(".form-body .alert-danger").remove();
         e.preventDefault();
@@ -204,6 +212,9 @@ $(function () {
                 });
                 $(".form-body").prepend(error + '</div>');
                 btn.button('reset');
+                $('html,body').animate({
+                    scrollTop: ($(".form-body").offset().top - 200)
+                }, 1000);
             }
         });
     });
@@ -511,6 +522,7 @@ $(function () {
                     $('.partial-page-content').append(response);
                     that.closest('.row').nextAll('.details').hide();
                 }
+                prepare_inputs();
             }
         });
     });
@@ -744,5 +756,15 @@ $(function () {
             }
         });
     });
+
+    $('body').on('click', 'button[value=cancel]', function(e){
+       e.preventDefault();
+        location.reload();
+    });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $(".form-body .alert-danger").remove();
+    });
+    
     jQuery.extend(jQuery.validator.messages, {});
 });

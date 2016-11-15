@@ -12,6 +12,7 @@ use Tamkeen\Ajeer\Models\GovernmentPermissionActivity;
 use Tamkeen\Ajeer\Models\ServiceUsersPermission;
 use Tamkeen\Ajeer\Http\Requests\EditServiceUsersPermissionsRequest;
 use Vinkla\Hashids\Facades\Hashids;
+use Tamkeen\Ajeer\Utilities\Constants;
 
 class ServiceUsersPermissionsController extends Controller
 {
@@ -25,13 +26,15 @@ class ServiceUsersPermissionsController extends Controller
     {
         // Establishment and Individual permitted activities
         $serviceUserPerm = ServiceUsersPermission::whereContractTypeId(Hashids::decode($id))->withTrashed()->get();
-        
         // Establishment permissions object data
         $estServ = $serviceUserPerm[0];
         $serUserPermId = $estServ->id;
 
         // Indv permissions object data
         $indvServ = $serviceUserPerm[1];
+
+        // Indv permissions object data
+        $govServ = $serviceUserPerm[2];
 
         $activities = Activity::orWhereHas('establishments', function ($q) use ($serUserPermId) {
             $q->where('service_users_permission_id', '=', $serUserPermId);
@@ -43,7 +46,7 @@ class ServiceUsersPermissionsController extends Controller
 
         $activities = $activities->toArray() + Activity::all()->toArray();
         return view('admin.taqawel.service_users_permissions.edit',
-            compact('estServ', 'indvServ', 'activities', 'serUserPermId'));
+            compact('estServ', 'indvServ','govServ', 'activities', 'serUserPermId'));
     }
 
     /**
@@ -56,12 +59,12 @@ class ServiceUsersPermissionsController extends Controller
     public function update(EditServiceUsersPermissionsRequest $request, $id)
     {
         $newData = $request->only(array_keys($request->rules()));
-
         // Establishments activities coming in the request
         $estReq = $request->get('est_perm_activities');
 
         // Government activities coming in the request
         $govReq = $request->get('gover_activities');
+         
         // Checks if the activity permission exists in the DB, if so, it will be updated, if not, it will be created.
         foreach ($estReq as $value) {
             $est_record = EstablishmentPermissionActivity::firstOrNew([
@@ -100,12 +103,13 @@ class ServiceUsersPermissionsController extends Controller
         $estServ = ServiceUsersPermission::where('service_prvdr_benf_id',
             1)->with('estPermActivities')->withTrashed()->first();
         $indvServ = ServiceUsersPermission::where('service_prvdr_benf_id', 3)->withTrashed()->first();
+        $govServ = ServiceUsersPermission::whereContractTypeId(Constants::CONTRACTTYPES['taqawel'])->where('service_prvdr_benf_id', 2)->withTrashed()->first();
 
         if ($request->get('indvIsProvider')) {
             if ($indvServ->trashed()) {
                 $indvServ->restore();
                 $indvServ->save();
-                $indvServ->update(['benf_indv' => $request->get('benf_indv_from_est')]);
+                $indvServ->update(['benf_indv' => 1]);
             }
         } else {
             if (!$indvServ->trashed()) {
@@ -115,11 +119,25 @@ class ServiceUsersPermissionsController extends Controller
                 $indvServ->update(['benf_indv' => 0]);
             }
         }
+        if ($request->get('govIsProvider')) {
+            if ($govServ->trashed()) {
+                $govServ->restore();
+                $govServ->save();
+                $govServ->update(['benf_gover' => 1]);
+            }
+        } else {
+            if (!$govServ->trashed()) {
+                $govServ->benf_gover = 0;
+                $govServ->save();
+                $govServ->delete();
+                $govServ->update(['benf_gover' => 0]);
+            }
+        }
 
         //
         if ($request->get('estIsProvider')) {
             $estServ->restore();
-            $estServ->update($newData);
+            $estServ->update(array_except($newData, 'est_perm_activities'));
         } else {
             $estServ->delete();
         }

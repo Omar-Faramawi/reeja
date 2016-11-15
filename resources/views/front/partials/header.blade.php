@@ -69,8 +69,10 @@
                             </ul>
                         </li>
                     @else
-                        <a class="btn btn-primary green margin-top-10" href="{{ url('/login') }}"> <i
-                                    class="fa fa-user"></i> {{ trans('front.header.login') }}</a>
+                        <li>
+                            <a class="btn btn-primary green margin-top-10" href="{{ url('/login') }}"> <i
+                                        class="fa fa-user"></i> {{ trans('front.header.login') }}</a>
+                        </li>
                         @endif
                                 <!-- END USER LOGIN DROPDOWN -->
                 </ul>
@@ -92,7 +94,7 @@
                         </a>
                     </li>
 
-                    <li class="menu-dropdown mega-menu-dropdown {{ !in_array($current_route_name, ['about', 'faq', 'support', 'terms']) ?: "active" }}">
+                    {{--<li class="menu-dropdown mega-menu-dropdown {{ !in_array($current_route_name, ['about', 'faq', 'support', 'terms']) ?: "active" }}">
                         <a> <i class="icon-info"></i>
                             {{ trans('front.menu.about') }}
                             <span class="arrow"></span>
@@ -102,7 +104,7 @@
                                 <a href="{{ url('/about') }}"
                                    class="nav-link  "> {{ trans('front.menu.definition') }}</a>
                             </li>
-                            {{--<li class="">
+                            <li class="">
                                 <a href="{{ url('/terms') }}" class="nav-link  "> {{ trans('front.menu.terms') }}</a>
                             </li>
                             <li class="">
@@ -112,9 +114,9 @@
                                 <a href="{{ url('/support') }}"> {{ trans('front.menu.help') }}
                                     <span class="arrow"></span>
                                 </a>
-                            </li>--}}
+                            </li>
                         </ul>
-                    </li>
+                    </li>--}}
 
                     @if(auth()->check())
                     @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['job_seeker'])
@@ -169,7 +171,7 @@
                             <span class="arrow"></span>
                         </a>
                     </li>
-                    @else
+                    @elseif(auth()->user()->user_type_id != \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['admin'])
                     <li class="menu-dropdown classic-menu-dropdown {{ ( in_array($current_route_name, ["labor-market.index", "received-contracts.view"]) ) ? "active" : "" }}">
                         <a class=""> <i
                                     class="icon-briefcase"></i> {{ trans('front.menu.temp_work') }}

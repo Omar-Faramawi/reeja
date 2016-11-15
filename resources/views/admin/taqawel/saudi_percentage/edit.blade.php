@@ -54,7 +54,7 @@
                         <div class="form-group form-md-line-input form-md-floating-label">
                             <label {{ isset($data) ? 'style=top:0;' : "" }} for="saudi_pct">{{ trans('saudi_percentage.attributes.percentage_value') }}
                                 <span class="required">*</span></label>
-                            {{ Form::number("saudi_pct", null, ["id" => "saudi_pct", "class" => "form-control", "required" => "" ]) }}
+                            {{ Form::number("saudi_pct", null, ["id" => "saudi_pct", "class" => "form-control", "required" => "","min"=> 0, "max" =>100 ]) }}
                             <span class="help-block">{{ trans('saudi_percentage.attributes.percentage_value') }}</span>
                         </div>
                     </div>

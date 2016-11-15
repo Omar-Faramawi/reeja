@@ -72,6 +72,9 @@ $(function () {
                 });
                 current.find(".form-body").prepend(error + '</div>');
                 toastr.error("", error_msg);
+                $('html,body').animate({
+                    scrollTop: ($(".form-body").offset().top - 200)
+                }, 1000);
             }
         });
     });
@@ -129,10 +132,13 @@ $(function () {
                 var json = $.parseJSON(msg.responseText);
                 var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
                 $.each(json, function (k, v) {
-                    error += v + "</p>";
+                     error += v + "</p>";
                 });
                 current.find(".form-body").prepend(error + '</div>');
                 toastr.error("", error_msg);
+                $('html,body').animate({
+                    scrollTop: ($(".form-body").offset().top - 200)
+                }, 1000);
             }
         });
     });
@@ -203,6 +209,9 @@ $(function () {
                 });
                 current.find(".form-body").prepend(error + '</div>');
                 toastr.error("", error_msg);
+                $('html,body').animate({
+                    scrollTop: ($(".form-body").offset().top - 200)
+                }, 1000);
             }
         });
     });
@@ -293,6 +302,9 @@ $(function () {
                 });
                 current.find(".form-body").prepend(error + '</div>');
                 toastr.error("", error_msg);
+                $('html,body').animate({
+                    scrollTop: ($(".form-body").offset().top - 200)
+                }, 1000);
             }
         });
     });
@@ -711,7 +723,25 @@ $(function () {
     /**
      * Hijri calender handler
      */
-    $('#birth_date').calendarsPicker({calendar: $.calendars.instance('islamic')});
+    $('#birth_date').calendarsPicker({
+        calendar: $.calendars.instance('islamic'),
+        onSelect: function() {
+            // floating label adjustment
+            if ($(this).val().length > 0) {
+                $(this).addClass('edited');
+            } else {
+                $(this).removeClass('edited');
+            }
+        },
+        onClose: function() {
+            // floating label adjustment
+            if ($(this).val().length > 0) {
+                $(this).addClass('edited');
+            } else {
+                $(this).removeClass('edited');
+            }
+        }
+    });
 
     $('.selectpicker').selectpicker({
         noneSelectedText: noneSelectedTextValue,
@@ -756,7 +786,11 @@ $(function () {
 //if Work type is temprory at hajj sprint
 
     $('#region_id').bind('change', function (e) {
-        if ($('#region_id').val() == '1') {
+        if($('#region_id').val() == ''){
+            $('#vacancies_area').hide();
+            $('#tayeed_area').hide();
+        }
+        else if ($('#region_id').val() == '1') {
             $('#tayeed_area').show();
             $("#tayeed_area").css({display: "inline-block"});
             $("#tayeed_area").css({width: "100%"});
@@ -813,21 +847,31 @@ $(function () {
     /**
      * Add laborers Handlers, check if laborer exists in mol
      */
+    $('button#add_laborer_button').prop('disabled', true);
     $('#laborer_id_number').on('keyup', function (e) {
-        $('#status-label').addClass('hidden');
+        //$('#status-label').addClass('hidden');
         var id = jQuery.trim($(this).val());
         var url = '/laborer';
         $.get(url + '/' + id, function (data) {
-            if (data != 'false') {
-                $('#status-label-exist').removeClass('hidden');
-                $('#status-label-not-exist').addClass('hidden');
+            if( data == 'false2' ){
+                $('#status-label-not-active').show();
+                $('#status-label-exist').hide();
+                $('#status-label-not-exist').hide();
+            } else if (data == 'false') {
+                $('#status-label-not-exist').show();
+                $('#status-label-exist').hide();
+                $('#status-label-not-active').hide();
             } else {
-                $('#status-label-exist').addClass('hidden');
-                $('#status-label-not-exist').removeClass('hidden');
+                $('#status-label-exist').show();
+                $('#status-label-not-exist').hide();
+                $('#status-label-not-active').hide();
+                $('button#add_laborer_button').prop('disabled', false);
             }
         }).fail(function () {
-            $('#status-label-exist').addClass('hidden');
-            $('#status-label-not-exist').removeClass('hidden');
+            $('#status-label-not-exist').show();
+            $('#status-label-exist').hide();
+            $('#status-label-not-active').hide();
+            $('button#add_laborer_button').prop('disabled', true);
         });
     });
     
@@ -851,12 +895,14 @@ $(function () {
     $("#addResp").click(function () {
         var myclone = $("#responsible_data_box .data_box:last-child").clone();
         myclone.find('.record_id').remove();
-        var size = $('.data_box').size();
+        var size = $('.data_box').length;
         myclone.find("input").each(function (k, v) {
             $(v).attr('id', $(v).data('seg1') + size + $(v).data('seg2'));
             $(v).attr('name', $(v).data('seg1') + size + $(v).data('seg2'));
             $(v).closest('.data-box').find('label').attr('for', $(v).data('seg1') + size + $(v).data('seg2'));
         });
+        
+        myclone.find("input").val('');
 
         myclone.val("");
         $('.data_box:last-child').after(myclone);
@@ -1119,6 +1165,9 @@ $('document').ready(function () {
                             });
                             $(".form-body").prepend(error + '</div>');
                             btn.button('reset');
+                            $('html,body').animate({
+                                scrollTop: ($(".form-body").offset().top - 200)
+                            }, 1000);
                         }
                     });
                 });
@@ -1154,7 +1203,7 @@ $('document').ready(function () {
             },
             error: function (msg) {
                 // if (msg.status == 500 || msg.status == 405) {
-                toastr.error('', msg);
+                toastr.error('', msg.responseText);
                 // }
             }
         });
@@ -1359,6 +1408,9 @@ $('document').ready(function () {
                     end_date: $("#end_date").val(),
                     contract_start_date: $("#contract_start_date").val(),
                     contract_end_date: $("#contract_end_date").val(),
+                    benf_FK: $("#benf_FK").val(),
+                    benf_activity: $("#benf_activity").val(),
+                    provider_activity: $("#provider_activity").val(),
                     work_areas: areas,
                     _token: $(this).attr('data-token')
                 },

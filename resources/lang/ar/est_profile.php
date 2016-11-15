@@ -11,6 +11,7 @@ return [
     'hajj_est'                => 'شركة حج',
     'catering_est'            => 'شركة إعاشة/نقل',
     'est_type_error_message'  => 'يجب إختيار نوع المنشأة',
+    'invalid'                 => 'غير صحيح',
     'attributes'              => [
         'FK_establishment_id' => 'رقم المنشأة',
         'name'                => 'إسم المنشأة',

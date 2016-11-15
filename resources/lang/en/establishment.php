@@ -8,4 +8,5 @@ return [
     'est_NON_EXISTENT_note'     => ' Sorry , You Can\'t Choose This Establishment Because :note ',
     'est_no_cr_number'          => ' Sorry , You Can\'t Choose This Establishment Because There is no license for it',
     'est_cr_expired'            => ' Sorry , You Can\'t Choose This Establishment Because There is no active license for it',
+    'please_select_est'			=> 'Please select Establishment',
 ];

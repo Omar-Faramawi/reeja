@@ -1,6 +1,12 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-    <h4 class="modal-title">{{ trans('taqawoul.tqawel_services_add') }}</h4>
+    <h4 class="modal-title">
+        @if(isset($service))
+            {{ trans('taqawoul.tqawel_services_edit') }}
+        @else
+            {{ trans('taqawoul.tqawel_services_add') }}
+        @endif
+    </h4>
 </div>
 @if(isset($service))
     {{ Form::model($service, ['route' => ['taqawel.publishservice.update', $service->id], 'method' => 'patch', 'id'=>'formTest']) }}
@@ -13,21 +19,27 @@
         {{-- start of taqawoul form --}}
         <div class="col-md-12">
             <div class="form-group form-md-line-input">
-                <label class="control-label text-right col-md-3">
+                <label class="control-label col-md-4">
                     {{trans('taqawoul.form_attributes.service_type')}}
                     <span class="required"> * </span>
                 </label>
                 <div class="col-md-8">
-                    {{Form::select("contract_nature_id",$service_types,null,["class"=>"form-control edited",'required'=>'required', 'id'=>'taqawel_service_type'])}}
+                    {{Form::select("contract_nature_id",$service_types,null,["class"=>"form-control edited",'required'=>'required', 'id'=>'taqawel_service_type', 'placeholder' => trans('labels.default')])}}
                     <br/>
                     <div id="new_service"></div>
                 </div>
             </div>
+            <div class="clearfix"></div>
+            <hr>
+            <div class="clearfix"></div>
             <div class="form-group form-md-line-input">
                 <label for="description"
-                       class="control-label text-right col-md-3">{{trans('taqawoul.form_attributes.service_description')}}</label>
-                <div class="col-sm-8">
-                    {{ Form::textarea('description', null, ['class' => 'form-control','id'=>'description']) }}
+                       class="control-label col-md-4">
+                    {{trans('taqawoul.form_attributes.service_description')}}
+                    <span class="required"> * </span>
+                </label>
+                <div class="col-md-8">
+                    {{ Form::textarea('description', null, ['class' => 'form-control','id'=>'description', 'rows' => '5']) }}
                     <div class="form-control-focus"></div>
                     <span class="help-block">{{ trans('taqawoul.form_attributes.service_description') }}...</span>
                 </div>

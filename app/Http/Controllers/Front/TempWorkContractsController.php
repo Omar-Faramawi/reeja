@@ -118,10 +118,10 @@ class TempWorkContractsController extends Controller
             try {
 
                 if (session()->get('service_type') === Constants::SERVICETYPES['provider']) {
-                    $vacancy = Vacancy::with('job', 'region', 'nationality')->findOrFail($id);
+                    $vacancy = Vacancy::with('job', 'region', 'nationality', 'locations')->findOrFail($id);
                 } else {
                     // if the user is beneficial
-                    $vacancy = HRPool::with('job', 'region', 'nationality')->findOrFail($id);
+                    $vacancy = HRPool::with('job', 'region', 'nationality', 'locations')->findOrFail($id);
                 }
 
                 if (request()->route()->getPrefix() === '/occasional-work') {

@@ -27,7 +27,7 @@ class GovernmentsRegisterRequest extends Request
 
         return [
             'name'  => 'required|min:3|max:255|unique:governments,name,' . $id . ',id,deleted_at,NULL',
-            'email' => 'required|sometimes|email|unique:users,email,0,id,deleted_at,NULL',
+            'email' => 'required|sometimes|email|unique:users,email,'.Request::input('user_id').',id,deleted_at,NULL',
             'hajj'  => 'integer:0,1',
         ];
     }

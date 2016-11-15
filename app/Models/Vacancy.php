@@ -68,7 +68,7 @@ class Vacancy extends BaseModel
      *
      * @var array
      */
-    protected $appends = ['vacancy_name', 'gender_name', 'owner_name', 'job_type_text', 'religion_name'];
+    protected $appends = ['establishment_activity', 'vacancy_name', 'gender_name', 'owner_name', 'job_type_text', 'religion_name'];
 
 
     /**
@@ -209,7 +209,6 @@ class Vacancy extends BaseModel
         return static::getName($type, $id);
     }
 
-
     /**
      * @param $type
      * @param $id
@@ -233,6 +232,26 @@ class Vacancy extends BaseModel
         }
     }
 
+
+    /**
+     * @param $type
+     * @param $id
+     *
+     * @return string|\Symfony\Component\Translation\TranslatorInterface
+     */
+    public static function getActivity($type, $id)
+    {
+        try {
+            switch ($type) {
+                case 3:
+                    return Establishment::findOrFail($id)->est_activity;
+            }
+        } catch (ModelNotFoundException $e) {
+            return trans('labels.not_found');
+        }
+    }
+
+
     /**
      * @return mixed
      *
@@ -241,6 +260,15 @@ class Vacancy extends BaseModel
     public function getVacancyNameAttribute()
     {
         return static::getName($this->attributes['benf_type'], $this->attributes['benf_id']);
+    }
+
+
+    /**
+     * @return string|\Symfony\Component\Translation\TranslatorInterface
+     */
+    public function getEstablishmentActivityAttribute()
+    {
+        return static::getActivity($this->attributes['benf_type'], $this->attributes['benf_id']);
     }
 
 

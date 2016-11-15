@@ -5,6 +5,10 @@ namespace Tamkeen\Ajeer\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Vinkla\Hashids\Facades\Hashids;
+use Tamkeen\Ajeer\Models\EstablishmentPermissionActivity as EsActivity;
+use Tamkeen\Ajeer\Models\ServiceUsersPermission as UserPermission;
+use Tamkeen\Ajeer\Utilities\Constants;
+use Tamkeen\Ajeer\Models\EstablishmentSize;
 
 class BaseModel extends Model
 {
@@ -113,4 +117,149 @@ class BaseModel extends Model
         }
     }
 
+
+    /**
+     * @return true if current Establishment
+     *  Can Be Provider As Admin Settings
+     */
+    public static function estCanBeProvider()
+    {
+        $permission = UserPermission::where('contract_type_id',  Constants::CONTRACTTYPES['taqawel'])
+                                    ->where('service_prvdr_benf_id', Constants::USERPERMISSIONTYPES['est'])
+                                    ->first(['id']);
+        if ($permission) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * @return true if current Establishment
+     *  Can Be Benef For Another Establishment
+     *  As Admin Settings
+     */
+    public static function estCanBeBenf()
+    {
+        $permission = UserPermission::where('contract_type_id',  Constants::CONTRACTTYPES['taqawel'])
+                                    ->where('service_prvdr_benf_id', Constants::USERPERMISSIONTYPES['est'])
+                                    ->first(['benf_est']);
+        if ($permission) {
+            return $permission->benf_est;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * @return true if current Individual
+     *  Can Be Provider As Admin Settings
+     */
+    public static function indvCanBeProvider()
+    {
+        $permission = UserPermission::where('contract_type_id',  Constants::CONTRACTTYPES['taqawel'])
+                                    ->where('service_prvdr_benf_id', Constants::USERPERMISSIONTYPES['indv'])
+                                    ->first(['id']);
+        if ($permission) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * @return true if current Individual
+     *  Can Be Benef For Another Establishment
+     *  As Admin Settings
+     */
+    public static function indvCanBeBenf()
+    {
+        $permission = UserPermission::where('contract_type_id',  Constants::CONTRACTTYPES['taqawel'])
+                                    ->where('service_prvdr_benf_id', Constants::USERPERMISSIONTYPES['indv'])
+                                    ->first(['benf_indv']);
+        if ($permission) {
+            return $permission->benf_indv;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * @return all Provider Establishment permitted activities
+     *
+     */
+    public static function estProviderPermittedActivities()
+    {
+       return EsActivity::where('service_users_permission_id',Constants::USERPERMISSIONTYPES['est'])
+                                  ->where('provider',1)
+                                  ->pluck('activity_id')->toArray();
+
+    }
+
+    /**
+     * @return all Benf Establishment permitted activities
+     *
+     */
+    public static function estBenfPermittedActivities()
+    {
+        return EsActivity::where('service_users_permission_id', Constants::USERPERMISSIONTYPES['est'])
+                                  ->where('benf',1)
+                                  ->pluck('activity_id')->toArray();
+
+    }
+
+    /**
+     * @param activity_id
+     * @return The Percentage of Loan percentage for Activity
+     *
+     */
+    public static function estLoanPercentage($activity_id)
+    {
+        $activities = EsActivity::where('activity_id',$activity_id)->first(['loan_pct']);
+        if ($activities) {
+            return $activities->loan_pct;
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
+     * @param activity_id
+     * @return The Percentage of Borrow percentage for Activity
+     *
+     */
+    public static function estBorrowPercentage($activity_id)
+    {
+        $activities = EsActivity::where('activity_id',$activity_id)->first(['borrow_pct']);
+        if ($activities) {
+            return $activities->borrow_pct;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * @param establishment id
+     * @return count of current laborers for temp work HireLabor
+     */
+    public static function estLaborerCount($provider_id){
+        return ContractEmployee::whereHas('contract',function ($cont) use($provider_id) {
+                        $cont->byMe()->approved()->hireLabor()->where('provider_id',$provider_id);
+                    })->count();
+    }
+
+    /**
+     * @param establishment size id
+     * @return The Percentage of Loan percentage for establishment
+     *
+     */
+    public static function estSizeLoanPercentage($size_id)
+    {
+        $size = EstablishmentSize::find($size_id);
+        if ($size) {
+            return $size->pct_hire_labor_tmp_work;
+        } else {
+            return 0;
+        }
+    }
 }

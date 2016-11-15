@@ -68,7 +68,7 @@
             <div class="nav-collapse collapse navbar-collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav">
 
-                    <li class="dropdown dropdown-fw {{ (request()->path()=='admin' || request()->is( "admin/users*" ) )? 'active open selected':'' }}">
+                    <li class="dropdown dropdown-fw {{ (request()->path()=='admin' || request()->is( "admin/users*" ) || request()->is('admin/reports*') )? 'active open selected':'' }}">
                         <a href="javascript:;" class="text-uppercase">
                             <i class="icon-home"></i> {{ trans('user.dashboardwidgets') }} </a>
                         <ul class="dropdown-menu dropdown-menu-fw">
@@ -89,6 +89,55 @@
                             </li>
                             <li class="active"><a href="{{ url('admin/users/individuals') }}">
                                     <i class="icon-puzzle"></i> {{ trans('user_types.individuals') }}</a>
+                            </li>
+                            <li class="dropdown more-dropdown-sub active">
+                                <a href="javascript:;">
+                                    <i class="fa fa-puzzle"></i> {{ trans('labels.reports.mainTitle') }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-fw">
+                                    <li class="active">
+                                        <a href="{{ route('admin.reports.jobsChart') }}">{{ trans('labels.reports.jobsChart') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('admin.reports.activityIshaars') }}">{{ trans('labels.reports.activityIshaars') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('admin.reports.ishaarTypesGrouped') }}">{{ trans('labels.reports.ishaarTypesGrouped') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('admin.reports.countriesIshaars') }}">{{ trans('labels.reports.countriesIshaars') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('IshaarReportChart') }}">{{ trans('labels.reports.ishaarReport') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('contractSatusChart') }}">{{ trans('labels.reports.contractStatusReport') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('reports.packages.chart.contracts') }}">{{ trans('contract_bundle_reports.heading') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('invoiceNetaqChart') }}">{{ trans('labels.reports.invoiceNetaqChart') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('reports.packages.chart.invoices') }}">{{ trans('invoices_bundle_reports.heading') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('IshaarRegionsReport') }}">{{ trans('labels.reports.ishaarRegionsReport') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('IshaarLaborerStatusReport') }}">{{ trans('labels.reports.ishaarLaborerStatusReport') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('reports.netaq.establishment') }}">{{ trans('labels.reports.invoice_netaq_diff') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('LaborerWithSameBenf') }}">{{ trans('labels.reports.LaborerWithSameBenf') }}</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="{{ route('LaborerWithMultipleIshaars') }}">{{ trans('labels.reports.LaborerWithMultipleIshaars') }}</a>
+                                    </li>
+                                </ul>
                             </li>
                             {{--<li class="dropdown more-dropdown-sub active">--}}
                             {{--<a href="javascript:;" class="text-uppercase">--}}

@@ -59,145 +59,149 @@
                         <div class="alert alert-info">{{ Session::pull('msg') }}</div>
                     @endif
 
-                    {!! Form::model($contractSetup, ['route' => ['admin.contractSetup.update', $contractSetup->hashids], 'id' => 'live_form', 'method' => 'PATCH']) !!}
+                    {!! Form::model($contractSetup, ['route' => ['admin.contractSetup.updateTaqawel', $contractSetup->hashids], 'id' => 'live_form', 'method' => 'PATCH']) !!}
                     {!! Form::hidden('contract_type_id',null, ['id' => 'contract_type_id']) !!}
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-10">
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.attributes.offer_accept_period')}}</label>
-                                        {!! Form::number('offer_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
-                                    </div>
-                                </div>
-                                <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-5">
-                                    <div class="form-group">
-                                        <label for="featured">&nbsp;</label>
-                                        <div class="select-wrapper select-arrow">
-                                            {!! Form::select('offer_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="featured">{{trans('contract_setup.attributes.min_accept_period')}}</label>
-                                        {!! Form::number('min_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
-
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-5">
-                                    <div class="form-group">
-                                        <label for="featured">&nbsp;</label>
-                                        <div class="select-wrapper select-arrow">
-                                            {!! Form::select('min_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="featured">{{trans('contract_setup.attributes.max_accept_period')}}</label>
-                                        {!! Form::number('max_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
-
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-5">
-                                    <div class="form-group">
-                                        <label for="featured">&nbsp;</label>
-                                        <div class="select-wrapper select-arrow">
-
-                                            {!! Form::select('max_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.attributes.contract_accept_period')}}</label>
-                                        {!! Form::number('contract_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-5">
-                                    <div class="form-group">
-                                        <label for="featured">&nbsp;</label>
-                                        <div class="select-wrapper select-arrow">
-                                            {!! Form::select('contract_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.attributes.contract_cancel_period')}}</label>
-                                        {!! Form::number('contract_cancel_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
-
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-1">&nbsp;</div>
-                                <div class="col-lg-5">
-                                    <div class="form-group">
-                                        <label for="featured">&nbsp;</label>
-                                        <div class="select-wrapper select-arrow">
-                                            {!! Form::select('contract_cancel_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="is_slider">{{trans('contract_setup.cancel_acc')}}</label>
-
-                                        <div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="provider_cancel_contract" class="active">
-                                                    {{--<input type="checkbox" name="provider_cancel_contract" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('provider_cancel_contract', 0) !!}
-                                                    {!! Form::checkbox('provider_cancel_contract') !!}
-
-                                                    <span>{{trans('contract_setup.provider')}}</span>
-                                                </label>
-                                            </div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="benf_cancel_contract" class="active">
-                                                    {{--<input type="checkbox" name="benf_cancel_contract" value="1"--}}
-                                                    {{--checked="">--}}
-                                                    {!! Form::hidden('benf_cancel_contract', 0) !!}
-                                                    {!! Form::checkbox('benf_cancel_contract') !!}
-
-                                                    <span>{{trans('contract_setup.benf')}}</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-10">
+                            <div class="form-body"></div>
                         </div>
-                        <!-- /.col-lg-6 (nested) -->
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-10">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="is_slider">{{trans('contract_setup.attributes.tqawel_service_valid_for')}}</label>
+                                            {!! Form::number('contract_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-5">&nbsp;</div>
+                                    <div class="col-lg-5 col-lg-offset-1">
+                                        <div class="form-group">
+                                            <label for="featured">&nbsp;</label>
+                                            <div class="select-wrapper select-arrow">
+                                                {!! Form::select('contract_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="featured">{{trans('contract_setup.attributes.min_accept_period')}}</label>
+                                            {!! Form::number('min_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1">&nbsp;</div>
+                                    <div class="col-lg-5">
+                                        <div class="form-group">
+                                            <label for="featured">&nbsp;</label>
+                                            <div class="select-wrapper select-arrow">
+                                                {!! Form::select('min_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="featured">{{trans('contract_setup.attributes.max_accept_period')}}</label>
+                                            {!! Form::number('max_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1">&nbsp;</div>
+                                    <div class="col-lg-5">
+                                        <div class="form-group">
+                                            <label for="featured">&nbsp;</label>
+                                            <div class="select-wrapper select-arrow">
+
+                                                {!! Form::select('max_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="is_slider">{{trans('contract_setup.attributes.offer_accept_period')}}</label>
+                                            {!! Form::number('offer_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1">&nbsp;</div>
+                                    <div class="col-lg-5">
+                                        <div class="form-group">
+                                            <label for="featured">&nbsp;</label>
+                                            <div class="select-wrapper select-arrow">
+                                                {!! Form::select('offer_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="is_slider">{{trans('contract_setup.attributes.contract_cancel_period')}}</label>
+                                            {!! Form::number('contract_cancel_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1">&nbsp;</div>
+                                    <div class="col-lg-5">
+                                        <div class="form-group">
+                                            <label for="featured">&nbsp;</label>
+                                            <div class="select-wrapper select-arrow">
+                                                {!! Form::select('contract_cancel_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="is_slider">{{trans('contract_setup.cancel_acc')}}</label>
+											<div class="md-checkbox-inline">
+												<div class="md-checkbox">
+													{!! Form::checkbox('provider_cancel_contract', 1, $contractSetup->provider_cancel_contract, ['class' => 'md-check', 'id' => 'provider_cancel_contract']) !!}
+													<label for="provider_cancel_contract" class="text-right">
+														<span></span>
+														<span class="check"></span>
+														<span class="box"></span> {{trans('contract_setup.provider')}}
+													</label>
+												</div>
+
+												<div class="md-checkbox">
+													{!! Form::checkbox('benf_cancel_contract', 1, $contractSetup->benf_cancel_contract, ['class' => 'md-check', 'id' => 'benf_cancel_contract']) !!}
+													<label for="benf_cancel_contract" class="text-right">
+														<span></span>
+														<span class="check"></span>
+														<span class="box"></span> {{trans('contract_setup.benf')}}
+													</label>
+												</div>
+											</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col-lg-6 (nested) -->
+                        </div>
                     </div>
                     <!-- /.row (nested) -->
                     <div class="row">

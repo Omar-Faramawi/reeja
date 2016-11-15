@@ -58,7 +58,7 @@
                     @if (Session::has('msg'))
                         <div class="alert alert-info">{{ Session::pull('msg') }}</div>
                     @endif
-
+                    <div class="form-body">
                     {!! Form::model($estServ->toArray(), ['route' => ['admin.serviceUsersPermissions.contractType.update', $estServ->hashids], 'id' => 'live_form', 'method' => 'PATCH', 'class' => 'removeCheckboxes']) !!}
                     {!! Form::hidden('contract_type_id',null, ['id' => 'contract_type_id']) !!}
                     {!! Form::hidden('service_prvdr_benf_id',null, ['id' => 'service_prvdr_benf_id']) !!}
@@ -68,24 +68,25 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label for="is_slider">{{trans('service_users_permissions.service_providers')}}</label>
-                                        <div>
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="service_providers" class="active">
-                                                    {!! Form::hidden('estIsProvider', 0) !!}
-                                                    {!! Form::checkbox('estIsProvider', 1, $estServ->trashed() ? null : 1, ['class' => 'prov_est toggling_checkbox', 'data-boxclass' => '.activities_box, .est_benf_box']) !!}
-
-                                                    <span>{{trans('service_users_permissions.est')}}</span>
-                                                </label>
-                                            </div>
-
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="service_providers" class="active">
-                                                    {!! Form::hidden('indvIsProvider', 0) !!}
-                                                    {!! Form::checkbox('indvIsProvider', 1, $indvServ->trashed() ? null : 1, ['class' => 'prov_indv toggling_checkbox', 'data-boxclass' => '.indv_benf_box']) !!}
-                                                    <span>{{trans('service_users_permissions.indv')}}</span>
-                                                </label>
-                                            </div>
+					<label for="is_slider col-lg-12">
+                                            {{trans('service_users_permissions.service_providers')}}
+                                            {!! Form::hidden('estIsProvider', 0) !!}
+                                            {!! Form::hidden('govIsProvider', 0) !!}
+                                            {!! Form::hidden('indvIsProvider', 0) !!}
+                                        </label>
+                                        <div class="checkbox-list col-lg-12">
+                                            <label class="checkbox-inline">
+                                                {!! Form::checkbox('estIsProvider', 1, $estServ->trashed() ? null : 1, ['id' => 'inlineCheckbox21','class' => 'prov_est toggling_checkbox', 'data-boxclass' => '.activities_box, .est_benf_box']) !!}
+                                                {{trans('service_users_permissions.est')}}
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                {!! Form::checkbox('govIsProvider', 1, $govServ->trashed() ? null : 1, ['id' => 'inlineCheckbox22','class' => 'prov_gov toggling_checkbox']) !!}
+                                                {{trans('service_users_permissions.gov')}}
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                {!! Form::checkbox('indvIsProvider', 1, $indvServ->trashed() ? null : 1, ['id' => 'inlineCheckbox23','class' => 'prov_indv toggling_checkbox', 'data-boxclass' => '.indv_benf_box']) !!}
+                                                {{trans('service_users_permissions.indv')}}
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -95,40 +96,30 @@
                                 <div class="col-lg-6 est_benf_box"
                                      style="display: {{!$estServ->trashed() ? 'block' : 'none'}}">
                                     <div class="form-group">
-                                        <label for="is_slider">{{trans('service_users_permissions.est_service_beneficials')}}</label>
-                                        <div class="beneficials">
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="service_beneficials" class="active">
-                                                    {!! Form::hidden('benf_est', 0) !!}
-                                                    {!! Form::checkbox('benf_est', 1, null, ['class' => 'toggling_checkbox benf_est', 'data-boxclass' => '.est_box']) !!}
-
-                                                    <span>{{trans('service_users_permissions.est')}}</span>
-                                                </label>
-                                            </div>
-
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="service_beneficials" class="active">
-                                                    {!! Form::hidden('benf_gover', 0) !!}
-                                                    {!! Form::checkbox('benf_gover', 1, null, ['class' => 'toggling_checkbox benf_gov', 'data-boxclass' => '.gov_box']) !!}
-
-                                                    <span>{{trans('service_users_permissions.gov')}}</span>
-                                                </label>
-                                            </div>
-
-                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                <label id="service_beneficials" class="active">
-                                                    {!! Form::hidden('benf_indv', 0) !!}
-                                                    {!! Form::checkbox('benf_indv', 1, null, ['class' => 'toggling_checkbox benf_indv', 'data-boxclass' => 'indv_box']) !!}
-
-                                                    <span>{{trans('service_users_permissions.indv')}}</span>
-                                                </label>
-                                            </div>
+                                        <label for="is_slider col-lg-12">
+                                            {{trans('service_users_permissions.est_service_beneficials')}}
+                                            {!! Form::hidden('benf_est', 0) !!}
+                                            {!! Form::hidden('benf_gover', 0) !!}
+                                            {!! Form::hidden('benf_indv', 0) !!}
+                                        </label>
+                                        <div class="beneficials checkbox-list col-lg-12">
+                                            <label id="service_beneficials" class="checkbox-inline">
+                                                {!! Form::checkbox('benf_est', 1, null, ['class' => 'toggling_checkbox benf_est', 'data-boxclass' => '.est_box']) !!}
+                                                {{trans('service_users_permissions.est')}}
+                                            </label>
+                                            <label id="service_beneficials" class="checkbox-inline">
+                                                {!! Form::checkbox('benf_gover', 1, null, ['class' => 'toggling_checkbox benf_gov', 'data-boxclass' => '.gov_box']) !!}
+                                                {{trans('service_users_permissions.gov')}}
+                                            </label>
+                                            <label id="service_beneficials" class="checkbox-inline">
+                                                {!! Form::checkbox('benf_indv', 1, null, ['class' => 'toggling_checkbox benf_indv', 'data-boxclass' => 'indv_box']) !!}
+                                                {{trans('service_users_permissions.indv')}}
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6 indv_benf_box"
-                                     style="display: {{!$indvServ->trashed() ? 'block' : 'none'}}">
+{{--                                <div class="col-lg-6 indv_benf_box" style="display: {{!$indvServ->trashed() ? 'block' : 'none'}}">
                                     <div class="form-group">
                                         <label for="is_slider">{{trans('service_users_permissions.indv_service_beneficials')}}</label>
                                         <div class="beneficials">
@@ -142,7 +133,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>--}}
                             </div>
 
                             <div class="activities_box" style="display: {{$estServ->trashed() ? "none" : "block"}}">
@@ -164,41 +155,40 @@
                                             </thead>
                                             <tbody>
                                             @foreach($activities as $key => $act)
-                                                {!! Form::hidden('est_perm_activities['.$key.'][activity_id]', $act['id']) !!}
-                                                {!! Form::hidden('est_perm_activities['.$key.'][service_users_permission_id]', $serUserPermId) !!}
+                                                
                                                 <tr>
-                                                    <td>{{$act['name']}}</td>
                                                     <td>
-                                                        <div>
-                                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                                <label id="service_beneficials" class="active">
-                                                                    {!! Form::hidden('est_perm_activities['.$key.'][provider]', 0) !!}
+                                                        {!! Form::hidden('est_perm_activities['.$key.'][activity_id]', $act['id']) !!}
+                                                        {!! Form::hidden('est_perm_activities['.$key.'][service_users_permission_id]', $serUserPermId) !!}
+                                                        {!! Form::hidden('est_perm_activities['.$key.'][provider]', 0) !!}
+                                                        {!! Form::hidden('est_perm_activities['.$key.'][benf]', 0) !!}
+                                                        {!! Form::hidden('est_perm_activities['.$key.'][benf_activity]', 0) !!}
+                                                        {{$act['name']}}
+                                                    </td>
+                                                    <td>
+                                                        <div class="checkbox-list">
+                                                                <label class="checkbox-inline">
                                                                     {!! Form::checkbox('est_perm_activities['.$key.'][provider]', 1,
                                                                     isset($act['establishments'][0]['loan_pct']) && !empty($act['establishments'][0]['provider']) ? 1 : null) !!}
 
-                                                                    <span>{{trans('est_permission_activities.attributes.provider')}}</span>
+                                                                    {{trans('est_permission_activities.attributes.provider')}}
                                                                 </label>
-                                                            </div>
 
-                                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                                <label id="service_beneficials" class="active">
-                                                                    {!! Form::hidden('est_perm_activities['.$key.'][benf]', 0) !!}
+                                                                <label class="checkbox-inline">
                                                                     {!! Form::checkbox('est_perm_activities['.$key.'][benf]', 1,
                                                                     isset($act['establishments'][0]['loan_pct']) && !empty($act['establishments'][0]['benf']) ? 1 : null) !!}
 
-                                                                    <span>{{trans('est_permission_activities.attributes.benf')}}</span>
+                                                                    {{trans('est_permission_activities.attributes.benf')}}
                                                                 </label>
-                                                            </div>
 
-                                                            <div class="checkbox custom-check checkbox-inline checkbox-red">
-                                                                <label id="service_beneficials" class="active">
-                                                                    {!! Form::hidden('est_perm_activities['.$key.'][benf_activity]', 0) !!}
+                                                                <label class="checkbox-inline">
+                                                                    
                                                                     {!! Form::checkbox('est_perm_activities['.$key.'][benf_activity]', 1,
                                                                     isset($act['establishments'][0]['loan_pct']) && !empty($act['establishments'][0]['benf_activity']) ? 1 : null) !!}
 
-                                                                    <span>{{trans('est_permission_activities.attributes.benf_activity')}}</span>
+                                                                    {{trans('est_permission_activities.attributes.benf_activity')}}
                                                                 </label>
-                                                            </div>
+                                                                
                                                         </div>
                                                     </td>
                                                     <td>
@@ -256,7 +246,7 @@
                         </div>
                     </div>
                     </form>
-
+                    </div>
                     <div class="clearfix"></div>
 
                 </div>

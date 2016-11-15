@@ -8,18 +8,18 @@ use Tamkeen\Ajeer\Utilities\Constants;
 
 class  Contract extends BaseModel
 {
-    
+
     use SoftDeletes;
     /**
      * @var array
      */
     protected $guarded = [];
-    
+
     /**
      * add deleted_by to timestamps
      */
     protected $dates = ['deleted_at'];
-    
+
     /**
      * @var array
      */
@@ -35,7 +35,7 @@ class  Contract extends BaseModel
         'cancelled_employees',
         'cancelled_employees_by_others',
     ];
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      *
@@ -45,7 +45,7 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(ContractType::class, 'contract_type_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      *
@@ -55,7 +55,7 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(Vacancy::class, 'vacancy_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      *
@@ -65,7 +65,7 @@ class  Contract extends BaseModel
     {
         return $this->hasMany(ContractLocation::class, 'contract_id');
     }
-    
+
     /**
      * @param $query
      *
@@ -84,11 +84,11 @@ class  Contract extends BaseModel
         } else {
             $query = $query->where('provider_id', \Auth::user()->id_no);
         }
-        
+
         return $query->where('provider_type', \Auth::user()->user_type_id);
     }
-    
-    
+
+
     /**
      * @param $query
      * @param $contractType
@@ -101,7 +101,7 @@ class  Contract extends BaseModel
     {
         return $query->where('contract_type_id', $contractType);
     }
-    
+
     /**
      * @param $query
      *
@@ -114,11 +114,11 @@ class  Contract extends BaseModel
         if ($id) {
             $query = $query->where('provider_id', $id);
         }
-        
+
         return $query->where('status', 'pending');
-        
+
     }
-    
+
     /**
      * return only status requested
      *
@@ -142,8 +142,8 @@ class  Contract extends BaseModel
     {
         return $query->where('contract_nature_id', $marketServices->contract_nature_id);
     }
-    
-    
+
+
     /**
      * @param $query
      *
@@ -156,7 +156,7 @@ class  Contract extends BaseModel
     {
         return $query->where('status', 'approved');
     }
-    
+
     /**
      * @param $type
      * @param $id
@@ -179,8 +179,8 @@ class  Contract extends BaseModel
             return trans('labels.not_found');
         }
     }
-    
-    
+
+
     /**
      * @param $type
      * @param $id
@@ -203,7 +203,7 @@ class  Contract extends BaseModel
             return trans('labels.not_found');
         }
     }
-    
+
     /**
      * @return mixed
      */
@@ -211,7 +211,7 @@ class  Contract extends BaseModel
     {
         return $this->provider->name;
     }
-    
+
     /**
      * @return mixed
      *
@@ -221,17 +221,17 @@ class  Contract extends BaseModel
     {
         return $this->benef->name;
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function provider()
     {
-        
+
         switch ($this->provider_type) {
             case 4:
             case 5:
-                
+
                 return $this->individual("provider_id");
                 break;
             case 3:
@@ -242,7 +242,7 @@ class  Contract extends BaseModel
                 break;
         }
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -264,7 +264,7 @@ class  Contract extends BaseModel
                 break;
         }
     }
-    
+
     /**
      * @param $column
      *
@@ -274,7 +274,7 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(Government::class, $column);
     }
-    
+
     /**
      * @param $column
      *
@@ -284,7 +284,7 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(Individual::class, $column);
     }
-    
+
     /**
      * @param $column
      *
@@ -294,7 +294,7 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(Establishment::class, $column);
     }
-    
+
     /**
      * @param $column
      *
@@ -304,7 +304,7 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(Government::class, $column);
     }
-    
+
     /**
      * @param $column
      *
@@ -314,7 +314,7 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(Individual::class, $column);
     }
-    
+
     /**
      * @param $column
      *
@@ -324,15 +324,16 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(Establishment::class, $column);
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function hrPool()
     {
-        return $this->hasOne(HRPool::class, 'id_number', 'id');
+        //return $this->hasOne(HRPool::class, 'id_number', 'id');
+        return $this->hasManyThrough(HRPool::class, ContractEmployee::class,'contract_id', 'id_number', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -340,7 +341,7 @@ class  Contract extends BaseModel
     {
         return $this->hasMany(ContractEmployee::class, "contract_id", "id");
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -348,7 +349,7 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(JobRequest::class);
     }
-    
+
     /**
      * @param $query
      *
@@ -364,10 +365,10 @@ class  Contract extends BaseModel
         } else {
             $query = $query->where('benf_id', auth()->user()->id_no);
         }
-        
+
         return $query->where('benf_type', auth()->user()->user_type_id);
     }
-    
+
     /**
      * @param $query
      *
@@ -377,7 +378,7 @@ class  Contract extends BaseModel
     {
         return $query->where('contract_type_id', Constants::CONTRACTTYPES['direct_emp']);
     }
-    
+
     /**
      * @param $query
      *
@@ -387,7 +388,7 @@ class  Contract extends BaseModel
     {
         return $query->where('contract_type_id', Constants::CONTRACTTYPES['taqawel']);
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -395,31 +396,31 @@ class  Contract extends BaseModel
     {
         return $this->hasMany(ContractEmployee::class, 'contract_id');
     }
-    
+
     public function getCancelledEmployeesAttribute()
     {
-        $emp_status                              = ($this->provider_id == auth()->user()->id_no && $this->provider_type == auth()->user()->user_type_id) ? 'benef_cancel' : 'provider_cancel';
-        $employees                               = ContractEmployee::where([
+        $emp_status = ($this->provider_id == auth()->user()->id_no && $this->provider_type == auth()->user()->user_type_id) ? 'benef_cancel' : 'provider_cancel';
+        $employees = ContractEmployee::where([
             'contract_id' => $this->id,
             'status'      => $emp_status,
         ])->lists('id');
         $this->attributes['cancelled_employees'] = $employees;
-        
+
         return count($employees) > 0 ? $employees : false;
     }
-    
+
     public function getCancelledEmployeesByOthersAttribute()
     {
-        $emp_status                              = ($this->provider_id == auth()->user()->id_no && $this->provider_type == auth()->user()->user_type_id) ? 'provider_cancel' : 'benef_cancel';
-        $employees                               = ContractEmployee::where([
+        $emp_status = ($this->provider_id == auth()->user()->id_no && $this->provider_type == auth()->user()->user_type_id) ? 'provider_cancel' : 'benef_cancel';
+        $employees = ContractEmployee::where([
             'contract_id' => $this->id,
             'status'      => $emp_status,
         ])->lists('id');
         $this->attributes['cancelled_employees'] = $employees;
-        
+
         return count($employees) > 0 ? $employees : false;
     }
-    
+
     /**
      * @param $query
      * @param $type
@@ -442,7 +443,7 @@ class  Contract extends BaseModel
             return trans('labels.not_found');
         }
     }
-    
+
     /**
      * @param $query
      * @param $type
@@ -465,7 +466,7 @@ class  Contract extends BaseModel
             return trans('labels.not_found');
         }
     }
-    
+
     /**
      * @param $query
      */
@@ -473,7 +474,7 @@ class  Contract extends BaseModel
     {
         $query->where("contract_type_id", Constants::CONTRACTTYPES['hire_labor']);
     }
-    
+
     /**
      * @param $query
      * @param $status
@@ -486,7 +487,7 @@ class  Contract extends BaseModel
     {
         return $query->where('status', $status);
     }
-    
+
     /**
      * @param $query
      *
@@ -496,7 +497,7 @@ class  Contract extends BaseModel
     {
         return $query->where('status', 'requested');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -504,7 +505,7 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(ContractType::class, "contract_type_id");
     }
-    
+
     /**
      * @param $query
      */
@@ -512,7 +513,7 @@ class  Contract extends BaseModel
     {
         $query->where("contract_type_id", Constants::CONTRACTTYPES['direct_emp']);
     }
-    
+
     /**
      * @return mixed
      */
@@ -520,7 +521,7 @@ class  Contract extends BaseModel
     {
         return $query->where("status", "pending_ownership");
     }
-    
+
     /**
      * @param $query
      * @param $hashedid
@@ -531,17 +532,17 @@ class  Contract extends BaseModel
     {
         $ownership_id = !empty(session('selected_establishment.id_number')) ? session('selected_establishment.id_number')
             : session('user.national_id');
-        
+
         return $query->where("ownership_hashed", $hashedid)->where("ownership_id",
             $ownership_id);
     }
-    
+
     public function getStatusNameAttribute()
     {
         return trans('contracts.statuses.' . $this->status);
     }
-    
-    
+
+
     public function getResponsibleEmailAttribute()
     {
         switch ($this->benf_type) {
@@ -573,7 +574,7 @@ class  Contract extends BaseModel
                 }
         }
     }
-    
+
     public function getResponsibleMobileAttribute()
     {
         switch ($this->benf_type) {
@@ -590,7 +591,7 @@ class  Contract extends BaseModel
                 }
         }
     }
-    
+
     public function getStatusAliasAttribute()
     {
         $prvd_benf = request()->route()->parameter('prvd_benf');
@@ -625,8 +626,6 @@ class  Contract extends BaseModel
             return trans('contracts.status_alias.' . $prvd_benf . '.' . $this->status);
         }
     }
-    
-    
 
 
     /**
@@ -637,7 +636,7 @@ class  Contract extends BaseModel
         return $this->hasManyThrough(Invoice::class, ContractEmployee::class,
             "contracts_id", "invoices_id", "id");
     }
-    
+
     /**
      * Belongs to contract nature id
      *
@@ -647,12 +646,12 @@ class  Contract extends BaseModel
     {
         return $this->belongsTo(ContractNature::class, 'contract_nature_id');
     }
-    
+
     public function marketTaqawoulServices()
     {
         return $this->belongsTo(MarketTaqawoulServices::class, "market_taqaual_services_id");
     }
-    
+
     /**
      * @param $query
      *
@@ -662,7 +661,7 @@ class  Contract extends BaseModel
     {
         return $query->whereIn('status', ['pending', 'requested', 'approved']);
     }
-    
+
     /**
      * @param $query
      *
@@ -671,5 +670,50 @@ class  Contract extends BaseModel
     public function scopeByStatus($query, $status)
     {
         return $query->whereIn('status', $status);
+    }
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeEstablishmentProvider($query)
+    {
+        return $query->where(['provider_type' => Constants::USERTYPES['est']]);
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeEstablishmentProviderWithActivity($query, $activity_id)
+    {
+        return $query->where(['provider_type' => Constants::USERTYPES['est']])->whereHas('establishment',
+            function ($q) use ($activity_id) {
+                $q->where('activity_id', $activity_id);
+            });
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeEstablishmentBeneficialWithActivity($query, $activity_id)
+    {
+        return $query->establishmentBeneficial()->whereHas('benfEstablishment',
+            function ($q) use ($activity_id) {
+                $q->whereActivityId($activity_id);
+            });
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeEstablishmentBeneficial($query)
+    {
+        return $query->where(['benf_type' => Constants::USERTYPES['est']]);
     }
 }

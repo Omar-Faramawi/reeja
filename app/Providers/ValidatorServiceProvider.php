@@ -4,7 +4,9 @@ namespace Tamkeen\Ajeer\Providers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Factory;
 use Tamkeen\Ajeer\Models\Contract;
+use Tamkeen\Ajeer\Validators\SaudiPercentageValidator;
 
 class ValidatorServiceProvider extends ServiceProvider
 {
@@ -20,16 +22,18 @@ class ValidatorServiceProvider extends ServiceProvider
                 $id = $parameters[0];
                 try {
                     $status = Contract::findOrFail($id)->status;
-                    
+
                     return $status !== "approved";
-                    
+
                 } catch (ModelNotFoundException $e) {
                     return trans('labels.not_found');
                 }
             }
         );
+        
+        $this->registerCustomValidation($this->app['validator']);
     }
-    
+
     /**
      * Register the application services.
      *
@@ -38,5 +42,11 @@ class ValidatorServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    private function registerCustomValidation(Factory $validator)
+    {
+        $validator->extend('saudi_percentage_unique', 'Tamkeen\Ajeer\Validators\SaudiPercentageValidator@validateSaudiPercentageUnique');
+        $validator->extend('greater_than', 'Tamkeen\Ajeer\Validators\GreaterThanValidator@validateGreaterThan');
     }
 }

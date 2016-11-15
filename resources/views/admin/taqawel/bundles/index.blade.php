@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="table-scrollable">
-                        <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                        <table class="table table-striped table-bordered table-hover order-column">
                             <thead>
                             <tr class="odd gradeX">
                                 <th width="25%">{{ trans('bundles.attributes.min_of_num_ishaar') }}</th>

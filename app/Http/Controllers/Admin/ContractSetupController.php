@@ -9,6 +9,7 @@ use Tamkeen\Ajeer\Http\Requests;
 use Tamkeen\Ajeer\Models\Activity;
 use Tamkeen\Ajeer\Models\ContractSetup;
 use Tamkeen\Ajeer\Http\Requests\CreateUpdateContractSetupRequest;
+use Tamkeen\Ajeer\Http\Requests\CreateUpdateTaqawelContractSetupRequest;
 use Tamkeen\Ajeer\Models\EstablishmentPermissionActivity;
 use Tamkeen\Ajeer\Models\ServiceUserPermission;
 use Vinkla\Hashids\Facades\Hashids;
@@ -34,11 +35,26 @@ class ContractSetupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param CreateUpdateContractSetupRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateUpdateContractSetupRequest $request, $id)
+    public function update(CreateUpdateContractSetupRequest $request)
+    {
+        $newData = $request->only(array_keys($request->rules()));
+        $contractSetup = ContractSetup::where('contract_type_id', '=', $newData['contract_type_id'])->firstOrFail();
+
+        $setupSaved = $contractSetup->update($newData);
+
+        return ($setupSaved) ? trans('contract_setup.contract_setup_saved') : trans('contract_setup.contract_setup_not_saved');
+    }
+
+    /**
+     * @param CreateUpdateTaqawelContractSetupRequest $request
+     * @param $id
+     *
+     * @return string|\Symfony\Component\Translation\TranslatorInterface
+     */
+    public function updateTaqawel(CreateUpdateTaqawelContractSetupRequest $request, $id)
     {
         $newData = $request->only(array_keys($request->rules()));
         $contractSetup = ContractSetup::where('contract_type_id', '=', $newData['contract_type_id'])->firstOrFail();

@@ -21,12 +21,13 @@ class SaudiPercentageRequest extends Request
      */
     public function rules()
     {
+
         return [
             'provider_activity_id' => 'required|integer',
             'benf_activity_id'     => 'required|integer',
             'provider_size_id'     => 'required|integer',
             'benf_size_id'         => 'required|integer',
-            'saudi_pct'            => 'required|min:0|max:100',
+            'saudi_pct'            => 'required|integer|min:0|max:100|saudi_percentage_unique:provider_activity_id,' . $this->request->get('provider_activity_id') . ',benf_activity_id,' . $this->request->get('benf_activity_id') . ',provider_size_id,' . $this->request->get('provider_size_id') . ',benf_size_id,' . $this->request->get('benf_size_id') . ',saudi_percentage_id,' . ( $this->isMethod('PATCH') ? basename($this->getUri()) : null )
         ];
     }
 
@@ -38,11 +39,11 @@ class SaudiPercentageRequest extends Request
     public function attributes()
     {
         return [
-            'provider_activity_id' => trans('saudi_percentage.attributes.provider_activity'),
-            'benf_activity_id'     => trans('saudi_percentage.attributes.benf_activity'),
-            'provider_size_id'     => trans('saudi_percentage.attributes.provider_size'),
-            'benf_size_id'         => trans('saudi_percentage.attributes.benf_size'),
-            'saudi_pct'            => trans('saudi_percentage.attributes.percentage_value'),
+            'provider_activity_id' => trans('saudi_percentage.attributes.provider_activity_id'),
+            'benf_activity_id'     => trans('saudi_percentage.attributes.benf_activity_id'),
+            'provider_size_id'     => trans('saudi_percentage.attributes.provider_size_id'),
+            'benf_size_id'         => trans('saudi_percentage.attributes.benf_size_id'),
+            'saudi_pct'            => trans('saudi_percentage.attributes.saudi_pct'),
         ];
     }
 }

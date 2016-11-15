@@ -41,6 +41,7 @@
                             </div>
                         </div>
                         <div class="portlet-body">
+                        <div class="alert alert-warning"><strong>{{ trans('add_laborer.approval') }}:</strong> {{ trans('add_laborer.approval_text') }}</div>
                             <div class="table-container">
                                 <table class="table table-striped table-bordered table-hover table-checkable"
                                        id="datatable_ajax">
@@ -126,15 +127,17 @@
                         <i class="fa fa-user"></i>
                     </div>
                 </div>
-            <span class="label label-sm label-success hidden"
+            <span class="label label-sm label-success" style="display: none;" 
                   id='status-label-exist'>{{ trans('add_laborer.labels.exist') }}</span>
-            <span class="label label-sm label-danger hidden"
+            <span class="label label-sm label-danger" style="display: none;" 
                   id='status-label-not-exist'>{{ trans('add_laborer.labels.not-exist') }}</span>
+            <span class="label label-sm label-warning" style="display: none;" 
+                  id='status-label-not-active'>{{ trans('add_laborer.labels.not-active') }}</span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn dark btn-outline"
                         data-dismiss="modal">{{ trans('labels.cancel') }}</button>
-                <button type="submit" class="btn green" data-loading-text="{{ trans('labels.loading') }}">{{ trans('labels.save') }}</button>
+                <button type="submit" class="btn green" id='add_laborer_button' data-loading-text="{{ trans('labels.loading') }}">{{ trans('labels.save') }}</button>
             </div>
         </div>
         <!-- /.modal-content -->

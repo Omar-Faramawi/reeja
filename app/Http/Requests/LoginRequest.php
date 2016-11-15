@@ -28,4 +28,15 @@ class LoginRequest extends Request
             'password' => 'required|min:6',
         ];
     }
+
+
+    public function messages()
+    {
+      return [
+        'email.required'    => trans('auth.messages.invalid_username_password'),
+        'email.email'       => trans('auth.messages.invalid_username_password'),
+        'password.required' => trans('auth.messages.invalid_username_password'),
+        'password.min'      => trans('auth.messages.invalid_username_password'),
+      ];
+    }
 }

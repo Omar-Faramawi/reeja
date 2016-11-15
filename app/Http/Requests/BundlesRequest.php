@@ -27,9 +27,10 @@ class BundlesRequest extends Request
     public function rules()
     {
         return [
-            'min_of_num_ishaar' => "required|numeric|min:1|max:" . PHP_INT_MAX,
-            'max_of_num_ishaar' => "required|numeric|min:". $this->request->get('min_of_num_ishaar') ."|max:" . PHP_INT_MAX,
-            'monthly_amount'    => "required|numeric|min:1|max:" . PHP_INT_MAX,
+            'min_of_num_ishaar' => "required|integer|min:1|max:" . PHP_INT_MAX,
+            'max_of_num_ishaar' => "required|integer|min:". $this->request->get('min_of_num_ishaar') ."|max:" . PHP_INT_MAX,
+            'monthly_amount'    => 'required|integer|min:1|max:' . PHP_INT_MAX,
+
         ];
     }
     
@@ -42,5 +43,5 @@ class BundlesRequest extends Request
     {
         return trans('bundles.attributes');
     }
-    
+
 }

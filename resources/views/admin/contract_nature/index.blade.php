@@ -54,10 +54,10 @@
                     <div class="alert alert-info">{{ Session::pull('msg') }}</div>
                 @endif
                 <div class="table-scrollable">
-                    <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                    <table class="table table-striped table-bordered table-hover order-column">
                         <thead>
                         <tr class="odd gradeX">
-                            <th class="table-checkbox" width="5%"></th>
+                            {{-- <th class="table-checkbox" width="5%"></th> --}}
                             <th>{{ trans('contractnature.formTitle') }}</th>
                             <th>{{ trans('labels.project_status') }}</th>
                             <th width="20%">{{ trans('labels.options') }}</th>
@@ -67,8 +67,8 @@
                         @if(!empty($contractsNatures))
                             @foreach($contractsNatures as $contractsNature)
                                 <tr class="odd gradeX {{ $contractsNature->hashids }}">
-                                    <td width="5%"><input type="checkbox" class="checkboxes"
-                                                          value="{{ $contractsNature->hashids }}"/></td>
+                                    {{-- <td width="5%"><input type="checkbox" class="checkboxes"
+                                                          value="{{ $contractsNature->hashids }}"/></td> --}}
                                     <td>{{ $contractsNature->name }} </td>
                                     <td id="{{ $contractsNature->hashids }}">
                                         @if($contractsNature->status == 0)

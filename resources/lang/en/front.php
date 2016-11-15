@@ -4,7 +4,7 @@ return [
     'footer'    => [
         'header'     => 'Ajeer Dream',
         'content'    => 'Ajeer dream aims to serve the work place inside the kingdom of saudi arabia,
-         By managing the temporary work and tqawel contracts, where you can make your own contract with
+         By managing the temporary work and Taqawol contracts, where you can make your own contract with
          your service provider and make notices for your workers.
          Ajeer Dream supports login via Ministry of labor web portal.',
         'follow'     => 'Follow US',
@@ -26,7 +26,7 @@ return [
         'faq'                  => 'FAQs',
         'help'                 => 'Help & Support',
         'temp_work'            => 'Temp Work',
-        'tqawel'               => 'Tqawel',
+        'tqawel'               => 'Taqawol',
         'contracts'            => 'Contracts',
         'work_market'          => 'Market Place',
         'occasional_work'      => 'Seasonal work',
@@ -41,9 +41,9 @@ return [
         'laborer'              => 'Add Employee to work market',
         'hire_labor'           => 'Hire Labor',
         'publish_cv'           => 'CV',
-        'taqawel_services'     => 'Taqawel Services',
-        'taqawel_requests'     => 'Taqawel Requests',
-        'taqawel_notices'      => 'Taqawel Notices',
+        'taqawel_services'     => 'Taqawol Services',
+        'taqawel_requests'     => 'Taqawol Requests',
+        'taqawel_notices'      => 'Taqawol Notices',
         'packageSubscribe'     => "Subscribe to paid bundle",
         'contracts_and_notices'=> 'Contracts and Notices',
 		'work_completion_cert' => 'Generate Work Completion Certificate'

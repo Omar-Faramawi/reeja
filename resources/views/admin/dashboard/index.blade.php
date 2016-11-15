@@ -11,68 +11,69 @@
         <li class="active">{{ trans('user.dashboardwidgets') }}</li>
     </ol>
 </div>
-<!-- END BREADCRUMBS -->
-<!-- BEGIN PAGE BASE CONTENT -->
-<!-- BEGIN DASHBOARD STATS 1-->
+
 <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat blue">
-            <div class="visual">
-                <i class="fa fa-comments"></i>
+    <div class="col-md-4 col-md-offset-4 margin-bottom-10" style="border: 1px solid #eee;padding: 10px;">
+        <legend>{{trans('reports.period')}}</legend>
+        <div class="col-md-6">
+            <div class="form-group ">
+                <label for="endDate">{{trans('reports.from')}}</label>
+                <input id="startDate" name="startDate" type="datetime" class="date-picker form-control"
+                       data-toastr="{{trans('reports.start-date-error')}}"
+                       placeholder="{{trans('reports.from')}}" value="{{$from}}">
             </div>
-            <div class="details">
-                <div class="number">233</div>
-                <div class="desc"> </div>
-            </div>
-            <a class="more" href="#"> {{ trans('user.more') }}
-                <i class="m-icon-swapright m-icon-white"></i>
-            </a>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat red">
-            <div class="visual">
-                <i class="fa fa-bar-chart-o"></i>
+        <div class="col-md-6">
+            <div class="form-group ">
+                <label for="endDate">{{trans('reports.to')}}</label>
+                <input id="endDate" name="endDate" type="datetime" class="date-picker form-control"
+                       data-toastr="{{trans('reports.end-date-error')}}"
+                                                           data-toastr-greater="{{trans('reports.end_date_should_be_greater')}}"
+                       placeholder="{{trans('reports.to')}}" value="{{$to}}">
             </div>
-            <div class="details">
-                <div class="number">644</div>
-                <div class="desc"> </div>
-            </div>
-            <a class="more" href="#"> {{ trans('user.more') }}
-                <i class="m-icon-swapright m-icon-white"></i>
-            </a>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat green">
-            <div class="visual">
-                <i class="fa fa-shopping-cart"></i>
-            </div>
-            <div class="details">
-                <div class="number">23</div>
-                <div class="desc"> </div>
-            </div>
-            <a class="more" href="#"> {{ trans('user.more') }}
-                <i class="m-icon-swapright m-icon-white"></i>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat purple">
-            <div class="visual">
-                <i class="fa fa-globe"></i>
-            </div>
-            <div class="details">
-                <div class="number">2323</div>
-                <div class="desc"> </div>
-            </div>
-            <a class="more" href="#"> {{ trans('user.more') }}
-                <i class="m-icon-swapright m-icon-white"></i>
-            </a>
-        </div>
+        <input type="hidden" id="js_func" value="{{$js_func}}">
+        <input type="hidden" id="charts_ids" value="{{$charts_ids}}">
+        <button class="btn btn-info" id="changeDate">{{trans('reports.period_results')}}</button>
     </div>
 </div>
 <div class="clearfix"></div>
-<!-- END DASHBOARD STATS 1-->
-<!-- END PAGE BASE CONTENT -->
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings"></i>
+                    <span class="caption-subject bold uppercase"> {{ trans('reports.ishaars_types_chart') }}</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @include('admin.reports.reports_templates.partials.contract_types_ishaars_1')
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings"></i>
+                    <span class="caption-subject bold uppercase"> {{ trans('reports.top_ten_ishaars') }}</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @include('admin.reports.reports_templates.partials.providers_beneficials_activities')
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('assets/js/charts.js') }}"></script>
+    <script src="{{ asset('assets/js/morris.min.js') }}"></script>
 @endsection

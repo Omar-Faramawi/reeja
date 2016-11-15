@@ -24,7 +24,8 @@ class LoanPcntRequest extends Request
     public function rules()
     {
         return [
-            'percentages.*' => 'required|numeric|min:0|max:100',
+            'percentages.*' => 'required|integer|min:0|max:100',
+            
         ];
     }
     
@@ -36,7 +37,11 @@ class LoanPcntRequest extends Request
     public function attributes()
     {
         return [
-            'percentages.*' => trans('loan_pcnt.headings'),
+            'percentages.1' => trans('loan_pcnt.headings1'),
+            'percentages.2' => trans('loan_pcnt.headings2'),
+            'percentages.3' => trans('loan_pcnt.headings3'),
+            'percentages.4' => trans('loan_pcnt.headings4'),
+            'percentages.5' => trans('loan_pcnt.headings5'),
         ];
     }
 }

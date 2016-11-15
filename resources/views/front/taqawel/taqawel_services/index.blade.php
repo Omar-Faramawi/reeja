@@ -32,22 +32,24 @@
                                 <span class="caption-subject font-dark sbold uppercase">{{ trans('taqawoul.headings.list_tab_head') }}</span>
                             </div>
                             <div class="actions">
-                                <a href="{{ url('/taqawel/taqawelService/create') }}" class="btn btn-circle btn-sm green"><i
+                                @if($can_add)
+                                <a class="btn blue" data-toggle="modal" data-href='{{url("/taqawel/taqawelService/create")}}'  data-target='#main' data-toggle="modal"><i
                                             class="fa fa-plus"></i>
                                     {{ trans('taqawoul.headings.Add') }}</a>
+                                @endif
                             </div>
                         </div>
                         <div class="portlet-body">
                             <div class="table-container">
-                                <table class="table table-striped table-bordered table-hover table-checkable"
+                                <table class="table table-striped table-bordered table-hover"
                                        id="datatable_ajax">
                                     <thead>
                                     <tr role="row" class="heading">
-                                        <th id="id">#</th>
+                                        <th id="id" width="8%">#</th>
                                         <th id='contract_nature.name' class="no-sort">{{ trans('taqawoul.list_attributes.service_type') }}</th>
                                         <th id='description'
                                             class="no-sort">{{ trans('taqawoul.list_attributes.service_description') }}</th>
-                                        <th id="details" class="no-sort"
+                                        <th id="taqawelServiceEdit" class="no-sort"
                                             width="30%"> {{ trans('taqawoul.list_attributes.details') }}</th>
                                     </tr>
                                     <tr role="row" class="filter">
@@ -81,6 +83,19 @@
             </div>
         </div>
         <!-- END PAGE CONTENT INNER -->
+
+        <!-- Main Modal -->
+        <div id="main" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <img src="{{ asset('assets/img/loading-spinner-grey.gif') }}" alt="" class="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+
     </div>
 </div>
 <!-- END PAGE CONTENT BODY -->

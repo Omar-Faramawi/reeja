@@ -3,13 +3,15 @@
     <h4 class="modal-title"><i class="fa fa-edit"></i> {{ trans('establishments_registration.headings.list') }}</h4>
 </div>
 {{ Form::model($data, ['route' => ['admin.users.establishments_registeration.update', $data->hashids], 'method' => 'patch', 'id'=>'form']) }}
+<input type="hidden" value="{{$data->id}}" name="est_id"/>
+<input type="hidden" value="{{@$data->users->id}}" name="users_id"/>
 <div class="modal-body">
     <div class="row">
         <div class="form-body">
             <div class="col-md-12 padding-tb-10">
                 <div class="col-md-6">
                     <div class="form-group form-md-line-input form-md-floating-label">
-                        {{ Form::number('labour_office_no', null, ['disabled', 'class' => 'form-control', 'id' => 'labour_office_no']) }}
+                        {{ Form::number('labour_office_no', null, ['readonly', 'class' => 'form-control', 'id' => 'labour_office_no']) }}
                         <label for="labour_office_no" style="top:0;">{{ trans('establishments_registration.attributes.labour_office_no') }}
                             <span class="required">*</span></label>
                         <span class="help-block">{{ trans('establishments_registration.attributes.labour_office_no') }}
@@ -18,7 +20,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group form-md-line-input form-md-floating-label">
-                        {{ Form::number('sequence_no', null, ['disabled', 'class' => 'form-control', 'id' => 'sequence_no']) }}
+                        {{ Form::number('sequence_no', null, ['readonly', 'class' => 'form-control', 'id' => 'sequence_no']) }}
                         <label for="sequence_no" style="top:0;">{{ trans('establishments_registration.attributes.sequence_no') }}
                             <span class="required">*</span></label>
                         <span class="help-block">{{ trans('establishments_registration.attributes.sequence_no') }}
@@ -27,7 +29,7 @@
                 </div>
                 <div class="col-md-6 margin-top-10">
                     <div class="form-group form-md-line-input form-md-floating-label">
-                        {{ Form::number('id_number', null, ['disabled', 'class' => 'form-control', 'id' => 'id_number']) }}
+                        {{ Form::number('id_number', null, ['readonly', 'class' => 'form-control', 'id' => 'id_number']) }}
                         <label for="id_number" style="top:0;">{{ trans('establishments_registration.attributes.id_number') }}
                             <span class="required">*</span></label>
                         <span class="help-block">{{ trans('establishments_registration.attributes.id_number') }}
@@ -37,40 +39,40 @@
             </div>
             <div class="col-md-12 padding-tb-10">
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('name', null, ['id' => 'name', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.name')]) }}
+                    {{ Form::text('name', null, ['id' => 'name', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.name')]) }}
                 </div>
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('est_activity', null, ['id' => 'est_activity', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.est_activity')]) }}
+                    {{ Form::text('est_activity', null, ['id' => 'est_activity', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.est_activity')]) }}
                 </div>
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('est_size', null, ['id' => 'est_size', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.est_size')]) }}
+                    {{ Form::text('est_size', null, ['id' => 'est_size', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.est_size')]) }}
                 </div>
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('est_nitaq', null, ['id' => 'est_nitaq', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.est_nitaq')]) }}
+                    {{ Form::text('est_nitaq', null, ['id' => 'est_nitaq', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.est_nitaq')]) }}
                 </div>
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('district', null, ['id' => 'district', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.district')]) }}
+                    {{ Form::text('district', null, ['id' => 'district', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.district')]) }}
                 </div>
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('city', null, ['id' => 'city', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.city')]) }}
+                    {{ Form::text('city', null, ['id' => 'city', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.city')]) }}
                 </div>
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('region', null, ['id' => 'region', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.region')]) }}
+                    {{ Form::text('region', null, ['id' => 'region', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.region')]) }}
                 </div>
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('wasel_address', null, ['id' => 'wasel_address', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.wasel_address')]) }}
+                    {{ Form::text('wasel_address', null, ['id' => 'wasel_address', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.wasel_address')]) }}
                 </div>
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('local_liecense_no', null, ['id' => 'local_liecense_no', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.local_liecense_no')]) }}
+                    {{ Form::text('local_liecense_no', null, ['id' => 'local_liecense_no', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.local_liecense_no')]) }}
                 </div>
                 <div class="col-md-4 margin-bottom-5">
-                    {{ Form::text('phone', null, ['id' => 'phone', 'class' => 'form-control', 'disabled', 'placeholder' => trans('establishments_registration.attributes.phone')]) }}
+                    {{ Form::text('phone', null, ['id' => 'phone', 'class' => 'form-control', 'readonly', 'placeholder' => trans('establishments_registration.attributes.phone')]) }}
                 </div>
             </div>
             <div class="col-md-12 padding-tb-10">
                 <div class="col-md-6">
                     <div class="form-group form-md-line-input form-md-floating-label">
-                        {{ Form::email('email', null, ['disabled', 'class' => 'form-control']) }}
+                        {{ Form::email('email', null, ['readonly', 'class' => 'form-control']) }}
                     </div>
                 </div>
                 <div class="col-md-6">

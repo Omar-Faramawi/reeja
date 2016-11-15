@@ -1,5 +1,5 @@
 @extends('front.layout')
-@section('title', trans('vacancies.headings.Add'))
+@section('title', trans('vacancies.headings.update'))
 @section('content')
         <!-- BEGIN CONTENT BODY -->
 <!-- BEGIN PAGE HEAD-->
@@ -8,7 +8,7 @@
         <!-- BEGIN PAGE TITLE -->
         <div class="page-title">
             <h1>{{ trans('labels.system_name') }}
-                <small>{{ trans('vacancies.headings.Add') }}</small>
+                <small>{{ trans('vacancies.headings.update') }}</small>
             </h1>
         </div>
         <!-- END PAGE TITLE -->
@@ -39,40 +39,41 @@
                                 {{ Form::model($vacancy ,['route' => ['vacancies.update', $vacancy->id],'id'=>'form','method' => 'PATCH', 'class'=>'form-horizontal vacancies_form_updated','data-url'=>'/vacancies']) }}
                                 <div class="form-body row">
                                     <input type="hidden" name="status" value=""/>
-                                    <div class="col-md-6">
-                                        <div class="form-group form-md-line-input">
-                                            <label class="control-label text-right col-md-3">
-                                                {{trans('vacancies.form_attributes.region_id')}}
-                                                <span class="required"> * </span>
-                                            </label>
-                                            <div class="col-md-8">
-                                                <select class="form-control select2me bs-select" name="region_id"
-                                                        id="region_id">
-                                                    @if(!count($regions))
-                                                        <option>{{ trans('labels.no_data') }}</option>
-                                                    @else
-                                                        <option value="">{{ trans('labels.default') }}</option>
-                                                        @foreach($regions as $region)
-                                                            @if($vacancy->region_id == 1)
-                                                                <option value="{{$region->id}}"
-                                                                        selected>{{$region->name}}</option>
-                                                                @break;
-                                                            @endif
-                                                            @if($region->id !=1){
-                                                            @if (old('region_id') == $region->id || $vacancy->region_id == $region->id)
-                                                                <option value="{{$region->id}}"
-                                                                        selected>{{$region->name}}</option>
-                                                            @else
-                                                                <option value="{{$region->id}}">{{$region->name}}</option>
-                                                            @endif
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                </select>
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input">
+                                                <label class="control-label text-right col-md-3">
+                                                    {{trans('vacancies.form_attributes.region_id')}}
+                                                    <span class="required"> * </span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control select2me bs-select" name="region_id"
+                                                            id="region_id">
+                                                        @if(!count($regions))
+                                                            <option>{{ trans('labels.no_data') }}</option>
+                                                        @else
+                                                            <option value="">{{ trans('labels.default') }}</option>
+                                                            @foreach($regions as $region)
+                                                                @if($vacancy->region_id == 1)
+                                                                    <option value="{{$region->id}}"
+                                                                            selected>{{$region->name}}</option>
+                                                                    @break;
+                                                                @endif
+                                                                @if($region->id !=1){
+                                                                @if (old('region_id') == $region->id || $vacancy->region_id == $region->id)
+                                                                    <option value="{{$region->id}}"
+                                                                            selected>{{$region->name}}</option>
+                                                                @else
+                                                                    <option value="{{$region->id}}">{{$region->name}}</option>
+                                                                @endif
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
 
                                     {{-- start of vacancies area --}}
                                     <div class="col-md-12">
@@ -109,35 +110,32 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group form-md-line-input">
+                                                <div class="form-group form-md-line-input md-radio-inline">
                                                     <label class="control-label text-right col-md-3">{{trans('vacancies.form_attributes.gender')}}
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-8">
-                                                        <div class="form-group md-radio-inline"
-                                                             data-error-container="#form_2_gender_error">
-                                                            <div class="md-radio">
-                                                                <input type="radio" name="gender" value="1"
-                                                                       class="md-radiobtn"
-                                                                       @if ($vacancy->gender == 1) checked @endif />
+                                                        <div class="md-radio">
+                                                            <input type="radio" name="gender" value="1"
+                                                                   class="md-radiobtn"
+                                                                   @if ($vacancy->gender == 1) checked @endif />
 
-                                                                <label for="male">
-                                                                    <span></span>
-                                                                    <span class="check"></span>
-                                                                    <span class="box"></span> {{ trans('vacancies.gender.1') }}
-                                                                </label>
-                                                            </div>
-                                                            <div class="md-radio">
-                                                                <input type="radio" name="gender" value="0"
-                                                                       class="md-radiobtn"
-                                                                       @if ($vacancy->gender == 0) checked @endif/>
+                                                            <label for="male">
+                                                                <span></span>
+                                                                <span class="check"></span>
+                                                                <span class="box"></span> {{ trans('vacancies.gender.1') }}
+                                                            </label>
+                                                        </div>
+                                                        <div class="md-radio">
+                                                            <input type="radio" name="gender" value="0"
+                                                                   class="md-radiobtn"
+                                                                   @if ($vacancy->gender == 0) checked @endif/>
 
-                                                                <label for="female">
-                                                                    <span></span>
-                                                                    <span class="check"></span>
-                                                                    <span class="box"></span> {{ trans('vacancies.gender.0') }}
-                                                                </label>
-                                                            </div>
+                                                            <label for="female">
+                                                                <span></span>
+                                                                <span class="check"></span>
+                                                                <span class="box"></span> {{ trans('vacancies.gender.0') }}
+                                                            </label>
                                                         </div>
                                                         <div id="form_2_gender_error"></div>
                                                     </div>
@@ -363,6 +361,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 {{form::close()}}
                             </section>
                         </div>

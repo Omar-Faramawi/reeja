@@ -8,4 +8,5 @@ return [
     'est_NON_EXISTENT_note'     => ' عفوا .. لا يمكنك اختيار هذه المنشأة لأن :note',
     'est_no_cr_number'          => ' عفوا .. لا توجد تراخيص  للمنشأة',
     'est_cr_expired'            => ' عفوا .. لا توجد تراخيص سارية  للمنشأة',
+    'please_select_est'			=> 'من فضلك اختار منشأة'
 ];

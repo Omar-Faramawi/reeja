@@ -29,7 +29,7 @@
                                                     {{$thisContract['providername']}}
                                                 </div>
                                             </div>
-											@if(isset($thisContract['provider']['est_activity']))
+                                            @if(isset($thisContract['provider']['est_activity']))
                                             <div class="row static-info">
                                                 <div class="col-md-3 name">
                                                     {{trans("offers.providerType")}}
@@ -38,7 +38,7 @@
                                                     {{$thisContract['provider']['est_activity']}}
                                                 </div>
                                             </div>
-											@endif
+                                            @endif
                                         </div>
                                     </div>
 
@@ -61,7 +61,7 @@
                                                     {{trans("offers.benfNo")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{ ($thisContract['benef']['sequence_no']) ? $thisContract['benef']['sequence_no'] : $thisContract['benef']['nid']}}
+                                                    {{ $thisContract['benef']['id'] }}
                                                     {{--$thisContract->byNo($thisContract->benf_type,$thisContract->benf_id)--}}
                                                 </div>
                                             </div>

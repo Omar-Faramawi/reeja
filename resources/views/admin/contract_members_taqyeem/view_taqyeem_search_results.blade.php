@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover table-checkable">
+<table class="table table-striped table-bordered table-hover">
     <thead>
     <tr class="odd gradeX">
         <th></th>

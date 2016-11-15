@@ -18,8 +18,9 @@ return [
         'national_id'           => 'رقم الهوية',
     ],
     'messages'                  => [
-        'inactive_user_account'      => 'الحساب غير مفعّل، يرجى تفعيل الحساب',
+        'inactive_user_account'      => 'هذا الحساب غير مفعل',
         'invalid_username_password'  => 'الرجاء التحقق من المدخلات وإعادة المحاولة مرة أخرى',
+        'invalid_nid_password'       => 'الرجاء التحقق من المدخلات وإعادة المحاولة مرة أخرى',
         'exceeded_failure_threshold' => 'الرجاء التحقق من المدخلات وإعادة المحاولة مرة أخرى',
         'invalid_nid_password'       => 'الرجاء التحقق من المدخلات وإعادة المحاولة مرة أخرى',
     ],

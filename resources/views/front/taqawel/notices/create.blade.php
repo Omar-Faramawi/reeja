@@ -83,7 +83,7 @@
                                                 <div class="input-group">
                                                     <input type="text" class="form-control input-circle-left"
                                                            name='benef_name' id='benef_name'
-                                                           value="{{$contract->benf_name or ''}}" disabled="disabled">
+                                                           value="{{ $contract->benf_name or ''}}" disabled="disabled">
                                                     <span class="input-group-addon input-circle-right">
                                                         <i class="fa fa-user"></i>
                                                     </span>
@@ -94,8 +94,8 @@
                                             <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.form_attributes.benifit_activity')}}</label>
                                             <div class="col-md-4">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control input-circle-left"
-                                                           value="{{$contract->benef->est_activity or ''}}"
+                                                    <input  type="text" class="form-control input-circle-left"
+                                                           value="{{ $contract->benef->est_activity or ''}}"
                                                            disabled="disabled">
                                                     <span class="input-group-addon input-circle-right">
                                                         <i class="fa fa-user"></i>
@@ -104,6 +104,9 @@
                                             </div>
                                         </div>
                                         <input type="hidden" value="{{count($accountType)}}" id="oneormore"/>
+                                        <input name="provider_activity" id="provider_activity" type="hidden" value="{{$contract->provider->activity_id or ''}}" >
+                                        <input name="benf_activity" id="benf_activity" type="hidden" value="{{$contract->benef->activity_id or ''}}" >
+                                        <input name="benf_FK" type="hidden" id="benf_FK" value="{{$contract->benef->FK_establishment_id or ''}}" >
 
                                         @if(!count($accountType))
 

@@ -8,7 +8,7 @@
 return [
     'headings' => [
         'list' => 'Contract Natures',
-        'taqawel' => 'Taqawal',
+        'taqawel' => 'Taqawol',
         'temp_jobs' => 'Temporary Work',
     ],
     'sub-headings' => [
@@ -19,8 +19,8 @@ return [
     "sumbitedsucc" => "Sumbited Succesfully",
     "updated" => "Updated Succesfully",
     "deleted" => "Deleted Succesfully",
-    "activated" => "Activated",
-    "stopactivated" => "Stoped Activated ",
+    "activated" => "It has been successfully activated",
+    "stopactivated" => "It has been successfully deactivated ",
     "error_delete"=>"You Can't delete this element now ",
 
 ];

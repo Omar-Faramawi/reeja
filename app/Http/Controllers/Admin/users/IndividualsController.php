@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Tamkeen\Ajeer\Http\Controllers\Controller;
 use Tamkeen\Ajeer\Http\Requests;
 use Tamkeen\Ajeer\Models\User;
+use Tamkeen\Ajeer\Models\Individual;
+use Tamkeen\Ajeer\Models\IndividualLabor;
+use Tamkeen\Ajeer\Models\HRPool;
 
 class IndividualsController extends Controller
 {
@@ -97,6 +100,26 @@ class IndividualsController extends Controller
     {
         $data = User::byId($id)->firstOrFail();
         $data->delete();
+
+        $indv = Individual::where('nid',$data->national_id)->first();
+        if ($indv) {
+            $indv->delete();
+
+            $hrPoolRec = HRPool::where([
+                    'id_number'     => $data->national_id,
+                    'provider_type' => $data->user_type_id,
+                    'provider_id'   => $indv->id,
+                ]
+            )->first();
+            if ($hrPoolRec) {
+                $hrPoolRec->delete();
+            }
+        }
+
+        $indLabor = IndividualLabor::where('id_number',$data->national_id)->first();
+        if ($indLabor) {
+            $indLabor->delete();
+        }
 
         return trans('individuals_admin.deleted');
     }

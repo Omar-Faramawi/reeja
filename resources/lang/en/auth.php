@@ -16,10 +16,10 @@ return [
         'national_id'          => 'National Id',
     ],
     'messages'                  => [
-        'inactive_user_account'      => 'You account is inactive',
+        'inactive_user_account'      => 'this account is inactive',
         'invalid_username_password'  => 'Invalid Email or password',
+        'invalid_nid_password'       => 'Invalid National Id or password',
         'exceeded_failure_threshold' => 'You have exceeded the allowed failure login trials',
-        'invalid_nid_password'       => 'Invalid National Id',
     ],
     'remember'                  => 'Remember Me',
     'failed'                    => 'Invalid username or password',

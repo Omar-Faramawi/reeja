@@ -22,6 +22,9 @@ use Tamkeen\Ajeer\Utilities\Constants;
 use Illuminate\Support\Facades\Route;
 use Tamkeen\Platform\Billing\Connectors\Connector;
 use Carbon\Carbon;
+use Tamkeen\Ajeer\Models\Establishment;
+use Tamkeen\Ajeer\Models\BaseModel;
+use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository;
 
 class NoticesController extends Controller
 {
@@ -134,24 +137,47 @@ class NoticesController extends Controller
      *
      * @return Response
      */
-    public function generateInvoice($id, Connector $connector)
+    public function generateInvoice($id, Connector $connector, MolDataRepository $mol)
     {
         $contract_id = $id;
         if (Route::getCurrentRoute()->getcompiled()->getstaticPrefix() == '/direct_ishaar')
-            $invoice_type=Constants::INVOICE_TYPES['contract_direct_employee'];
+            $invoice_type = Constants::INVOICE_TYPES['contract_direct_employee'];
         else
-            $invoice_type=Constants::INVOICE_TYPES['contract_hire_labor'];
-       
+        $invoice_type = Constants::INVOICE_TYPES['contract_hire_labor'];
+
         // Check if the user can make new invoice or not
-        $open_invoice = Invoice::where('contracts_id', $contract_id)->where('status',Invoice::STATUS_PENDING)->first();
+        $open_invoice = Invoice::where('contracts_id', $contract_id)->where('status',
+                Invoice::STATUS_PENDING)->first();
         if (!empty($open_invoice)) {
-            return response()->json(['error' => trans('ishaar_setup.cant_add_invoice')], 422);
+            return response()->json(['error' => trans('ishaar_setup.cant_add_invoice')],
+                    422);
         }
         $contract = Contract::findOrFail($id);
-        if($contract){
-        $benef_name = $contract->benf_name;
-        $ishaar_setup = IshaarSetup::where('ishaar_type_id',$contract->contract_type_id)->first();
-        if($contract->contractEmployee->count()) {
+
+        if ($contract) {
+            $benef_name = $contract->benf_name;
+
+            //if provider is establishment check if it's exceeded the borrow percentage of it's size
+            if($contract->provider_type == Constants::USERTYPES['est']) {
+                $curr_est = session()->get('selected_establishment');
+                if ($curr_est) {
+                    //Provider Loan percentage
+                    $est_emp_count = $mol->fetchEstablishmentLaborersCount($curr_est->FK_establishment_id);
+                    $loan_pct = BaseModel::estSizeLoanPercentage($curr_est->est_size);
+                    if ($loan_pct > 0) {
+                        $Lpercentage = ($loan_pct / 100) * $est_emp_count;
+                        $emps = BaseModel::estLaborerCount($contract->provider_id)
+                            + $contract->contractEmployee->count();
+                        if ($emps > $Lpercentage) {
+                            return response()->json(['error' => trans('ishaar_setup.max_loan_percentage')],
+                                    422);
+                        }
+                    }
+                }
+            }
+            $ishaar_setup = IshaarSetup::where('ishaar_type_id',
+                    $contract->contract_type_id)->first();
+            if ($contract->contractEmployee->count()) {
                 $amount = ($ishaar_setup->amount) * ($contract->contractEmployee->count());
                 $days = $ishaar_setup->payment_period;
                 $issueDate = Carbon::now()->toDateTimeString();
@@ -168,6 +194,7 @@ class NoticesController extends Controller
                     $items, $expiryDate);
                 //create Invoice
                 $invoice = new Invoice;
+                $invoice->bill_number   = $createdBill['bill_number'];
                 $invoice->contracts_id = $contract_id;
                 $invoice->amount = $amount;
                 $invoice->account_no = $accountNumber;
@@ -186,16 +213,15 @@ class NoticesController extends Controller
                     $notice->save();
                 }
                 return response()->json(trans('ishaar_setup.add_invoice_success',
-                            ['number' => $invoice->id, 'contract' => $id, 'amount' => $amount]));
-            } else{
-            return response()->json(['error' => trans('ishaar_setup.no_contractEmployee')], 422);
-
+                            ['number' => $invoice->bill_number, 'contract' => $id, 'amount' => $amount]));
+            } else {
+                return response()->json(['error' => trans('ishaar_setup.no_contractEmployee')],
+                        422);
+            }
+        } else {
+            return response()->json(['error' => trans('ishaar_setup.no_contract')],
+                    422);
         }
-        }else{
-            return response()->json(['error' => trans('ishaar_setup.no_contract')], 422);
-
-        }
-
     }
 
     /**

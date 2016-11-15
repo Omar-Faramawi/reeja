@@ -32,19 +32,21 @@
                                 <span class="caption-subject font-dark sbold uppercase">{{ trans('taqawoul.tqawel_services_list') }}</span>
                             </div>
                             <div class="actions">
+                                @if($can_add)
                                 <a class="btn blue"
                                    data-toggle="modal" data-href='{{url("/taqawel/publishservice/create")}}'  data-target='#main' data-toggle="modal"><i
                                             class="fa fa-plus"></i>
                                     {{ trans('taqawoul.tqawel_services_add') }}</a>
+                                @endif
                             </div>
                         </div>
                         <div class="portlet-body">
                             <div class="table-container">
-                                <table class="table table-striped table-bordered table-hover table-checkable"
+                                <table class="table table-striped table-bordered table-hover"
                                        id="datatable_ajax">
                                     <thead>
                                     <tr role="row" class="heading">
-                                        <th id="id">#</th>
+                                        <th id="id" width="8%">#</th>
                                         <th id='contract_nature.name'
                                             class="no-sort">{{ trans('taqawoul.list_attributes.service_type') }}</th>
                                         <th id='description'
@@ -89,7 +91,7 @@
 <!-- END PAGE CONTENT BODY -->
 
 <!-- Main Modal -->
-<div id="main" class="modal fade" role="basic" aria-hidden="true">
+<div id="main" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">

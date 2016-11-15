@@ -7,7 +7,7 @@
 </a>
 <!-- END FOOTER -->
 <!-- Main Modal -->
-<div id="main" class="modal fade" role="basic" aria-hidden="true">
+<div id="main" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">

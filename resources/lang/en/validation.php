@@ -90,7 +90,8 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
-
+    'contract_field_cannot_edit_if_approved' => 'You can not change :attribute as the contract is approved by beneficiary',
+    'saudi_percentage_unique'                => 'Another Saudi percentage with these criteria added before',
     'custom' => [
         'attribute-name' => [
             'rule-name' 					=> 'custom-message',

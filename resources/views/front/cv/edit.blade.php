@@ -169,8 +169,8 @@
                                     </div>
                                 </div>
                                 <div style="text-align:left;padding-bottom: 20px;">
-                                    {!! Form::submit(trans('cv_publishment.save'), ['class' => "btn btn-primary"]) !!}
-                                    {!! Form::submit(trans('cv_publishment.save_complete_later'), ['class' => "btn btn-warning", 'name' => 'later']) !!}
+                                    {!! Form::submit(trans('cv_publishment.save'), ['class' => "btn btn-primary", "data-loading-text" => trans('labels.loading').'...']) !!}
+                                    {!! Form::submit(trans('cv_publishment.save_complete_later'), ['class' => "btn btn-warning", 'name' => 'later', "data-loading-text" => trans('labels.loading').'...']) !!}
                                     <a href="{{url('/')}}">
                                         {!! Form::button(trans('labels.cancel'), ['class' => "btn btn-danger"]) !!}
                                     </a>
@@ -184,7 +184,7 @@
             </div>
         @else
             <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <button  type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 {{trans('cv_publishment.age_alert')}}
             </div>
         @endif

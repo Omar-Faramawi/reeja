@@ -60,7 +60,7 @@
                    placeholder="{{ trans('auth.parameters.password') }}" name="password"/></div>
         <div class="form-actions">
             <button type="submit" class="btn green uppercase">{{ trans('auth.login') }}</button>
-            <a href="javascript:;" class="btn btn-default" id="forget-password"
+            <a href="{{ url('/password/reset') }}" class="btn btn-default" id="forget-password"
                class="forget-password">{{ trans('auth.forgot_password') }}</a>
         </div>
         <div class="login-options">

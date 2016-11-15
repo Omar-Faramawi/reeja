@@ -30,15 +30,16 @@ class SendVacancyOfferRequest extends Request
             'provider_type'              => 'sometimes|required',
             'start_date'                 => 'date|required',
             'end_date'                   => 'date|required|after:start_date',
-            'region_id.*'                => 'required|numeric',
+            'region_id.*'                => 'required|integer',
             'contract_locations'         => 'required',
-            'contract_type_id'           => 'numeric',
-            'contract_nature_id'         => 'numeric',
-            'reason_id'                  => 'numeric',
-            'job_request_id'             => 'numeric',
-            'job_type'             	 => 'required|numeric',
-            'market_taqaual_services_id' => 'numeric',
+            'contract_type_id'           => 'integer',
+            'contract_nature_id'         => 'integer',
+            'reason_id'                  => 'integer',
+            'job_request_id'             => 'integer',
+            'job_type'             	     => 'required|integer',
+            'market_taqaual_services_id' => 'integer',
             'ids'                        => 'array|required',
+            'contract_file'              => 'file|max:10000|mimes:doc,docx,pdf'
         ];
     }
 

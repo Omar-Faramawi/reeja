@@ -12,31 +12,31 @@ use Carbon\Carbon;
 class Establishment extends BaseModel
 {
     use SoftDeletes;
-    
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'establishments';
-    
+
     /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
      */
     public $timestamps = true;
-    
+
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
-    
-    
+
+
     protected $appends = ['status_name'];
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -49,7 +49,7 @@ class Establishment extends BaseModel
         'email',
         'name',
         'est_activity',
-        'est-size',
+        'est_size',
         'est_nitaq',
         'district',
         'city',
@@ -64,7 +64,7 @@ class Establishment extends BaseModel
         'created_by',
         'updated_by',
     ];
-    
+
     /**
      * The user that belongs to this government
      *
@@ -74,7 +74,7 @@ class Establishment extends BaseModel
     {
         return $this->hasOne(User::class, 'id_no');
     }
-    
+
     /**
      * @param MOLEstablishment $est
      * @param $owner_id
@@ -85,7 +85,9 @@ class Establishment extends BaseModel
     {
         $establishment = Establishment::where('labour_office_no', $est->labor_office_id)
             ->where('sequence_no', $est->sequence_number)->first();
-        
+        //check if establishment activity stored before in activities
+        $activity = Activity::firstOrCreate(['name' => $est->economic_activity]);
+
         if (!$establishment) {
             $establishment                      = new Establishment();
             $establishment->name                = $est->name;
@@ -96,6 +98,7 @@ class Establishment extends BaseModel
             $establishment->est_activity        = $est->economic_activity;
             $establishment->est_size            = $est->size_id;
             $establishment->est_nitaq           = $est->nitaqat_color;
+            $establishment->est_nitaq_old       = $est->nitaqat_color;
             $establishment->district            = $est->district;
             $establishment->city                = $est->city;
             $establishment->region              = $est->region;
@@ -103,30 +106,35 @@ class Establishment extends BaseModel
             $establishment->local_liecense_no   = $est->cr_number;
             $establishment->phone               = $est->phone;
             $establishment->status              = $est->status_id;
+            $establishment->activity_id         = $activity->id;
+            $establishment->save();
+        }else{
+            $establishment->activity_id = $activity->id;
+            $establishment->est_nitaq   = $est->nitaqat_color;
             $establishment->save();
         }
-        
+
         return $establishment;
     }
-    
+
     /* Abdelrazek Work */
     public function benfContracts()
     {
         return $this->hasManyThrough(Establishment::class, Contract::class, "benf_id", "id", "id");
     }
-    
+
     public function contractProvider()
     {
         return $this->hasManyThrough(Establishment::class, Contract::class, "provider_id", "id", "id");
     }
-    
+
     public function contract()
     {
         return $this->hasMany(Contract::class, "provider_id");
     }
-    
+
     /* End Of Abdelrazek Work */
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -134,7 +142,7 @@ class Establishment extends BaseModel
     {
         return $this->hasMany(Responsible::class, 'establishments_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      *
@@ -144,7 +152,7 @@ class Establishment extends BaseModel
     {
         return $this->hasMany(ContractLocation::class, "branch_id");
     }
-    
+
     /**
      * Get the string representing the establishment status
      */
@@ -160,9 +168,10 @@ class Establishment extends BaseModel
      */
     public static function checkEstablishmentStatus($establishment_data)
     {
-        if($establishment_data->status_id == EstablishmentStatus::NON_EXISTENT) {
+        if ($establishment_data->status_id == EstablishmentStatus::NON_EXISTENT) {
             if (!empty($establishment_data->note)) {
-                return redirect()->back()->with('choose_est_message', trans('establishment.est_NON_EXISTENT_note',['note'=>$establishment_data->note]));
+                return redirect()->back()->with('choose_est_message',
+                    trans('establishment.est_NON_EXISTENT_note', ['note' => $establishment_data->note]));
             } else {
                 return redirect()->back()->with('choose_est_message', trans('establishment.est_NON_EXISTENT'));
             }
@@ -175,7 +184,7 @@ class Establishment extends BaseModel
             return redirect()->back()->with('choose_est_message', trans('establishment.est_cr_expired'));
         }
 
-        if($establishment_data->wasel_status == 0) {
+        if ($establishment_data->wasel_status == 0) {
             return redirect()->back()->with('choose_est_message', trans('establishment.est_wasel_status_issue'));
         }
 
@@ -183,5 +192,23 @@ class Establishment extends BaseModel
         if ($wasel_expiry_date < Carbon::today()) {
             return redirect()->back()->with('choose_est_message', trans('establishment.est_wasel_status_expired'));
         }
+    }
+
+    /**
+     * Get Activity name
+     */
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class);
+    }
+
+    public function invoice()
+    {
+        return $this->hasMany(Invoice::class, 'provider_id');
+    }
+
+    public function estSize()
+    {
+        return $this->belongsTo(EstablishmentSize::class, 'est_size');
     }
 }

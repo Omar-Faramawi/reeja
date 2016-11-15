@@ -174,6 +174,11 @@ class Invoice extends BaseModel
         if (is_null($this->status)) {
             return '';
         }
+        
+        $expireDate = Carbon::createFromTimestamp(strtotime($this->expiry_date));
+        if ($this->status == '0' && $expireDate <= Carbon::today()) {
+            $this->status = '2';
+        }
 
         return Constants::invoiceStatues(['file' => 'invoices.statuses'], $this->status);
     }

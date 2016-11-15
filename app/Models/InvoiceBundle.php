@@ -101,9 +101,22 @@ class InvoiceBundle extends BaseModel
 
     }
 
-    public function invoice()
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function invoice()
     {
         return $this->belongsTo(Invoice::class,"invoice_id");
+    }
+
+	/**
+	 * invoice bundle belong to the bundle
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function bundle()
+    {
+		return $this->belongsTo(Bundle::class, "bundle_id");
     }
 
 }

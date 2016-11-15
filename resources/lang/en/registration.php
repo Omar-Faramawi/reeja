@@ -7,7 +7,7 @@ return [
 
         'nicerror'              => 'National Id is incorrect',
         'required_if'           => 'This :attribute is required when :other is saudi',   
-
+        'nic_not_active'        => 'The account is not active in NIC',
     ],
     'attributes'                => [
 

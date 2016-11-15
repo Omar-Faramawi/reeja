@@ -30,7 +30,7 @@ class EditNoticePermissionRequest extends Request
             'ishaar_benf_est'    => 'sometimes|required|in:0,1',
             'ishaar_benf_indv'   => 'sometimes|required|in:0,1',
             'ishaar_benf_gover'  => 'sometimes|required|in:0,1',
-            'labor_borrow_count' => 'numeric|min:0|max:99999999',
+            'labor_borrow_count' => 'integer|min:0|max:99999999',
         ];
     }
     

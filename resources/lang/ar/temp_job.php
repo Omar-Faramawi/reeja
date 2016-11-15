@@ -14,7 +14,7 @@ return [
 	'region_id'                      => 'منطقة العمل',
 	'ask_offer'                      => 'طلب تعاقد',
 	'get_offer'                      => 'تعاقد',
-	'offer_not_chosen'               => 'لم يتم آختيار العقد',
+	'offer_not_chosen'               => 'لم يتم اختيار العمالة',
 	'contract_applied'               => 'تم التقديم للعقد',
 	'contract_amount'                => 'الراتب',
 	'service_type'                   => 'نوع الخدمة',

@@ -38,10 +38,10 @@
                         </div>
                     </div>
                     <div class="table-scrollable">
-                        <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                        <table class="table table-striped table-bordered table-hover order-column">
                             <thead>
                             <tr class="odd gradeX">
-                                <th width="5%" class="table-checkbox"></th>
+                                {{-- <th width="5%" class="table-checkbox"></th> --}}
                                 <th>{{ trans('ishaar_setup.attributes.ishaar_name') }}</th>
                                 <th>{{ trans('ishaar_setup.attributes.amount') }}</th>
                                 <th>{{ trans('ishaar_setup.attributes.payment_period') }}</th>
@@ -52,7 +52,7 @@
                             <tbody>
                             @foreach($data as $single)
                                 <tr class="odd gradeX {{ $single->hashids }}">
-                                    <td><input type="checkbox" class="checkboxes" value="{{ $single->hashids }}"/></td>
+                                    {{-- <td><input type="checkbox" class="checkboxes" value="{{ $single->hashids }}"/></td> --}}
                                     <td> {{ $single->name }} </td>
                                     <td> {{ $single->amount }} {{ trans('ishaar_setup.attributes.currency') }}</td>
                                     <td> {{ $single->payment_period }} {{ trans('ishaar_setup.attributes.day') }} </td>

@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 return [
     'headings' 					=> 'Add Laborer',
@@ -22,14 +22,15 @@ return [
     	'religion'			=> 'Religion',
     	'id'				=> 'Id',
     	'name'				=> 'Name',
-    	'details'			=> 'Details'
+    	'details'			=> 'Details',
+        'not-active'        => 'not active',
     ],
     'laboreradded'			=> 'Added successfully',
     '0'						=> 'Female',
     '1'						=> 'Male',
     'error'                 => 'You do not have this laborer',
     'publish-title'         => 'Publish to labor market',
-    'publish'               => 'Publish',
+    'publish'               => 'Confirm',
     'confirm'               => 'Confirmation',
     'updated'               => 'Published to labor market',
     'work_start_date'       => 'Work start date',
@@ -38,4 +39,7 @@ return [
     'id_error'              => 'Please choose laborer',
     'search'                => 'Search',
     'reset'                 => 'Reset',
+    'approval'              => 'Endorsment',
+    'approval_text'         => 'I ensure that every laborer has been added to ajeer marketplace had addmitted his adding', 
+    'enddate_before_start_date' => 'work end date is before work start date' ,   
 ];

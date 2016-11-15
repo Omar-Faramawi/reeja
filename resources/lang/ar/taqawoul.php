@@ -34,4 +34,5 @@ return [
     'tqawel_services'     => 'خدمات التقاول',
     'tqawel_services_list'=> 'قائمة خدمات التقاول',
     'tqawel_services_add' => 'إضافة خدمة تقاول',
+    'tqawel_services_edit'=> 'تعديل خدمة تقاول',
 ];

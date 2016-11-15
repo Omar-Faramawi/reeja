@@ -7,7 +7,7 @@ return [
 
         'nicerror'              => ' !!! رقم الهوية/الاقامة/الحدود غير صحيح',
         'required_if'           => 'الحقل :attribute مطلوب في حال ما إذا كان :other',   
-
+        'nic_not_active'        => ' عفوا ، الحساب غير نشط لدى وزارة الداخلية',
     ],
     'attributes'                => [
 

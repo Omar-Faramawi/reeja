@@ -145,6 +145,10 @@ class HRPool extends BaseModel
         ]);
     }
 
+    public function scopeNotMe($query) {
+        return $query->where("id_number", "!=", auth()->user()->national_id);
+    }
+
     /**
      * @return mixed
      */
@@ -332,6 +336,10 @@ class HRPool extends BaseModel
     
     public function scopeOnlyMales($query){
         return $query->where('gender',Constants::GENDER['male']);
+    }
+
+    public function scopeOnlySaudians($query){
+        return $query->where('nationality_id',1);
     }
 
     public static function MaxLaborTimes($id_number){

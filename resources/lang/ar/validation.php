@@ -43,14 +43,14 @@ return [
     'ip'                   => 'يجب أن يكون الحقل :attribute عنوان IP ذي بُنية صحيحة',
     'json'                 => 'يجب أن يكون الحقل :attribute نصآ من نوع JSON.',
     'max'                  => [
-        'numeric' => 'يجب أن تكون قيمة الحقل :attribute أصغر من :max.',
-        'file'    => 'يجب أن يكون حجم الملف :attribute أصغر من :max كيلوبايت',
+        'numeric' => 'يجب أن تكون قيمة الحقل :attribute أقل من أو تساوي :max.',
+        'file'    => 'يجب أن يكون حجم الملف :attribute أقل من أو يساوي :max كيلوبايت',
         'string'  => 'يجب أن لا يتجاوز طول النّص :attribute :max حروفٍ/حرفًا',
         'array'   => 'يجب أن لا يحتوي الحقل :attribute على أكثر من :max عناصر/عنصر.',
     ],
     'mimes'                => 'يجب أن يكون الحقل :attribute ملفًا من نوع :values.',
     'min'                  => [
-        'numeric' => 'يجب أن تكون قيمة الحقل :attribute أكبر من :min.',
+        'numeric' => 'يجب أن تكون قيمة الحقل :attribute أكبر من أو تساوي :min.',
         'file'    => 'يجب أن يكون حجم الملف :attribute أكبر من :min كيلوبايت',
         'string'  => 'يجب أن يكون قيمة الحقل :attribute أكبر :min حروف/حرفًا',
         'array'   => 'يجب أن يحتوي الحقل :attribute على الأقل على :min عُنصرًا/عناصر',
@@ -88,6 +88,7 @@ return [
     |
      */
     'contract_field_cannot_edit_if_approved' => 'لا يمكن تعديل حقل :attribute لانه قد تم الموافقة على العقد من قبل المستفيد',
+    'saudi_percentage_unique'                => 'تم إدخال نسبة السعودة بهذه المعايير سابقا',
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

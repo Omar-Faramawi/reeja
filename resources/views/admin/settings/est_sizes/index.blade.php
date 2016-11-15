@@ -41,7 +41,7 @@
                </div>
             </div>
             <div class="table-scrollable">
-               <table class="table table-striped table-bordered table-hover table-checkable order-column">
+               <table class="table table-striped table-bordered table-hover order-column">
                   <thead>
                      <tr class="odd gradeX">
                         <th>{{ trans('est_sizes.attributes.ar-name') }}</th>

@@ -3,6 +3,7 @@
 namespace Tamkeen\Ajeer\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Tamkeen\Ajeer\Http\Controllers\Controller;
 use Auth;
 use Tamkeen\Ajeer\Http\Requests;
@@ -28,7 +29,7 @@ class LaborerController extends Controller
     public function index(MolDataRepository $mol)
     {
         if (request()->ajax()) {
-            $data    = HRPool::with('nationality', 'job')->byMe()->notChecked();
+            $data    = HRPool::with('nationality', 'job')->byMe()->notMe()->notChecked();
             $columns = request()->input('columns');
 
             if (request()->input('id')) {
@@ -88,14 +89,24 @@ class LaborerController extends Controller
             if (session('auth.type') == 'mol' || session('auth.type') == '3') {
 
                 if ($laborer->getSponsor()->getIdNumber()->__toString() == (string)session('selected_establishment.id_number')) {
-                    return serialize($laborer);
+                    if($laborer->getStatus()->getPersonStatus()->getCode() != 1)
+                    {
+                        return 'false2';
+                    }else{
+                        return serialize($laborer);
+                    }
                 } else {
                     return 'false';
                 }
 
             } elseif (session('auth.type') == '4') {
-                if ($laborer->getSponsor()->getIdNumber()->__toString() == (string)session('user.national_id')) {
-                    return serialize($laborer);
+                if ($laborer->getSponsor()->getIdNumber()->__toString() == \Auth::user()->national_id) {
+                    if($laborer->getStatus()->getPersonStatus()->getCode() != 1)
+                    {
+                        return 'false2';
+                    }else{
+                        return serialize($laborer);
+                    }
                 } else {
                     return 'false';
                 }
@@ -141,13 +152,17 @@ class LaborerController extends Controller
             $provider_type = session('auth.type');
         }
 
-        $HRPool->gender        = $laborer->gender->__toString();
+        $HRPool->gender        = ($laborer->gender->__toString() == '2' ? '0' : '1');
         $HRPool->age           = $age;
         $HRPool->birth_date    = $laborer->getBirthDate()->getHijriDate();
         $HRPool->id_number     = $request->id_number;
         $HRPool->chk           = 0;
         $HRPool->name          = $laborer->getFullName()->__toString();
-        $HRPool->provider_id   = session('selected_establishment.id');
+        if (session()->has('selected_establishment')) {
+            $HRPool->provider_id = session('selected_establishment.id');
+        } else {
+            $HRPool->provider_id = \Auth::user()->id_no;
+        }
         $HRPool->provider_type = $provider_type;
         $HRPool->job_id        = 1; /* To do : get this value from NIC */
         $HRPool->religion      = 1; /* To do : get this value from NIC */
@@ -165,6 +180,11 @@ class LaborerController extends Controller
     public function save(PublishLaborerRequest $request)
     {
         $data = $request->only(array_keys($request->rules()));
+        if($data['enddate'] < $data['startdate']){
+            return Response::json([
+                'startdate' => trans('add_laborer.enddate_before_start_date')
+            ], 422);
+        }
         foreach ($data['id'] as $key) {
             $hrpool                  = HRPool::find(intval($key));
             $hrpool->chk             = '1';

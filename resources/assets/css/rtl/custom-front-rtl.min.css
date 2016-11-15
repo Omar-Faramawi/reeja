@@ -293,3 +293,15 @@ select[name='datatable_ajax_length'] {
 table.dataTable {
     width: auto !important;
 }
+
+.calendars-month-year {
+    font-family: serif !important;
+    font-size: 12px !important;
+}
+.calendars-month-header{
+    height: 2em;
+}
+/* fix select dropdown vertical align on arabic */
+select.form-control{
+    padding-top: 2px;
+}

@@ -32,14 +32,13 @@ class EstablishmentController extends Controller
      *
      * @return mixed
      */
-    public function choose($laborOffice, $sequenceNumber, MolRepo $mol)
+    public function choose($laborOffice, $sequenceNumber, MolRepo $mol, $login = FALSE)
     {
         try {
             $establishment_data = $mol->findEstablishmentByNumber($laborOffice, $sequenceNumber);
             $owner_id           = $mol->getOwnerByEstablishmentId($establishment_data->FK_establishment_id);
         } catch (EstablishmentNotFound $e) {
             logger()->error('Could not fetch establishment ' . $laborOffice . '-' . $sequenceNumber);
-            
             return redirect()->back();
         }
         $check = Establishment::checkEstablishmentStatus($establishment_data);
@@ -48,8 +47,11 @@ class EstablishmentController extends Controller
         }
         $establishment = Establishment::findEstablishmentOrCreate($establishment_data, $owner_id);
         session()->set('selected_establishment', $establishment);
-        
+        if($login){
+           return trans('auth.success');
+        }else{
         return redirect('home');
+        }
     }
     
     public function estApproval()

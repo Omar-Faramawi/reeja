@@ -11,6 +11,7 @@ use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository;
 use Illuminate\Auth\Passwords\TokenRepositoryInterface;
 use Tamkeen\Ajeer\Models\User;
 use Illuminate\Support\Facades\Password;
+use Tamkeen\Ajeer\Models\Activity;
 use Mail;
 
 class EstablishmentsRegistrationController extends Controller
@@ -54,7 +55,9 @@ class EstablishmentsRegistrationController extends Controller
         if (empty($establishment)) {
             return response()->json(['error' => trans('establishments_registration.no_data')], 422);
         }
-        
+
+        //check if establishment activity stored before in activities
+        $activity = Activity::firstOrCreate(['name' => $establishment->economic_activity]);
         // create establishment
         $est_data                      = new Establishment;
         $est_data->name                = $establishment->name;
@@ -62,11 +65,12 @@ class EstablishmentsRegistrationController extends Controller
         $est_data->branch_no           = $request->input('branch_no');
         $est_data->labour_office_no    = $establishment->labor_office_id;
         $est_data->sequence_no         = $establishment->sequence_number;
-        $est_data->id_number           = $mol->getOwnerByEstablishmentId($establishment->FK_establishment_id);
+        $est_data->id_number           = $request->input('id_number');
         $est_data->FK_establishment_id = $establishment->FK_establishment_id;
         $est_data->est_activity        = $establishment->economic_activity;
         $est_data->est_size            = $establishment->size_id;
         $est_data->est_nitaq           = $establishment->nitaqat_color;
+        $est_data->est_nitaq_old       = $establishment->nitaqat_color;
         $est_data->district            = $establishment->district;
         $est_data->city                = $establishment->city;
         $est_data->region              = $establishment->region;
@@ -74,6 +78,7 @@ class EstablishmentsRegistrationController extends Controller
         $est_data->local_liecense_no   = $establishment->cr_number;
         $est_data->phone               = $establishment->phone;
         $est_data->status              = '1';
+        $est_data->activity_id         = $activity->id;
         $est_data->save();
         
         // create government user
@@ -131,7 +136,7 @@ class EstablishmentsRegistrationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EstablishmentRegisterRequest $request, $id)
     {
         $data            = Establishment::byId($id)->with('users')->firstOrFail();
         $data->status    = $request->input('status') ? "1" : "0";
@@ -139,7 +144,9 @@ class EstablishmentsRegistrationController extends Controller
         $data->save();
         
         // Update the user data
-        $data->users()->update(['active' => $data->status]);
+        if (isset($data->users)) {
+            $data->users()->update(['active' => $data->status]);
+        }
         
         return trans('governments_registeration.updated');
     }
@@ -154,7 +161,9 @@ class EstablishmentsRegistrationController extends Controller
     public function destroy($id)
     {
         $data = Establishment::byId($id)->with('users')->firstOrFail();
-        $data->users()->delete();
+        if (isset($data->users)) {
+            $data->users()->delete();
+        }
         $data->delete();
         
         return trans('governments_registeration.deleted');

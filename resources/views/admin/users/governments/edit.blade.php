@@ -11,6 +11,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-body">
+                <input type="hidden" value="{{isset($user) ?$user->id : 0}}" name="user_id" />
                 <div class="form-group form-md-line-input form-md-floating-label">
                     {{ Form::text('name', null, ['class' => 'form-control', 'minlength' => '3', 'maxlength' => '255', 'required']) }}
                     <label {{ isset($data) ? 'style=top:0;' : "" }} for="name">{{ trans('governments_registeration.attributes.name') }}
@@ -19,12 +20,29 @@
                 </div>
                 @if (empty($data))
                 <div class="form-group form-md-line-input form-md-floating-label">
-                    {{ Form::email('email', null, ['class' => 'form-control']) }}
+                    {{ Form::email('email', null, ['class' => 'form-control', 'required']) }}
+                    <label {{ isset($data) ? 'style=top:0;' : "" }} for="email">{{ trans('governments_registeration.attributes.email') }}
+                        <span class="required">*</span></label>
+                    <span class="help-block">{{ trans('governments_registeration.attributes.email') }} ....</span>
+                </div>
+                @else
+                @if($user && $user->password)
+                     <div class="form-group form-md-line-input form-md-floating-label">
+                    {{ Form::email('oldemail', $data->email, ['class' => 'form-control', 'disabled']) }}
+                    <label {{ isset($data) ? 'style=top:0;' : "" }} for="email">{{ trans('governments_registeration.attributes.email') }}
+                        <span class="required"></span></label>
+                </div>
+                
+                @else
+                <div class="form-group form-md-line-input form-md-floating-label">
+                    {{ Form::email('email', null, ['class' => 'form-control', 'required']) }}
                     <label {{ isset($data) ? 'style=top:0;' : "" }} for="email">{{ trans('governments_registeration.attributes.email') }}
                         <span class="required">*</span></label>
                     <span class="help-block">{{ trans('governments_registeration.attributes.email') }} ....</span>
                 </div>
                 @endif
+                @endif
+                
                 <div class="form-group form-md-line-input form-md-floating-label">
                     <label for="labour_office_no">{{ trans('governments_registeration.attributes.hajj') }}
                         <span class="required">*</span></label>

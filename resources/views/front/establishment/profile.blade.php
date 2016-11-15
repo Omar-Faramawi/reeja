@@ -241,9 +241,7 @@
                                 <div class="col-md-offset-2 col-md-10">
                                     {!! Form::submit(trans('labels.save'), ['class' => 'btn btn-info', 'data-loading-text'=>trans('labels.loading')]) !!}
                                     {!! Form::submit(trans('labels.save_complete_later'), ['class' => 'btn btn-warning', 'name' => 'later', 'data-loading-text'=>trans('labels.loading')]) !!}
-                                    <a href="{{url('/')}}">
-                                        {!! Form::button(trans('labels.cancel'), ['class' => 'btn btn-danger']) !!}
-                                    </a>
+                                    <a href="{{url('/home')}}" class="btn btn-danger">{{ trans('labels.cancel') }}</a>
                                 </div>
                             </div>
                         </div>

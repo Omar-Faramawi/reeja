@@ -65,8 +65,9 @@ class PublishServiceTaqaualController extends Controller
             
             return dynamicAjaxPaginate($services, $columns, $total_count, $buttons);
         }
-        
-        return view("front.taqawel.publishservice.index");
+        $can_add = BaseModel::estCanBeProvider();
+
+        return view("front.taqawel.publishservice.index", compact('can_add'));
     }
     
     /**
@@ -76,11 +77,14 @@ class PublishServiceTaqaualController extends Controller
      */
     public function create()
     {
-        $service_types = ContractNature::active()->get()->pluck("name", "id");
-        $service_types->prepend('');
-        array_add($service_types, "other", trans("offers.modal.reject.other"));
-        
-        return view("front.taqawel.publishservice.create", compact("service_types"));
+        if (BaseModel::estCanBeProvider()) {
+            $service_types = ContractNature::active()->get()->pluck("name", "id");
+            $service_types["other"] = trans("offers.modal.reject.other");
+
+            return view("front.taqawel.publishservice.create", compact("service_types"));
+        }else {
+            return abort(401);
+        }
     }
     
     /**
@@ -93,22 +97,26 @@ class PublishServiceTaqaualController extends Controller
      */
     public function store(PublishServiceRequest $publishServiceRequest)
     {
-        $data                          = $publishServiceRequest->only(array_keys($publishServiceRequest->rules()));
-        $data['status']                = '1';
-        if ($data['contract_nature_id']=='other') {
-            $new_nature                 = ContractNature::create(['name' => $publishServiceRequest->input('new_service'), 'status' => 0]);
-            $data['contract_nature_id'] = $new_nature->id;
-            unset($data['new_service']);
-        } else {
-            unset($data['new_service']);
+        if (BaseModel::estCanBeProvider()) {
+            $data                          = $publishServiceRequest->only(array_keys($publishServiceRequest->rules()));
+            $data['status']                = '1';
+            if ($data['contract_nature_id']=='other') {
+                $new_nature                 = ContractNature::create(['name' => $publishServiceRequest->input('new_service'), 'status' => 0]);
+                $data['contract_nature_id'] = $new_nature->id;
+                unset($data['new_service']);
+            } else {
+                unset($data['new_service']);
+            }
+            $data['provider_or_benf']      = Constants::SERVICETYPES['provider'];
+            $data['service_prvdr_benf_id'] = \Auth::user()->user_type_id;
+            $current                       = getCurrentUserNameAndId();
+            $data['service_id']            = $current[0];
+            $save                          = MarketTaqawoulServices::create($data);
+
+            return trans('taqawoul.success_data');
+        }else {
+            return abort(401);
         }
-        $data['provider_or_benf']      = Constants::SERVICETYPES['provider'];
-        $data['service_prvdr_benf_id'] = \Auth::user()->user_type_id;
-        $current                       = getCurrentUserNameAndId();
-        $data['service_id']            = $current[0];
-        $save                          = MarketTaqawoulServices::create($data);
-        
-        return trans('taqawoul.success_data');
     }
     
     
@@ -121,10 +129,12 @@ class PublishServiceTaqaualController extends Controller
      */
     public function edit($id)
     {
-        $service       = MarketTaqawoulServices::findOrFail($id);
-        $service_types = ContractNature::all()->pluck("name", "id");
-        $service_types->prepend('');
-        array_add($service_types, "other", trans("offers.modal.reject.other"));
+        $service       = MarketTaqawoulServices::with('contractNature')->findOrFail($id);
+        $service_types = ContractNature::active()->get()->pluck("name", "id");
+        if (!isset($service_types[$service->contract_nature_id])) {
+            $service_types[$service->contract_nature_id] = $service->contractNature->name;
+        }
+        $service_types["other"] = trans("offers.modal.reject.other");
         
         return view("front.taqawel.publishservice.create", compact("service", "service_types"));
     }

@@ -23,6 +23,12 @@
         <!-- END PAGE BREADCRUMBS -->
         <!-- BEGIN PAGE CONTENT INNER -->
         <div class="page-content-inner">
+            @if(session()->has('est_status'))
+                <div class="alert alert-block alert-danger fade in">
+                <button type="button" class="close" data-dismiss="alert"></button>
+                <p>{!! session()->pull('est_status') !!} </p>
+            </div>
+            @endif
             @if(session()->has('choose_est_message'))
             <div class="alert alert-block alert-danger fade in">
                 <button type="button" class="close" data-dismiss="alert"></button>

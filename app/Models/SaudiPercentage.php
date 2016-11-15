@@ -3,6 +3,7 @@
 namespace Tamkeen\Ajeer\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Tamkeen\Ajeer\Utilities\Constants;
 
 /**
  * Class SaudiPercentage
@@ -74,6 +75,16 @@ class SaudiPercentage extends BaseModel
     {
         return $this->belongsTo(Size::class, 'benf_size_id');
     }
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeTaqawel($query)
+    {
+        return $query->where('contract_type_id', Constants::CONTRACTTYPES['taqawel']);
+    }
+
 
 
 }

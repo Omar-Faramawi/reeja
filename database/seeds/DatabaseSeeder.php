@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(NationalitySeeder::class);
         $this->call(IshaarTypesSeeder::class);
         $this->call(PermissionsActivitiesModuleSeeder::class);
-        $this->call(ContractLocationSeeder::class);
+        //$this->call(ContractLocationSeeder::class);
         $this->call(EstablishmentPermissionActivitiesSeeder::class);
         $this->call(EstSizesSeeder::class);
         $this->call(GovernmentPermissionActivitiesSeeder::class);
@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
         $this->call(IshaarSetupSeeder::class);
         $this->call(BundlesSeeder::class);
         $this->call(AttachmentsSeeder::class);
+        $this->call(ServiceUserGovernmentPermissionSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

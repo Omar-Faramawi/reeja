@@ -65,14 +65,14 @@ $factory->define(\Tamkeen\Ajeer\Models\ContractSetup::class, function () use ($f
 });
 
 $factory->define(\Tamkeen\Ajeer\Models\Activity::class, function () use ($faker) {
-    
+
     return [
         'name' => $faker->name,
     ];
 });
 
 $factory->define(\Tamkeen\Ajeer\Models\ServiceProviderBeneficial::class, function () use ($faker) {
-    
+
     return [
         'name'       => '',
         'created_by' => '',
@@ -80,7 +80,7 @@ $factory->define(\Tamkeen\Ajeer\Models\ServiceProviderBeneficial::class, functio
 });
 
 $factory->define(\Tamkeen\Ajeer\Models\ServiceUsersPermission::class, function () use ($faker) {
-    
+
     return [
         'id'                    => '',
         'contract_type_id'      => '',
@@ -171,7 +171,7 @@ $factory->define(\Tamkeen\Ajeer\Models\Individual::class, function () use ($fake
     $gender    = rand(0, 1);
     $genderArr = ['0' => 'female', '1' => 'male'];
     $religion  = rand(0, 1);
-    
+
     return [
         'nid'          => rand(1, 3) . strval(rand(1111, 9999)),
         'name'         => $faker->firstName($genderArr[$gender]) . " " . $faker->lastName(),
@@ -206,7 +206,7 @@ $factory->define(\Tamkeen\Ajeer\Models\User::class, function () use ($faker) {
 });
 
 $factory->define(\Tamkeen\Ajeer\Models\HRPool::class, function () use ($faker) {
-    
+
     return [
         'id_number'        => $faker->randomNumber(),
         'provider_type'    => $faker->randomElement(array_keys(\Tamkeen\Ajeer\Utilities\Constants::benfTypes())),
@@ -228,12 +228,12 @@ $factory->define(\Tamkeen\Ajeer\Models\HRPool::class, function () use ($faker) {
         'chk'              => $faker->boolean(),
         'job_type'         => $faker->randomElement(array_keys(\Tamkeen\Ajeer\Utilities\Constants::jobTypes())),
     ];
-    
+
 });
 
 
 $factory->define(\Tamkeen\Ajeer\Models\Establishment::class, function () use ($faker) {
-    
+
     return [
         'labour_office_no'    => $faker->numberBetween(2, 38),
         'sequence_no'         => $faker->numberBetween(1, 10),
@@ -257,13 +257,13 @@ $factory->define(\Tamkeen\Ajeer\Models\Establishment::class, function () use ($f
         'branch_no'           => $faker->numberBetween(1, 999999),
         'reasons_id'          => $faker->text(),
         'rejection_reason'    => $faker->text(),
-    
+
     ];
-    
+
 });
 
 $factory->define(\Tamkeen\Ajeer\Models\Vacancy::class, function () use ($faker) {
-    
+
     return [
         'benf_id'          => $faker->numberBetween(1, 10),
         'benf_type'        => $faker->randomElement(array_keys(\Tamkeen\Ajeer\Utilities\Constants::benfTypes())),
@@ -280,7 +280,7 @@ $factory->define(\Tamkeen\Ajeer\Models\Vacancy::class, function () use ($faker) 
         'status'           => $faker->boolean(),
         'rejection_reason' => $faker->text(),
     ];
-    
+
 });
 
 
@@ -350,7 +350,7 @@ $factory->define(Tamkeen\Ajeer\Models\ContractEmployee::class, function (Faker\G
         'contract_id'             => function () {
             return factory(Tamkeen\Ajeer\Models\Contract::class)->create()->id;
         },
-        'id_number'               => $faker->randomNumber(),
+        'id_number'               => $faker->randomDigit(),
         'start_date'              => $faker->date(),
         'end_date'                => $faker->date(),
         'status'                  => $faker->word,

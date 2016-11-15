@@ -123,6 +123,18 @@
                                                     {{$user_name}}
                                                 </div>
                                             </div>
+
+                                            @if(session()->has('selected_establishment'))
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("temp_job.est_activity")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{session()->get('selected_establishment.est_activity')}}
+                                                    </div>
+                                                </div>
+                                            @endif
+
                                         </div>
                                     </div>
                                     <div class="portlet blue box">
@@ -151,6 +163,17 @@
                                                     {{$vacancy->vacancy_name}}
                                                 </div>
                                             </div>
+
+                                            @if($vacancy->benf_type == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['est'])
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("temp_job.est_activity")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$vacancy->establishment_activity}}
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
 		
@@ -235,7 +258,7 @@
                                                     <span class="required">*</span>
                                                 </div>
                                                 <div class="col-md-9 value form-group form-md-line-input no-padding-top">
-                                                    {!! Form::textarea('contract_locations', null, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.contract_locations'), 'class' => 'form-control' ]) !!}
+                                                    {!! Form::textarea('contract_locations', @$vacancy->locations[0]->location, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.contract_locations'), 'class' => 'form-control' ]) !!}
                                                 </div>
                                             </div>
                                             <div class="row static-info">

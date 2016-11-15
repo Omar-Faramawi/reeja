@@ -35,7 +35,7 @@
         </div> <!-- search results -->
         <br>
         <div class="table-div" @if(empty($results)) style="display:none" @endif>
-            <table class="table table-striped table-bordered table-hover table-checkable">
+            <table class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr class="odd gradeX">
                     <th>{{ trans('contractmembertaqyeem.id') }}</th>

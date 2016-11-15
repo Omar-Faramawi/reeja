@@ -16,12 +16,6 @@ Route::get('/terms', 'Front\AboutController@terms')->name('terms');
 Route::get('/support', 'Front\AboutController@support')->name('support');
 // End static HTML pages routes
 
-// Select Establishment
-Route::get('establishments', [
-    'uses' => 'EstablishmentController@establishments',
-    'as'   => 'establishment.select',
-]);
-
 //Home & Language rules
 Route::get('/home', 'HomeController@index');
 Route::get('/app/locale/{locale}', 'UserController@getLocale');
@@ -59,4 +53,9 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 
      Route::resource('my_invoices', 'Front\InvoicesController');
+     // Select Establishment
+    Route::get('establishments', [
+        'uses' => 'EstablishmentController@establishments',
+        'as'   => 'establishment.select',
+    ]);
 });

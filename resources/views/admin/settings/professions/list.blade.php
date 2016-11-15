@@ -40,8 +40,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-scrollable">
-                        <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                    <div>
+                        <table class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr class="odd gradeX">
                                 <th>{{ trans('professions.attributes.job_name') }}</th>
@@ -53,15 +53,11 @@
                                 <tr class="odd gradeX {{ $single->hashids }}">
                                     <td> {{ $single->job_name }} </td>
                                     <td>
-                                        <div class="form-group">
-                                            {{ Form::select('nations['.$single->hashids.'][]', $nationalities, $single->nationality_list, ['placeholder' => trans('professions.attributes.select_nationalities'), 'class'=>'form-control', 'multiple']) }}
-                                        </div>
+                                        {{ Form::select('nations['.$single->hashids.'][]', $nationalities, $single->nationality_list, ['placeholder' => trans('professions.attributes.select_nationalities'), 'class'=>'form-control bs-select', "data-size"=>"8", "data-width" => "300", "data-live-search" => "true", "data-actions-box" => "true", "data-selected-text-format" => "count", 'multiple']) }}
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
-                            <tfoot>
-                            </tfoot>
                         </table>
                     </div>
                     <div class="row text-right">

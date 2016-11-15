@@ -61,7 +61,7 @@
                                                     {{trans("offers.benfNo")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{ ($thisContract['benef']['sequence_no']) ? $thisContract['benef']['sequence_no'] : $thisContract['benef']['nid']}}
+                                                    {{ $thisContract['benef']['id'] }}
                                                     {{--$thisContract->byNo($thisContract->benf_type,$thisContract->benf_id)--}}
                                                 </div>
                                             </div>

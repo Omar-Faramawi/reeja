@@ -29,6 +29,7 @@ use Tamkeen\Platform\NIC\Repositories\Foreigners\ForeignersRepository;
 use Tamkeen\Platform\NIC\Repositories\Foreigners\ForeignerDataNotFoundException;
 use Tamkeen\Platform\Model\Common\HijriDate;
 use Tamkeen\Platform\Model\NIC\IdNumber;
+use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository as MolRepo;
 
 class AuthController extends Controller
 {
@@ -139,10 +140,26 @@ class AuthController extends Controller
             }
         });
 
+        Validator::extend('nic_not_active', function ($attribute, $value, $parameters, $validator) {
+            $status = 0;
+            if (isset($this->citizen)) {
+                $status = $this->citizen->getStatus()->getPersonStatus()->getCode();
+            } elseif (isset($this->foreigner)) {
+                $status = $this->foreigner->getStatus()->getPersonStatus()->getCode();
+            }
+
+            if ($status != 1) {
+                return false;
+            }
+
+            return true;
+        });
+
         // set nic custom error message
         $messages = [
-            'nic'         => trans('registration.validation.nicerror'),
-            'required_if' => trans('registration.validation.required_if'),
+            'nic'           => trans('registration.validation.nicerror'),
+            'nic_not_active'=> trans('registration.validation.nic_not_active'),
+            'required_if'   => trans('registration.validation.required_if'),
         ];
 
         // set attributes
@@ -155,11 +172,11 @@ class AuthController extends Controller
 
         $rules = [
             'saudi'      => 'sometimes',
-            'id_number'  => 'bail|required|digits:10|unique:hr_pool|nic',
+            'id_number'  => 'bail|required|digits:10|unique:hr_pool,id_number,0,id,deleted_at,NULL|nic|nic_not_active',
             'birth_date' => 'required_if:saudi,1',
             'first_name' => 'required|min:2|max:255',
             'last_name'  => 'required|min:2|max:255',
-            'email'      => 'required|email|max:255|unique:users',
+            'email'      => 'required|email|max:255|unique:users,email,0,id,deleted_at,NULL',
             'password'   => 'required|min:6|confirmed',
             'phone'      => 'required|numeric|min:6',
             'religion'   => 'required',
@@ -190,6 +207,7 @@ class AuthController extends Controller
             $nationality       = $this->foreigner->getNationality();
             $ajeer_nationality = Nationality::where('name', $nationality)->orWhere('eng_name', $nationality)->first();
             $nationality_id    = $ajeer_nationality->id;
+            $gender            = $this->foreigner->getGender();
         } else {
             $ownership_id   = null;
             $ownership_name = null;
@@ -199,7 +217,13 @@ class AuthController extends Controller
             $job_id         = !empty($job->id) ? $job->id : null;
             $birth_date     = $this->citizen->getBirthDate();
             $nationality_id = 1;
+            $gender         = $this->citizen->getGender();
         }
+
+        if ($gender == '2') {
+            $gender = '0';
+        }
+        
         $arr        = (array)$birth_date;
         $prefix     = chr(0) . '*' . chr(0);
         $hijri      = $arr[$prefix . 'hijriDate'];
@@ -213,7 +237,7 @@ class AuthController extends Controller
             'ownership_name' => $ownership_name,
             'name'           => $data['first_name'] . ' ' . $data['last_name'],
             'phone'          => $data['phone'],
-            'gender'         => $data['gender'],
+            'gender'         => $gender,
             'religion'       => $data['religion'],
             'email'          => $data['email'],
             'user_type_id'   => $user_type_id,
@@ -234,7 +258,7 @@ class AuthController extends Controller
             'id_number'            => $data['id_number'],
             'name'                 => $data['first_name'] . " " . $data['last_name'],
             'phone'                => $data['phone'],
-            'gender'               => $data['gender'],
+            'gender'               => $gender,
             'job_id'               => $job_id,
             'email'                => $data['email'],
             'chk'                  => '0',
@@ -248,7 +272,7 @@ class AuthController extends Controller
             'provider_type'  => $user_type_id,
             'provider_id'    => $individual->id,
             'name'           => $data['first_name'] . " " . $data['last_name'],
-            'gender'         => $data['gender'],
+            'gender'         => $gender,
             'job_id'         => $job_id,
             'email'          => $data['email'],
             'phone'          => $data['phone'],
@@ -344,16 +368,18 @@ class AuthController extends Controller
      */
     public function logout(OpenIdService $openIdService)
     {
-    	$user_type = Auth::user()->user_type_id;
+        if(Auth::check()){
+        	$user_type = Auth::user()->user_type_id;
 
-	    if( $user_type == 1 ) {
-	        // then it's admin
-		    Auth::guard($this->getGuard())->logout();
-		    return redirect()->intended('/admin');
-	    }
+    	    if( $user_type == 1 ) {
+    	        // then it's admin
+    		    Auth::guard($this->getGuard())->logout();
+    		    return redirect()->intended('/admin');
+    	    }
 
-	    session()->forget('selected_establishment');
-	    session()->flush();
+    	    session()->forget('selected_establishment');
+    	    session()->flush();
+        }
 
 	    return redirect($openIdService->getLogoutUrl());
 
@@ -409,7 +435,7 @@ class AuthController extends Controller
                 } else {
                     $auth->logout();
 
-                    return response()->json(['error' => trans('auth.messages.invalid_nid_password')], 422);
+                    return response()->json(['error' => trans('auth.messages.inactive_user_account')], 422);
                 }
             } else {
                 if ($throttles && !$lockedOut) {
@@ -431,8 +457,9 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(LoginRequest $request, Guard $auth)
+    public function login(LoginRequest $request, Guard $auth, MolRepo $mol)
     {
+        
         try {
             $throttles = $this->isUsingThrottlesLoginsTrait();
             if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
@@ -449,9 +476,16 @@ class AuthController extends Controller
                         session()->set('government', $gov->government);
                     } elseif ($user_obj->user_type_id == 3) {
                         $est = $user_obj->load('establishment');
-                        session()->set('selected_establishment', $est);
+                      
+                      app('Tamkeen\Ajeer\Http\Controllers\EstablishmentController')->choose($est->establishment->labour_office_no, $est->establishment->sequence_no, $mol, TRUE);
+                      if(session()->has('choose_est_message')){
+                          $msg = session()->pull('choose_est_message');
+                          session()->forget('selected_establishment');
+                          session()->flush();
+                          return response()->json(['error' => $msg], 422);
+                      }
+                      
                     }
-                    session()->set('auth.type', $user_obj->user_type_id);
 
                     return trans('auth.success');
                 } else {
@@ -464,7 +498,7 @@ class AuthController extends Controller
                     $this->incrementLoginAttempts($request);
                 }
 
-                return response()->json(['error' => trans('auth.messages.invalid_nid_password')], 422);
+                return response()->json(['error' => trans('auth.messages.invalid_username_password')], 422);
             }
         } catch (AuthenticationThresholdExceededException $e) {
             return response()->json(['error' => trans('auth.messages.exceeded_failure_threshold')], 422);

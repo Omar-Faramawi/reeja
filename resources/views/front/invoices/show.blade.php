@@ -94,6 +94,7 @@
                                 </div>
                                
                             </div>
+                            @if($invoice->invoice_type != \Tamkeen\Ajeer\Utilities\Constants::INVOICE_TYPES['bundle'])
                             <div class="portlet-body">
                                 <div class="portlet grey-cascade box">
                                     <div class="portlet-title">
@@ -117,10 +118,12 @@
                                                 @endif
                                                 @endforeach
                                                 @else
+                                                @if($invoice->contract)
                                                 @if($invoice->contract->contract_type_id == \Tamkeen\Ajeer\Utilities\Constants::CONTRACTTYPES['taqawel'])
                                                 <a href="{{url('taqawel/offer-taqawel-contract/'.$invoice->contract->id.'/details')}}">{{$invoice->contract->id}}</a><br/>
                                                 @else
                                                 <a href="{{url('contractdetails/'.$invoice->contract->id)}}">{{$invoice->contract->id}}</a><br/>
+                                                @endif
                                                 @endif
                                                 @endif
                                             </div>
@@ -128,6 +131,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>

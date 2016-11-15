@@ -7,7 +7,6 @@ Homestead.json
 .env
 .DS_Store
 .idea/
-.env.example
 /public
 /storage
 composer

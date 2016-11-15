@@ -1,11 +1,11 @@
 <?php
 return [
     'headings' => [
-        'tab_head' => 'Taqawoul',
-        'Add' => 'Add Taqawoul request',
-        'update' => 'Update Taqawoul request',
-        'list_tab_head' => 'View Taqawoul requests list',
-        'list_one' => 'View Taqawoul request',
+        'tab_head' => 'Taqawol',
+        'Add' => 'Add Taqawol request',
+        'update' => 'Update Taqawol request',
+        'list_tab_head' => 'View Taqawol requests list',
+        'list_one' => 'View Taqawol request',
     ],
     'buttons' => [
         'details' => ' More Details',
@@ -30,7 +30,8 @@ return [
     'success_data'         => 'Added successfullu',
     'success_update'       => 'Updated successfully',
     'success_delete'       => 'Deleted successfully',
-    'tqawel_services'      => 'Taqawoul services',
-    'tqawel_services_list' => 'Taqawoul services list',
+    'tqawel_services'      => 'Taqawol services',
+    'tqawel_services_list' => 'Taqawol services list',
     'tqawel_services_add'  => 'Add service',
+    'tqawel_services_edit' => 'Edit service',
 ];

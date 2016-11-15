@@ -202,10 +202,16 @@ final class Constants
     ];
 
     /**
-     * list user types
-     *
-     * @return array
+     * cons user Permission types
      */
+    const USERPERMISSIONTYPES = [
+        'est'      => '1',
+        'gov'        => '2',
+        'indv'        => '3',
+        'saudi'      => '4',
+        
+    ];
+
     /**
      * list user types
      *

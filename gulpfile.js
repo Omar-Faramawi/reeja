@@ -14,10 +14,12 @@ elixir(function (mix) {
     mix.copy('resources/assets/global', 'public/assets/global');
     mix.copy('resources/assets/images', 'public/assets/images');
     mix.copy('resources/assets/js/respond.min.js', 'public/assets/js/respond.min.js');
+    mix.copy('resources/assets/js/morris.min.js', 'public/assets/js/morris.min.js');
     mix.copy('resources/assets/js/excanvas.min.js', 'public/assets/js/excanvas.min.js');
     mix.copy('resources/assets/fonts', 'public/assets/fonts');
     mix.copy('resources/assets/css/ltr/modal-large.css', 'public/assets/css/modal-large.css');
     mix.copy('resources/assets/css/rtl/modal-large-rtl.css', 'public/assets/css/modal-large-rtl.css');
+    mix.copy('resources/assets/css/rtl/morris.css', 'public/assets/css/morris.css');
 
     mix.styles([
         'font-awesome.min.css',
@@ -34,6 +36,8 @@ elixir(function (mix) {
         'pace-theme-flash.css',
         'bootstrap-fileinput.css',
         'bootstrap-select.min.css',
+        'jquery.dataTables.min.css',
+        'morris.css',
         'custom.min.css'
     ], paths.production.css + 'app.css', 'resources/assets/css/ltr');
 
@@ -83,6 +87,8 @@ elixir(function (mix) {
         'pace-theme-flash-rtl.css',
         'bootstrap-fileinput.css',
         'bootstrap-select-rtl.min.css',
+        'jquery.dataTables.min.css',
+        'morris.css',
         'custom-rtl.min.css'
     ], paths.production.css + 'app-rtl.css', 'resources/assets/css/rtl');
 
@@ -135,10 +141,9 @@ elixir(function (mix) {
         'toastr.min.js',
         'bootstrap-fileinput.js',
         'bootstrap-select.min.js',
-        'select2.full.min.js',
-        'components-select2.js',
         'app.min.js',
         'layout.min.js',
+        'jquery.dataTables.min.js',
         'custom.js'
     ], paths.production.js + 'app.js', 'resources/assets/js');
 
@@ -155,6 +160,7 @@ elixir(function (mix) {
         'bootstrap-confirmation.min.js',
         'jquery.validate.min.js',
         'datatable.min.js',
+		'datatable.js',
         'datatables.min.js',
         'datatables.bootstrap.js',
         'additional-methods.min.js',
@@ -168,10 +174,17 @@ elixir(function (mix) {
         'jquery.calendars.plus.js',
         'jquery.plugin.min.js',
         'jquery.calendars.picker.js',
-        'jquery.calendars.picker-ar.js',
-        'jquery.calendars.islamic-ar.js',
         'custom-front.js'
     ], paths.production.js + 'front.js', 'resources/assets/js');
+    mix.scripts([
+        'raphael-min.js',
+        'morris.min.js',
+        'amcharts.js',
+        'pie.js',
+        'light.js',
+        'dataloader.min.js',
+        'custom-chart.js'
+    ], paths.production.js + 'charts.js', 'resources/assets/js');
 
     mix.scripts([
         'pace.min.js',
@@ -190,11 +203,8 @@ elixir(function (mix) {
         'toastr.min.js',
         'bootstrap-fileinput.js',
         'bootstrap-select.min.js',
-        'select2.full.min.js',
-        'components-select2.js',
         'app.min.js',
         'layout.min.js',
-        'custom.js',
         'login.min.js'
     ], paths.production.js + 'login.js', 'resources/assets/js');
 
@@ -215,10 +225,9 @@ elixir(function (mix) {
         'toastr.min.js',
         'bootstrap-fileinput.js',
         'bootstrap-select.min.js',
-        'select2.full.min.js',
-        'components-select2.js',
         'app.min.js',
         'layout.min.js',
+        'jquery.dataTables.min.js',
         'custom.js',
         'custom-rtl.js'
     ], paths.production.js + 'app-rtl.js', 'resources/assets/js');

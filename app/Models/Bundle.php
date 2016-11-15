@@ -66,4 +66,9 @@ class Bundle extends BaseModel
     {
         return $query->where('monthly_amount', 0);
     }
+
+    public function invoiceBundles()
+    {
+        return $this->hasMany(InvoiceBundle::class, 'bundle_id');
+    }
 }

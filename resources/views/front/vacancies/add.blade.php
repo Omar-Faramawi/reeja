@@ -38,33 +38,33 @@
                             <section>
                                 {{ Form::open(['route' => 'vacancies.index','id'=>'form', 'class'=>'form-horizontal vacancies_form','data-url' => url('/vacancies')]) }}
                                 <div class="form-body row">
-                                    <div class="col-md-6">
-                                        <div class="form-group form-md-line-input">
-                                            <label class="control-label text-right col-md-3">
-                                                {{trans('vacancies.form_attributes.region_id')}}
-                                                <span class="required"> * </span>
-                                            </label>
-                                            <div class="col-md-8">
-                                                <select class="form-control select2me bs-select" name="region_id"
-                                                        id="region_id">
-                                                    @if(!count($regions))
-                                                        <option>{{ trans('labels.no_data') }}</option>
-                                                    @else
-                                                        <option value="">{{ trans('labels.default') }}</option>
-                                                        @foreach($regions as $region)
-                                                            @if (old('region_id') == $region->id)
-                                                                <option value="{{$region->id}}"
-                                                                        selected>{{$region->name}}</option>
-                                                            @else
-                                                                <option value="{{$region->id}}">{{$region->name}}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                </select>
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input">
+                                                <label class="control-label text-right col-md-3">{{trans('vacancies.form_attributes.region_id')}}
+                                                    <span class="required"> * </span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <select class="form-control select2me bs-select" name="region_id"
+                                                            id="region_id">
+                                                        @if(!count($regions))
+                                                            <option>{{ trans('labels.no_data') }}</option>
+                                                        @else
+                                                            <option value="">{{ trans('labels.default') }}</option>
+                                                            @foreach($regions as $region)
+                                                                @if (old('region_id') == $region->id || ($region->id == 1 && !empty($hajj)) )
+                                                                    <option value="{{$region->id}}"
+                                                                            selected>{{$region->name}}</option>
+                                                                @else
+                                                                    <option value="{{$region->id}}">{{$region->name}}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     {{-- start of Ta2eed Area --}}
                                     <div id="tayeed_area" class="col-md-12">
 
@@ -144,32 +144,29 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group form-md-line-input">
+                                                <div class="form-group form-md-line-input md-radio-inline">
                                                     <label class="control-label text-right col-md-3">{{trans('vacancies.form_attributes.gender')}}
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-8">
-                                                        <div class="form-group md-radio-inline"
-                                                             data-error-container="#form_2_gender_error">
-                                                            <div class="md-radio">
-                                                                <input type="radio" id="male" required
-                                                                       name="gender" value="1" checked
-                                                                       class="md-radiobtn">
-                                                                <label for="male">
-                                                                    <span></span>
-                                                                    <span class="check"></span>
-                                                                    <span class="box"></span> {{ trans('vacancies.gender.1') }}
-                                                                </label>
-                                                            </div>
-                                                            <div class="md-radio">
-                                                                <input type="radio" id="female" required
-                                                                       name="gender" value="0" class="md-radiobtn">
-                                                                <label for="female">
-                                                                    <span></span>
-                                                                    <span class="check"></span>
-                                                                    <span class="box"></span> {{ trans('vacancies.gender.0') }}
-                                                                </label>
-                                                            </div>
+                                                        <div class="md-radio">
+                                                            <input type="radio" id="male" required
+                                                                   name="gender" value="1" checked
+                                                                   class="md-radiobtn">
+                                                            <label for="male">
+                                                                <span></span>
+                                                                <span class="check"></span>
+                                                                <span class="box"></span> {{ trans('vacancies.gender.1') }}
+                                                            </label>
+                                                        </div>
+                                                        <div class="md-radio">
+                                                            <input type="radio" id="female" required
+                                                                   name="gender" value="0" class="md-radiobtn">
+                                                            <label for="female">
+                                                                <span></span>
+                                                                <span class="check"></span>
+                                                                <span class="box"></span> {{ trans('vacancies.gender.0') }}
+                                                            </label>
                                                         </div>
                                                         <div id="form_2_gender_error"></div>
                                                     </div>
@@ -275,7 +272,7 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-6">
-                                                        <input type="text" name="salary" required class="form-control"/>
+                                                        <input type="text" name="salary" class="form-control"/>
                                                         <div class="form-control-focus"></div>
                                                         <span class="help-block">{{ trans('vacancies.form_attributes.currency') }}
                                                             ...</span>

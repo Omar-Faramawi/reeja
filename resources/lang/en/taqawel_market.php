@@ -3,7 +3,7 @@
 return [
     'home' 			=> 'Home',
     'market' 		=> 'Market',
-    'list_services' => 'List Taqawel Services',
+    'list_services' => 'List Taqawol Services',
     'id'			=> 'Id',
     'provider_name' => 'Provider name',
     'service_type'  => 'Service type',

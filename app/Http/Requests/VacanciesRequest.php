@@ -23,7 +23,7 @@ class VacanciesRequest extends Request
      */
     public function rules()
     {
-        $value = 'numeric';
+        $value = 'integer';
         //custom rule for salary based on job type
         if (Request::get('job_type')) {
             $value = $this->checkField(Request::get('job_type'));
@@ -31,7 +31,7 @@ class VacanciesRequest extends Request
 
         if (Request::get('region_id') == 1) {
             return [
-                'job_id'          => 'required|numeric',
+                'job_id'          => 'required|integer',
                 'religion'        => 'required',
                 'region_id'       => 'required',
                 'nationality_id'  => 'required',
@@ -42,8 +42,8 @@ class VacanciesRequest extends Request
         } else {
 
             return [
-                'job_id'          => 'required|numeric',
-                'no_of_vacancies' => 'required|numeric',
+                'job_id'          => 'required|integer',
+                'no_of_vacancies' => 'required|integer',
                 'gender'          => 'required',
                 'religion'        => 'required',
                 'region_id'       => 'required',
@@ -51,9 +51,9 @@ class VacanciesRequest extends Request
                 'salary'          => $value,
                 'work_start_date' => 'required|date|before:work_end_date',
                 'work_end_date'   => 'required|date|after:work_start_date',
-                'job_type'        => 'numeric',
-                'hide_salary'     => 'numeric',
-                'status'          => 'numeric',
+                'job_type'        => 'integer',
+                'hide_salary'     => 'integer',
+                'status'          => 'integer',
 
             ];
         }
@@ -66,7 +66,7 @@ class VacanciesRequest extends Request
      */
     protected function checkField($job_type)
     {
-        return ($job_type === '1') ? 'required|numeric' : 'numeric';
+        return ($job_type === '1') ? 'required|integer' : 'integer';
     }
     
     /**
@@ -79,7 +79,7 @@ class VacanciesRequest extends Request
         return [
             'work_type'       => trans('vacancies.form_attributes.region_id'),
             'religion'        => trans('vacancies.form_attributes.religion'),
-            'salary'          => trans('vacancies.form_attributes.job_type'),
+            'salary'          => trans('vacancies.form_attributes.salary'),
             'no_of_vacancies' => trans('vacancies.form_attributes.required_number'),
             'work_start_date' => trans('vacancies.form_attributes.work_start_date'),
             'work_end_date'   => trans('vacancies.form_attributes.work_end_date'),

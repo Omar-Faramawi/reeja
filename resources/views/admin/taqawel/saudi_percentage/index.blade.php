@@ -40,11 +40,15 @@
                     </div>
                 </div>
                 <div class="table-scrollable">
-                    <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                    <table class="table table-striped table-bordered table-hover order-column">
                         <thead>
                         <tr class="odd gradeX">
-                            <th width="5%" class="table-checkbox"></th>
-                            <th>{{ trans('saudi_percentage.attributes.name') }}</th>
+                            {{-- <th width="5%" class="table-checkbox"></th> --}}
+                            <th width="15%">{{ trans('saudi_percentage.attributes.provider_activity') }}</th>
+                            <th width="15%">{{ trans('saudi_percentage.attributes.benf_activity') }}</th>
+                            <th width="15%">{{ trans('saudi_percentage.attributes.provider_size') }}</th>
+                            <th width="15%">{{ trans('saudi_percentage.attributes.benf_size') }}</th>
+                            <th width="15%">{{ trans('saudi_percentage.attributes.name') }}</th>
                             <th width="20%">{{ trans('labels.options') }}</th>
                         </tr>
                         </thead>
@@ -52,7 +56,11 @@
                         @foreach($data as $single)
 
                             <tr class="odd gradeX {{ $single->hashids }}">
-                                <td><input type="checkbox" class="checkboxes" value="{{ $single->hashids }}"/></td>
+                                {{-- <td><input type="checkbox" class="checkboxes" value="{{ $single->hashids }}"/></td> --}}
+                                <td> {{ $activities[$single->provider_activity_id] }} </td>
+                                <td> {{ $activities[$single->benf_activity_id] }} </td>
+                                <td> {{ $sizes[$single->provider_size_id] }} </td>
+                                <td> {{ $sizes[$single->benf_size_id] }} </td>
                                 <td> {{ $single->saudi_pct }} %</td>
                                 <td>
                                     <div class="btn-group btn-group-lg btn-group-solid margin-bottom-10">

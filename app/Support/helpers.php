@@ -132,6 +132,22 @@ if (!function_exists('dynamicAjaxPaginate')) {
                                                 <i class=\"fa fa-trash-o\"></i>" . $text . "</a>";
                     }
 
+                    // Taqawel Service edit/delete buttons using modal/ajax
+                    if (isset($button['taqawelServiceEdit'])) {
+                        $records['data'][$i]['taqawelServiceEdit'] .= "<a class='btn btn-default " . $css_class . "'  data-href='" . url("/taqawel/taqawelService/" . $records['data'][$i][$id]) . "/edit'  data-target='#main' data-toggle=\"modal\" >" . $text . "</a>";
+                    }
+                    if (isset($button['taqawelServiceDelete'])) {
+                        $records['data'][$i]['taqawelServiceEdit'] .= "<a  data-popout=\"true\" data-token='" . csrf_token() . "' data-hreff='" . route('taqawel.taqawelService.destroy',
+                                $records['data'][$i][$id]) . "' data-url='" . url('/taqawel/taqawelService') . "' data-id= '" . $records['data'][$i][$id] . "'class=\"btn red-mint delete-ajax\" data-toggle=\"confirmation\"
+                                                    data-original-title=\"" . trans('labels.delete_confirmation_message') . "\"
+                                                    data-placement=\"top\"
+                                                    data-btn-ok-label=\"" . trans('labels.delete') . "\"
+                                                    data-btn-cancel-label=\"" . trans('labels.cancel') . "\">
+                                                <i class=\"fa fa-trash-o\"></i>" . $text . "</a>";
+                    }
+
+                    // Taqawel Service edit/delete buttons using modal/ajax END
+
                     $records['data'][$i]['details'] .= "<a data-loading-text='".trans('labels.loading')."...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
                     $records['data'][$i]['buttons'] .= "<a class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
 
@@ -431,5 +447,40 @@ if (!function_exists("getLoggedAccountNumber")) {
         }
         
         return $connector->getAccountNumber(1, $customerNo, $name);
+    }
+}
+
+if (!function_exists('defaultDateRange')) {
+    /**
+     * Returns the default date range in two variables, $from and $to
+     */
+    function defaultDateRange($asString = false, $from = null, $to = null)
+    {
+        // $from and $to are present and needed in string format
+        if (true == $asString) {
+            $from = $from->format('Y-m-d');
+            $to = $to->format('Y-m-d');
+
+            return [$from, $to];
+        }
+
+        // Default date range
+        $default_period = 30;
+
+        if (!is_null($to) && $to < date('Y-m-d', time()) && Carbon::createFromFormat('Y-m-d', $to) !== false) {
+            $to = Carbon::createFromFormat('Y-m-d', $to);
+        } else {
+            $to = Carbon::now();
+        }
+
+        if (!is_null($from) && $from < date('Y-m-d', time()) && Carbon::createFromFormat('Y-m-d',
+                $from) !== false && $from < $to
+        ) {
+            $from = Carbon::createFromFormat('Y-m-d', $from);
+        } else {
+            $from = Carbon::now()->subDays($default_period);
+        }
+
+        return [$from, $to];
     }
 }

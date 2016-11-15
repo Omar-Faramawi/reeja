@@ -14,9 +14,11 @@
     <title>{{ trans('labels.system_name') }} | @yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @if (app()->getLocale()=="en")
     <link href="//fonts.googleapis.com/css?family=Oswald:400,300,700" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
           type="text/css"/>
+    @endif
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}">
     <link rel="stylesheet"
           href="{{ (app()->getLocale()=="ar") ? asset('assets/css/front-rtl.css') : asset('assets/css/front.css') }}">

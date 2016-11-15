@@ -23,23 +23,29 @@ class EstablishmentRegisterRequest extends Request
      */
     public function rules()
     {
-        return [
-            'labour_office_no'  => 'required|numeric',
-            'sequence_no'       => 'required|numeric',
-            'id_number'         => 'required|numeric',
-            'est_activity'      => 'required',
-            'est_size'          => 'required',
-            'est_nitaq'         => 'required',
-            'district'          => 'required',
-            'city'              => 'required',
-            'region'            => 'required',
-            'wasel_address'     => 'required',
-            'local_liecense_no' => 'required|numeric',
-            'phone'             => 'required',
-            'branch_no'         => 'integer|min:0',
-            'name'              => 'required|unique:establishments,name,0,id,deleted_at,NULL',
-            'email'             => 'required|email|unique:users,email,0,id,deleted_at,NULL',
-        ];
+        if (Request::input('est_id')) {
+            return [
+                'branch_no'         => 'integer|min:0'
+            ];
+        } else {
+            return [
+                'labour_office_no'  => 'required|integer',
+                'sequence_no'       => 'required|integer',
+                'id_number'         => 'required|integer',
+                'est_activity'      => 'required',
+                'est_size'          => 'required',
+                'est_nitaq'         => 'required',
+                'district'          => 'required',
+                'city'              => 'required',
+                'region'            => 'required',
+                'wasel_address'     => 'required',
+                'local_liecense_no' => 'required|integer',
+                'phone'             => 'required',
+                'branch_no'         => 'integer|min:0',
+                'name'              => 'required|unique:establishments,name,'.Request::input('est_id').',id,deleted_at,NULL',
+                'email'             => 'required|email|unique:users,email,'.Request::input('users_id').',id,deleted_at,NULL',
+            ];
+        }
     }
 
     public function attributes()

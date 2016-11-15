@@ -31,14 +31,6 @@
         <!-- BEGIN PAGE CONTENT INNER -->
         <div class="page-content-inner">
             <div class="row">
-                @if (count($errors))
-                    <div class="alert alert-danger">
-                        <button class="close" data-close="alert"></button>
-                        @foreach($errors->all() as $error)
-                            <span>{{$error}}</span><br/>
-                        @endforeach
-                    </div>
-                @endif
                 <div class="col-md-6">
                     <div class="portlet box green">
                         <div class="portlet-title">

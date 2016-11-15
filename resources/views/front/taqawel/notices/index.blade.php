@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     <!-- End: list -->
-            @if(session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'])
+            @if(session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'] && $canBeProvider)
                     <!-- Begin: Add Emplyee Contract -->
                     <div class="portlet light portlet-fit portlet-datatable ">
                         <div class="portlet-title">

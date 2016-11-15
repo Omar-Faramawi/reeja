@@ -26,7 +26,7 @@ class LaborerRequest extends Request
     {
         return [
 
-            'id_number'    => 'required|digits:10|unique:hr_pool'
+            'id_number'    => 'required|digits:10|unique:hr_pool,id_number,NULL,id,deleted_at,NULL'
         ];
     }
 	

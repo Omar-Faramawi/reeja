@@ -223,7 +223,7 @@
 
                         <div class="table-resonsive">
                             <label class="control-label">{{ trans('ishaar_setup.attributes.ishaar_setup_jobs') }}</label>
-                            <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                            <table class="table table-striped table-bordered table-hover order-column">
                                 <thead>
                                 <tr class="odd gradeX">
                                     <th>{{ trans('ishaar_setup.attributes.job') }}</th>

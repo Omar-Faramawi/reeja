@@ -31,12 +31,12 @@
 
                     <ul class="nav nav-tabs nav-tabs">
                         <li class="active"><a href="#tab1" role="tab"
-                               data-toggle="tab">{{trans('ishaar_setup.general_ishaars_preferences')}}</a>
+                                              data-toggle="tab">{{trans('ishaar_setup.general_ishaars_preferences')}}</a>
                         </li>
                         <li><a href="#tab2" role="tab"
                                data-toggle="tab">{{trans('ishaar_setup.free_ishaars_management')}}</a></li>
                         <li><a href="#tab3" role="tab"
-                                              data-toggle="tab">{{trans('ishaar_setup.paid_ishaars_management')}}</a>
+                               data-toggle="tab">{{trans('ishaar_setup.paid_ishaars_management')}}</a>
                         </li>
                     </ul>
                 </div>
@@ -59,7 +59,7 @@
                     <!-- TAB CONTENT -->
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab1">
-                            {!! Form::model($taqawel_free->toArray(), ['route' => ['admin.taqawel_ishaar_management.update', $taqawel_free->hashids], 'id' => 'form', 'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
+                            {!! Form::model($taqawel_free, ['route' => ['admin.taqawel_ishaar_management.update', $taqawel_free->hashids], 'id' => 'live_form', 'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
                             {!! Form::hidden('ishaar_type_name', 'taqawel') !!}
                             {!! Form::hidden('ishaar_setup_id', $taqawel_free->id) !!}
                             <div class="form-body">
@@ -69,7 +69,7 @@
                                     <div class="col-md-10">
                                         <div class="md-checkbox-inline">
                                             <div class="md-checkbox">
-                                                {!! Form::checkbox('labor_status_employed', 1, null, ['class' => 'md-check', 'id' => 'labor_status_work_head']) !!}
+                                                {!! Form::checkbox('labor_status_employed', 1, $taqawel_free->labor_status_employed, ['class' => 'md-check', 'id' => 'labor_status_work_head']) !!}
                                                 <label for="labor_status_work_head" class="text-right">
                                                     <span></span>
                                                     <span class="check"></span>
@@ -77,7 +77,7 @@
                                                 </label>
                                             </div>
                                             <div class="md-checkbox">
-                                                {!! Form::checkbox('labor_status_companion', 1, null, ['class' => 'md-check', 'id' => 'labor_status_companion']) !!}
+                                                {!! Form::checkbox('labor_status_companion', 1, $taqawel_free->labor_status_companion, ['class' => 'md-check', 'id' => 'labor_status_companion']) !!}
                                                 <label for="labor_status_companion" class="text-right">
                                                     <span></span>
                                                     <span class="check"></span>
@@ -85,7 +85,7 @@
                                                 </label>
                                             </div>
                                             <div class="md-checkbox">
-                                                {!! Form::checkbox('labor_status_visitor', 1, null, ['class' => 'md-check', 'id' => 'labor_status_visitor']) !!}
+                                                {!! Form::checkbox('labor_status_visitor', 1, $taqawel_free->labor_status_visitor, ['class' => 'md-check', 'id' => 'labor_status_visitor']) !!}
                                                 <label for="labor_status_visitor" class="text-right">
                                                     <span></span>
                                                     <span class="check"></span>
@@ -101,7 +101,7 @@
                                     <div class="col-md-10">
                                         <div class="md-checkbox-inline">
                                             <div class="md-checkbox">
-                                                {!! Form::checkbox('labor_gender_male', 1, null, ['id' => 'checkbox4', 'class' => 'md-check']) !!}
+                                                {!! Form::checkbox('labor_gender_male', 1, $taqawel_free->labor_gender_male, ['id' => 'checkbox4', 'class' => 'md-check']) !!}
                                                 <label for="checkbox4">
                                                     <span></span>
                                                     <span class="check"></span>
@@ -109,7 +109,7 @@
                                                 </label>
                                             </div>
                                             <div class="md-checkbox">
-                                                {!! Form::checkbox('labor_gender_female', 1, null, ['id' => 'checkbox5', 'class' => 'md-check']) !!}
+                                                {!! Form::checkbox('labor_gender_female', 1, $taqawel_free->labor_gender_female, ['id' => 'checkbox5', 'class' => 'md-check']) !!}
                                                 <label for="checkbox5">
                                                     <span></span>
                                                     <span class="check"></span>
@@ -125,16 +125,14 @@
                                     <div class="col-md-10">
                                         <div class="md-checkbox-inline">
                                             <div class="md-checkbox">
-                                                {!! Form::hidden('ishaar_cancel_free', 0) !!}
-                                                {!! Form::checkbox('ishaar_cancel_free', 1, null, ['id' => 'checkbox6', 'class' => 'md-check']) !!}
+                                                {!! Form::checkbox('ishaar_cancel_free', 1, $taqawel_free->ishaar_cancel_free, ['id' => 'checkbox6', 'class' => 'md-check']) !!}
                                                 <label for="checkbox6">
                                                     <span></span>
                                                     <span class="check"></span>
                                                     <span class="box"></span> {{trans('ishaar_setup.free')}} </label>
                                             </div>
                                             <div class="md-checkbox">
-                                                {!! Form::hidden('ishaar_cancel_paid', 0) !!}
-                                                {!! Form::checkbox('ishaar_cancel_paid', 1, null, ['id' => 'checkbox7', 'class' => 'md-check']) !!}
+                                                {!! Form::checkbox('ishaar_cancel_paid', 1, $taqawel_free->ishaar_cancel_paid, ['id' => 'checkbox7', 'class' => 'md-check']) !!}
                                                 <label for="checkbox7">
                                                     <span></span>
                                                     <span class="check"></span>
@@ -149,8 +147,7 @@
                                     <div class="col-md-10">
                                         <div class="md-checkbox-inline">
                                             <div class="md-checkbox">
-                                                {!! Form::hidden('ishaar_cancel_provider', 0) !!}
-                                                {!! Form::checkbox('ishaar_cancel_provider', 1, null, ['id' => 'checkbox8', 'class' => 'md-check']) !!}
+                                                {!! Form::checkbox('ishaar_cancel_provider', 1, $taqawel_free->ishaar_cancel_provider, ['id' => 'checkbox8', 'class' => 'md-check']) !!}
                                                 <label for="checkbox8">
                                                     <span></span>
                                                     <span class="check"></span>
@@ -158,8 +155,7 @@
                                                 </label>
                                             </div>
                                             <div class="md-checkbox">
-                                                {!! Form::hidden('ishaar_cancel_benf', 0) !!}
-                                                {!! Form::checkbox('ishaar_cancel_benf', 1, null, ['id' => 'checkbox9', 'class' => 'md-check']) !!}
+                                                {!! Form::checkbox('ishaar_cancel_benf', 1, $taqawel_free->ishaar_cancel_benf, ['id' => 'checkbox9', 'class' => 'md-check']) !!}
                                                 <label for="checkbox9">
                                                     <span></span>
                                                     <span class="check"></span>
@@ -199,6 +195,7 @@
                                     <label for="" class="col-md-3 control-label">&nbsp;</label>
                                 </div>
                                 <div class="col col-lg-10">
+                                    <input type="hidden" name="tab" value="general" />
                                     <button type="submit" data-loading-text="{{ trans('contract_setup.saving') }}..."
                                             class="demo-loading-btn btn blue">{{trans('contract_setup.save')}}</button>
                                 </div>
@@ -206,7 +203,7 @@
                             {!! Form::close() !!}
                         </div>
                         <div class="tab-pane fade" id="tab2">
-                            {!! Form::model($taqawel_free->toArray(), ['route' => ['admin.taqawel_ishaar_management.update', $taqawel_free->hashids], 'id' => 'another_form', 'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
+                            {!! Form::model($taqawel_free, ['route' => ['admin.taqawel_ishaar_management.update', $taqawel_free->hashids], 'id' => 'another_form', 'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
                             {!! Form::hidden('ishaar_setup_id', $taqawel_free->id) !!}
                             {!! Form::hidden('ishaar_type_name', 'taqawel_free') !!}
                             <div class="form-body">
@@ -214,11 +211,13 @@
                                     <label class="control-label col-sm-3 text-right"
                                            for="min_ishaar_period">{{trans('ishaar_setup.attributes.min_ishaar_period')}}</label>
                                     <div class="col-sm-9">
-                                        <div class="col-md-6">
-                                            {!! Form::number('min_ishaar_period', null, ['class'=> 'form-control', 'id' => 'min_ishaar_period']) !!}
-                                        </div>
-                                        <div class="col-md-6">
-                                            {!! Form::select('min_ishaar_period_type',  trans('contract_setup.period_type_array'), null, ['class'=> 'form-control selectpicker', 'id' => 'min_ishaar_period_type']) !!}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {!! Form::number('min_ishaar_period', null, ['class'=> 'form-control', 'id' => 'min_ishaar_period']) !!}
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! Form::select('min_ishaar_period_type',  trans('contract_setup.period_type_array'), null, ['class'=> 'form-control selectpicker', 'id' => 'min_ishaar_period_type']) !!}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -226,11 +225,13 @@
                                     <label class="control-label col-sm-3 text-right"
                                            for="max_ishaar_period">{{trans('ishaar_setup.attributes.max_ishaar_period')}}</label>
                                     <div class="col-sm-9">
-                                        <div class="col-md-6">
-                                            {!! Form::number('max_ishaar_period', null, ['class'=> 'form-control', 'id' => 'max_ishaar_period']) !!}
-                                        </div>
-                                        <div class="col-md-6">
-                                            {!! Form::select('max_ishaar_period_type',  trans('contract_setup.period_type_array'), null, ['class'=> 'form-control selectpicker', 'id' => 'max_ishaar_period_type']) !!}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {!! Form::number('max_ishaar_period', null, ['class'=> 'form-control', 'id' => 'max_ishaar_period']) !!}
+                                            </div>
+                                            <div class="col-md-6">
+                                                {!! Form::select('max_ishaar_period_type',  trans('contract_setup.period_type_array'), null, ['class'=> 'form-control selectpicker', 'id' => 'max_ishaar_period_type']) !!}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -269,6 +270,7 @@
                                     <label for="" class="col-md-3 control-label">&nbsp;</label>
                                 </div>
                                 <div class="col col-lg-10">
+                                    <input type="hidden" name="tab" value="free" />
                                     <button type="submit" data-loading-text="{{ trans('contract_setup.saving') }}..."
                                             class="demo-loading-btn btn blue">{{trans('contract_setup.save')}}</button>
                                 </div>
@@ -276,7 +278,7 @@
                             {!! Form::close() !!}
                         </div>
                         <div class="tab-pane fade" id="tab3">
-                            {!! Form::model($taqawel_paid->toArray(), ['route' => ['admin.taqawel_ishaar_management.update', $taqawel_paid->hashids], 'id' => 'another_form1', 'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
+                            {!! Form::model($taqawel_paid, ['route' => ['admin.taqawel_ishaar_management.update', $taqawel_paid->hashids], 'id' => 'another_form1', 'method' => 'PATCH', 'class' => 'form-horizontal']) !!}
                             {!! Form::hidden('ishaar_setup_id', $taqawel_paid->id) !!}
                             {!! Form::hidden('ishaar_type_name', 'taqawel_paid') !!}
                             <div class="form-body">
@@ -333,6 +335,7 @@
                                             <div class="md-checkbox-inline">
                                                 @foreach(trans('ishaar_setup.attributes.labor_follow_permissions') as $key => $perm)
                                                     <div class="md-checkbox">
+                                                        {!! Form::hidden($key, 0) !!}
                                                         {!! Form::checkbox($key, 1, null, ['id' => $key, 'class' => 'md-check']) !!}
                                                         <label for="{{ $key }}">
                                                             <span></span>
@@ -400,6 +403,7 @@
                             </div>
                             <hr>
                             <div class="col-md-12">
+                                <input type="hidden" name="tab" value="paid" />
                                 <button type="submit" data-loading-text="{{ trans('contract_setup.saving') }}..."
                                         class="demo-loading-btn btn blue">{{trans('contract_setup.save')}}</button>
                             </div>

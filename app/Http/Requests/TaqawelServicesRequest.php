@@ -25,8 +25,8 @@ class TaqawelServicesRequest extends Request
     {
         return [
             'contract_nature_id' => 'required|required_if:new_service,null|'.$this->determineRule(Request::get('contract_nature_id')),
-            'new_service'        => 'required_if:contract_nature_id,other',
-            'description'        => 'min:3',
+            'new_service'        => 'required_if:contract_nature_id,other|unique:contract_nature,name,NULL,id,deleted_at,NULL',
+            'description'        => 'required|min:3|max:255',
         ];
     }
     
@@ -40,7 +40,7 @@ class TaqawelServicesRequest extends Request
         return [
             'contract_nature_id' => trans('taqawoul.form_attributes.service_type'),
             'description'        => trans('taqawoul.form_attributes.service_description'),
-            'new_service'        => trans('taqawoul.form_attributes.other'),
+            'new_service'        => trans('taqawoul.form_attributes.service_type'),
         ];
     }
 

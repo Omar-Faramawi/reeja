@@ -20,8 +20,10 @@ class SaudiPercentageController extends Controller
     public function index()
     {
         $data = SaudiPercentage::latest()->paginate(20);
+        $sizes      = Size::lists('name', 'id')->toArray();
+        $activities = Activity::lists('name', 'id')->toArray();
 
-        return view('admin.taqawel.saudi_percentage.index', compact('data'));
+        return view('admin.taqawel.saudi_percentage.index', compact('data','sizes','activities'));
     }
 
     /**

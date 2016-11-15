@@ -27,8 +27,8 @@ class PublishLaborerRequest extends Request
         return [
 
             'startdate'    => 'required',
-            'enddate'    => 'required',
-            'id'        => 'required'
+            'enddate'      => 'required',
+            'id'           => 'required'
         ];
     }
 	
@@ -41,7 +41,7 @@ class PublishLaborerRequest extends Request
 	{
 		return [
             'startdate'    => trans('add_laborer.work_start_date'),
-            'enddate'       => trans('add_laborer.work_end_date'),
+            'enddate'      => trans('add_laborer.work_end_date'),
             'id'           => trans('add_laborer.id')
 		];
 	}

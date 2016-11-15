@@ -244,3 +244,15 @@ select[name='datatable_ajax_length'] {
 table.dataTable {
     width: auto !important;
 }
+
+.calendars-month-year {
+    font-family: serif !important;
+    font-size: 12px !important;
+}
+.calendars-month-header{
+    height: 2em;
+}
+
+.vacancies_form .text-right, .vacancies_form_updated .text-right {
+    text-align: left;
+}
