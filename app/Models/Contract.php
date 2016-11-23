@@ -331,7 +331,7 @@ class  Contract extends BaseModel
     public function hrPool()
     {
         //return $this->hasOne(HRPool::class, 'id_number', 'id');
-        return $this->hasManyThrough(HRPool::class, ContractEmployee::class,'contract_id', 'id_number', 'id');
+        return $this->hasManyThrough(HRPool::class, ContractEmployee::class, 'contract_id', 'id_number', 'id');
     }
 
     /**
@@ -671,6 +671,7 @@ class  Contract extends BaseModel
     {
         return $query->whereIn('status', $status);
     }
+
     /**
      * @param $query
      *
@@ -715,5 +716,17 @@ class  Contract extends BaseModel
     public function scopeEstablishmentBeneficial($query)
     {
         return $query->where(['benf_type' => Constants::USERTYPES['est']]);
+    }
+
+    /**
+     * Checks whether this contract is by me or to me
+     */
+    public function byMeOrToMe()
+    {
+        if ($this->provider_id == $this->getCurrentLoginId() && $this->provider_type == auth()->user()->user_type_id) {
+            return array_search('benef', Constants::PRVD_BENF_SHORTCUT);
+        } else {
+            return array_search('provider', Constants::PRVD_BENF_SHORTCUT);
+        }
     }
 }

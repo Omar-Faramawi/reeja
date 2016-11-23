@@ -4,6 +4,7 @@ return [
     'headings'             => 'Bundles',
     'sub-headings'         => 'You can update and delete bundles in this page',
     'attributes'           => [
+        'id'                => 'ID',
         'min_of_num_ishaar' => 'Minimum number of Notices',
         'max_of_num_ishaar' => 'Maximum number of Notices',
         'monthly_amount'    => 'Bundle Monthly amount',

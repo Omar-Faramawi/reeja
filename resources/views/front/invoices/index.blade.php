@@ -42,14 +42,15 @@
                                         <th id='bill_number' class="no-sort">{{ trans('invoices.list_attributes.number') }}</th>
                                         <th id='amount' class="no-sort">{{ trans('invoices.list_attributes.amount') }}</th>
                                         <th id='description' width="20%" class="no-sort">{{ trans('invoices.list_attributes.description') }}</th>
-                                        <th id='issue_date' width="10%" class="no-sort">{{ trans('invoices.list_attributes.issue_date') }}</th>
-                                        <th id='expiry_date' width="10%" class="no-sort">{{ trans('invoices.list_attributes.expiry_date') }}</th>
+                                        <th id='issue_date_formatted' width="10%" class="no-sort">{{ trans('invoices.list_attributes.issue_date') }}</th>
+                                        <th id='expiry_date_formatted' width="10%" class="no-sort">{{ trans('invoices.list_attributes.expiry_date') }}</th>
                                         <th id='status_name' class="no-sort">{{ trans('invoices.list_attributes.status') }}</th>
                                         <th id='trans_invoice_type' class="no-sort">{{ trans('invoices.list_attributes.invoice_type') }}</th>
                                         <th id="details" class="no-sort"> {{ trans('vacancies.list_attributes.details') }}</th>
                                     </tr>
                                     <tr role="row" class="filter">
                                         <td>
+                                         
                                             <input type="text" class="form-control form-filter input-sm"
                                                    name="id">
                                         </td>

@@ -8,7 +8,8 @@
         <div class="col-md-12">
             <h2>{{trans("packagesubscribe.buyDone")}}</h2>
             <p>
-                {{trans("packagesubscribe.buyAlert")}}
+                {{trans("packagesubscribe.buyAlert")}} {{$ishaar_setup->paid_ishaar_payment_expiry_period}}  {{\Tamkeen\Ajeer\Utilities\Constants::periodTypes($ishaar_setup->paid_ishaar_valid_expiry_period_type)}} {{trans("packagesubscribe.buyAlertAfter")}}
+
             </p>
             <p>
                 {{trans("packagesubscribe.invoiceDetails",["ishaarNu"=>$invoice->num_of_notices,"billingAmount"=>$invoice->invoice->amount,"account_no"=>$invoice->invoice->bill_number])}}

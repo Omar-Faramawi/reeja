@@ -211,20 +211,29 @@ class MarketTaqawoulServices extends BaseModel
 
     public function scopeBenfHasPermission($query)
     {
+        
         if (!$this->estCanBeProvider()) {
             return $query->where ('service_prvdr_benf_id', "!=", Constants::USERTYPES['est']);
         }
+        
     }
 
     public function scopeProviderHasActivities($query)
     {
-        return $query->whereIn('contract_nature_id',
-                $this->estProviderPermittedActivities());
+
+        return $query->whereHas('establishment' ,function ($q) {
+                    $q->whereIn('activity_id',
+                        $this->estProviderPermittedActivities());
+                });
     }
 
     public function scopeBenfHasActivities($query)
     {
-        return $query->whereIn('contract_nature_id',
-                $this->estBenfPermittedActivities());
+        return $query->whereHas('establishment', function ($q) {
+                    $q->whereIn('activity_id',
+                        $this->estBenfPermittedActivities());
+                });
+        
     }
+ 
 }

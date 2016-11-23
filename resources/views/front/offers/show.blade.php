@@ -30,14 +30,14 @@
                                                 </div>
                                             </div>
                                             @if(isset($thisContract['provider']['est_activity']))
-                                            <div class="row static-info">
-                                                <div class="col-md-3 name">
-                                                    {{trans("offers.providerType")}}
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("offers.providerType")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{$thisContract['provider']['est_activity']}}
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-9 value">
-                                                    {{$thisContract['provider']['est_activity']}}
-                                                </div>
-                                            </div>
                                             @endif
                                         </div>
                                     </div>
@@ -120,22 +120,22 @@
                                     </div>
                                     <br>
                                     @if(isset($canAccept))
-                                    <div class="row">
-                                        <div class="col-lg-12 col-lg-6">
-                                            <div class="input-group">
-                                                <div class="icheck-inline">
-                                                    <label>
-                                                        <input type="checkbox" class="icheck"
-                                                               data-checkbox="icheckbox_flat-grey"> {{trans("offers.acceptRules")}}
-                                                    </label>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-lg-6">
+                                                <div class="input-group">
+                                                    <div class="icheck-inline">
+                                                        <label>
+                                                            <input type="checkbox" class="icheck"
+                                                                   data-checkbox="icheckbox_flat-grey"> {{trans("offers.acceptRules")}}
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
+                                        <br>
+                                        <div class="row">
 
-                                        
+
                                             <div class="col-lg-6"></div>
                                             <div class="col-lg-6">
                                                 <div class="form-actions">
@@ -150,8 +150,8 @@
                                                 </div>
 
                                             </div>
-                                        
-                                    </div>
+
+                                        </div>
                                     @else
                                         <div class="row">
                                             <div class="alert alert-warning">
@@ -206,7 +206,7 @@
                         <div class="col-md-12">
                             <h2>{{trans("offers.modal.accept.rules")}}</h2>
                             <p>
-                                {{trans("offers.modal.accept.rulesDetails")}}
+                                {!! trans("offers.modal.accept.rulesDetails")!!}
                             </p>
                         </div>
                     </div>

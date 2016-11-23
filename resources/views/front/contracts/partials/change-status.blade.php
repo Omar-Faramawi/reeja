@@ -16,3 +16,8 @@
     <span class="help-block">{{ trans('contracts.rejection_reasons_details') }}</span>
 </div>
 
+@if(isset($showTqawelCancelDisclaimers))
+<div class="well">
+    {!! trans('endorsements.offer_taqawel_contract_cancel_'.$contract->byMeOrToMe(), ['contract_number' => $contract->id, 'start_date' => $contract->start_date, 'now' => date('Y-m-d', time()), 'contract_period' => getDatesDiff($contract->start_date, $contract->end_date), 'pevd_benf_name' => $contract->byMeOrToMe() ? $contract->benf_name : $contract->providername]) !!}
+</div>
+@endif

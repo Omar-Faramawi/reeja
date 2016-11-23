@@ -14,7 +14,7 @@ use Tamkeen\Ajeer\Models\IshaarIssueGovernPerm;
 use Tamkeen\Ajeer\Models\IshaarIssuePermissions;
 use Tamkeen\Ajeer\Models\ServiceUsersPermission;
 use Tamkeen\Ajeer\Http\Requests\EditNoticePermissionRequest;
-use Hashids;
+use Vinkla\Hashids\Facades\Hashids;
 
 class IshaarPermissionsController extends Controller
 {
@@ -83,7 +83,7 @@ class IshaarPermissionsController extends Controller
         }
         $est_activity = $ishaarUserPerm->estPermissions()->with('activity')->get();
         $gov_activity = $ishaarUserPerm->govPermissions()->with('activity')->get();
-        
+     
         return view('admin.temp_work.ishaar_permissions.edit',
             compact('ishaarUserPerm', 'activities', 'gov_activity', 'est_activity'));
     }
@@ -98,25 +98,47 @@ class IshaarPermissionsController extends Controller
      */
     public function update(EditNoticePermissionRequest $request, $id)
     {
-        $notice_permission = IshaarIssuePermissions::with([
-            'estPermissions',
-            'govPermissions',
-        ])->byId($id)->firstOrFail();
+
+        $notice_permission = IshaarIssuePermissions::byId($id)->firstOrFail();
         $newData           = $request->only(array_keys($request->rules()));
-        $notice_permission->update($newData);
+        
+        $notice_permission->update(array_except($newData, 'est_perm_activities'));
         
         // Establishments activities coming in the request
         $estReq = $request->get('est_perm_activities');
         // Government activities coming in the request
         $govReq = $request->get('gover_activities');
 
-        foreach ($estReq as $key => $one_permission) {
-            IshaarIssueEstPerm::findOrFail($key)->update($one_permission);
+        foreach ($estReq as $value) {
+            $est_record = IshaarIssueEstPerm::firstOrNew([
+                'ishaar_issue_permission_id' => Hashids::decode($id),
+                'activity_id'                => $value['activity_id'],
+            ]);
+            if (!isset($est_record->id)) {
+                $est_record->created_by = auth()->id();
+                $est_record->fill($value);
+                $est_record->save();
+            } else {
+                $est_record->update($value);
+                $est_record->save();
+            }
         }
-        foreach ($govReq as $key => $one_permission) {
-            IshaarIssueGovernPerm::findOrFail($key)->update($one_permission);
+
+        foreach ($govReq as $value) {
+            $gov_record = IshaarIssueGovernPerm::firstOrNew([
+                'ishaar_issue_permission_id' => Hashids::decode($id),
+                'activity_id'                => $value['activity_id'],
+            ]);
+            if (!isset($gov_record->id)) {
+                $gov_record->created_by = auth()->id();
+                $gov_record->fill($value);
+                $gov_record->save();
+            } else {
+                $gov_record->update($value);
+                $gov_record->save();
+            }
         }
-        
+
         return trans('ishaar_permissions.ishaar_permissions_saved');
     }
 }

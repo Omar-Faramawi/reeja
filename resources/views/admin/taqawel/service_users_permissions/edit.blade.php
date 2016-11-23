@@ -163,7 +163,9 @@
                                                         {!! Form::hidden('est_perm_activities['.$key.'][provider]', 0) !!}
                                                         {!! Form::hidden('est_perm_activities['.$key.'][benf]', 0) !!}
                                                         {!! Form::hidden('est_perm_activities['.$key.'][benf_activity]', 0) !!}
-                                                        {{$act['name']}}
+                                                        {!! Form::hidden('value_to_compare', 0) !!}
+                                                        {!! Form::hidden('est_activities['.$key.'][activity_name]', $act['name']) !!}
+                                                       {{$act['name']}}
                                                     </td>
                                                     <td>
                                                         <div class="checkbox-list">
@@ -192,10 +194,11 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        {!! Form::number('est_perm_activities['.$key.'][loan_pct]', isset($act['establishments'][0]['loan_pct']) ? $act['establishments'][0]['loan_pct']: '', ['min' => 0, 'max' => 100]) !!}
+                                                        {!! Form::number('est_perm_activities['.$key.'][loan_pct]', isset($act['establishments'][0]['loan_pct']) ? ($act['establishments'][0]['loan_pct'] !=0? $act['establishments'][0]['loan_pct']: '') : '', ['min' => 0, 'max' => 100]) !!}
+                                                        
                                                     </td>
                                                     <td>
-                                                        {!! Form::number('est_perm_activities['.$key.'][borrow_pct]', isset($act['establishments'][0]['borrow_pct']) ? $act['establishments'][0]['borrow_pct']: '', ['min' => 0, 'max' => 100]) !!}
+                                                        {!! Form::number('est_perm_activities['.$key.'][borrow_pct]', isset($act['establishments'][0]['borrow_pct']) ? ($act['establishments'][0]['borrow_pct'] !=0 ?$act['establishments'][0]['borrow_pct'] : '') : '', ['min' => 0, 'max' => 100]) !!}
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -243,6 +246,7 @@
                         <div class="col col-lg-10">
                             <button type="submit" data-loading-text="{{ trans('contract_setup.saving') }}..."
                                     class="demo-loading-btn btn blue">{{trans('contract_setup.save')}}</button>
+                                    <a href="{{route('admin.serviceUsersPermissions.contractType.edit', Hashids::encode(1))}}" class="btn red">{{ trans('labels.cancel') }}</a>
                         </div>
                     </div>
                     </form>
@@ -260,5 +264,9 @@
     <div class="clearfix"></div>
     <!-- END DASHBOARD STATS 1-->
     <!-- END PAGE BASE CONTENT -->
-
+    <style>
+        .tr_has_error{
+            background-color: #fbe1e3;
+        }
+        </style>
 @endsection

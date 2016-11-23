@@ -51,7 +51,7 @@
                                                 {{ trans('invoices.list_attributes.issue_date') }}
                                             </div>
                                             <div class="col-md-7 value">
-                                                {{$invoice->issue_date}}
+                                                {{$invoice->issue_date_formatted}}
                                             </div>
                                         </div>
                                         <div class="row static-info">
@@ -59,10 +59,10 @@
                                                 {{ trans('invoices.list_attributes.expiry_date') }}
                                             </div>
                                             <div class="col-md-7 value">
-                                                {{$invoice->expiry_date}}
+                                                {{$invoice->expiry_date_formatted}}
                                             </div>
                                         </div>
-                                        @if($invoice->status === \Tamkeen\Ajeer\Utilities\Constants::INVOICE_STATUS['paid'])
+                                        @if($invoice->status == \Tamkeen\Ajeer\Utilities\Constants::INVOICE_STATUS['paid'])
                                         <div class="row static-info">
                                             <div class="col-md-5 name">
                                                 {{ trans('invoices.list_attributes.paid_date') }}

@@ -89,6 +89,17 @@
             <h4 class="modal-title">{{ trans('contracts_cancelation.endorsement') }}</h4>
          </div>
          <div class="modal-body form-body">
+
+          {!! trans('approve_cancellation_disclaimer.cancel_approval_hire_labor_ishaar', [
+               'ishaar_number'        => $contractEmployee->id,
+               'ishaar_start_date'    => $contractEmployee->start_date,
+               'ishaar_end_date'      => $contractEmployee->end_date,
+               'employee_name'        => $contractEmployee->hrPool->name,
+               'employee_nationality' => $contractEmployee->hrPool->nationality->name,
+               'employee_id_number'   => $contractEmployee->hrPool->id_number,
+               'duration'             => getDatesDiff($contractEmployee->start_date,$contractEmployee->end_date),            
+         ]) !!}
+
             <input type="hidden" name='type' value='ishaar'>
             <input type="hidden" name='id' value='{{ $contractEmployee->id }}'>
             <div class="md-checkbox">
@@ -100,8 +111,8 @@
             </div>
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn dark btn-outline" data-dismiss="modal">{{ trans('labels.cancel') }}</button>
             <button type="submit" data-loading-text="{{ trans('labels.loading') }}" class="btn green">{{ trans('contracts_cancelation.confirm') }}</button>
+            <button type="button" class="btn dark btn-outline" data-dismiss="modal">{{ trans('labels.cancel') }}</button>
          </div>
       </div>
       <!-- /.modal-content -->

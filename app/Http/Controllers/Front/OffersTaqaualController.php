@@ -230,7 +230,6 @@ class OffersTaqaualController extends Controller
     public function reject($id)
     {
         $reasons = Reason::where('parent_id', 2)->pluck("reason", "id");
-        $reasons->prepend("", "");
         
         return view("front.tqawel.offers.reject", compact("reasons", "id"));
     }

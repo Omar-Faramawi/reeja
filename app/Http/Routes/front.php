@@ -4,7 +4,15 @@ Route::get('/', 'HomeController@home');
 //Basic authentication
 Route::auth();
 Route::post('auth/individualsLogin', 'Auth\AuthController@individualsLogin');
-
+Route::post('citizenRegister', 'Auth\AuthController@citizenRegister');
+Route::get("/activation", function(){
+    if(session()->has('temp_account_registration')){
+        return view('auth.activation');
+    }else{
+        abort(404);
+    }
+});
+Route::post("/activation", 'Auth\AuthController@activation');
 // OpenID auth rules
 Route::get('auth/openid/login', 'Auth\AuthController@redirectToOpenID');
 Route::get('auth/openid/authenticate', 'Auth\AuthController@handleOpenIDCallback');

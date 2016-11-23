@@ -105,7 +105,7 @@
                                                 {!! Form::text($prvd_benf == 1 ? 'benf_name' : 'providername', null, ['class' => 'form-control form-filter input-sm']) !!}
                                             </td>
                                             <td>
-                                                {!! Form::select('status', Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter']) !!}
+                                                {!! Form::select('status', Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) !!}
                                             </td>
                                             <td></td>
                                             <td></td>

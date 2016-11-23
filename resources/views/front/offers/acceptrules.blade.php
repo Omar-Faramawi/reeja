@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <h2>{{trans("offers.modal.accept.rules")}}</h2>
             <p>
-                {{trans("offers.modal.accept.rulesDetails")}}
+                {!! trans("offers.modal.accept.rulesDetails")!!}
             </p>
         </div>
     </div>

@@ -61,9 +61,9 @@
                                     <tr role="row" class="heading">
                                         <th id="id" width="5%"> {{trans('ishaar_setup.attributes.ishaar_number')}}</th>
                                        @if(session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'])
-                                        <th id="contract.provider_name" class="no-sort" width="20%">@if($url == '/direct_ishaar'){{ trans('temp_job.job_owner') }} @else {{ trans('temp_job.benf_id') }} @endif</th>
+                                        <th id="contract.benf_name" class="no-sort" width="20%">@if($url == '/direct_ishaar'){{ trans('temp_job.job_owner') }} @else {{ trans('temp_job.benf_id') }} @endif</th>
                                         @else
-                                        <th id="contract.benf_name" class="no-sort" width="20%">@if($url == '/direct_ishaar'){{ trans('temp_job.job_seeker') }} @else {{ trans('temp_job.provider_id') }} @endif</th>
+                                        <th id="contract.providername" class="no-sort" width="20%">@if($url == '/direct_ishaar'){{ trans('temp_job.job_seeker') }} @else {{ trans('temp_job.provider_id') }} @endif</th>
                                         @endif
                                         <th id="hr_pool.name" class="no-sort" width="5%"> {{trans('ishaar_setup.attributes.name')}}</th>
                                         <th id="hr_pool.id_number" class="no-sort" width="20%"> {{trans('ishaar_setup.attributes.id_number')}}</th>
@@ -79,43 +79,40 @@
                                     </tr>
                                     <tr role="row" class="filter">
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm" name="id">
+                                            
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
+                                            <input type="text" class="form-control form-filter input-sm" name="benf_name">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
+                                            <input type="text" class="form-control form-filter input-sm"  name="name">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
+                                            <input type="text" class="form-control form-filter input-sm" name="id_number">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
+                                            {{ Form::select('job_id', $jobs, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
+
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id">
+                                            <input type="text" class="form-control form-filter date-picker" value=""
+                                                   name="start_date">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="name">
+                                            <input type="text" class="form-control form-filter date-picker" value=""
+                                                   name="end_date">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="name">
+                                        {!! Form::select('status', \Tamkeen\Ajeer\Utilities\Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter', 'placeholder' => trans('labels.default')]) !!}
+
                                         </td>
                                         <td>
                                             <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
                                                 <i class="fa fa-search"></i> {{ trans('labels.search') }}
                                             </button>
-                                            <button class="btn btn-sm red btn-outline filter-cancel">
+                                            <!--<button class="btn btn-sm red btn-outline filter-cancel">
                                                 <i class="fa fa-times"></i> {{ trans('labels.reset') }}
-                                            </button>
+                                            </button>-->
                                         </td>
                                     </tr>
                                     </thead>

@@ -3,20 +3,19 @@
 namespace Tamkeen\Ajeer\Http\Controllers\Front;
 
 use Carbon\Carbon;
-use Hashids\Hashids;
 use Illuminate\Http\Request;
-
 use Log;
 use Mail;
-use Mockery\CountValidator\Exception;
-use Tamkeen\Ajeer\Http\Requests;
 use Tamkeen\Ajeer\Http\Controllers\Controller;
+use Tamkeen\Ajeer\Http\Requests;
 use Tamkeen\Ajeer\Http\Requests\OfferRejectRequest;
 use Tamkeen\Ajeer\Http\Requests\OffersDirectUploadRequest;
 use Tamkeen\Ajeer\Models\Contract;
 use Tamkeen\Ajeer\Models\ContractEmployee;
-use Tamkeen\Ajeer\Models\Individual;
+use Tamkeen\Ajeer\Models\Job;
 use Tamkeen\Ajeer\Models\Reason;
+use Tamkeen\Ajeer\Models\Region;
+use Tamkeen\Ajeer\Utilities\Constants;
 
 
 class OfferDirectController extends Controller
@@ -36,22 +35,27 @@ class OfferDirectController extends Controller
                     }
                     ,
                 ]);
-
-            if (request()->input('job_name') || request()->input('region_name')) {
+            if (request()->input('job_name') || request()->input('region_name') || request()->input('religion_name') || request()->input('gender_name')) {
                 $data = $data->whereHas('vacancy', function ($q) {
                     if (request()->input('job_name')) {
-                        $q->whereHas('job', function ($job_q) {
-                            $job_q->where('job_name', 'LIKE', '%' . request()->input('job_name') . '%');
-                        });
+                        $q->where('job_id', request()->input('job_name'));
                     }
                     if (request()->input('region_name')) {
-                        $q->whereHas('region', function ($reg_q) {
-                            $reg_q->where('name', 'LIKE', '%' . request()->input('region_name') . '%');
-                        });
+                        $q->where('region_id', request()->input('region_name'));
+                    }
+                    if (request()->input('religion_name')) {
+                        $q->where('religion', request()->input('religion_name'));
+                    }
+                    if (request()->input('gender_name')) {
+                        if (request()->input('gender_name') == 'male') {
+                            $q->where('gender', '1');
+                        } else {
+                            $q->where('gender', '0');
+                        }
                     }
                 });
             }
-            
+
             if (request()->input('benef_name')) {
                 $data = $data->where(function ($benf_q) {
                     $benf_q->whereHas('benfEstablishment', function ($est_q) {
@@ -83,8 +87,11 @@ class OfferDirectController extends Controller
 
             return $returned;
         }
-
-        return view("front.offersdirect.index");
+        $jobs = Job::get()->pluck('job_name', 'id');
+        $regions = Region::get()->pluck('name', 'id');
+        $genders = ['female' => trans('registration.female'), 'male' => trans('registration.male')];
+        $religions = Constants::religions(['file' => 'registration.religions']);
+        return view("front.offersdirect.index", compact('jobs', 'regions', 'genders', 'religions'));
     }
 
     /**

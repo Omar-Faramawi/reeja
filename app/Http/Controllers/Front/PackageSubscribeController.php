@@ -223,7 +223,8 @@ class PackageSubscribeController extends Controller
     public function invoice()
     {
         $invoice = InvoiceBundle::byMe()->get()->last();
+        $ishaar_setup = IshaarSetup::taqawelPaid()->firstOrFail();
 
-        return view("front.packagesubscribe.invoice", compact("invoice"));
+        return view("front.packagesubscribe.invoice", compact("invoice", 'ishaar_setup'));
     }
 }

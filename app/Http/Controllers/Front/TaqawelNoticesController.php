@@ -81,11 +81,47 @@ class TaqawelNoticesController extends Controller
                 });
             }
 
-            if ($job = request()->input('job')) {
-                $ishaars = $ishaars->whereHas('hrPool', function ($q) use ($job) {
-                    $q->whereHas('job', function ($q) use ($job) {
-                        return $q->where('job_name', 'LIKE', '%' . $job . '%');
+            if ($job_id = request()->input('job_id')) {
+                $ishaars = $ishaars->whereHas('hrPool', function ($q) use ($job_id) {
+                    $q->where('job_id', $job_id);
+                });
+            }
+            if ($id_number = request()->input('id_number')) {
+                $ishaars = $ishaars->whereHas('hrPool', function ($q) use ($id_number) {
+                    $q->where('id_number', $id_number);
+                });
+            }
+            if ($name = request()->input('name')) {
+                $ishaars = $ishaars->whereHas('hrPool', function ($q) use ($name) {
+                    $q->where('name', 'LIKE', '%' . $name . '%');
+                });
+            }
+            if (request()->input('start_date')) {
+                $ishaars = $ishaars->where('start_date', request()->input('start_date'));
+            }
+            if (request()->input('end_date')) {
+                $ishaars = $ishaars->where('end_date', request()->input('end_date'));
+            }
+            if (request()->input('status')) {
+                $ishaars = $ishaars->where('status', request()->input('status'));
+            }
+            if (request()->input('benf_name')) {
+                $ishaars = $ishaars->whereHas('contract', function ($provider_q) {
+                    $provider_q->whereHas('benfEstablishment', function ($est_q) {
+                        $est_q->where('name', 'LIKE', '%' . request()->input('benf_name') . '%');
                     });
+                    $provider_q->orWhereHas('benfIndividual', function ($est_q) {
+                        $est_q->where('name', 'LIKE', '%' . request()->input('benf_name') . '%');
+                    });
+                    $provider_q->orWhereHas('benfGovernment', function ($est_q) {
+                        $est_q->where('name', 'LIKE', '%' . request()->input('benf_name') . '%');
+                    });
+                });
+            }
+
+            if ($job_id = request()->input('job_id')) {
+                $ishaars = $ishaars->whereHas('hrPool', function ($q) use ($job_id) {
+                    $q->where('job_id', $job_id);
                 });
             }
             if ($id_number = request()->input('id_number')) {
@@ -148,8 +184,9 @@ class TaqawelNoticesController extends Controller
                 $canBeProvider = BaseModel::indvCanBeProvider();
             }
         }
+        $jobs = Job::all()->pluck('job_name', 'id')->toArray();
 
-        return view('front.taqawel.notices.index', compact('contracts','canBeProvider'));
+        return view('front.taqawel.notices.index', compact('contracts','canBeProvider','jobs'));
     }
 
     /**
@@ -233,13 +270,19 @@ class TaqawelNoticesController extends Controller
         if ($start_in_period && $end_in_period) {
             $account_type = InvoiceBundle::byMe()->paid()->notExpired()->hasRemainingNotices()->get();
             if (count($account_type)) {
+                $ishaar_setup     = IshaarSetup::taqawelPaid()->first();
                 $num_of_months    = getDiffPeriodMonth($start_date, $end_date);
                 $wanted           = count($emp_ids) * $num_of_months;
                 $allowence_number = InvoiceBundle::byMe()->paid()->notExpired()->hasRemainingNotices()->allowedNotices();
                 if ($allowence_number < $wanted) {
                     return response()->json(['error' => trans('ishaar_setup.employees_bigger_allowed')], 422);
                 }
-                $ishaar_setup = IshaarSetup::taqawelPaid()->first();
+                //check max ishaar period
+                $max_date = getDiffPeriodDay($start_date, $ishaar_setup->max_ishaar_period, $ishaar_setup->max_ishaar_period_type);
+                $in_range = checkInRange($start_date, $max_date, $end_date);
+                if(!$in_range){
+                    return response()->json(['error' => trans('ishaar_setup.max_ishaar_period_exceeded')], 422);
+                }
                 //check max ishaars for this benf
                 if(ContractEmployee::MaxIshaarsForBenf($benf_id) >= $ishaar_setup->labor_same_benef_max_num_of_ishaar){
                     return response()->json(['error' => trans('ishaar_setup.max_ishaar_for_benf')], 422);
@@ -247,6 +290,7 @@ class TaqawelNoticesController extends Controller
             }else{
                 $ishaar_setup = IshaarSetup::taqawelFree()->first();
             }
+            
             foreach ($emp_ids as $emp) {
                 //check max labor times for Establishment
                 if(HRPool::MaxLaborTimes($emp) >= $ishaar_setup->ishaar_lobor_times){
@@ -273,6 +317,8 @@ class TaqawelNoticesController extends Controller
                         }
                     }
                 }
+            }
+            foreach ($emp_ids as $emp) {
 
                 $add              = new ContractEmployee();
                 $add->contract_id = $contract_id;
@@ -294,8 +340,9 @@ class TaqawelNoticesController extends Controller
                     $add_area->save();
                 }
 
-                return trans('ishaar_setup.add_notice_success');
+               
             }
+             return trans('ishaar_setup.add_notice_success');
         } else {
 
             return response()->json(['error' => trans('ishaar_setup.date_not_in_range')], 422);

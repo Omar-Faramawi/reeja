@@ -3,7 +3,7 @@
 
 return [
     'service_users_permissions' => 'Ishaar Permissions',
-    'service_providers'         => 'Service Providers',
+    'service_providers'         => 'Notice issue permission',
     'service_beneficials'       => 'Service Beneficials',
     'est_service_beneficials'   => 'Establishments Services Beneficials',
     'indv_service_beneficials'  => 'Individuals Services Beneficials',

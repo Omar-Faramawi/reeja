@@ -61,7 +61,7 @@ if (!function_exists('dynamicAjaxPaginate')) {
     ) {
         $length = request()->input('length');
         $start  = request()->input('start');
-        
+
         if (!empty(request()->input('order'))) {
             $orderBy = $columns[request()->input('order')[0]['column']]['name'];
             if ($orderBy == 'check') {
@@ -70,18 +70,18 @@ if (!function_exists('dynamicAjaxPaginate')) {
             $order   = request()->input('order')[0]['dir'];
             $data    = $data->orderBy($orderBy, $order);
         }
-        
+
         $records['data'] = $data->skip($start)->take($length)->get();
-        
+
         $records["iTotalRecords"] = $total_count;
-        
+
         $records["iTotalDisplayRecords"] = $total_count;
-        
+
         $records["customActionStatus"]  = "OK";
         $records["customActionMessage"] = trans('labels.customActionMessage');
-        
+
         $records["draw"] = intval(request()->input('draw'));
-        
+
         for ($i = 0; $i < count($records['data']); $i++) {
             if(count($buttons) == 0 && $checkbox){
                  $records['data'][$i]['check'] = '<input type="checkbox" name="id[]" value="' . $records['data'][$i]['id'] . '" class="select-checkbox">';
@@ -89,7 +89,7 @@ if (!function_exists('dynamicAjaxPaginate')) {
             foreach ($buttons as $key => $button) {
                 $id  = !empty($button['id']) ? $button['id'] : 'id';
                 $url = !empty($button['url']) ? $button['url'] : request()->url();
-                
+
                 if (!empty($button['uri'])) {
                     $uri = url($url . "/" . $records['data'][$i][$id] . "/" . $button['uri']);
                 } else {
@@ -390,21 +390,21 @@ if (!function_exists("getDiffPeriodMonth")) {
     {
         $ts1 = strtotime($date1);
         $ts2 = strtotime($date2);
-        
+
         $year1 = date('Y', $ts1);
         $year2 = date('Y', $ts2);
-        
+
         $month1 = date('m', $ts1);
         $month2 = date('m', $ts2);
-        
+
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
-        
+
         return $diff;
     }
 }
 
 if (!function_exists("checkInRange")) {
-    
+
     /**
      * @param $start_date
      * @param $end_date
@@ -418,7 +418,7 @@ if (!function_exists("checkInRange")) {
         $start_ts = strtotime($start_date);
         $end_ts   = strtotime($end_date);
         $user_ts  = strtotime($checkable_date);
-        
+
         // Check that user date is between start & end
         return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
     }
@@ -445,7 +445,7 @@ if (!function_exists("getLoggedAccountNumber")) {
         } else {
             abort(401);
         }
-        
+
         return $connector->getAccountNumber(1, $customerNo, $name);
     }
 }
@@ -484,3 +484,22 @@ if (!function_exists('defaultDateRange')) {
         return [$from, $to];
     }
 }
+
+if (!function_exists("getDatesDiff")) {
+
+    function getDatesDiff($start_date, $end_date)
+    {
+        $carbon_start_date = Carbon::parse($start_date);
+        $carbon_end_date = Carbon::parse($end_date);
+        
+        if($carbon_start_date->diffInYears($carbon_end_date) != 0){
+            return $carbon_start_date->diffInYears($carbon_end_date)." ". trans('approve_cancellation_disclaimer.years');
+        }else if($carbon_start_date->diffInMonths($carbon_end_date) != 0){
+            return $carbon_start_date->diffInMonths($carbon_end_date)." ". trans('approve_cancellation_disclaimer.months');
+        }else{
+             return $carbon_start_date->diffInDays($carbon_end_date)." ". trans('approve_cancellation_disclaimer.days');
+        }
+    }
+
+}
+

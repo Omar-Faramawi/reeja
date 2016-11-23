@@ -2,16 +2,21 @@
 
 return [
     'title' 				    => 'تسجيل الافراد',
+    'title_active'              => 'تفعيل مستخدم',
+    'activation_number'         => 'كود التفعيل', 
+    'activate'                  => 'تفعيل',   
     'register'				    => 'تسجيل',
     'validation'                => [
 
-        'nicerror'              => ' !!! رقم الهوية/الاقامة/الحدود غير صحيح',
+        'nicerror_saudi'        => ' !!! رقم الهوية غير صحيح',
+        'nicerror_non_saudi'    => ' !!! رقم الاقامة غير صحيح',
         'required_if'           => 'الحقل :attribute مطلوب في حال ما إذا كان :other',   
         'nic_not_active'        => ' عفوا ، الحساب غير نشط لدى وزارة الداخلية',
     ],
     'attributes'                => [
 
-        'id_number'             => 'رقم الهوية/الاقامة/الحدود',
+        'id_number_saudi'       => 'رقم الهوية',
+        'id_number_non_saudi'   => 'رقم االاقامة/الحدود',
         'saudi'                 => 'سعودي',
         'birth_date'            => 'تاريخ الميلاد',
         'religion'              => 'الديانة',       
@@ -24,7 +29,7 @@ return [
         'confirm_password'      => 'تاكيد كلمة المرور',
         'phone'                 => 'رقم الجوال',
         'email'                 => 'البريد الالكتروني',
-        'gender'                => 'النوع',
+        'gender'                => 'الجنس',
         'birth_date'            => 'تاريخ الميلاد',    
         
     ],
@@ -38,5 +43,6 @@ return [
 
     ],
     'choose'                    => 'اختر الديانة',
-    'success'                   => 'تم التسجيل بنجاح'
+    'success'                   => 'تم التسجيل بنجاح',
+    'wrong_activation'          => 'كود التفعيل خاطىء',
 ];

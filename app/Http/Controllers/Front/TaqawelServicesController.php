@@ -408,9 +408,10 @@ class TaqawelServicesController extends Controller
         $reasons = Reason::has('parentReason')->forTaqawelCancel()->pluck('reason', 'id')->toArray();
         $wantDelete = true;
         $reasonLabel = 'contracts.rejection_reason';
+        $showTqawelCancelDisclaimers = true;
 
         return view('front.labor_market.tqawel.taqawel-contracts',
-            compact('mycontracts', 'reasons', 'wantDelete', 'newStatus', 'reasonLabel', 'isProvider'));
+            compact('mycontracts', 'reasons', 'wantDelete', 'newStatus', 'reasonLabel', 'isProvider', 'showTqawelCancelDisclaimers'));
     }
 
 
@@ -565,11 +566,12 @@ class TaqawelServicesController extends Controller
                 $isProvider = false;
             }
 
-            if ($isProvider) {
+            if ($isProvider || $updated_status == 'reject') {
                 $contract = Contract::byMe()->with('contractNature', 'contractLocations')->findOrFail($id);
             } else {
                 $contract = Contract::toMe()->with('contractNature', 'contractLocations')->findOrFail($id);
             }
+            
             if ($updated_status == 'reject') {
                 $reasons = Reason::all()->where('parent_id', 2)->pluck('reason', 'id')->toArray();
                 $newStatus = 'rejected';

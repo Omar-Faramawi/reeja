@@ -17,8 +17,10 @@ return [
         'service_prvdr_benf_id' => 'Service Provider',
         'benf_gover'            => 'Government',
         'avl_borrow_labor'      => 'Available borrowed labor for individuals',
-        'borrow_labor_pct'      => 'Borrow labor Percentage is required in all activities',
-        'loan_labor_pct'      => 'Loan labor Percentage is required in all activities'
+        'borrow_labor_pct'      => 'Borrow labor Percentage is required for Activity :activity_name Because Of providing Permission for Benf Or Benf Of the same Activity',
+        'loan_labor_pct'      => 'Loan labor Percentage is required for Activity :activity_name Because Of providing Permission for Provider',
+        'choose_provider'     => 'You Must Give Permission For Provider Of Activity :activity_name Because You Entered Loan Labor Percentage',
+        'choose_Benf'           => 'You Must Give Permission For Benf Or Benf Of the same Activity Of Activity :activity_name Because You Entered Borrow Labor Percentage'
     ],
     'indv2indv'                           => 'Individuals can provide services only for individuals',
     'service_users_permissions_saved'     => 'Service permissions updated successfully',

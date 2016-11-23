@@ -98,7 +98,7 @@ class IshaarSetupsController extends Controller
     public function edit($id)
     {
         $data = IshaarSetup::byId($id)->with('regions', 'jobs', 'ishaarjobs')->firstOrFail();
-        $regions = Region::lists('name', 'id')->toArray();
+        $regions = Region::where('id', '!=', 1)->pluck('name', 'id')->toArray();
         $ishaarTypes = IshaarType::lists('name', 'id')->toArray();
         $jobs = Job::all();
         $selectedJob = $data->jobs()->select('ad_jobs.id')->lists('id')->toArray();

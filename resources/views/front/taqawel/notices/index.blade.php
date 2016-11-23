@@ -83,8 +83,8 @@
                                                    name="id_number">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="job">
+                                        {{ Form::select('job_id', $jobs, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
+
                                         </td>
                                         <td>
                                             <input type="text" class="form-control form-filter date-picker" value=""
@@ -95,7 +95,7 @@
                                                    name="end_date">
                                         </td>
                                         <td>
-                                            {!! Form::select('status', \Tamkeen\Ajeer\Utilities\Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter']) !!}
+                                            {!! Form::select('status', \Tamkeen\Ajeer\Utilities\Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter', 'placeholder' => trans('labels.default')]) !!}
 
                                         </td>
                                         <td>

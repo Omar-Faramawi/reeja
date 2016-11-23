@@ -106,9 +106,9 @@ class EstablishmentController extends Controller
             '4' => 1,
         ];
         
-        if (isset($data['approve'])) {
+        if (isset($data['action']) && $data['action'] == 'approve') {
             $status = $establishment->update(['status' => $nextApproveStatus[$establishment->status]]);
-        } elseif (isset($data['deny'])) {
+        } elseif (isset($data['action']) && $data['action'] == 'deny') {
             $status = $establishment->update(['status' => 2]);
         }
         
@@ -128,7 +128,7 @@ class EstablishmentController extends Controller
             return trans('labels.updated');
         }
         
-        return response()->json(['errors' => trans('labels.updated')], 422);
+        return response()->json(['errors' => 'error'], 422);
     }
     
     /**

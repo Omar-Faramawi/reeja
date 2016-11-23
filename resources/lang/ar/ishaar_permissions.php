@@ -2,7 +2,7 @@
 
 return [
     'ishaar_permissions'           => 'صلاحيات إصدار الإشعارات',
-    'service_providers'            => 'مقدمي الخدمة',
+    'service_providers'            => 'صلاحيات اصدار الإشعار',
     'service_beneficials'          => 'المستفيدين من الخدمة',
     'est_service_beneficials'      => 'المستفيدين من المنشآت',
     'indv_service_beneficials'     => 'المستفيدين من الأفراد',

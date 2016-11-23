@@ -4,14 +4,15 @@ namespace Tamkeen\Ajeer\Http\Controllers\front;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-use Tamkeen\Ajeer\Http\Requests;
 use Tamkeen\Ajeer\Http\Controllers\Controller;
+use Tamkeen\Ajeer\Http\Requests;
 use Tamkeen\Ajeer\Http\Requests\ApproveAcceptOfferRequest;
 use Tamkeen\Ajeer\Http\Requests\OfferRejectRequest;
 use Tamkeen\Ajeer\Models\Contract;
 use Tamkeen\Ajeer\Models\ContractEmployee;
+use Tamkeen\Ajeer\Models\Job;
 use Tamkeen\Ajeer\Models\Reason;
+use Tamkeen\Ajeer\Models\Region;
 use Tamkeen\Ajeer\Models\Vacancy;
 
 
@@ -37,14 +38,14 @@ class OffersController extends Controller
             if (request()->input('job_name') || request()->input('region_name')) {
                 $data = $data->whereHas('vacancy', function ($q) {
                     if (request()->input('job_name')) {
-                        $q->whereHas('job', function ($job_q) {
-                            $job_q->where('job_name', 'LIKE', '%' . request()->input('job_name') . '%');
-                        });
+                        $q->where('job_id', request()->input('job_name'));
+
                     }
                     if (request()->input('region_name')) {
-                        $q->whereHas('region', function ($reg_q) {
-                            $reg_q->where('name', 'LIKE', '%' . request()->input('region_name') . '%');
-                        });
+                        $q->where('region_id', request()->input('region_name'));
+                        /* $q->whereHas('region', function ($reg_q) {
+                             $reg_q->where('name', 'LIKE', '%' . request()->input('region_name') . '%');
+                         });*/
                     }
                 });
             }
@@ -80,8 +81,10 @@ class OffersController extends Controller
 
             return dynamicAjaxPaginate($data, $columns, $total_count, $buttons);
         }
+        $jobs = Job::get()->pluck('job_name', 'id');
+        $regions = Region::get()->pluck('name', 'id');
 
-        return view("front.offers.index");
+        return view("front.offers.index", compact('jobs', 'regions'));
     }
 
     /**
@@ -194,9 +197,7 @@ class OffersController extends Controller
      */
     public function reject($id)
     {
-        $reasons = Reason::lists("reason", "id");
-        $reasons->prepend('');
-        array_add($reasons, "other", trans("offers.modal.reject.other"));
+        $reasons = Reason::where('parent_id', 1)->lists("reason", "id");
 
         return view("front.offers.reject", compact("reasons"))
             ->withId($id);

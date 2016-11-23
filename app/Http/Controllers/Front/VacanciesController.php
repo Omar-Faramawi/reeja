@@ -31,15 +31,11 @@ class VacanciesController extends Controller
             if (request()->input('id')) {
                 $vacancies = $vacancies->where('id', request()->input('id'));
             }
-            if (request()->input('job')) {
-                $vacancies = $vacancies->whereHas('job', function ($job_q) {
-                    $job_q->where('job_name', 'LIKE', '%' . request()->input('job') . '%');
-                });
+            if (request()->input('job_id')) {
+                 $vacancies = $vacancies->where('job_id', request()->input('job_id'));
             }
-            if (request()->input('region')) {
-                $vacancies = $vacancies->whereHas('region', function ($reg_q) {
-                    $reg_q->where('name', 'LIKE', '%' . request()->input('region') . '%');
-                });
+            if (request()->input('region_id')) {
+                 $vacancies = $vacancies->where('region_id', request()->input('region_id'));
             }
             if (request()->input('no_of_vacancies')) {
                 $vacancies = $vacancies->where('no_of_vacancies', request()->input('no_of_vacancies'));
@@ -57,8 +53,9 @@ class VacanciesController extends Controller
             
             return dynamicAjaxPaginate($vacancies, $columns, $total_count, $buttons);
         }
-
-        return view('front.vacancies.index');
+        $jobs = Job::all()->pluck('job_name', 'id')->toArray();
+        $regions = Region::all()->pluck('name', 'id')->toArray();
+        return view('front.vacancies.index',  compact('jobs','regions'));
     }
 
     /**
@@ -79,7 +76,7 @@ class VacanciesController extends Controller
 
         $jobs          = Job::all(['id', 'job_name']);
         $regions       = Region::all(['id', 'name']);
-        $nationalities = Nationality::all(['id', 'name']);
+        $nationalities = Nationality::orderBy('name', 'asc')->get(['id', 'name']);
 
         if (session()->has('selected_establishment')) {
             $hajj = session()->has('selected_establishment.hajj');

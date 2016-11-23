@@ -129,8 +129,8 @@
             </div>
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn dark btn-outline" data-dismiss="modal">{{ trans('labels.cancel') }}</button>
             <button type="submit" data-loading-text="{{ trans('labels.loading') }}" class="btn green">{{ trans('contracts_cancelation.confirm') }}</button>
+            <button type="button" class="btn dark btn-outline" data-dismiss="modal">{{ trans('labels.cancel') }}</button>
          </div>
       </div>
       <!-- /.modal-content -->

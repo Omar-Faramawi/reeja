@@ -84,7 +84,44 @@ class NoticesController extends Controller
                 }
                 )->with(['hrPool.job', 'contract', 'contract.contractLocations']);
 
+            if (request()->input('benf_name')) {
+                $ishaars = $ishaars->whereHas('contract', function ($provider_q) {
+                    $provider_q->whereHas('benfEstablishment', function ($est_q) {
+                        $est_q->where('name', 'LIKE', '%' . request()->input('benf_name') . '%');
+                    });
+                    $provider_q->orWhereHas('benfIndividual', function ($est_q) {
+                        $est_q->where('name', 'LIKE', '%' . request()->input('benf_name') . '%');
+                    });
+                    $provider_q->orWhereHas('benfGovernment', function ($est_q) {
+                        $est_q->where('name', 'LIKE', '%' . request()->input('benf_name') . '%');
+                    });
+                });
+            }
 
+            if ($job_id = request()->input('job_id')) {
+                $ishaars = $ishaars->whereHas('hrPool', function ($q) use ($job_id) {
+                    $q->where('job_id', $job_id);
+                });
+            }
+            if ($id_number = request()->input('id_number')) {
+                $ishaars = $ishaars->whereHas('hrPool', function ($q) use ($id_number) {
+                    $q->where('id_number', $id_number);
+                });
+            }
+            if ($name = request()->input('name')) {
+                $ishaars = $ishaars->whereHas('hrPool', function ($q) use ($name) {
+                    $q->where('name', 'LIKE', '%' . $name . '%');
+                });
+            }
+            if (request()->input('start_date')) {
+                $ishaars = $ishaars->where('start_date', request()->input('start_date'));
+            }
+            if (request()->input('end_date')) {
+                $ishaars = $ishaars->where('end_date', request()->input('end_date'));
+            }
+            if (request()->input('status')) {
+                $ishaars = $ishaars->where('status', request()->input('status'));
+            }
 
             $total_count = $ishaars->count() ? $ishaars->count() : 1;
             $buttons = [
@@ -118,8 +155,9 @@ class NoticesController extends Controller
             $contracts = Contract::byMe()->approved()->hireLabor()->get();
 
         }
+        $jobs = Job::all()->pluck('job_name', 'id')->toArray();
 
-        return view('front.ishaar.index', compact('contracts', 'url', 'can_generate_ishaar'));
+        return view('front.ishaar.index', compact('contracts', 'url', 'can_generate_ishaar','jobs'));
     }
 
     /**

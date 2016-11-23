@@ -28,7 +28,7 @@ class UpdateEstResponsiblesRequest extends Request
             $rules['resp_data.' . $key . '.id_number'] = 'required|integer|min:0|max:9999999999999';
             $rules['resp_data.' . $key . '.responsible_name'] = 'required|min:3|max:255';
             $rules['resp_data.' . $key . '.job_name'] = 'required|min:3|max:255';
-            $rules['resp_data.' . $key . '.responsible_phone'] = 'required|integer|min:0|max:9999999999999';
+            $rules['resp_data.' . $key . '.responsible_phone'] = 'required|phone_number|min:0|max:9999999999999';
             $rules['resp_data.' . $key . '.responsible_email'] = 'required|email';
             $rules['resp_data.' . $key . '.id'] = 'exists:est_responsibles,id';
         }
@@ -60,6 +60,7 @@ class UpdateEstResponsiblesRequest extends Request
         $messages['est_type'] = trans('est_profile.est_type_error_message');
         foreach ($this->get('resp_data') as $key => $data) {
             $messages['resp_data.' . $key . '.id_number.max'] = trans('est_profile.responsibles_attributes.id_number').' '.trans('labels.number').' ('.strval($key+1).') '.trans('est_profile.invalid');
+            $messages['resp_data.' . $key . '.responsible_phone.phone_number'] = trans('est_profile.responsibles_attributes.responsible_phone').' '.trans('labels.number').' ('.strval($key+1).') '.trans('est_profile.invalid');
         }
         return $messages;
     }

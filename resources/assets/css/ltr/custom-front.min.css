@@ -256,3 +256,10 @@ table.dataTable {
 .vacancies_form .text-right, .vacancies_form_updated .text-right {
     text-align: left;
 }
+
+/* fix dropdown overflow issue */
+@media (min-width: 768px){
+    .table-responsive {
+        overflow: visible;
+    }
+}

@@ -30,7 +30,7 @@ class ContractEmployee extends BaseModel
     /**
      * @var array
      */
-    protected $appends = ['translated_status'];
+    protected $appends = ['translated_status','created_date_formatted'];
 
 
     /**
@@ -234,5 +234,13 @@ class ContractEmployee extends BaseModel
         $benf_type = $this->contract->benf_type;
 
         return $benf_id . '_' . $benf_type . '_' . $this->id_number;
+    }
+    public function getCreatedDateFormattedAttribute()
+    {
+        if (is_null($this->created_at)) {
+            return '';
+        }
+
+        return $this->created_at->format('Y-m-d');
     }
 }

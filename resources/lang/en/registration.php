@@ -2,16 +2,21 @@
 
 return [
     'title' 				    => 'Individuals Registration',
+    'title_active'              => 'Activate user',
+    'activation_number'         => 'Activation number', 
+    'activate'                  => 'activate', 
     'register'				    => 'register',
     'validation'                => [
 
-        'nicerror'              => 'National Id is incorrect',
+        'nicerror_saudi'        => 'National Id is incorrect',
+        'nicerror_non_saudi'    => 'National Id is incorrect',
         'required_if'           => 'This :attribute is required when :other is saudi',   
         'nic_not_active'        => 'The account is not active in NIC',
     ],
     'attributes'                => [
 
-        'id_number'             => 'National Id',
+        'id_number_saudi'       => 'National Id',
+        'id_number_non_saudi'   => 'National Id',
         'saudi'                 => 'Saudi',
         'birth_date'            => 'Birth date',
         'religion'              => 'Religion',       
@@ -37,5 +42,6 @@ return [
 
     ],
     'choose'                    => 'choose religion',
-    'success'                   => 'Registration successed'
+    'success'                   => 'Registration successed',
+    'wrong_activation'          => 'Wrong activation code',
 ];

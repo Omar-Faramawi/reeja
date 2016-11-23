@@ -125,6 +125,9 @@
             <h4 class="modal-title">{{ trans('contracts_cancelation.endorsement') }}</h4>
          </div>
          <div class="modal-body form-body">
+            
+               {!! trans('approve_cancellation_disclaimer.cancel_approval', ['party' => $contract->benf_name, 'contract_number' => $contract->id, 'duration' => getDatesDiff($contract->start_date,$contract->end_date), 'start_date'=>$contract->start_date ]) !!}
+            
             <input type="hidden" name='type' value='contract'>
             <input type="hidden" name='id' value='{{ $contract->id }}'>
             <div class="md-checkbox">
@@ -136,8 +139,8 @@
             </div>
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn dark btn-outline" data-dismiss="modal">{{ trans('labels.cancel') }}</button>
             <button type="submit" data-loading-text="{{ trans('labels.loading') }}" class="btn green">{{ trans('contracts_cancelation.confirm') }}</button>
+            <button type="button" class="btn dark btn-outline" data-dismiss="modal">{{ trans('labels.cancel') }}</button>
          </div>
       </div>
       <!-- /.modal-content -->

@@ -47,7 +47,8 @@ return [
         'receivedOffers'       => 'العروض المستلمة',
         'packageSubscribe'     => 'الاشتراك في احد الباقات المدفوعة',
         'contracts_and_notices'=> 'العقود والإشعارات',
-		'work_completion_cert' => 'إصدار شهادة إتمام العمل'
+		'work_completion_cert' => 'إصدار شهادة إتمام العمل',
+        'hire_labor_contract'  => 'عقود تاجير العمالة'
     ],
     'dashboard' => [
         'establishment'        => 'المنشأة',

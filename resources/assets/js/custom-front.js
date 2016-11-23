@@ -274,22 +274,23 @@ $(function () {
     $("#register-form").on("submit", function (e) {
         var btn = $(this).find("[type='submit']").button('loading');
         var current = $(this);
+        var postURL = (($('input[name="saudi"]').is(':checked')) ? "/citizenRegister" : $(this).attr('action'));
         e.preventDefault();
         $.ajax({
             type: "POST",
-            url: $(this).attr('action'),
+            url: postURL,
             data: new FormData(this),
             processData: false,
             contentType: false,
             success: function (msg) {
                 setTimeout(function () {
-                    window.location = current.data('url');
+                    window.location = (($('input[name="saudi"]').is(':checked')) ? "/activation" : current.data('url'));
                 }, 2000);
             },
             error: function (msg) {
                 btn.button('reset');
                 if (msg.status == 401 || msg.status == 404) {
-                    window.location = msg.getResponseHeader('Location')
+                   window.location = msg.getResponseHeader('Location')
                 }
                 if (msg.status == 500 || msg.status == 405) {
                     toastr.error("", bug_msg);
@@ -723,8 +724,12 @@ $(function () {
     /**
      * Hijri calender handler
      */
+    var islamicCalendarLang = '';
+    if (App.isRTL()) {
+        islamicCalendarLang = 'ar';
+    }
     $('#birth_date').calendarsPicker({
-        calendar: $.calendars.instance('islamic'),
+        calendar: $.calendars.instance('islamic', islamicCalendarLang),
         onSelect: function() {
             // floating label adjustment
             if ($(this).val().length > 0) {
@@ -1625,51 +1630,69 @@ $('document').ready(function () {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var modal = $(this);
         var id = button.data('contract_id');
-        modal.find(".modal-body input[name=id]").val(id);
-       
-});
+        modal.find(".modal-body input[name=id]").val(id);   
+    });
 
-//certificate generate Invoice
-$('#certificate_generate_invoice').click(function (e) {
-    e.preventDefault();
-    {
-        var button = $(this);
-        var IDs = [];
-        $('.contracts_cert_list > tbody  > tr').each(function(){
-            IDs.push($(this).find('td:first-child').text()); 
-        });
-        console.log(IDs);
-        $.ajax({
-            type: "POST",
-            url: $(this).attr('href'),
-            data:{
-                contract_ids :IDs,
-                _token : button.data('token')
-            },
-            headers: {'XSRF-TOKEN': button.data('token')},
-            success: function (msg) {
-                console.log(msg);
-                $("#after_invoice").text(msg + after_generate_invoice);
-                $(button).css('display', 'none');
-                toastr.success('', msg);
-            },
-            error: function (msg) {
-                if (msg.status == 401 || msg.status == 404) {
-                    window.location = msg.getResponseHeader('Location')
+    //certificate generate Invoice
+    $('#certificate_generate_invoice').click(function (e) {
+        e.preventDefault();
+        {
+            var button = $(this);
+            var IDs = [];
+            $('.contracts_cert_list > tbody  > tr').each(function(){
+                IDs.push($(this).find('td:first-child').text()); 
+            });
+            console.log(IDs);
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('href'),
+                data:{
+                    contract_ids :IDs,
+                    _token : button.data('token')
+                },
+                headers: {'XSRF-TOKEN': button.data('token')},
+                success: function (msg) {
+                    console.log(msg);
+                    $("#after_invoice").text(msg + after_generate_invoice);
+                    $(button).css('display', 'none');
+                    toastr.success('', msg);
+                },
+                error: function (msg) {
+                    if (msg.status == 401 || msg.status == 404) {
+                        window.location = msg.getResponseHeader('Location')
+                    }
+                    if (msg.status == 500 || msg.status == 405) {
+                        toastr.error("", bug_msg);
+                    }
+                    var json = $.parseJSON(msg.responseText);
+                    var error = '<p>';
+                    $.each(json, function (k, v) {
+                        error += v + "</p>";
+                    });
+                    toastr.error("", error);
                 }
-                if (msg.status == 500 || msg.status == 405) {
-                    toastr.error("", bug_msg);
-                }
-                var json = $.parseJSON(msg.responseText);
-                var error = '<p>';
-                $.each(json, function (k, v) {
-                    error += v + "</p>";
-                });
-                toastr.error("", error);
-            }
-        });
+            });
 
-    }
-});
+        }
+    });
 
+    // Taqawel Edit Contract Endorsement
+    $('.submit_contract_edit_btn').on('click', function () {
+        $('#contract_edit_endorsement').modal('show');
+        return false;
+    });
+
+    $('button.taqawel_edit_contract_modal_approve').on('click', function () {
+        $('form.taqawel_contract_edit_form').submit();
+    });
+
+    $('button.taqawel_edit_contract_modal_deny').on('click', function () {
+        $('#contract_edit_endorsement').modal('hide');
+    });
+
+    // Approve/Deny button and hidden field's value
+    $(document).on('click', '.approve_deny', function () {
+        $(this).closest('form').find('input[name="action"].hidden_action').val($(this).attr('name'));
+        $(this).closest('form').submit();
+    });
 });

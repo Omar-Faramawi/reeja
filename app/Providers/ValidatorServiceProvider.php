@@ -48,5 +48,6 @@ class ValidatorServiceProvider extends ServiceProvider
     {
         $validator->extend('saudi_percentage_unique', 'Tamkeen\Ajeer\Validators\SaudiPercentageValidator@validateSaudiPercentageUnique');
         $validator->extend('greater_than', 'Tamkeen\Ajeer\Validators\GreaterThanValidator@validateGreaterThan');
+        $validator->extend('phone_number', 'Tamkeen\Ajeer\Validators\PhoneNumberValidator@validatePhoneNumber');
     }
 }

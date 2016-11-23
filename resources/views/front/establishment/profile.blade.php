@@ -64,7 +64,7 @@
                                        for="est_size">{{trans('est_profile.attributes.est_size')}}</label>
                                 <div class="col-md-10">
                                     <div class="col-md-10">
-                                        <div class="form-control form-control-static"> {{$est->est_size}}</div>
+                                        <div class="form-control form-control-static"> {{$est->est_size_name}}</div>
                                         <div class="form-control-focus"></div>
                                     </div>
                                 </div>

@@ -57,11 +57,11 @@
                                                    name="id">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="job"></td>
+                                         {{ Form::select('job_id', $jobs, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
+
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="region"></td>
+                                        {{ Form::select('region_id', $regions, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
+
                                         <td>
                                             <input type="text" class="form-control form-filter input-sm"
                                                    name="no_of_vacancies"></td>
@@ -69,9 +69,9 @@
                                             <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
                                                 <i class="fa fa-search"></i> {{ trans('labels.search') }}
                                             </button>
-                                            <button class="btn btn-sm red btn-outline filter-cancel">
+                                           <!-- <button class="btn btn-sm red btn-outline filter-cancel">
                                                 <i class="fa fa-times"></i> {{ trans('labels.reset') }}
-                                            </button>
+                                            </button>-->
                                         </td>
                                     </tr>
                                     </thead>

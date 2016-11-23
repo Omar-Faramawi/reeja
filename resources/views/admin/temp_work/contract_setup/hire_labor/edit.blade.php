@@ -230,10 +230,13 @@
                                 <div class="col-lg-3">
                                     <label for="is_slider">{{trans('contract_setup.attributes.max_labor_avb')}}</label>
                                 </div>
-                                <div class="col-lg-8">
+                                <div class="col-lg-7">
                                     <div class="form-group">
                                         {!! Form::text('max_labor_avb', null, ['min' => 0, 'max' => 365, 'class' => 'form-control valid']) !!}
                                     </div>
+                                </div>
+                                <div class="col-lg-2 margin-top-10">
+                                    <label>{{ trans('ishaar_setup.attributes.days') }}</label>
                                 </div>
                             </div>
 

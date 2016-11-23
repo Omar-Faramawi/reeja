@@ -91,7 +91,7 @@
                             <div class="form-group form-md-line-input">
                                 <label {{ isset($data) ? 'style=top:0;' : "" }} for="regions">{{ trans('ishaar_setup.attributes.regions') }}
                                 </label>
-                                {{ Form::select("regions[]", sortDropDownByKey($regions, 1, 2), isset($data->regions) ? $data->regions->lists('id')->toArray() : null, ["id" => "regions-select", "class" => "auto-hide form-control", "multiple"]) }}
+                                {{ Form::select("regions[]", sortDropDownByKey($regions, 1, 2), isset($data->regions) ? $data->regions->lists('id')->toArray() : null, ["id" => "regions-select", "class" => "auto-hide form-control bs-select", "multiple"]) }}
                                 <span class="help-block">{{ trans('ishaar_setup.attributes.regions') }}</span>
                             </div>
                             <div class="form-group form-md-line-input form-md-floating-label extra" {{ !empty($data->region_name) ? '' : 'style=display:none;' }}>
@@ -222,7 +222,7 @@
                         </div>
 
                         <div class="table-resonsive">
-                            <label class="control-label">{{ trans('ishaar_setup.attributes.ishaar_setup_jobs') }}</label>
+                            <label class="col-md-12 m-heading-1 border-green m-bordered">{{ trans('ishaar_setup.attributes.ishaar_setup_jobs') }}</label>
                             <table class="table table-striped table-bordered table-hover order-column">
                                 <thead>
                                 <tr class="odd gradeX">
@@ -237,12 +237,7 @@
                                                    value="{{ $job->id }}"/> {{ $job->job_name }}
                                         </td>
                                         <td>
-                                            <select multiple name="nationalities[{{ $job->id }}][]" class="form-control"
-                                                    placeholder="{{ trans('ishaar_setup.attributes.default') }}">
-                                                @foreach($nationalities as $key => $nation)
-                                                    <option {{ (isset($data) && in_array($job->id, $selectedJob) && !empty($selected_nationalities[$job->id]) && in_array($key, $selected_nationalities[$job->id])) ? "selected" : ""  }} value="{{ $key }}">{{ $nation }}</option>
-                                                @endforeach
-                                            </select>
+                                            {{ Form::select('nationalities['.$job->id.'][]', $nationalities, @$selected_nationalities[$job->id], ['class'=>'form-control bs-select', "data-size"=>"8", "data-width" => "300", "data-live-search" => "true", "data-actions-box" => "true", "data-selected-text-format" => "count", 'multiple']) }}
                                         </td>
                                     </tr>
                                 @endforeach

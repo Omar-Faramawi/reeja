@@ -13,6 +13,7 @@ use Tamkeen\Ajeer\Models\Nationality;
 
 use Validator;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Contracts\Auth\Guard;
 use Auth;
 use Carbon\Carbon;
@@ -30,6 +31,7 @@ use Tamkeen\Platform\NIC\Repositories\Foreigners\ForeignerDataNotFoundException;
 use Tamkeen\Platform\Model\Common\HijriDate;
 use Tamkeen\Platform\Model\NIC\IdNumber;
 use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository as MolRepo;
+use Tamkeen\Platform\NIC\Services\AuthenticateViaMobile\AuthenticateViaMobileService;
 
 class AuthController extends Controller
 {
@@ -157,14 +159,14 @@ class AuthController extends Controller
 
         // set nic custom error message
         $messages = [
-            'nic'           => trans('registration.validation.nicerror'),
+            'nic'           => (isset($data['saudi']) ? trans('registration.validation.nicerror_saudi') : trans('registration.validation.nicerror_non_saudi')),
             'nic_not_active'=> trans('registration.validation.nic_not_active'),
             'required_if'   => trans('registration.validation.required_if'),
         ];
 
         // set attributes
         $attributes = [
-            'id_number'  => trans('registration.attributes.id_number'),
+            'id_number'  => (isset($data['saudi']) ? trans('registration.attributes.id_number_saudi') : trans('registration.attributes.id_number_non_saudi')),
             'birth_date' => trans('registration.attributes.birth_date'),
             'saudi'      => trans('registration.attributes.saudi'),
             'religion'   => trans('registration.attributes.religion'),
@@ -502,6 +504,50 @@ class AuthController extends Controller
             }
         } catch (AuthenticationThresholdExceededException $e) {
             return response()->json(['error' => trans('auth.messages.exceeded_failure_threshold')], 422);
+        }
+    }
+
+    public function citizenRegister(Request $request, AuthenticateViaMobileService $service)
+    {
+        $data = $request->all();
+        $validator = $this->validator($data);
+        if($validator->fails())
+        {
+           return response($validator->errors(), 403)->header('Content-Type', 'application/json');
+        }else{
+            //store registration in session
+            session(['temp_account_registration' => $data]);
+            // invoke sms service 
+            if (env('APP_ENV') == 'local') {
+                $activationNumber = $service->authenticateViaMobile($data['id_number'], "123123");
+            }else{
+                $activationNumber = $service->authenticateViaMobile($data['id_number']);
+            }
+
+            session()->push('temp_account_registration.activation_number', $activationNumber);
+            //redirect to activation page
+            return "true";   
+        }
+    }
+
+    public function activation(Request $request)
+    {
+        $data = $request->all();
+
+        $this->validate($request, [
+            'activation_number' => 'required',
+        ]); 
+      
+        if(session()->has('temp_account_registration') && session('temp_account_registration.activation_number')[0] == $data['activation_number'])
+        {
+            $validData = $this->validator(session('temp_account_registration'));
+            if($validData->fails()){
+                    return response($validator->errors(), 403)->header('Content-Type', 'application/json');
+            }else{
+                Auth::guard($this->getGuard())->login($this->create(session('temp_account_registration')));
+            }
+        }else{
+            return response(['error' => trans('registration.wrong_activation')], 403)->header('Content-Type', 'application/json');
         }
     }
 }

@@ -17,7 +17,7 @@
                     </div>
                 @endif
                 <div class="form-group form-md-line-input form-md-floating-label has-info">
-                    {{Form::select("reason_id",$reasons,null,["class"=>"form-control edited",'required'=>'required'])}}
+                    {{Form::select("reason_id",$reasons,null,["class"=>"form-control edited",'required'=>'required', 'id' => 'select_reason', 'placeholder' => trans('labels.noneSelectedTextValueSmall') . " " . trans('offers.modal.reject.reason')])}}
                     <label for="reason_id">{{trans("offers.modal.reject.reason")}}<span
                                 class="required">*</span></label>
                     <span class="help-block">{{ trans('offers.modal.reject.reasonRequired') }} ...</span>
@@ -40,10 +40,10 @@
 </div>
 <div class="modal-footer">
     <div class="form-actions">
-        <button type="button" class="btn default"
-                data-dismiss="modal">{{trans("offers.modal.close")}}</button>
         <button type="submit" data-loading-text="{{ trans('labels.loading') }}..."
                 class="btn green uppercase">{{trans("offers.modal.reject.send")}}</button>
+        <button type="button" class="btn default"
+                data-dismiss="modal">{{trans("offers.modal.close")}}</button>
     </div>
 </div>
 {{Form::close()}}

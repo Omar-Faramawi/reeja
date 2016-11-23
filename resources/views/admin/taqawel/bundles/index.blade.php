@@ -45,7 +45,8 @@
                         <table class="table table-striped table-bordered table-hover order-column">
                             <thead>
                             <tr class="odd gradeX">
-                                <th width="25%">{{ trans('bundles.attributes.min_of_num_ishaar') }}</th>
+                                <th width="5%">{{ trans('bundles.attributes.id') }}</th>
+                                <th>{{ trans('bundles.attributes.min_of_num_ishaar') }}</th>
                                 <th>{{ trans('bundles.attributes.max_of_num_ishaar') }}</th>
                                 <th>{{ trans('bundles.attributes.monthly_amount') }}</th>
                                 <th width="20%">{{ trans('labels.options') }}</th>
@@ -54,6 +55,7 @@
                             <tbody>
                             @foreach($bundles as $bundle)
                                 <tr class="odd gradeX {{ $bundle->hashids }}">
+                                    <td>{{ $bundle->id }}</td>
                                     <td>{{ $bundle->min_of_num_ishaar }}</td>
                                     <td>{{ $bundle->max_of_num_ishaar }}</td>
                                     <td>{{ $bundle->monthly_amount }}</td>

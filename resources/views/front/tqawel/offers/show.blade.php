@@ -270,7 +270,7 @@
                             <div class="col-md-12">
                                 <h2>{{trans("tqaweloffers.modal.accept.rules")}}</h2>
                                 <p>
-                                    {{trans("tqaweloffers.modal.accept.rulesDetails")}}
+                                    {!! trans("tqaweloffers.modal.accept.rulesDetails")!!}
                                 </p>
                             </div>
                         </div>
@@ -279,11 +279,11 @@
                     <div class="modal-footer">
                         {{ Form::open(['url' => url('/taqawel/offers/accept/approve/' . $thisContract['id']), 'data-url'=>url('/taqawel/offers/'), 'id'=>'form',"method"=>"PUT","role"=>"form"]) }}
                         <div class="form-actions">
-                            <button type="button" class="btn default"
-                                    data-dismiss="modal">{{trans("tqaweloffers.modal.accept.cancel")}}</button>
                             <button type="submit" class="btn blue"
                                     data-loading-text="{{ trans('labels.loading') }}..."
                                     class="btn green uppercase">{{trans("tqaweloffers.modal.accept.approve")}}</button>
+                            <button type="button" class="btn default"
+                                    data-dismiss="modal">{{trans("tqaweloffers.modal.accept.cancel")}}</button>
                         </div>
                         {{Form::close()}}
                     </div>

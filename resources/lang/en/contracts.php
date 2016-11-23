@@ -6,6 +6,7 @@ return [
     'edit_contract_data'   => 'Edit Contract',
     'save'                 => 'Save',
     'reset'                => 'Reset',
+    'disclaimers'          => 'Disclaimers',
     'reset_back'           => 'Revert Cancellation',
     'reset_back_reason'    => 'Revert Cancellation reason',
     'employee_signed'      => 'Employee Signed',
@@ -23,6 +24,8 @@ return [
     'rejection_reason'     => 'Contract Rejection Reason',
     'updated'              => 'Updated',
     'status'               => 'Contact Satus',
+    'disclaimers'          => 'Disclaimers',
+    'accept_disclaimers'   => 'You should accept the Disclaimers to proceed',
     'statuses'             => [
         'requested'         => 'Requested',
         'pending'           => 'Pending',

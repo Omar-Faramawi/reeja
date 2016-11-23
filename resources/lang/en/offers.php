@@ -32,8 +32,8 @@ return [
     "datenotavailable"        => "Contract dates are not applicable for this vacancy ",
     "accepted"                => "Offer Accepted Successfully",
     "vacanciesexceeded"       => "available vacancies finished",
-
-    "modal" => [
+    'select'                  => 'Select',
+    "modal"                   => [
         "accept" => [
             "title"            => "Accept Offer",
             "rules"            => "Rules",
@@ -43,6 +43,7 @@ return [
             "contractTitle"    => "Contract",
             "contractTemplate" => "Written Contract",
             "message"          => "You should accept rules",
+            "acceptRules"      => 'I Accept Disclaimers above',
 
 
         ],

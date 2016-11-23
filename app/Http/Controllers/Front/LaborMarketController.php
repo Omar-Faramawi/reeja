@@ -58,6 +58,7 @@ class LaborMarketController extends Controller
                 "gender",
                 "nationality_id",
                 "work_start_date",
+                'job_id',
                 "work_end_date",
             ]);
 
@@ -65,12 +66,6 @@ class LaborMarketController extends Controller
                 if (request()->input($key) || request()->input($key) === '0') {
                     $query->where($key, $input);
                 }
-            }
-
-            if ($job_name = request()->input('job_name')) {
-                $query->whereHas('job', function ($q) use ($job_name) {
-                    return $q->where('job_name', 'LIKE', '%' . $job_name . '%');
-                });
             }
 
 
@@ -190,6 +185,7 @@ class LaborMarketController extends Controller
                 "religion",
                 "nationality_id",
                 "region_id",
+                'job_id',
                 "job_type",
                 "work_start_date",
                 "work_end_date",
@@ -215,11 +211,7 @@ class LaborMarketController extends Controller
                 });
             }
 
-            if ($job_name = request()->input('job_name')) {
-                $query->whereHas('job', function ($q) use ($job_name) {
-                    return $q->where('job_name', 'LIKE', '%' . $job_name . '%');
-                });
-            }
+
             if ($name = request()->input('name')) {
                 $query->where('name', 'LIKE', '%' . $name . '%');
                 }

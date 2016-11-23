@@ -27,7 +27,8 @@ return [
     "ishaar"                                       => "Ishaar",
     "buyDone"                                      => "Bundle purchased ",
     "buyDoneDetails"                               => "bundle purchased successfully",
-    "buyAlert"                                     => "Alert : If you want to cancel invoice you should wait for 3 days (expiration time for invoice payment) ",
+    "buyAlert"                                     => "Alert : If you want to cancel invoice you should wait for ",
+    "buyAlertAfter"                                => " (expiration time for invoice payment) ",
     "close"                                        => "Close",
     "trailBundle"                                  => "Trail Bundle",
     "activate"                                     => "Activate",
@@ -35,6 +36,6 @@ return [
     "trailActivated"                               => "Trail Bundle Activated",
     "invoiceDetails"                               => "You buy :ishaarNu with amount of  :billingAmount  bill number :account_no",
     "shouldChoosePackage"                          => "Firstly , You Should Have only one Available Package .",
-    "shouldChooseContract"                          => "Firstly , You Should Choose One Contract To continue ."
+    "shouldChooseContract"                         => "Firstly , You Should Choose One Contract To continue ."
 
 ];

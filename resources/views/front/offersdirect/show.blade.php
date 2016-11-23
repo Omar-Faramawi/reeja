@@ -31,16 +31,16 @@
                                                     {{$thisContract['benf_name']}}
                                                 </div>
                                             </div>
-											@if(isset($thisContract['benef']['est_activity']))
-                                            <div class="row static-info">
-                                                <div class="col-md-3 name">
-                                                    {{trans("offersdirect.providerType")}}
+                                            @if(isset($thisContract['benef']['est_activity']))
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("offersdirect.providerType")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{$thisContract['benef']['est_activity']}}
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-9 value">
-                                                    {{$thisContract['benef']['est_activity']}}
-                                                </div>
-                                            </div>
-											@endif
+                                            @endif
                                         </div>
                                     </div>
 
@@ -292,8 +292,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h2>{{trans("offersdirect.modal.accept.rules")}}</h2>
-                            <p>
-                                {{trans("offersdirect.modal.accept.rulesDetails")}}
+                            <p>{!! trans("offersdirect.modal.accept.rulesDetails")!!}
                             </p>
                         </div>
                     </div>
@@ -302,11 +301,11 @@
                 <div class="modal-footer">
                     {{ Form::open(['url' => url('/offersdirect/accept/approve/' . $thisContract['id']), 'data-url'=>url('/offersdirect'), 'id'=>'form',"method"=>"PUT","role"=>"form"]) }}
                     <div class="form-actions">
-                        <button type="button" class="btn default"
-                                data-dismiss="modal">{{trans("offersdirect.modal.accept.cancel")}}</button>
                         <button type="submit" class="btn blue"
                                 data-loading-text="{{ trans('labels.loading') }}..."
                                 class="btn green uppercase">{{trans("offersdirect.modal.accept.approve")}}</button>
+                        <button type="button" class="btn default"
+                                data-dismiss="modal">{{trans("offersdirect.modal.accept.cancel")}}</button>
                     </div>
                     {{Form::close()}}
                 </div>

@@ -2,12 +2,10 @@
 
 namespace Tamkeen\Ajeer\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tamkeen\Ajeer\Utilities\Constants;
-use \Tamkeen\Platform\MOL\Model\Establishment as MOLEstablishment;
-use Tamkeen\Ajeer\Repositories\MOL\MolDataDummyRepository as MolData;
 use Tamkeen\Platform\MOL\Model\Establishments\Status as EstablishmentStatus;
-use Carbon\Carbon;
 
 class Establishment extends BaseModel
 {
@@ -35,7 +33,7 @@ class Establishment extends BaseModel
     protected $dates = ['deleted_at'];
 
 
-    protected $appends = ['status_name'];
+    protected $appends = ['status_name', 'est_size_name'];
 
     /**
      * The attributes that are mass assignable.
@@ -76,7 +74,7 @@ class Establishment extends BaseModel
     }
 
     /**
-     * @param MOLEstablishment $est
+     * @param $est
      * @param $owner_id
      *
      * @return Establishment
@@ -89,28 +87,28 @@ class Establishment extends BaseModel
         $activity = Activity::firstOrCreate(['name' => $est->economic_activity]);
 
         if (!$establishment) {
-            $establishment                      = new Establishment();
-            $establishment->name                = $est->name;
-            $establishment->labour_office_no    = $est->labor_office_id;
-            $establishment->sequence_no         = $est->sequence_number;
-            $establishment->id_number           = $owner_id;
+            $establishment = new Establishment();
+            $establishment->name = $est->name;
+            $establishment->labour_office_no = $est->labor_office_id;
+            $establishment->sequence_no = $est->sequence_number;
+            $establishment->id_number = $owner_id;
             $establishment->FK_establishment_id = $est->FK_establishment_id;
-            $establishment->est_activity        = $est->economic_activity;
-            $establishment->est_size            = $est->size_id;
-            $establishment->est_nitaq           = $est->nitaqat_color;
-            $establishment->est_nitaq_old       = $est->nitaqat_color;
-            $establishment->district            = $est->district;
-            $establishment->city                = $est->city;
-            $establishment->region              = $est->region;
-            $establishment->wasel_address       = $est->street . ' - ' . $est->region . ' - ' . $est->city;
-            $establishment->local_liecense_no   = $est->cr_number;
-            $establishment->phone               = $est->phone;
-            $establishment->status              = $est->status_id;
-            $establishment->activity_id         = $activity->id;
-            $establishment->save();
-        }else{
+            $establishment->est_activity = $est->economic_activity;
+            $establishment->est_size = $est->size_id;
+            $establishment->est_nitaq = $est->nitaqat_color;
+            $establishment->est_nitaq_old = $est->nitaqat_color;
+            $establishment->district = $est->district;
+            $establishment->city = $est->city;
+            $establishment->region = $est->region;
+            $establishment->wasel_address = $est->street . ' - ' . $est->region . ' - ' . $est->city;
+            $establishment->local_liecense_no = $est->cr_number;
+            $establishment->phone = $est->phone;
+            $establishment->status = $est->status_id;
             $establishment->activity_id = $activity->id;
-            $establishment->est_nitaq   = $est->nitaqat_color;
+            $establishment->save();
+        } else {
+            $establishment->activity_id = $activity->id;
+            $establishment->est_nitaq = $est->nitaqat_color;
             $establishment->save();
         }
 
@@ -210,5 +208,10 @@ class Establishment extends BaseModel
     public function estSize()
     {
         return $this->belongsTo(EstablishmentSize::class, 'est_size');
+    }
+
+    public function getEstSizeNameAttribute()
+    {
+        return $this->estSize->name;
     }
 }

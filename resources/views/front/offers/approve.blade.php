@@ -24,7 +24,7 @@
                 </p>
                 <h2>{{trans("offers.modal.accept.rules")}}</h2>
                 <p>
-                    {{trans("offers.modal.accept.rulesDetails")}}
+                    {!! trans("offers.modal.accept.rulesDetails")!!}
                 </p>
                 <div class="row">
                     <div class="col-lg-3">{{trans("offers.offerValideTo")}}</div>
@@ -40,7 +40,7 @@
                                     <input type="checkbox" class="icheck"
                                            data-checkbox="icheckbox_flat-grey"
                                            name="acceptRules"
-                                           value="1"> {{trans("offers.acceptRules")}}
+                                           value="1"> {{trans("offers.modal.accept.acceptRules")}}
                                 </label>
                             </div>
                         </div>
@@ -53,10 +53,10 @@
 </div>
 <div class="modal-footer">
     <div class="form-actions">
-        <button type="button" class="btn default"
-                data-dismiss="modal">{{trans("offers.modal.accept.cancel")}}</button>
         <button type="submit" data-loading-text="{{ trans('labels.loading') }}..."
                 class="btn green uppercase">{{trans("offers.modal.accept.approve")}}</button>
+        <button type="button" class="btn default"
+                data-dismiss="modal">{{trans("offers.modal.accept.cancel")}}</button>
     </div>
 </div>
 {{Form::close()}}

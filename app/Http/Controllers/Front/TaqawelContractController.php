@@ -208,7 +208,7 @@ class TaqawelContractController extends Controller
             if (request()->input('job_name')) {
                 $data = $data->whereHas('hrPool', function($query){
                     $query->whereHas('job', function($q){
-                        $q->where('job_name', 'LIKE', '%' . request()->input('job_name') . '%');
+                        $q->where('id', '=', intval(request()->input('job_name')));
                     });
                 });
             }
@@ -223,7 +223,9 @@ class TaqawelContractController extends Controller
             return dynamicAjaxPaginate($data, $columns, $total_count, $buttons);
 
         }
-        return view("front.taqawel.contracts.cancellation.ishaar.index");
+        $jobs = Job::pluck('job_name', 'id');
+
+        return view("front.taqawel.contracts.cancellation.ishaar.index", compact('jobs'));
     }
 
     /**

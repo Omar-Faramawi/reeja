@@ -79,7 +79,9 @@
                                                     {{ Form::text('name', null, ['class' => 'form-control form-filter input-sm']) }}
                                                 </td>
                                                 <td>
-                                                    {{ Form::text('job_name', null, ['class' => 'form-control form-filter input-sm']) }}
+
+                                                    {{ Form::select('job_id', @$jobs , null, ['class' => 'form-control form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall') ]) }}
+
                                                 </td>
                                                 <td>
                                                     {{ Form::select('job_type', \Tamkeen\Ajeer\Utilities\Constants::jobTypes(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}

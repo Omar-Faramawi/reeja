@@ -9,6 +9,6 @@ return [
     'service_type'  => 'نوع الخدمة',
     'email'			=> 'البريد الالكتروني',
     'phone'			=> 'رقم الجوال',
-    'description'	=> 'الوصف',
+    'description'	=> 'نبذة عن الخدمة',
     'offerasked'	=> 'تم إرسال طلب التعاقد'
 ];

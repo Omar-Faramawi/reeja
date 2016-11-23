@@ -24,7 +24,8 @@ class OfferRejectRequest extends Request
     public function rules()
     {
         return [
-            "reason_id" => 'required|not_in:0'
+            "reason_id"    => 'required',
+            'other_reason' => 'required_if:reason_id,14|min:0|max:255'
         ];
     }
 
@@ -34,7 +35,8 @@ class OfferRejectRequest extends Request
     public function messages()
     {
         return [
-            'reason_id.required' => trans('offersdirect.modal.reject.message'),
+            'reason_id.required'       => trans('offers.modal.reject.message'),
+            'other_reason.required_if' => trans('offersdirect.modal.reject.other_reason'),
         ];
     }
 }

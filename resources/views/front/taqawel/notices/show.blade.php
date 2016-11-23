@@ -232,9 +232,15 @@
                         ...</span>
                 <label for="details">{{trans('vacancies.list_attributes.details')}}</label>
             </div>
+            <div class="form-group form-md-line-input">
+                <input type="checkbox" name="report_check" value="1"/>
+                {!! trans('ishaar_setup.max_ishaar_period_exceeded',['contract_type'=>$contract->contract_id ,'ishaar_num'=>$contract->id,'generate_date'=>$contract->created_date_formatted,'emp_name'=>$contract->hrPool->name,'id_number'=>$contract->hrPool->id_number,'nationality'=>$contract->hrPool->nationality->name,'period_days'=>getDatesDiff($contract->start_date,$contract->end_date),'ishar_start_date'=>$contract->end_date]) !!}
+                    
+            </div>
          </div>
          <div class="modal-footer">
             <button type="submit" data-loading-text="{{ trans('labels.loading') }}" class="btn green">{{ trans('contracts_cancelation.confirm') }}</button>
+             <button type="button" class="btn btn-danger btn-outline" data-dismiss="modal">{{ trans('labels.cancel') }}</button>
          </div>
       </div>
       <!-- /.modal-content -->

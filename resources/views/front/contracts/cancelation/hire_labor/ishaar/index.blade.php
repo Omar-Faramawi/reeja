@@ -105,8 +105,7 @@
                                        name="name">
                                  </td>
                                   <td>
-                                    <input type="text" class="form-control form-filter input-sm"
-                                       name="job_name">
+                                    {{ Form::select('job_name', $jobs, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                  </td>
                                  <td>
                                     <input type="text" class="form-control form-filter input-sm"

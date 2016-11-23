@@ -42,17 +42,10 @@ class LaborerController extends Controller
                 $data->where('id_number', request()->input('id_number'));
             }
             if (request()->input('nationality')) {
-                $nationality = Nationality::where('name', 'like',
-                    '%' . request()->input('nationality') . '%')->get()->first();
-                if ($nationality !== null) {
-                    $data->where('hr_pool.nationality_id', $nationality->id);
-                }
+                $data->where('hr_pool.nationality_id', intval(request()->input('nationality')));
             }
             if (request()->input('job')) {
-                $job = Job::where('job_name', 'like', '%' . request()->input('job') . '%')->get()->first();
-                if ($job !== null) {
-                    $data->where('hr_pool.job_id', $job->id);
-                }
+                $data->where('hr_pool.job_id', intval(request()->input('job')));
             }
             if (request()->input('age')) {
                 $data->where('age', request()->input('age'));
@@ -71,8 +64,11 @@ class LaborerController extends Controller
 
             return dynamicAjaxPaginate($data, $columns, $total_count, $buttons, true, $extraHtml);
         }
+        
+        $jobs = Job::pluck('job_name', 'id');
+        $nationalities = Nationality::pluck('name', 'id');
 
-        return view('front.laborer.index');
+        return view('front.laborer.index', compact('jobs', 'nationalities'));
     }
 
     /**

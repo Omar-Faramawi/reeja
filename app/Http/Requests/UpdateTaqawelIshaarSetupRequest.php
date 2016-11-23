@@ -47,7 +47,7 @@ class UpdateTaqawelIshaarSetupRequest extends Request
             ];
             
             if (Request::get('tab') == 'free') {
-                $rules['min_no_of_ishaars'] = 'required|integer|min:1|max:1000000';
+                $rules['min_no_of_ishaars'] = 'integer|min:0|max:1000000';
                 $rules['max_no_of_ishaars'] = 'required|integer|min:1|max:1000000|greater_than:min_no_of_ishaars';
                 $rules['ishaar_lobor_times'] = 'required|integer|min:1|max:1000000';
             } elseif (Request::get('tab') == 'paid') {

@@ -39,6 +39,7 @@ return [
         'job'                                        => 'Job',
         'nationalities'                              => 'Nationalities',
         'day'                                        => 'day',
+        'days'                                       => 'days',
         'default'                                    => 'Please choose value',
         'region_name'                                => 'Region name',
         'max_labor_from_haj'                         => 'Max labor  from haj',
@@ -187,5 +188,7 @@ return [
     'max_borrow_percentage'          => 'Sorry , Your Beneficial Establishment Have Exceeded Tha Max Borrow Percentage ',
     'max_ishaar_period_greater_than' => 'Max Ishaar Period must be greater than Min Ishaar Period',
     'max_no_of_ishaars_greater_than' => 'Max number of Ishaars must be greater than Min number of Ishaars',
-    'max_saudian_percentage'       => 'Sorry , Your Have Exceeded Tha Max Saudian Percentage ',
-];
+    'max_saudian_percentage'         => 'Sorry , Your Have Exceeded Tha Max Saudian Percentage ',
+    'max_ishaar_period_exceeded'     => 'Sorry , Your Have Exceeded Tha Max Ishaar Period,Please Update Your Ishaar Start Date & End Date To be In Range ',
+    'max_ishaar_period_exceeded'    => 'I agree',
+    ];

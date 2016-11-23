@@ -130,8 +130,7 @@ final class Constants
 
         ],
         'rejected'                 => [
-            '1' => ['edit_offer'],
-            '2' => ['details'],
+            '1' => ['details'],
 
         ],
         'pending_ownership'        => [

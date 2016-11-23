@@ -64,16 +64,16 @@
                                             {{ Form::text('benef_name', null, ['class' => 'form-control form-filter']) }}
                                         </td>
                                         <td>
-                                            {{ Form::text('job_name', null, ['class' => 'form-control form-filter']) }}
+                                            {{ Form::select('job_name', $jobs,null, ['class' => 'form-control form-filter','placeholder'=>trans('offers.select')]) }}
                                         </td>
                                         <td>
-                                            {{ Form::text('gender_name', null, ['class' => 'form-control form-filter']) }}
+                                            {{ Form::select('gender_name', $genders,null, ['class' => 'form-control form-filter','placeholder'=>trans('offers.select')]) }}
                                         </td>
                                         <td>
-                                            {{ Form::text('religion_name', null, ['class' => 'form-control form-filter']) }}
+                                            {{ Form::select('religion_name', $religions,null, ['class' => 'form-control form-filter','placeholder'=>trans('offers.select')]) }}
                                         </td>
                                         <td>
-                                            {{ Form::text('region_name', null, ['class' => 'form-control form-filter']) }}
+                                            {{ Form::select('region_name', $regions,null, ['class' => 'form-control form-filter','placeholder'=>trans('offers.select')]) }}
                                         </td>
                                         <td>
                                             <input type="text" class="form-control input-sm date-picker"

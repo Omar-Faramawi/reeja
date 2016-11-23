@@ -17,7 +17,7 @@ return [
         'email'            => 'البريد الإلكتروني',
         'phone'            => 'رقم الجوال',
         'qualification_id' => 'المؤهل العلمي',
-        'experience_id'    => 'الخبرة العلمية',
+        'experience_id'    => 'الخبرة العملية',
         'job_id'           => 'المهنة',
         'status'           => 'الحالة',
         'job_type'         => 'نوع الوظيفة',

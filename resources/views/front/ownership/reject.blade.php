@@ -27,10 +27,10 @@
                         @endif
                     </div>
                     <div class="form-actions">
-                        <button type="button" class="btn default"
-                                data-dismiss="modal">{{trans("offers.modal.accept.cancel")}}</button>
                         <button type="submit" data-loading-text="{{ trans('labels.loading') }}..."
                                 class="btn green uppercase">{{trans("offers.modal.accept.approve")}}</button>
+                        <button type="button" class="btn default"
+                                data-dismiss="modal">{{trans("offers.modal.accept.cancel")}}</button>
                     </div>
                 </div>
             </div>

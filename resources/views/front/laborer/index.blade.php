@@ -71,15 +71,13 @@
                                                    name="name">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="nationality">
+                                            {{ Form::select('nationality', $nationalities, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                         </td>
                                         <td>
                                             {{ Form::select('gender', \Tamkeen\Ajeer\Utilities\Constants::gender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="job">
+                                            {{ Form::select('job', $jobs, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                         </td>
                                         <td>
                                             <input type="text" class="form-control form-filter input-sm"
@@ -135,9 +133,9 @@
                   id='status-label-not-active'>{{ trans('add_laborer.labels.not-active') }}</span>
             </div>
             <div class="modal-footer">
+                <button type="submit" class="btn green" id='add_laborer_button' data-loading-text="{{ trans('labels.loading') }}">{{ trans('labels.save') }}</button>
                 <button type="button" class="btn dark btn-outline"
                         data-dismiss="modal">{{ trans('labels.cancel') }}</button>
-                <button type="submit" class="btn green" id='add_laborer_button' data-loading-text="{{ trans('labels.loading') }}">{{ trans('labels.save') }}</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -200,9 +198,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="submit" data-loading-text="{{ trans('labels.loading') }}" class="btn green">{{ trans('add_laborer.publish') }}</button>
                 <button type="button" class="btn dark btn-outline"
                         data-dismiss="modal">{{ trans('labels.cancel') }}</button>
-                <button type="submit" data-loading-text="{{ trans('labels.loading') }}" class="btn green">{{ trans('add_laborer.publish') }}</button>
             </div>
         </div>
         <!-- /.modal-content -->

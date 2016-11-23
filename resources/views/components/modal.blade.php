@@ -13,10 +13,10 @@
                 @include($content)
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('labels.cancel') }}
-                </button>
                 <button type="submit" data-loading-text="{{ trans('labels.loading') }}..." class="demo-loading-btn btn blue">
         <i class="fa fa-check"></i> {{ trans('labels.save') }} </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('labels.cancel') }}
+                </button>
             </div>
             {!! Form::close() !!}
         </div>

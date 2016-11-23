@@ -17,7 +17,7 @@ class BundlesController extends Controller
      */
     public function index()
     {
-        $bundles = Bundle::active()->paid()->latest()->paginate(20);
+        $bundles = Bundle::active()->paid()->paginate(20);
 
         return view('admin.taqawel.bundles.index', compact('bundles'));
     }

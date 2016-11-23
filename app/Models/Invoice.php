@@ -73,6 +73,8 @@ class Invoice extends BaseModel
     protected $appends = [
         'status_name',
         'trans_invoice_type',
+        'issue_date_formatted',
+        'expiry_date_formatted'
     ];
 
     /**
@@ -189,5 +191,22 @@ class Invoice extends BaseModel
         }
 
         return Constants::invoiceTypes(['file' => 'invoices.types'], $this->invoice_type);
+    }
+    public function getIssueDateFormattedAttribute()
+    {
+        if (is_null($this->issue_date)) {
+            return '';
+        }
+
+        return $this->issue_date->format('Y-m-d');
+    }
+
+    public function getExpiryDateFormattedAttribute()
+    {
+        if (is_null($this->expiry_date)) {
+            return '';
+        }
+
+        return $this->expiry_date->format('Y-m-d');
     }
 }

@@ -61,7 +61,7 @@
                                            data-off-text="<i class='fa fa-times'></i>"/>
 								</td>
 								<td>
-								{{ Form::select('attachment_id['.$single->hashids.'][]', isset($attachments) ? $attachments : array(), $single->attachments->lists('id')->toArray(), ['id'=>'attachment_id', 'multiple' => 'multiple', 'placeholder'=>trans('occupation_managment.choose_attachment'), 'class'=>'form-control']) }}
+                                    {{ Form::select('attachment_id['.$single->hashids.'][]', isset($attachments) ? $attachments : array(), $single->attachments->lists('id')->toArray(), ['id'=>'attachment_id', 'class'=>'form-control bs-select', "data-size"=>"8", "data-width" => "300", "data-live-search" => "true", "data-actions-box" => "true", 'multiple']) }}
 								</td>
                             </tr>
                         @endforeach

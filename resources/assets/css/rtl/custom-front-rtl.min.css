@@ -305,3 +305,10 @@ table.dataTable {
 select.form-control{
     padding-top: 2px;
 }
+
+/* fix dropdown overflow issue */
+@media (min-width: 768px){
+    .table-responsive {
+        overflow: visible;
+    }
+}

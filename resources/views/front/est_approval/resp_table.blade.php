@@ -62,8 +62,9 @@
     <div class="form-actions">
         <div class="row">
             <div class="col-md-offset-2 col-md-10">
-                {!! Form::submit(trans('labels.approve'), ['class' => 'btn btn-info btn-lg', 'name' => 'approve', 'data-loading-text'=>trans('labels.loading')]) !!}
-                {!! Form::submit(trans('labels.deny'), ['class' => 'btn btn-danger btn-lg', 'name' => 'deny', 'data-loading-text'=>trans('labels.loading')]) !!}
+                {!! Form::hidden('action', '', ['class' => 'hidden_action']) !!}
+                {!! Form::button(trans('labels.approve'), ['class' => 'approve_deny btn btn-info btn-lg', 'name' => 'approve', 'data-loading-text'=>trans('labels.loading')]) !!}
+                {!! Form::button(trans('labels.deny'), ['class' => 'approve_deny btn btn-danger btn-lg', 'name' => 'deny', 'data-loading-text'=>trans('labels.loading')]) !!}
             </div>
         </div>
     </div>

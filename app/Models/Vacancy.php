@@ -68,7 +68,14 @@ class Vacancy extends BaseModel
      *
      * @var array
      */
-    protected $appends = ['establishment_activity', 'vacancy_name', 'gender_name', 'owner_name', 'job_type_text', 'religion_name'];
+    protected $appends = [
+        'establishment_activity',
+        'vacancy_name',
+        'gender_name',
+        'owner_name',
+        'job_type_text',
+        'religion_name'
+    ];
 
 
     /**
@@ -161,9 +168,9 @@ class Vacancy extends BaseModel
         } else {
             $benfId = auth()->user()->id_no;
         }
-        $query->whereRaw('(benf_id != '.$benfId.' and benf_type = '.\Auth::user()->user_type_id.')');
-        $query->orWhereRaw('(benf_id = '.$benfId.' and benf_type != '.\Auth::user()->user_type_id.')');
-        $query->orWhereRaw('(benf_id != '.$benfId.' and benf_type != '.\Auth::user()->user_type_id.')');
+        $query->whereRaw('(benf_id != ' . $benfId . ' and benf_type = ' . \Auth::user()->user_type_id . ')');
+        $query->orWhereRaw('(benf_id = ' . $benfId . ' and benf_type != ' . \Auth::user()->user_type_id . ')');
+        $query->orWhereRaw('(benf_id != ' . $benfId . ' and benf_type != ' . \Auth::user()->user_type_id . ')');
         return $query;
     }
 

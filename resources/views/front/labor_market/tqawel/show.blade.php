@@ -210,8 +210,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="text-align-left col-md-12">
-                    <button type="submit" name="status" class="btn green"
-                            value="pending">{{ trans('temp_job.save_and_send') }}</button>
+                    @include('components.disclaimer_modal', ['id' => 'confirm', 'title' => trans('contracts.disclaimers'), 'content' => 'front.disclaimers.taqawel_apply_offer_disclaimer' ])
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirm">{{ trans('temp_job.save_and_send') }}</button>
                 </div>
             </div>
         </div>
