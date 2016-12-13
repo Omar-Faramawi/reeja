@@ -50,7 +50,7 @@
                                             @endif
                                             <th>{{ trans('temp_job.work_start_date') }}</th>
                                             <th>{{ trans('temp_job.work_end_date') }}</th>
-                                            <td>{{ trans('contracts.status') }}</td>
+                                            <th>{{ trans('contracts.status') }}</th>
                                             <th>{{ trans('temp_job.details') }}</th>
                                         </tr>
                                     </thead>
@@ -68,35 +68,50 @@
                                                 <td>{{ $contract->end_date }}</td>
                                                 <td>{{ trans('contracts.statuses.'.$contract->status) }}</td>
                                                 <td>
-                                                    @if($isProvider && ($contract->status == "pending" || $contract->status == "approved"))
-                                                        <a type="button"
-                                                           href="{{ route('tempwork.contracts.edit', ['id' => $contract->id] ) }}"
-                                                           class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>
-                                                    @endif
-                                                    @if($isProvider && $contract->status == "requested")
-                                                        <a type="button"
-                                                           href="{{ url('temp_work/received-contracts/'.$contract->id.'/show-received-contract') }}"
-                                                           class="btn blue btn-sm">{{ trans('contracts.action_buttons.send_offer') }}</a>
-                                                        <a type="button" href="{{ url('contracts/'.$contract->id.'/reject') }}" class="btn red btn-sm">{{ trans('contracts.action_buttons.reject_request') }}</a>
-                                                    @endif
-                                                    @if($contract->status == "pending" || $contract->status == "approved")
-                                                        <a type="button"
-                                                           href="{{ url('contracts/'.$contract->id.'/cancel') }}"
-                                                           class="btn red btn-sm">{{ trans('temp_job.reset') }}</a>
-                                                    @elseif(($isProvider && $contract->status == "provider_cancel") || (!$isProvider && $contract->status == "benef_cancel"))
-                                                        <button type="button"
-                                                                data-hreff="{{ url('contracts/'.$contract->id.'/cancel_reset') }}"
-                                                                data-token="{{ csrf_token() }}"
-                                                                data-loading-text="{{ trans('labels.loading') }}..."
-                                                                class="btn red btn-sm cancel_reset">{{ trans('contracts.reset_back') }}</button>
-                                                    @elseif($isProvider && $contract->status == "benef_cancel")
-                                                        <a type="button"
-                                                           href="{{ url('contracts/cancellation/provider/'.$contract->id) }}"
-                                                           class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
-                                                    @elseif(!$isProvider && $contract->status == "provider_cancel")
-                                                        <a type="button"
-                                                           href="{{ url('contracts/cancelation/beneficial/'.$contract->id) }}"
-                                                           class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
+                                                    @if($isProvider)
+                                                        @if($contract->status == "requested")
+                                                            <a type="button"
+                                                               href="{{ url('temp_work/received-contracts/'.$contract->id.'/show-received-contract') }}"
+                                                               class="btn blue btn-sm">{{ trans('contracts.action_buttons.send_offer') }}</a>
+                                                            <a type="button" href="{{ url('contracts/'.$contract->id.'/reject') }}" class="btn red btn-sm">{{ trans('contracts.action_buttons.reject_request') }}</a>
+                                                        @elseif($contract->status == "provider_cancel")
+                                                            <button type="button"
+                                                                    data-hreff="{{ url('contracts/'.$contract->id.'/cancel_reset') }}"
+                                                                    data-token="{{ csrf_token() }}"
+                                                                    data-loading-text="{{ trans('labels.loading') }}..."
+                                                                    class="btn red btn-sm cancel_reset">{{ trans('contracts.reset_back') }}</button>
+                                                        @elseif($contract->status == "benef_cancel")
+                                                            <a type="button"
+                                                               href="{{ url('contracts/cancellation/provider/'.$contract->id) }}"
+                                                               class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
+                                                        @elseif($contract->status == "pending" || $contract->status == "approved")
+                                                            <a type="button"
+                                                                   href="{{ route('tempwork.contracts.edit', ['id' => $contract->id] ) }}"
+                                                                   class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>
+                                                            <a type="button"
+                                                               href="{{ url('contracts/'.$contract->id.'/cancel') }}"
+                                                               class="btn red btn-sm">{{ trans('temp_job.reset') }}</a>
+                                                        @endif
+                                                    @else
+                                                        @if($contract->status == "benef_cancel")
+                                                            <button type="button"
+                                                                    data-hreff="{{ url('contracts/'.$contract->id.'/cancel_reset') }}"
+                                                                    data-token="{{ csrf_token() }}"
+                                                                    data-loading-text="{{ trans('labels.loading') }}..."
+                                                                    class="btn red btn-sm cancel_reset">{{ trans('contracts.reset_back') }}</button>
+                                                        @elseif($contract->status == "provider_cancel")
+                                                            <a type="button"
+                                                               href="{{ url('contracts/cancelation/beneficial/'.$contract->id) }}"
+                                                               class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
+                                                        @elseif($contract->status == "approved")
+                                                            <a type="button"
+                                                               href="{{ url('contracts/'.$contract->id.'/cancel') }}"
+                                                               class="btn red btn-sm">{{ trans('temp_job.reset') }}</a>
+                                                        @elseif($contract->status == "pending")
+                                                            <a type="button"
+                                                                href="{{ url('offers/'.$contract->id) }}"
+                                                                class="btn blue btn-sm">{{ trans('contracts.action_buttons.offer_details') }}</a>
+                                                        @endif
                                                     @endif
                                                     <a type="button"
                                                        href="{{ url('contractdetails/'.$contract->id) }}"

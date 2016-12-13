@@ -1,21 +1,26 @@
 <?php
 
 return [
-    'headings'     => [
-        'list' => 'إدارة المهن',
+    "added" => "تم الإضافة بنجاح",
+    "attributes" => [
+        "job_name" => "اسم المهنة",
+        "nationalities" => "الجنسيات المسموحه",
+        "non_saudi" => "لغير السعودي",
+        "saudi" => "للسعودي",
+        "select_nationalities" => "اختر الجنسيات"
     ],
-    'sub-headings' => [
-        'list' => 'هذه الصفحة تمكنك من التحكم في المهن في النظام',
+    "deleted" => "تم الحذف بنجاح",
+    "headings" => [
+        "list" => "إدارة المهن"
     ],
-    'attributes'   => [
-        'job_name'  => 'اسم المهنة',
-        'saudi'     => 'للسعودي',
-        'non_saudi' => 'لغير السعودي',
-        'nationalities'        => 'الجنسيات المسموحه',
-        'select_nationalities' => 'اختر الجنسيات',
+    "search" => [
+        "atleast3chars" => "يجب ان لا تقل كلمة البحث عن 3 حروف",
+        "required" => "يجب ادخال كلمة البحث",
+        "submit" => "بحث"
     ],
-    'added'        => 'تم الإضافة بنجاح',
-    'updated'      => 'تم التحديث بنجاح',
-    'deleted'      => 'تم الحذف بنجاح',
-    'settings'     => 'الإعدادات',
+    "settings" => "الإعدادات",
+    "sub-headings" => [
+        "list" => "هذه الصفحة تمكنك من التحكم في المهن في النظام"
+    ],
+    "updated" => "تم التحديث بنجاح"
 ];

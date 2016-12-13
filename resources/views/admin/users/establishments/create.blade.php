@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-    <h4 class="modal-title"><i class="fa fa-edit"></i> {{ trans('establishments_registration.headings.list') }}</h4>
+    <h4 class="modal-title"><i class="fa fa-edit"></i> {{ trans('establishments_registration.headings.create') }}</h4>
 </div>
 {{ Form::open(['route' => 'admin.users.establishments_registeration.index', 'id'=>'form']) }}
 <div class="modal-body" data-success_data="{{ trans('establishments_registration.success_data') }}" data-no_data="{{ trans('establishments_registration.no_data') }}">
@@ -37,6 +37,7 @@
                 <div class="col-md-1 no-padding margin-top-20">
                     <button id="mol_search_co" aria-label="Left Align" class="btn green" type="button">
                         <span aria-hidden="true" class="glyphicon glyphicon-search"></span>
+                        {{ trans('establishments_registration.fetch_establishment_data') }}
                     </button>
                 </div>
             </div>
@@ -95,7 +96,7 @@
 </div>
 <div class="modal-footer">
     <button type="submit" data-loading-text="{{ trans('labels.loading') }}..."
-            class="demo-loading-btn btn blue"><i class="fa fa-check"></i> {{ trans('labels.save') }} </button>
+            class="demo-loading-btn btn blue"><i class="fa fa-check"></i> {{ trans('labels.just_add') }} </button>
     <button type="button" data-dismiss="modal" class="btn default">{{ trans('labels.cancel') }}</button>
 </div>
 {{ Form::close() }}

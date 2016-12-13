@@ -1,5 +1,5 @@
 <?php
 
 return [
-	'heading' => 'Payment status for Bundles'
+    "heading" => "Payment status for Bundles"
 ];

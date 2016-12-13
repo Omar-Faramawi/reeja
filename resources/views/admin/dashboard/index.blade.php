@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('user.dashboardwidgets'))
 @section('content')
-        <!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-    <h1>{{ trans('user.dashboardwidgets') }}</h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="#">{{trans('user.home')}}</a>
-        </li>
-        <li class="active">{{ trans('user.dashboardwidgets') }}</li>
-    </ol>
-</div>
-
 <div class="row">
     <div class="col-md-4 col-md-offset-4 margin-bottom-10" style="border: 1px solid #eee;padding: 10px;">
         <legend>{{trans('reports.period')}}</legend>

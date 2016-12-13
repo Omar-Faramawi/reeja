@@ -1,21 +1,26 @@
 <?php
 
 return [
-    'headings'     => [
-        'list' => 'Professions',
+    "added" => "Added successfully",
+    "attributes" => [
+        "job_name" => "Profession Name",
+        "nationalities" => "Allowed Nationalities",
+        "non_saudi" => "Non Saudi",
+        "saudi" => "For Saudi",
+        "select_nationalities" => "Select nationalities"
     ],
-    'sub-headings' => [
-        'list' => 'This page allows you to manage professions in the system',
+    "deleted" => "Deleted successfully",
+    "headings" => [
+        "list" => "Professions"
     ],
-    'attributes'   => [
-        'job_name'             => 'Profession Name',
-        'saudi'                => 'For Saudi',
-        'non_saudi'            => 'Non Saudi',
-        'nationalities'        => 'Allowed Nationalities',
-        'select_nationalities' => 'Select nationalities',
+    "search" => [
+        "atleast3chars" => "search keyword should not be less than 3 characters",
+        "required" => "You should provide keyword",
+        "submit" => "Search"
     ],
-    'added'        => 'Added successfully',
-    'updated'      => 'Updated successfully',
-    'deleted'      => 'Deleted successfully',
-    'settings'     => 'Settings',
+    "settings" => "Settings",
+    "sub-headings" => [
+        "list" => "This page allows you to manage professions in the system"
+    ],
+    "updated" => "Updated successfully"
 ];

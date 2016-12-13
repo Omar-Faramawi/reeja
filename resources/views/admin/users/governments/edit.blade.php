@@ -1,6 +1,12 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-    <h4 class="modal-title"><i class="fa fa-edit"></i> {{ trans('governments_registeration.headings.list') }}</h4>
+    <h4 class="modal-title">
+        @if(isset($data))
+        <i class="fa fa-edit"></i> {{ trans('governments_registeration.headings.edit') }}
+        @else
+        <i class="fa fa-edit"></i> {{ trans('governments_registeration.headings.create') }}
+        @endif
+    </h4>
 </div>
 @if(isset($data))
     {{ Form::model($data, ['route' => ['admin.users.governments_registeration.update', $data->hashids], 'method' => 'patch', 'id'=>'form']) }}
@@ -58,7 +64,7 @@
 </div>
 <div class="modal-footer">
     <button type="submit" data-loading-text="{{ trans('labels.loading') }}..."
-            class="demo-loading-btn btn blue"><i class="fa fa-check"></i> {{ trans('labels.save') }} </button>
+            class="demo-loading-btn btn blue"><i class="fa fa-check"></i> {{ isset($data) ? trans('labels.save') : trans('labels.just_add') }} </button>
     <button type="button" data-dismiss="modal" class="btn default">{{ trans('labels.cancel') }}</button>
 </div>
 {{ Form::close() }}

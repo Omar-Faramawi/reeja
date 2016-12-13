@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('saudi_percentage.headings.list'))
 @section('content')
-        <!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-    <h1>{{ trans('saudi_percentage.headings.list') }}</h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
-        </li>
-        <li class="active">{{ trans('saudi_percentage.headings.list') }}</li>
-    </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <div class="m-heading-1 border-green m-bordered">
     <h3> {{ trans('saudi_percentage.headings.list') }} </h3>
     <p> {{ trans('saudi_percentage.sub-headings.list') }} </p>
@@ -53,6 +42,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if(count($data))
                         @foreach($data as $single)
 
                             <tr class="odd gradeX {{ $single->hashids }}">
@@ -82,6 +72,9 @@
                                 </td>
                             </tr>
                         @endforeach
+                        @else
+                            <tr><td colspan="6" class="text-center">{{ trans('labels.no_data') }}</td></tr>
+                        @endif
                         </tbody>
                         <tfoot>
                         </tfoot>

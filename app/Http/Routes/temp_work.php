@@ -106,13 +106,7 @@ Route::group(['middleware' => ['auth','EstablishmentSelected', 'EstablishmentUpd
     Route::get('ishaar/{id}/show_ishaar', 'Front\NoticesController@showIshaar');
     Route::get('ishaar/{id}/generate_invoice', 'Front\NoticesController@generateInvoice');
     Route::post('ishaar/ask_cancel', 'Front\NoticesController@askCancelIshaar');
-    Route::resource('direct_ishaar', 'Front\NoticesController');
-    Route::get('direct_ishaar/type/{id}','Front\NoticesController@index');
-    Route::get('direct_ishaar/{id}/cancel_ishaar', 'Front\NoticesController@cancelIshaar');
-    Route::get('direct_ishaar/{id}/show_ishaar', 'Front\NoticesController@showIshaar');
-    Route::post('direct_ishaar/{id}/generate_invoice', 'Front\NoticesController@generateInvoice');
-    Route::post('direct_ishaar/ask_cancel', 'Front\NoticesController@askCancelIshaar');
-
+    
     // Front End Contracts
     Route::get('temp-work-contracts',
         ['as' => 'contracts.index', 'uses' => 'Front\ContractsController@index']);
@@ -201,4 +195,14 @@ Route::group(['middleware' => ['auth','individual']], function (){
                 'Front\ContractsController@refuse_direct_hiring_contract_cancelation');
         });
     });
+});
+
+//All users except admin routes
+Route::group(['middleware' => ['AllUsersExceptAdmin']], function (){
+    Route::resource('direct_ishaar', 'Front\NoticesController');
+    Route::get('direct_ishaar/type/{id}','Front\NoticesController@index');
+    Route::get('direct_ishaar/{id}/cancel_ishaar', 'Front\NoticesController@cancelIshaar');
+    Route::get('direct_ishaar/{id}/show_ishaar', 'Front\NoticesController@showIshaar');
+    Route::post('direct_ishaar/{id}/generate_invoice', 'Front\NoticesController@generateInvoice');
+    Route::post('direct_ishaar/ask_cancel', 'Front\NoticesController@askCancelIshaar');
 });

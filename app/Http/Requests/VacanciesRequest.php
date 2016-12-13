@@ -53,8 +53,6 @@ class VacanciesRequest extends Request
                 'work_end_date'   => 'required|date|after:work_start_date',
                 'job_type'        => 'integer',
                 'hide_salary'     => 'integer',
-                'status'          => 'integer',
-
             ];
         }
     }

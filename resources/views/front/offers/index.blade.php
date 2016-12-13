@@ -59,10 +59,10 @@
                                             {{ Form::text('provider_name', null, ['class' => 'form-control form-filter']) }}
                                         </td>
                                         <td>
-                                            {{ Form::select('job_name',$jobs, null, ['class' => 'form-control form-filter','placeholder'=>trans('offers.select')]) }}
+                                            {{ Form::select('job_name',$jobs, null, ['class' => 'form-control form-filter bs-select','placeholder'=>trans('offers.select'), "data-live-search" => "true"]) }}
                                         </td>
                                         <td>
-                                            {{ Form::select('region_name',$regions ,null, ['class' => 'form-control form-filter','placeholder'=>trans('offers.select')]) }}
+                                            {{ Form::select('region_name',$regions ,null, ['class' => 'form-control form-filter bs-select','placeholder'=>trans('offers.select')]) }}
                                         </td>
                                         <td>
                                             <input type="text" class="form-control input-sm date-picker"

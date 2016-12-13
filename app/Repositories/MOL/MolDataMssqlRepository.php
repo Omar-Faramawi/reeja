@@ -336,74 +336,92 @@ class MolDataMssqlRepository implements MolDataRepository
     
     /**
      * @param int $establishmentId
-     *
+     * @param array $filter
      * @return Collection
+     *
      */
-    public function fetchEstablishmentLaborers($establishmentId)
+    public function fetchEstablishmentLaborers($establishmentId, $filter = [], $options = false)
     {
-        $data          = new \stdClass();
-        $laborersCount = $this->connection()
-            ->table('MOL_Laborer')
-            ->where('FK_EstablishmentId', $establishmentId)
-            ->where('FK_LaborerStatusId', 1)
-            ->select('PK_LaborerId')
-            ->count();
-        
-        $laborers = $this->connection()
+        $where = [];
+        if (isset($filter['job']) and $filter['job'] > 0) {
+            $where['J.Id'] = $filter['job'];
+        }
+
+        if (isset($filter['nationality']) and $filter['nationality'] > 0) {
+            $where['L.FK_NationalityId'] = $filter['nationality'];
+        }
+        if (isset($filter['id_number']) and $filter['id_number'] > 0) {
+            $where['L.IdNo'] = $filter['id_number'];
+        }
+
+        if (isset($filter['AllowedEmployeesType']) and $filter['AllowedEmployeesType'] > 0) {
+            if ($options->labor_status_employed == 1 && $options->labor_status_visitor == 1) {
+                
+            } else {
+                if ($options->labor_status_employed == 1) {
+                    $where['L.IdNo'] ="'LIKE','2%'";
+                } elseif ($options->labor_status_visitor == 1) {
+                   $where['L.IdNo'] ="'LIKE','4%'";
+                }
+            }
+        }
+        if (isset($filter['AllowedEmployeesGender']) and $filter['AllowedEmployeesGender'] > 0) {
+            if ($options->labor_gender_male  == 1 && $options->labor_gender_female == 1) {
+               
+            } else {
+                if ($options->labor_gender_male  == 1) {
+                    $where['L.FK_GenderId'] =1;
+                } elseif ($options->labor_gender_female == 1) {
+                    $where['L.FK_GenderId'] =2;
+                }
+            }
+        }
+
+        $where['L.FK_EstablishmentId'] = $establishmentId;
+        $laborers = $this->db
             ->table('MOL_Laborer AS L')
-            ->leftJoin('Enum_Gender AS G', 'G.Id', '=', 'L.FK_GenderId')
-            ->leftJoin('Enum_LaborerStatus AS LS', 'LS.Id', '=', 'L.FK_LaborerStatusId')
-            ->leftJoin('Lookup_Nationality AS N', 'N.Id', '=', 'L.FK_NationalityId')
+            ->leftJoin('Enum_Gender AS G',			 'G.Id', '=', 'L.FK_GenderId')
+            ->leftJoin('Enum_LaborerStatus AS LS',	'LS.Id', '=', 'L.FK_LaborerStatusId')
+            ->leftJoin('Lookup_Nationality AS N',	 'N.Id', '=', 'L.FK_NationalityId')
+            ->join(new Expression('[Lookup_Job] [J] WITH (NOLOCK)'), 'L.FK_JobId', '=', 'J.Id')
+            ->whereIn('L.FK_AccomodationStatusId', [1, 4])
+            ->whereNotIn('L.FK_LaborerStatusId', [3, 4, 5, 6, 7])
+            ->where($where)
             ->select(
                 'L.PK_LaborerId',
-                $this->connection()->raw("CAST(ISNULL([L].[FirstName], '') + ' ' + ISNULL([L].[SecondName], '') + ' ' + ISNULL([L].[ThirdName], '') + ' ' + ISNULL([L].[FourthName], '') AS VARBINARY(MAX)) AS [FullName]"),
-                $this->connection()->raw('CAST([G].[Description] AS VARBINARY(MAX)) AS [Gender]'),
-                $this->connection()->raw('CAST([N].[Name] AS VARBINARY(MAX)) AS [Nationality]'),
+                $this->db->raw("CAST(ISNULL([L].[FirstName], '') + ' ' + ISNULL([L].[SecondName], '') + ' ' + ISNULL([L].[ThirdName], '') + ' ' + ISNULL([L].[FourthName], '') AS VARBINARY(MAX)) AS [FullName]"),
+                $this->db->raw('CAST([G].[Description] AS VARBINARY(MAX)) AS [Gender]'),
+                $this->db->raw('CAST([N].[Name] AS VARBINARY(MAX)) AS [Nationality]'),
+                'L.FK_GenderId',
                 'L.EstablishmentName',
                 'L.FK_EstablishmentId AS EstablishmentIdNo',
                 'L.IdNo',
+                'L.FK_NationalityId',
+                'J.Id As JobNumber',
+                $this->db->raw('CAST([J].[Name] AS VARBINARY(MAX)) AS [JobName]'),
                 'L.IdReleaseDate',
                 'LS.Description AS LaborerStatus'
             )
-            ->where('L.FK_EstablishmentId', $establishmentId)
-            ->get();
-        
+            ->paginate();
         if (empty($laborers)) {
-            $data->error = 'no data';
-            
-            return $data;
+            throw new ModelNotFoundException();
         }
-        
-        $establishment = [];
-        foreach ($laborers as $laborer) {
-            foreach ($laborer as $key => $val) {
-                if (in_array($key, ['FullName', 'Gender', 'Nationality'])) {
+
+        foreach ($laborers as $laborer)
+        {
+            foreach ($laborer as $key => $val)
+            {
+                if (in_array($key, ['FullName','JobName', 'Gender', 'Nationality'])) {
                     $laborer->$key = $this->decodeString($val);
-                } else {
-                    if (in_array($key, ['IdReleaseDate'])) {
-                        $laborer->$key = date('Y-m-d', strtotime($val));
-                    } else {
-                        if (!is_numeric($laborer->$key)) {
-                            $laborer->$key = iconv('CP1256', 'UTF-8//TRANSLIT', $val);
-                        }
-                    }
+                } elseif (in_array($key, ['IdReleaseDate'])) {
+                    $laborer->$key = date('Y-m-d', strtotime($val));
+                } elseif ( ! is_numeric($laborer->$key)) {
+                    $laborer->$key = iconv('CP1256', 'UTF-8//TRANSLIT', $val);
                 }
             }
-            
-            if (empty($establishment)) {
-                $establishment = [
-                    'Name' => $laborer->EstablishmentName,
-                    'IdNo' => $laborer->EstablishmentIdNo,
-                ];
-            }
         }
-        
-        $data                = new \stdClass();
-        $data->laborers      = $laborers;
-        $data->establishment = $establishment;
-        $data->laborersCount = $laborersCount;
-        
-        return $data;
+
+        return $laborers;
     }
 
     /**

@@ -17,6 +17,7 @@ $(function () {
 
     $(".bs-select").selectpicker({
         noneSelectedText: noneSelectedTextValue,
+        noneResultsText: noSearchResult+" {0}",
         iconBase: 'fa',
         tickIcon: 'fa-check'
     });
@@ -267,45 +268,6 @@ $(function () {
                     toastr.error("", v);
                 });
                 current.find("#calculateError").prepend(error + '</div>');
-            }
-        });
-    });
-
-    $("#register-form").on("submit", function (e) {
-        var btn = $(this).find("[type='submit']").button('loading');
-        var current = $(this);
-        var postURL = (($('input[name="saudi"]').is(':checked')) ? "/citizenRegister" : $(this).attr('action'));
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: postURL,
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            success: function (msg) {
-                setTimeout(function () {
-                    window.location = (($('input[name="saudi"]').is(':checked')) ? "/activation" : current.data('url'));
-                }, 2000);
-            },
-            error: function (msg) {
-                btn.button('reset');
-                if (msg.status == 401 || msg.status == 404) {
-                   window.location = msg.getResponseHeader('Location')
-                }
-                if (msg.status == 500 || msg.status == 405) {
-                    toastr.error("", bug_msg);
-                }
-                current.find(".alert-danger").fadeOut(500);
-                var json = $.parseJSON(msg.responseText);
-                var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
-                $.each(json, function (k, v) {
-                    error += v + "</p>";
-                });
-                current.find(".form-body").prepend(error + '</div>');
-                toastr.error("", error_msg);
-                $('html,body').animate({
-                    scrollTop: ($(".form-body").offset().top - 200)
-                }, 1000);
             }
         });
     });
@@ -705,23 +667,6 @@ $(function () {
     });
 
     /**
-     * Individuals registration toggles
-     */
-    $('input[type="checkbox"][name="saudi"]').on('click', function (e) {
-
-        if ($(this).is(':checked')) {
-            $('div#birth_date_group').show();
-            $('#saudi-label').show();
-            $('#non-saudi-label').hide();
-        } else {
-            $('div#birth_date_group').hide();
-            $('#saudi-label').hide();
-            $('#non-saudi-label').show();
-        }
-
-    });
-
-    /**
      * Hijri calender handler
      */
     var islamicCalendarLang = '';
@@ -730,6 +675,7 @@ $(function () {
     }
     $('#birth_date').calendarsPicker({
         calendar: $.calendars.instance('islamic', islamicCalendarLang),
+        maxDate: 0,
         onSelect: function() {
             // floating label adjustment
             if ($(this).val().length > 0) {
@@ -854,30 +800,35 @@ $(function () {
      */
     $('button#add_laborer_button').prop('disabled', true);
     $('#laborer_id_number').on('keyup', function (e) {
-        //$('#status-label').addClass('hidden');
+        $('button#add_laborer_button').prop('disabled', true);
         var id = jQuery.trim($(this).val());
-        var url = '/laborer';
-        $.get(url + '/' + id, function (data) {
-            if( data == 'false2' ){
-                $('#status-label-not-active').show();
-                $('#status-label-exist').hide();
-                $('#status-label-not-exist').hide();
-            } else if (data == 'false') {
+        if (id.length == 10) {
+            var url = '/laborer';
+            $.get(url + '/' + id, function (data) {
+                if( data == 'false2' ){
+                    $('#status-label-not-active').show();
+                    $('#status-label-exist').hide();
+                    $('#status-label-not-exist').hide();
+                } else if (data == 'false') {
+                    $('#status-label-not-exist').show();
+                    $('#status-label-exist').hide();
+                    $('#status-label-not-active').hide();
+                } else {
+                    $('#status-label-exist').show();
+                    $('#status-label-not-exist').hide();
+                    $('#status-label-not-active').hide();
+                    $('button#add_laborer_button').prop('disabled', false);
+                }
+            }).fail(function () {
                 $('#status-label-not-exist').show();
                 $('#status-label-exist').hide();
                 $('#status-label-not-active').hide();
-            } else {
-                $('#status-label-exist').show();
-                $('#status-label-not-exist').hide();
-                $('#status-label-not-active').hide();
-                $('button#add_laborer_button').prop('disabled', false);
-            }
-        }).fail(function () {
+            });
+        } else {
             $('#status-label-not-exist').show();
             $('#status-label-exist').hide();
             $('#status-label-not-active').hide();
-            $('button#add_laborer_button').prop('disabled', true);
-        });
+        }
     });
     
     /**
@@ -1280,17 +1231,23 @@ $('document').ready(function () {
 
     $('.add-new').on('click', function (e) {
         e.preventDefault();
-        $('.container-inputs').append('<input class="bs-select form-control desc-location" name="desc_location[]" type="text" value="">');
+        if ($('#pac-input').attr("name") != 'desc_location[]') {
+            toastr.error('', $(this).data('error'));
+        } else {
+            $('<label class="col-md-12 no-padding-right">' + $('#pac-input').val() + '&nbsp;<button class="btn red-intense remove_location" type="button">' + delete_label + '</button>'+
+                '<input type="hidden" name="desc_location[]" value="' + $('#pac-input').val() + '"></label>').insertBefore('#pac-input');
+            $('#pac-input').val("");
+            $('#pac-input').attr("name", "");
+        }
+    });
+    $('.container-inputs').on('click', '.remove_location', function (e) {
+       $(this).parent().remove(); 
     });
     
     $('.update_contract').click(function () {
-        $(':input[type="text"]').filter(function (e) {
-            if (this.value.length === 0) {
-                return true;
-            }
-        }).remove();
-        if (!$('.container-inputs').find('input').length) { 
-            $('.container-inputs').append('<input class="bs-select form-control desc-location" name="desc_location[]" type="text" value="">');
+        if ($('#pac-input').length && $('#pac-input').val() != '' && $('#pac-input').attr("name") != 'desc_location[]') {
+            toastr.error('', $('.add-new').data('error'));
+            return false;
         }
     });
 
@@ -1301,7 +1258,7 @@ $('document').ready(function () {
         var addnew = $(this).closest('tr');
         var add = addnew.find('td:first-child').text();
         var num = 0;
-        $('#selected_employees tbody').find("tr td:first-child").each(function () {
+        $('#taqawel_selected_employees tbody').find("tr td:first-child").each(function () {
             if (add == $(this).text()) {
                 num = num + 1;
                 addnew.find('td:last-child').html("");
@@ -1312,7 +1269,8 @@ $('document').ready(function () {
         if (num == 0) {
             var emp = $(this).closest('tr').clone();
             emp.find('td:nth-child(2)').remove();
-            var added = $("#selected_employees tbody").append(emp);
+            var added = $("#taqawel_selected_employees tbody").append(emp);
+            $('.taqawel_selected_employees_container').show();
             added.find(".add_contract_employee").replaceWith("<a class='btn btn-default red delete_contract_employee' href=''>" + delete_employee + "</a>");
             if ($("form #oneormore").val() === '0') {
                 $('#datatable_ajax tbody tr').each(function () {
@@ -1324,14 +1282,16 @@ $('document').ready(function () {
                 $(this).remove();
             }
         }
-
     });
 
     //Taqawel remove choosen employees
-    $('#selected_employees').on('click', '.delete_contract_employee', function (e) {
+    $('#taqawel_selected_employees').on('click', '.delete_contract_employee', function (e) {
         e.preventDefault();
         var del = $(this).closest('tr').find('td:first-child').text();
         $(this).closest('tr').remove();
+        if ($('#taqawel_selected_employees tbody tr').length == 0)
+            $('.taqawel_selected_employees_container').hide();
+        
         if ($("form #oneormore").val() === '0') {
             $('#datatable_ajax tbody tr').each(function () {
                 $(this).find('td:last-child').append("<a class='btn btn-default blue add_contract_employee' href=''>" + add_employee + "</a>");
@@ -1350,11 +1310,12 @@ $('document').ready(function () {
     //Taqawel add Multi Employee
     $("#add_employees").on('click', function (e) {
         e.preventDefault();
+        $('.taqawel_selected_employees_container').show();
         $('#datatable_ajax').find('tr').find('td:nth-child(2)').find(".checked").each(function () {
             var addnew = $(this).closest('tr');
             var add = addnew.find('td:first-child').text();
             var num = 0;
-            $('#selected_employees tbody').find("tr td:first-child").each(function () {
+            $('#taqawel_selected_employees tbody').find("tr td:first-child").each(function () {
                 if (add == $(this).text()) {
                     num = num + 1;
                     addnew.find('td:last-child').html("");
@@ -1365,7 +1326,7 @@ $('document').ready(function () {
             if (num == 0) {
                 var emp = $(this).closest('tr').clone();
                 emp.find('td:nth-child(2)').remove();
-                var added = $("#selected_employees tbody").append(emp);
+                var added = $("#taqawel_selected_employees tbody").append(emp);
                 added.find(".add_contract_employee").replaceWith("<a class='btn btn-default red delete_contract_employee' href=''>" + delete_employee + "</a>");
                 if ($("form #oneormore").val() === '0') {
                     $('#datatable_ajax tbody tr').each(function () {
@@ -1386,7 +1347,7 @@ $('document').ready(function () {
 
     $('body').find("#ensure_data").on('click', function () {
         var emp_ids = [];
-        var rowsCount = $('#selected_employees tr').length;
+        var rowsCount = $('#taqawel_selected_employees tr').length;
         var areas = [];
         $('#work_areas :selected').each(function (i, selected) {
             if ($("#work_areas :selected").index() == 0) {
@@ -1398,7 +1359,7 @@ $('document').ready(function () {
 
         });
         if (rowsCount > 1) {
-            $('#selected_employees tbody').find("tr td:first-child").each(function () {
+            $('#taqawel_selected_employees tbody').find("tr td:first-child").each(function () {
                 emp_ids.push($(this).text());
             });
 
@@ -1694,5 +1655,11 @@ $('document').ready(function () {
     $(document).on('click', '.approve_deny', function () {
         $(this).closest('form').find('input[name="action"].hidden_action').val($(this).attr('name'));
         $(this).closest('form').submit();
+    });
+
+
+    $("#direct_login").on("click", function (e) {
+        $("#direct_login_form").slideToggle();
+        return false;
     });
 });

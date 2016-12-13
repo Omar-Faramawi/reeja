@@ -25,7 +25,7 @@
             <div class="row">
 
                 <div class="col-md-12">
-                    <div class="portlet light portlet-fit portlet-form ">
+                    <div class="portlet light portlet-fit">
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="icon-layers font-green"></i>
@@ -66,7 +66,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-left">{{ trans('labels.no_data') }}</td>
+                                            <td colspan="7" class="text-center">{{ trans('labels.no_data') }}</td>
                                         </tr>
                                     @endif
                                     </tbody>

@@ -1,22 +1,22 @@
 <?php
 
 return [
-    'headings'     => [
-        'list'   => 'Governments Registration',
-        'list1'  => 'Governments',
-        'create' => 'Create a new government',
-        'edit'   => 'Edit government',
+    "added" => "Added successfully",
+    "attributes" => [
+        "email" => "Government Email",
+        "hajj" => "Hajj Government",
+        "name" => "Government Name"
     ],
-    'sub-headings' => [
-        'list' => 'This page allows you to manage governments users',
+    "deleted" => "Deleted successfully",
+    "error_delete" => "Error Can't delete",
+    "headings" => [
+        "create" => "Add a government entity",
+        "edit" => "Edit government entity",
+        "list" => "Government Entities",
+        "list1" => "Governments"
     ],
-    'attributes'   => [
-        'name'  => 'Government Name',
-        'email' => 'Government Email',
-        'hajj'  => 'Hajj Government',
+    "sub-headings" => [
+        "list" => "This page allows you to manage governments users"
     ],
-    'added'        => 'Added successfully',
-    'updated'      => 'Updated successfully',
-    'deleted'      => 'Deleted successfully',
-    'error_delete' => 'Error Can\'t delete',
+    "updated" => "Updated successfully"
 ];

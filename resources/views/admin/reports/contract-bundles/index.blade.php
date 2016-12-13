@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('contract_bundle_reports.heading'))
 @section('content')
-        <!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-    <h1>{{ trans('contract_bundle_reports.heading') }}</h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="#">{{trans('user.home')}}</a>
-        </li>
-        <li class="active">{{ trans('contract_bundle_reports.heading') }}</li>
-    </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <!-- BEGIN PAGE BASE CONTENT -->
 <!-- BEGIN DASHBOARD STATS 1-->
 

@@ -1,42 +1,36 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 return [
-    'headings'                 => [
-        'list' => 'تعريف نموذج تقييم',
+    "accept" => "تفعيل",
+    "activated" => "تم التفعيل ",
+    "addAnswer" => "اضافة جواب اخر",
+    "addNewQuestion" => "اضافة بند",
+    "addQA" => "اضافة بند",
+    "add_new" => "إضافة نموذج تقييم جديد",
+    "answer" => " جواب البند",
+    "deleted" => "تم الحذف",
+    "email" => [
+        "afterUrl" => "لاي استفسار يمكنكم التواصل معنا <br> شكرا لكم ",
+        "beforeUrl" => "السلام عليكم <br> العضو المحترم نتمني منكم الدخول علي الرابط التالي لتقييم التعاقد رقم ",
+        "subject" => "Ajeer Rating"
     ],
-    'sub-headings'             => [
-        'list' => 'تمكنك هذه الصفحة من إضافة وتعديل وحذف نماذج التقييم',
+    "error_delete" => "عفوا لا يمكنك حذف هذا العنصر الان ",
+    "formTitle" => "نموذج تقييم",
+    "formTitleValidationError" => "يجب ادخال عنوان نموذج التقييم",
+    "headings" => [
+        "list" => "التقييمات"
     ],
-    "widgetName"               => "تعريف نموذج تقييم",
-    "formTitle"                => "نموذج تقييم",
-    "sumbitedsucc"             => "تم الاضافة بنجاح",
-    "updated"                  => "تم التعديل بنجاح",
-    "deleted"                  => "تم الحذف",
-    "accept"                   => "تفعيل",
-    "reject"                   => "ايقاف التفعيل",
-    "activated"                => "تم التفعيل ",
-    "stopactivated"            => "تم ايقاف التفعيل ",
-    "error_delete"             => "عفوا لا يمكنك حذف هذا العنصر الان ",
-    "addNewQuestion"           => "اضافة بند",
-    "question"                 => " بند",
-    "answer"                   => " جواب البند",
-    "addQA"                    => "اضافة بند",
-    "addAnswer"                => "اضافة جواب اخر",
-    'formTitleValidationError' => 'يجب ادخال عنوان نموذج التقييم',
-    'messages'                 => [
-        "questionRequired" => "يجب عليك ادخال البند",
-        "answersRequired"  => "يجب عليك ادخال اجابة واحده على الاقل"
+    "messages" => [
+        "answersRequired" => "يجب عليك ادخال اجابة واحده على الاقل",
+        "questionRequired" => "يجب عليك ادخال البند"
     ],
-
-    'email' => [
-        'subject'   => 'Ajeer Rating',
-        'beforeUrl' => 'السلام عليكم <br> العضو المحترم نتمني منكم الدخول علي الرابط التالي لتقييم التعاقد رقم ',
-        'afterUrl'  => 'لاي استفسار يمكنكم التواصل معنا <br> شكرا لكم ',
+    "question" => " بند",
+    "reject" => "ايقاف التفعيل",
+    "stopactivated" => "تم ايقاف التفعيل ",
+    "sub-headings" => [
+        "list" => "تمكنك هذه الصفحة من إضافة وتعديل وحذف نماذج التقييم"
     ],
+    "sumbitedsucc" => "تم الاضافة بنجاح",
+    "updated" => "تم التعديل بنجاح",
+    "widgetName" => "التقييمات"
 ];
-

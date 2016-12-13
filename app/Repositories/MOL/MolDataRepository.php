@@ -81,7 +81,7 @@ interface MolDataRepository
      *
      * @return Collection
      */
-    public function fetchEstablishmentLaborers($establishmentId);
+    public function fetchEstablishmentLaborers($establishmentId, $filter = null,$options = false);
     
     /**
      * @param int $establishmentId
@@ -124,7 +124,7 @@ interface MolDataRepository
      *
      * @return integer
      */
-    public function fetchJobsLookup($withoutSaudisOnlyJobs);
+    public function fetchJobsLookup($withoutSaudisOnlyJobs = false);
 
     /**
      * Get the nationalities list.

@@ -1,19 +1,19 @@
 <?php
 
 return [
-    'headings' 					=> 'أسباب رفض او قبول العقود',
-    'sub-headings' 				=> 'تمكنك هذه الصفحة من إضافة وتعديل وحذف اسباب رفض او قبول العقود',
-    'attributes'  				=> [
-        'reason' 				=> 'السبب',
-		'type'					=> 'الفئة',
-		'parent_id'				=> 'السبب الاب'
+    "attributes" => [
+        "parent_id" => "السبب الاب",
+        "reason" => "السبب",
+        "type" => "الفئة"
     ],
-    'reasonsadded' 				=> 'تم اضافة سبب',
-    'reasonsupdated' 			=> 'تم التعديل',
-    'reasonsdeleted' 			=> 'تم الحذف',
-	'select'					=> 'اختر السبب الاب',
-	'parent'					=> 'رئيسي',
-	'children'					=> 'فرعي',
-	'subfrom'					=> 'فرعي من',
-	'error_delete'				=> 'عذرا هذا السبب يحتوي على اسباب فرعية',	
+    "children" => "فرعي",
+    "error_delete" => "عذرا هذا السبب يحتوي على اسباب فرعية",
+    "headings" => "أسباب رفض او قبول العقود",
+    "parent" => "رئيسي",
+    "reasonsadded" => "تم اضافة سبب",
+    "reasonsdeleted" => "تم الحذف",
+    "reasonsupdated" => "تم التعديل",
+    "select" => "اختر السبب الاب",
+    "sub-headings" => "تمكنك هذه الصفحة من إضافة وتعديل وحذف اسباب رفض او قبول العقود",
+    "subfrom" => "فرعي من"
 ];

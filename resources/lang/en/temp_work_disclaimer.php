@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'heading'     => 'Disclaimers',
-    'points' => [
-        'Disclaimer point',
-    ],
+    "heading" => "Disclaimers",
+    "points" => [
+        "Disclaimer point"
+    ]
 ];

@@ -124,30 +124,22 @@ class OfferDirectController extends Controller
      */
     public function show($id)
     {
-        $contract = new  Contract();
-        $thisContract = $contract->with([
-            'vacancy' => function ($v_q) {
-                $v_q->with(["job", "region", "nationality"]);
-            }
-        ]);
-        $thisContract = $thisContract->find($id)->load([
-            'provider',
-            'benef',
-            "contractLocations"
-        ]);
-        $dateEnded = getDiffPeriodDay($thisContract->created_at,
+        $thisContract = Contract::byMe()->pending()->with('contractEmployee')->findOrFail($id);
+        
+        $dateEnded = getDiffPeriodDay($thisContract->updated_at,
             $thisContract->contractType->setup->max_accept_period,
             $thisContract->contractType->setup->max_accept_period_type);
-        if (Carbon::now() <= $dateEnded) {
+        if (Carbon::now()->format("Y-m-d") <= $dateEnded) {
             $canAccept = true;
         }
 
         if ($thisContract->status == "pending") {
             $canAcceptStatus = true;
         }
-        $thisContract = $thisContract->toArray();
 
-        return view("front.offersdirect.show", compact("thisContract", "dateEnded", "canAccept", "canAcceptStatus"));
+        $jobSeeker = $thisContract->contractEmployee[0]->hrPool;
+
+        return view("front.offersdirect.show", compact("thisContract", "dateEnded", "canAccept", "canAcceptStatus", "jobSeeker"));
     }
 
     /**

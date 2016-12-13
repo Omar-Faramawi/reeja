@@ -1,37 +1,38 @@
 <?php
+
 return [
-    'headings' => [
-        'tab_head' => 'Taqawol',
-        'Add' => 'Add Taqawol request',
-        'update' => 'Update Taqawol request',
-        'list_tab_head' => 'View Taqawol requests list',
-        'list_one' => 'View Taqawol request',
+    "buttons" => [
+        "cancel" => "Cancel",
+        "delete" => "Delete",
+        "details" => " More Details",
+        "edit" => "Edit",
+        "save_and_publish" => "Save & Publish",
+        "save_draft" => "Save as draft",
+        "update_and_publish" => "Update & publish",
+        "update_draft" => "Update draft"
     ],
-    'buttons' => [
-        'details' => ' More Details',
-        'save_and_publish' => 'Save & Publish',
-        'update_and_publish' => 'Update & publish',
-        'save_draft' => 'Save as draft',
-        'update_draft' => 'Update draft',
-        'cancel' => 'Cancel',
-        'edit' => 'Edit',
-        'delete' => 'Delete',
+    "form_attributes" => [
+        "other" => "Other",
+        "service_description" => "Service Description",
+        "service_type" => "Service Type"
     ],
-    'list_attributes' => [
-        'service_type' => 'Service Type',
-        'service_description' => 'Service Description',
-        'details' => 'More Details',
+    "headings" => [
+        "Add" => "Add Taqawol request",
+        "list_one" => "View Taqawol request",
+        "list_tab_head" => "View Taqawol requests list",
+        "tab_head" => "Taqawol",
+        "update" => "Update Taqawol request"
     ],
-    'form_attributes' => [
-        'service_type' => 'Service Type',
-        'service_description' => 'Service Description',
-        'other' => 'Other',
+    "list_attributes" => [
+        "details" => "More Details",
+        "service_description" => "Service Description",
+        "service_type" => "Service Type"
     ],
-    'success_data'         => 'Added successfullu',
-    'success_update'       => 'Updated successfully',
-    'success_delete'       => 'Deleted successfully',
-    'tqawel_services'      => 'Taqawol services',
-    'tqawel_services_list' => 'Taqawol services list',
-    'tqawel_services_add'  => 'Add service',
-    'tqawel_services_edit' => 'Edit service',
+    "success_data" => "Added successfullu",
+    "success_delete" => "Deleted successfully",
+    "success_update" => "Updated successfully",
+    "tqawel_services" => "Taqawol services",
+    "tqawel_services_add" => "Add service",
+    "tqawel_services_edit" => "Edit service",
+    "tqawel_services_list" => "Taqawol services list"
 ];

@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('ishaar_setup.headings.list'))
 @section('content')
-    <!-- BEGIN BREADCRUMBS -->
-    <div class="breadcrumbs">
-        <h1>{{ trans('ishaar_setup.headings.list') }}</h1>
-        <ol class="breadcrumb">
-            <li>
-                <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
-            </li>
-            <li class="active">{{ trans('ishaar_setup.headings.list') }}</li>
-        </ol>
-    </div>
-    <!-- END BREADCRUMBS -->
     <div class="m-heading-1 border-green m-bordered">
         <h3> {{ trans('ishaar_setup.headings.list') }} </h3>
         <p> {{ trans('ishaar_setup.sub-headings.list') }} </p>

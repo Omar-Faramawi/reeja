@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('contracttype.widgetName'))
 @section('content')
-        <!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-    <h1>{{ trans('contracttype.widgetName') }}</h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
-        </li>
-        <li class="active">{{ trans('contracttype.widgetName') }}</li>
-    </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <!-- BEGIN PAGE BASE CONTENT -->
 <div class="m-heading-1 border-green m-bordered">
     <h3> {{ trans('contracttype.headings.list') }} </h3>

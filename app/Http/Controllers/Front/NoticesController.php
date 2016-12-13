@@ -37,16 +37,17 @@ class NoticesController extends Controller
     public function index($id = null)
     {
         $can_generate_ishaar = Constants::SERVICETYPES['provider'];
-        if (strpos(Route::getCurrentRoute()->uri(),'direct_ishaar') !== false){
-                $url = '/direct_ishaar';
-                $can_generate_ishaar = Constants::SERVICETYPES['benf'];
-                if(auth()->user()->user_type_id == Constants::USERTYPES['job_seeker']){
-                    session()->replace(['service_type' => Constants::SERVICETYPES['provider']]);
-                }elseif (!in_array(auth()->user()->user_type_id, [Constants::USERTYPES['saudi'],Constants::USERTYPES['job_seeker']])){
-                    session()->replace(['service_type' => Constants::SERVICETYPES['benf']]);
-                }
-
-        }else $url = '/ishaar';
+        if (strpos(Route::getCurrentRoute()->uri(),'direct_ishaar') !== false) {
+            $url = '/direct_ishaar';
+            $can_generate_ishaar = Constants::SERVICETYPES['benf'];
+            if(auth()->user()->user_type_id == Constants::USERTYPES['job_seeker']) {
+                session()->replace(['service_type' => Constants::SERVICETYPES['provider']]);
+            } elseif (!in_array(auth()->user()->user_type_id, [Constants::USERTYPES['saudi'],Constants::USERTYPES['job_seeker']])){
+                session()->replace(['service_type' => Constants::SERVICETYPES['benf']]);
+            }
+        } else {
+            $url = '/ishaar';
+        }
 
         // Get the current service type id ( provider or benf )
         // check if we got the right one before continue
@@ -58,29 +59,20 @@ class NoticesController extends Controller
         if (request()->ajax()) {
             $columns = request()->input('columns');
             $ishaars = ContractEmployee::whereHas('contract',
-                    function ($cont_q, $id = null) {
-                  if (strpos(Route::getCurrentRoute()->uri(),'direct_ishaar') !== false){
-                        $cont_q->byMe()->approved()->directEmployee();
-                        if ($id) {
-                            if($id === Constants::SERVICETYPES['benf']) {
-                                $cont_q->toMe()->approved()->directEmployee();
-                            }
-                        }
+                function ($cont_q, $id = null) {
+                    if (strpos(Route::getCurrentRoute()->uri(),'direct_ishaar') !== false){
                         if(session()->get('service_type') === Constants::SERVICETYPES['benf']) {
                             $cont_q->toMe()->approved()->directEmployee();
+                        } else {
+                            $cont_q->byMe()->approved()->directEmployee();
                         }
-                         } else {
-                        $cont_q->byMe()->approved()->hireLabor();
-                        if ($id) {
-                            if($id === Constants::SERVICETYPES['benf']) {
-                                $cont_q->toMe()->approved()->hireLabor();
-                            }
-                        }
+                    } else {
                         if(session()->get('service_type') === Constants::SERVICETYPES['benf']) {
                             $cont_q->toMe()->approved()->hireLabor();
+                        } else {
+                            $cont_q->byMe()->approved()->hireLabor();
                         }
                     }
-
                 }
                 )->with(['hrPool.job', 'contract', 'contract.contractLocations']);
 

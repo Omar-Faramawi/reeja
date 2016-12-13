@@ -4,7 +4,6 @@ Route::get('/', 'HomeController@home');
 //Basic authentication
 Route::auth();
 Route::post('auth/individualsLogin', 'Auth\AuthController@individualsLogin');
-Route::post('citizenRegister', 'Auth\AuthController@citizenRegister');
 Route::get("/activation", function(){
     if(session()->has('temp_account_registration')){
         return view('auth.activation');

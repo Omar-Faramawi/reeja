@@ -167,8 +167,9 @@ class TempWorkContractsController extends Controller
 		if( isset($request->region_id) ) {
 			foreach ($request->region_id as $region) {
 				$contract->contractLocations()->save(new ContractLocation([
-					'branch_id' => session()->get('selected_establishment.branch_no') ?: 1,
-					'region_id' => $region
+					'branch_id'     => session()->get('selected_establishment.branch_no') ?: 1,
+					'region_id'     => $region,
+                    'desc_location' => $request->contract_locations
 				]));
 			}
 		}
@@ -311,6 +312,8 @@ class TempWorkContractsController extends Controller
      */
     public function sendVacancyOffer(SendVacancyOfferRequest $request)
     {
+        $vacancy = Vacancy::with('job')->findOrFail($request->vacancy_id);
+
         $data = array_except(
             array_merge(
                 $request->only(array_keys($request->rules())),
@@ -335,12 +338,20 @@ class TempWorkContractsController extends Controller
 
         $contract = Contract::create($data);
 
+        // send notify email to beneficial
+        \Mail::send('emails.send_vacancy_offer',['vacancy' => $vacancy->job->job_name, 'contractId' => $contract->id], function ($message) use ($contract) {
+            $message->from(config('mail.from.address'))
+                    ->to($contract->responsible_email)
+                    ->subject(trans('email.subject_send_offer'));
+        });
+
         // Save contract locations
         if( isset($request->region_id) ) {
             foreach ($request->region_id as $region) {
                 $contract->contractLocations()->save(new ContractLocation([
-                    'branch_id' => session()->get('selected_establishment.branch_no') ?: 1,
-                    'region_id' => $region
+                    'branch_id'     => session()->get('selected_establishment.branch_no') ?: 1,
+                    'region_id'     => $region,
+                    'desc_location' => $request->contract_locations
                 ]));
             }
         }

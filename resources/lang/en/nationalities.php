@@ -1,15 +1,15 @@
 <?php
 
 return [
-    'headings' =>  'Nationalities',
-    'sub-headings' => 'You can update and delete nationalities in this page',
-    'attributes'  => [
-        'ar-name' => 'Name (Arabic)',
-        'desc' => 'Description',
-        'en-name' => 'Name (English)',
-        'abbr-name' => 'Abbreviation'
+    "attributes" => [
+        "abbr-name" => "Abbreviation",
+        "ar-name" => "Name (Arabic)",
+        "desc" => "Description",
+        "en-name" => "Name (English)"
     ],
-    'nationalityadded' => 'Nationality Added',
-    'nationalityupdated' => 'Nationality Updated',
-    'nationalitydeleted' => 'Nationality Deleted',
+    "headings" => "Nationalities",
+    "nationalityadded" => "Nationality Added",
+    "nationalitydeleted" => "Nationality Deleted",
+    "nationalityupdated" => "Nationality Updated",
+    "sub-headings" => "You can update and delete nationalities in this page"
 ];

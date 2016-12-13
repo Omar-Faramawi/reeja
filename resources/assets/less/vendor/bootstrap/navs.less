@@ -1,0 +1,46 @@
+@import "../../../../../bower_components/bootstrap/less/navs.less";
+
+[lang='ar'] {
+  .nav {
+    padding-right: 0;
+  }
+
+  .nav-tabs {
+    > li {
+      float: right;
+
+      > a {
+        margin-left: auto;
+        margin-right: 2px;
+      }
+    }
+  }
+
+  .nav-pills {
+    > li {
+      float: right;
+
+      + li {
+        margin-left: auto;
+        margin-right: 2px;
+      }
+    }
+  }
+
+  .nav-stacked {
+    > li {
+      float: none;
+      + li {
+        margin-left: auto;
+        margin-right: 0;
+      }
+    }
+  }
+
+  .nav-justified {
+    > .dropdown .dropdown-menu {
+      right: auto;
+    }
+  }
+
+}

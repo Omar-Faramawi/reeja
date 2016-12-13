@@ -1,15 +1,15 @@
 <?php
 
 return [
-    'headings'           => 'الجنسيات',
-    'sub-headings'       => 'تمكنك هذه الصفحة من إضافة وتعديل وحذف الجنسيات',
-    'attributes'         => [
-        'ar-name'   => 'الاسم (عربي)',
-        'desc'      => 'الوصف',
-        'en-name'   => 'الاسم (انجليزي)',
-        'abbr-name' => 'اختصار',
+    "attributes" => [
+        "abbr-name" => "اختصار",
+        "ar-name" => "الاسم (عربي)",
+        "desc" => "الوصف",
+        "en-name" => "الاسم (انجليزي)"
     ],
-    'nationalityadded'   => 'تم اضافة الجنسية',
-    'nationalityupdated' => 'تم التعديل',
-    'nationalitydeleted' => 'تم الحذق',
+    "headings" => "الجنسيات",
+    "nationalityadded" => "تم اضافة الجنسية",
+    "nationalitydeleted" => "تم الحذق",
+    "nationalityupdated" => "تم التعديل",
+    "sub-headings" => "تمكنك هذه الصفحة من إضافة وتعديل وحذف الجنسيات"
 ];

@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-    <h4 class="modal-title"><i class="fa fa-edit"></i> {{ trans('establishments_registration.headings.list') }}</h4>
+    <h4 class="modal-title"><i class="fa fa-edit"></i> {{ trans('establishments_registration.headings.edit') }}</h4>
 </div>
 {{ Form::model($data, ['route' => ['admin.users.establishments_registeration.update', $data->hashids], 'method' => 'patch', 'id'=>'form']) }}
 <input type="hidden" value="{{$data->id}}" name="est_id"/>

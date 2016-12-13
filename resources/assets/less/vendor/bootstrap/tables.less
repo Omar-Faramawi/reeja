@@ -1,0 +1,28 @@
+@import "../../../../../bower_components/bootstrap/less/tables.less";
+
+[lang='ar'] {
+  th {
+    text-align: right;
+  }
+
+  .table-responsive {
+    @media screen and (max-width: @screen-xs-max) {
+      > .table-bordered {
+        > thead,
+        > tbody,
+        > tfoot {
+          > tr {
+            > th:first-child,
+            > td:first-child {
+              border-left: 0;
+            }
+            > th:last-child,
+            > td:last-child {
+              border-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

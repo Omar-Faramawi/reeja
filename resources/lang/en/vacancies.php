@@ -1,61 +1,60 @@
 <?php
 
 return [
-    'headings'        => [
-        'tab_head'      => 'Shwagher',
-        'Add'           => 'Add Shagher',
-        'update'        => 'Update vacancy',
-        'list_tab_head' => 'View vacancy list',
-        'list_one'      => 'View vacancy',
+    "buttons" => [
+        "cancel" => "Cancel",
+        "details" => " More Details",
+        "save_and_publish" => "Save & Publish",
+        "save_draft" => "Save as draft",
+        "update_and_publish" => "Update & publish",
+        "update_draft" => "Update draft"
     ],
-    'buttons'         => [
-        'details'            => ' More Details',
-        'save_and_publish'   => 'Save & Publish',
-        'update_and_publish' => 'Update & publish',
-        'save_draft'         => 'Save as draft',
-        'update_draft'       => 'Update draft',
-        'cancel'             => 'Cancel',
+    "form_attributes" => [
+        "gender" => "Gender",
+        "job" => "Job",
+        "job_type" => "Job Type",
+        "nationality" => "Nationality",
+        "region_id" => "Work Type",
+        "religion" => " Religion",
+        "required_number" => "Required Number",
+        "salary" => "Salary",
+        "work_areas" => "Work Areas",
+        "work_end_date" => "Work End Date",
+        "work_start_date" => "Work Start Date"
     ],
-    'list_attributes' => [
-        'job'                => 'Job',
-        'work_area'          => 'Work Area',
-        'needed_number'      => 'Required Number',
-        'remain_number'      => ' Remained Number',
-        'details'            => 'More Details',
-        'taeed_side'         => 'Government',
-        'taeed_side_default' => 'Hajj Government',
-        'approved_number'    => 'Approve number',
-        'taeed_start_date'   => 'Start data',
-        'taeed_end_date'     => 'End date',
+    "gender" => [
+        "Female",
+        "Male"
     ],
-    'form_attributes' => [
-        'job'             => 'Job',
-        'gender'          => 'Gender',
-        'nationality'     => 'Nationality',
-        'religion'        => ' Religion',
-        'region_id'       => 'Work Type',
-        'job_type'        => 'Job Type',
-        'salary'          => 'Salary',
-        'work_areas'      => 'Work Areas',
-        'work_start_date' => 'Work Start Date',
-        'work_end_date'   => 'Work End Date',
-        'required_number' => 'Required Number',
+    "headings" => [
+        "Add" => "Add Shagher",
+        "list_one" => "View vacancy",
+        "list_tab_head" => "View vacancy list",
+        "tab_head" => "Shwagher",
+        "update" => "Update vacancy"
     ],
-    "gender"          => [
-        '1' => 'Male',
-        '0' => 'Female',
+    "hide_option" => "Hide from market place",
+    "job_type" => [
+        "Without salary",
+        "With Salary"
     ],
-    "religion"        => [
-        '2' => 'Not Muslim',
-        '1' => 'Muslim',
-        '3' => 'NA',
+    "list_attributes" => [
+        "approved_number" => "Approve number",
+        "details" => "More Details",
+        "job" => "Job",
+        "needed_number" => "Required Number",
+        "remain_number" => " Remained Number",
+        "taeed_end_date" => "End date",
+        "taeed_side" => "Government",
+        "taeed_side_default" => "Hajj Government",
+        "taeed_start_date" => "Start data",
+        "work_area" => "Work Area"
     ],
-    "job_type"        => [
-        '0' => 'Without salary',
-        '1' => 'With Salary',
+    "religion" => [
+        1 => "Muslim",
+        2 => "Not Muslim",
+        3 => "NA"
     ],
-    
-    'hide_option'    => 'Hide from market place',
-    'success_data'   => 'Added successfullu',
-    'success_update' => 'Updated successfully',
+    "success_data" => "Added successfullu",
+    "success_update" => "Updated successfully"
 ];

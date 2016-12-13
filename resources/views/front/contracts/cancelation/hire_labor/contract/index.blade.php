@@ -23,7 +23,7 @@
             <i class="fa fa-circle"></i>
          </li>
          <li>
-            <span>{{ trans('front.menu.temp_direct_contract') }}</span>
+            <span>{{ trans('front.menu.hire_labor') }}</span>
             <i class="fa fa-circle"></i>
          </li>
          <li>

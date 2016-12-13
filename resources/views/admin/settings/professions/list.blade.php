@@ -1,20 +1,38 @@
 @extends ('admin.layout')
 @section('title', trans('professions.headings.list'))
 @section('content')
-    <!-- BEGIN BREADCRUMBS -->
-    <div class="breadcrumbs">
-        <h1>{{ trans('professions.headings.list') }}</h1>
-        <ol class="breadcrumb">
-            <li>
-                <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
-            </li>
-            <li class="active">{{ trans('professions.headings.list') }}</li>
-        </ol>
-    </div>
-    <!-- END BREADCRUMBS -->
     <div class="m-heading-1 border-green m-bordered">
         <h3> {{ trans('professions.headings.list') }} </h3>
-        <p> {{ trans('professions.sub-headings.list') }} </p>
+        <p> {{ trans('professions.sub-headings.list') }}
+        </p>
+        <div class="row">
+            <div class="form-body">
+                {{ Form::model($data, ['route' => ['admin.settings.professions.search'], 'method' => 'get', 'id'=>'search_form','class'=>'form-horizontal']) }}
+                <div class="col-md-1 pull-right">
+                    <div class="btn-group pull-right">
+                        <button type="submit" data-loading-text="{{ trans('labels.loading') }}..."
+                                class="demo-loading-btn btn blue">
+                            <i class="fa fa-check"></i> {{ trans('labels.search') }}
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-2 pull-right">
+                    <div class="form-group">
+                        {{ Form::text('q', null, ['id'=>'q', 'class'=>'form-control']) }}
+                    </div>
+                </div>
+            </div>
+            {{Form::close()}}
+        </div>
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
     {{ Form::model($data, ['route' => ['admin.settings.professions.update'], 'method' => 'patch', 'id'=>'live_form']) }}
     {{ Form::hidden('page', $data->currentPage()) }}

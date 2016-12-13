@@ -119,7 +119,7 @@
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">{{trans('ishaar_setup.form_attributes.work_region')}}</label>
                                                 <div class="col-md-4">
-                                                    <input type="text" class="form-control input-circle" value="{{$contract->hrPool->region->name or ''}}" disabled="disabled">
+                                                    <span class="form-control-static">{{@$contract->contract->contractLocations[0]->region->name}}</span>
                                                 </div>
                                             </div>
 

@@ -41,7 +41,7 @@ Route::group(['middleware' => ['admin_auth']], function () {
             'Admin\ContractSetupController@update')->name('admin.contractSetup.update');
         Route::patch('contractSetup/{id}/updateTaqawel',
             'Admin\ContractSetupController@updateTaqawel')->name('admin.contractSetup.updateTaqawel');
-        
+
         Route::get('serviceUsersPermissions/contractType/{id}/edit',
             'Admin\ServiceUsersPermissionsController@edit')->name('admin.serviceUsersPermissions.contractType.edit');
         Route::patch('serviceUsersPermissions/contractType/{id}/update',
@@ -68,12 +68,32 @@ Route::group(['middleware' => ['admin_auth']], function () {
 
         /* Settings Routes */
         Route::group(['prefix' => 'settings'], function () {
-            Route::get('professions', 'Admin\Settings\ProfessionsController@index');
+            Route::get('professions',
+                ['as' => 'admin.settings.professions.index', 'uses' => 'Admin\Settings\ProfessionsController@index']);
+            Route::get('professions/search', [
+                'as'   => 'admin.settings.professions.search',
+                'uses' => 'Admin\Settings\ProfessionsController@search',
+            ]);
+            Route::patch('professions/search/update', [
+                'as'   => 'admin.settings.professions.updateforsearch',
+                'uses' => 'Admin\Settings\ProfessionsController@updateForSearch',
+            ]);
             Route::patch('professions/update', [
                 'as'   => 'admin.settings.professions.update',
                 'uses' => 'Admin\Settings\ProfessionsController@update',
             ]);
-            Route::get('occupation_management', 'Admin\Settings\OccupationManagementController@index');
+            Route::get('occupation_management', [
+                'as'   => 'admin.settings.occupation_management.index',
+                'uses' => 'Admin\Settings\OccupationManagementController@index'
+            ]);
+            Route::get('occupation_management/search', [
+                'as'   => 'admin.settings.occupation_management.search',
+                'uses' => 'Admin\Settings\OccupationManagementController@search',
+            ]);
+            Route::patch('occupation_management/search/update', [
+                'as'   => 'admin.settings.occupation_management.updateforsearch',
+                'uses' => 'Admin\Settings\OccupationManagementController@updateForSearch',
+            ]);
             Route::patch('occupation_management/update', [
                 'as'   => 'admin.settings.occupation_management.update',
                 'uses' => 'Admin\Settings\OccupationManagementController@update',
@@ -99,24 +119,37 @@ Route::group(['middleware' => ['admin_auth']], function () {
         Route::get('/loan_pcnt', 'Admin\LoanPcntController@index');
         Route::patch('/loan_pcnt', 'Admin\LoanPcntController@update');
 
-	Route::group(['prefix' => 'reports'], function(){
+        Route::group(['prefix' => 'reports'], function () {
 
             // Hazem's Reports
-            Route::get('/contractTypesIshaars/{from?}/{to?}', 'Admin\Reports\ReportController@contractTypesIshaars')->name('admin.reports.contractTypesIshaars');
-            Route::get('/topTenPrvdBenfActivities/{from?}/{to?}', 'Admin\Reports\ReportController@topTenPrvdBenfActivities')->name('admin.reports.topTenPrvdBenfActivities');
-            Route::get('/activityIshaars/{from?}/{to?}', 'Admin\Reports\ReportController@activityIshaars')->name('admin.reports.activityIshaars');
-            Route::get('/countriesIshaars/{from?}/{to?}', 'Admin\Reports\ReportController@countriesIshaars')->name('admin.reports.countriesIshaars');
-            Route::get('/jobsChart/{from?}/{to?}', 'Admin\Reports\ReportController@jobsChart')->name('admin.reports.jobsChart');
-            Route::get('/ishaarTypesGrouped/{from?}/{to?}', 'Admin\Reports\ReportController@ishaarTypesGrouped')->name('admin.reports.ishaarTypesGrouped');
+            Route::get('/contractTypesIshaars/{from?}/{to?}',
+                'Admin\Reports\ReportController@contractTypesIshaars')->name('admin.reports.contractTypesIshaars');
+            Route::get('/topTenPrvdBenfActivities/{from?}/{to?}',
+                'Admin\Reports\ReportController@topTenPrvdBenfActivities')->name('admin.reports.topTenPrvdBenfActivities');
+            Route::get('/activityIshaars/{from?}/{to?}',
+                'Admin\Reports\ReportController@activityIshaars')->name('admin.reports.activityIshaars');
+            Route::get('/countriesIshaars/{from?}/{to?}',
+                'Admin\Reports\ReportController@countriesIshaars')->name('admin.reports.countriesIshaars');
+            Route::get('/jobsChart/{from?}/{to?}',
+                'Admin\Reports\ReportController@jobsChart')->name('admin.reports.jobsChart');
+            Route::get('/ishaarTypesGrouped/{from?}/{to?}',
+                'Admin\Reports\ReportController@ishaarTypesGrouped')->name('admin.reports.ishaarTypesGrouped');
 
             // Charts' Datatables Data Grabber
-            Route::get('/ishaarTypesGroupedData/{chartOrvalue?}/{from?}/{to?}', 'Admin\Reports\ReportController@ishaarTypesGroupedData')->name('admin.reports.ishaarTypesGroupedData');
-            Route::get('/countriesIshaarsData/{chartOrvalue?}/{from?}/{to?}', 'Admin\Reports\ReportController@countriesIshaarsData')->name('admin.reports.countriesIshaarsData');
-            Route::get('/activityIshaarsData/{chartOrValue?}/{prvd_benf?}/{from?}/{to?}', 'Admin\Reports\ReportController@activityIshaarsData')->name('admin.reports.activityIshaarsData');
-            Route::get('/jobsChartData/{chartOrvalue?}/{from?}/{to?}', 'Admin\Reports\ReportController@jobsChartData')->name('admin.reports.jobsChartData');
-            Route::get('/topTenPrvdBenfActivitiesData/{chartOrValue?}/{prvd_benf?}/{from?}/{to?}', 'Admin\Reports\ReportController@topTenPrvdBenfActivitiesData')->name('admin.reports.topTenPrvdBenfActivitiesData');
-            Route::get('/contractTypesIshaarsData/{from?}/{to?}', 'Admin\Reports\ReportController@contractTypesIshaarsData')->name('admin.reports.contractTypesIshaarsData');
-            Route::get('/employeesBenfPeriod', 'Admin\Reports\ReportController@employeesBenfPeriod')->name('admin.reports.employeesBenfPeriod');
+            Route::get('/ishaarTypesGroupedData/{chartOrvalue?}/{from?}/{to?}',
+                'Admin\Reports\ReportController@ishaarTypesGroupedData')->name('admin.reports.ishaarTypesGroupedData');
+            Route::get('/countriesIshaarsData/{chartOrvalue?}/{from?}/{to?}',
+                'Admin\Reports\ReportController@countriesIshaarsData')->name('admin.reports.countriesIshaarsData');
+            Route::get('/activityIshaarsData/{chartOrValue?}/{prvd_benf?}/{from?}/{to?}',
+                'Admin\Reports\ReportController@activityIshaarsData')->name('admin.reports.activityIshaarsData');
+            Route::get('/jobsChartData/{chartOrvalue?}/{from?}/{to?}',
+                'Admin\Reports\ReportController@jobsChartData')->name('admin.reports.jobsChartData');
+            Route::get('/topTenPrvdBenfActivitiesData/{chartOrValue?}/{prvd_benf?}/{from?}/{to?}',
+                'Admin\Reports\ReportController@topTenPrvdBenfActivitiesData')->name('admin.reports.topTenPrvdBenfActivitiesData');
+            Route::get('/contractTypesIshaarsData/{from?}/{to?}',
+                'Admin\Reports\ReportController@contractTypesIshaarsData')->name('admin.reports.contractTypesIshaarsData');
+            Route::get('/employeesBenfPeriod',
+                'Admin\Reports\ReportController@employeesBenfPeriod')->name('admin.reports.employeesBenfPeriod');
             // -- Hazem's Reports --
 
             /* Ishaar Reports */
@@ -127,8 +160,9 @@ Route::group(['middleware' => ['admin_auth']], function () {
                 ['as' => 'reportChart', 'uses' => 'Admin\Reports\IshaarReportController@ishaarReportChart']);
 
             Route::get('/get-ishaar-by-user-type/{type}/{user_type}',
-                ['as'   => 'getIshaarByUserType',
-                 'uses' => 'Admin\Reports\IshaarReportController@getIshaarByUserType'
+                [
+                    'as'   => 'getIshaarByUserType',
+                    'uses' => 'Admin\Reports\IshaarReportController@getIshaarByUserType'
                 ]);
 
             /* Ishaar Regions Reports*/
@@ -136,36 +170,51 @@ Route::group(['middleware' => ['admin_auth']], function () {
                 ['as' => 'IshaarRegionsReport', 'uses' => 'Admin\Reports\IshaarRegionsReportController@index']);
 
             Route::get('/ishaar-regions-report-chart/{startDate?}/{endDate?}',
-                ['as' => 'reportRegionChart', 'uses' => 'Admin\Reports\IshaarRegionsReportController@ishaarRegionsReportChart']);
+                [
+                    'as'   => 'reportRegionChart',
+                    'uses' => 'Admin\Reports\IshaarRegionsReportController@ishaarRegionsReportChart'
+                ]);
 
             Route::get('/get-ishaar-by-region/{region}',
-                ['as'   => 'getIshaarByRegion',
-                 'uses' => 'Admin\Reports\IshaarRegionsReportController@getIshaarByRegion'
+                [
+                    'as'   => 'getIshaarByRegion',
+                    'uses' => 'Admin\Reports\IshaarRegionsReportController@getIshaarByRegion'
                 ]);
 
             /* Ishaar Laborer status Reports*/
             Route::get('/ishaar-laborer-status-report',
-                ['as' => 'IshaarLaborerStatusReport', 'uses' => 'Admin\Reports\IshaarLaborerStatusReportController@index']);
+                [
+                    'as'   => 'IshaarLaborerStatusReport',
+                    'uses' => 'Admin\Reports\IshaarLaborerStatusReportController@index'
+                ]);
 
             Route::get('/ishaar-laborer-status-report-chart/{startDate?}/{endDate?}',
-                ['as' => 'reportLaborerStatusChart', 'uses' => 'Admin\Reports\IshaarLaborerStatusReportController@ishaarLaborerStatusReportChart']);
+                [
+                    'as'   => 'reportLaborerStatusChart',
+                    'uses' => 'Admin\Reports\IshaarLaborerStatusReportController@ishaarLaborerStatusReportChart'
+                ]);
 
             Route::get('/get-ishaar-by-laborer-status/{status}',
-                ['as'   => 'getIshaarByLaborerStatus',
-                 'uses' => 'Admin\Reports\IshaarLaborerStatusReportController@getIshaarByStatus'
+                [
+                    'as'   => 'getIshaarByLaborerStatus',
+                    'uses' => 'Admin\Reports\IshaarLaborerStatusReportController@getIshaarByStatus'
                 ]);
 
             /* Laborer With Multiple Ishaars at same time*/
             Route::get('/laborer-with-multi-ishaar',
-                ['as' => 'LaborerWithMultipleIshaars', 'uses' => 'Admin\Reports\LaborerWithMultipleIshaarsController@index']);
+                [
+                    'as'   => 'LaborerWithMultipleIshaars',
+                    'uses' => 'Admin\Reports\LaborerWithMultipleIshaarsController@index'
+                ]);
 
 
             // chart 9 : Contracts count based on its status
             Route::get('/contract-status-report',
                 ['as' => 'contractSatusChart', 'uses' => 'Admin\Reports\ContractStatusReportController@index']);
             Route::get('/contract-status-chart/{startDate}/{endDate}',
-                ['as'   => 'statusChartWithDates',
-                 'uses' => 'Admin\Reports\ContractStatusReportController@contractStatusChart'
+                [
+                    'as'   => 'statusChartWithDates',
+                    'uses' => 'Admin\Reports\ContractStatusReportController@contractStatusChart'
                 ]);
             Route::get('/contract-status-chart',
                 ['as' => 'statusChart', 'uses' => 'Admin\Reports\ContractStatusReportController@contractStatusChart']);
@@ -176,21 +225,48 @@ Route::group(['middleware' => ['admin_auth']], function () {
                 ]);
 
             // packages(bundles)
-            Route::group(['prefix' => 'packages'], function(){
+            Route::group(['prefix' => 'packages'], function () {
                 // chart 10 : contracts count based on bundle
-                Route::get('contracts', ['as' => 'reports.packages.chart.contracts', 'uses' => 'Admin\Reports\ContractsBundleReportsController@index']);
-                Route::get('contracts-charts', [ 'as' => 'reports.packages.chart' , 'uses' => 'Admin\Reports\ContractsBundleReportsController@chartData' ]);
-                Route::get('contracts-charts/{start_date}/{end_date}', [ 'as' => 'reports.packages.chart.date.filter' , 'uses' => 'Admin\Reports\ContractsBundleReportsController@chartData' ]);
-                Route::get('contracts-by-package/{contract_bundle}', ['as' => 'reports.contracts.packages', 'uses' => 'Admin\Reports\ContractsBundleReportsController@contractByBundle']);
+                Route::get('contracts', [
+                    'as'   => 'reports.packages.chart.contracts',
+                    'uses' => 'Admin\Reports\ContractsBundleReportsController@index'
+                ]);
+                Route::get('contracts-charts', [
+                    'as'   => 'reports.packages.chart',
+                    'uses' => 'Admin\Reports\ContractsBundleReportsController@chartData'
+                ]);
+                Route::get('contracts-charts/{start_date}/{end_date}', [
+                    'as'   => 'reports.packages.chart.date.filter',
+                    'uses' => 'Admin\Reports\ContractsBundleReportsController@chartData'
+                ]);
+                Route::get('contracts-by-package/{contract_bundle}', [
+                    'as'   => 'reports.contracts.packages',
+                    'uses' => 'Admin\Reports\ContractsBundleReportsController@contractByBundle'
+                ]);
 
                 // chart 11 : invoice status per bundles
-                Route::get('invoices', [ 'as' => 'reports.packages.chart.invoices',  'uses' => 'Admin\Reports\InvoicesBundleReportsController@index' ]);
-                Route::get('invoices-contracts-charts', ['as' => 'reports.packages.invoices.chart' , 'uses' => 'Admin\Reports\InvoicesBundleReportsController@chartData' ]);
-                Route::get('invoices-contracts-charts/{start_date}/{end_date}', ['as' => 'reports.packages.invoices.chart.date.filter' , 'uses' => 'Admin\Reports\InvoicesBundleReportsController@chartData' ]);
-                Route::get('invoices-by-package/{contract_bundle}', ['as' => 'reports.contracts.invoices.packages', 'uses' => 'Admin\Reports\InvoicesBundleReportsController@contractByBundle']);
+                Route::get('invoices', [
+                    'as'   => 'reports.packages.chart.invoices',
+                    'uses' => 'Admin\Reports\InvoicesBundleReportsController@index'
+                ]);
+                Route::get('invoices-contracts-charts', [
+                    'as'   => 'reports.packages.invoices.chart',
+                    'uses' => 'Admin\Reports\InvoicesBundleReportsController@chartData'
+                ]);
+                Route::get('invoices-contracts-charts/{start_date}/{end_date}', [
+                    'as'   => 'reports.packages.invoices.chart.date.filter',
+                    'uses' => 'Admin\Reports\InvoicesBundleReportsController@chartData'
+                ]);
+                Route::get('invoices-by-package/{contract_bundle}', [
+                    'as'   => 'reports.contracts.invoices.packages',
+                    'uses' => 'Admin\Reports\InvoicesBundleReportsController@contractByBundle'
+                ]);
             });
 
-            Route::get('establishment-netaq', ['as' => 'reports.netaq.establishment', 'uses' => 'Admin\Reports\NitaqEstablishmentsReportsController@index']);
+            Route::get('establishment-netaq', [
+                'as'   => 'reports.netaq.establishment',
+                'uses' => 'Admin\Reports\NitaqEstablishmentsReportsController@index'
+            ]);
 
 
             // chart 12 : paid invoice based on netaq of establishments
@@ -208,8 +284,11 @@ Route::group(['middleware' => ['admin_auth']], function () {
 
             /* Laborer With same Benf for 6 months period*/
             Route::get('/laborer-with-same-benf',
-                ['as' => 'LaborerWithSameBenf', 'uses' => 'Admin\Reports\LaborerWithMultipleIshaarsController@sameBenfEmployees']);
-	});
+                [
+                    'as'   => 'LaborerWithSameBenf',
+                    'uses' => 'Admin\Reports\LaborerWithMultipleIshaarsController@sameBenfEmployees'
+                ]);
+        });
     });
 });
 

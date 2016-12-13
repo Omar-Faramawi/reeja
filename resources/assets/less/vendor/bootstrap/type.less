@@ -1,0 +1,30 @@
+@import "../../../../../bower_components/bootstrap/less/type.less";
+
+// Horizontal description lists
+//
+// Defaults to being stacked without any of the below styles applied, until the
+// grid breakpoint is reached (default of ~768px).
+
+.dl-horizontal {
+  dd {
+    &:extend(.clearfix all); // Clear the floated `dt` if an empty `dd` is present
+  }
+
+  @media (min-width: @grid-float-breakpoint) {
+    dt {
+      float: right;
+      width: (@dl-horizontal-offset - 20);
+      clear: right;
+      text-align: left;
+      .text-overflow();
+    }
+    dd {
+      margin-right: @dl-horizontal-offset;
+      margin-left: auto;
+    }
+  }
+}
+
+.list-unstyled {
+  padding-right: 0;
+}

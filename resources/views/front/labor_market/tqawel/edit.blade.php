@@ -61,208 +61,246 @@
 
                                 {!! Form::hidden('contract_id', $contract->id) !!}
                                 <div class="form-body">
-
-                                    <h5>{{ trans('temp_job.service_provider_info') }}</h5><br>
-                                    <div class="form-group form-md-line-input">
-                                        {!! Form::text('provider_id', $username, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.service_provider_name'), 'class' => 'form-control', 'disabled' => 'disabled']) !!}
-                                        <label for="form_control_1">{{ trans('temp_job.service_provider_name') }}</label>
-                                        <span class="help-block">{{ trans('temp_job.service_provider_name') }}</span>
-                                    </div>
-                                    <div class="form-group form-md-line-input">
-                                        {!! Form::text('provider_type', \Tamkeen\Ajeer\Utilities\Constants::userTypes(\Auth::user()->user_type_id), [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.est_activity'), 'class' => 'form-control',  'disabled' => 'disabled' ]) !!}
-                                        <label for="form_control_1">{{ trans('temp_job.est_activity') }}</label>
-                                        <span class="help-block">{{ trans('temp_job.est_activity') }}</span>
-                                    </div>
-                                    <h5>{{ trans('temp_job.service_benf_info') }}</h5><br>
-
-                                    <div class="form-group form-md-line-input">
-                                        {!! Form::text('benf_id', @$contract->benf_name, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.service_benf_name'), 'class' => 'form-control', 'disabled' => 'disabled']) !!}
-                                        <label for="form_control_1">{{ trans('temp_job.service_benf_name') }}</label>
-                                        <span class="help-block">{{ trans('temp_job.service_benf_name') }}</span>
-                                    </div>
-
-                                    <div class="form-group form-md-line-input">
-                                        {!! Form::text('benf_type', \Tamkeen\Ajeer\Utilities\Constants::userTypes
-                                        ($contract->benf_type), [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.est_activity'), 'class' => 'form-control',  'disabled' => 'disabled' ]) !!}
-                                        <label for="form_control_1">{{ trans('temp_job.est_activity') }}</label>
-                                        <span class="help-block">{{ trans('temp_job.est_activity') }}</span>
-                                    </div>
-
-                                    <div class="caption">
-                                        <h5>{{ trans('tqawel_offer_contract.contract_details') }}</h5><br>
-                                    </div>
-
-                                    <div class="form-group form-md-line-input">
-                                        {!! Form::text('', $contract->contractNature->name, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
-                                        <label for="form_control_1">{{ trans('tqawel_offer_contract.contract_nature') }}</label>
-                                        <span class="help-block">{{ trans('tqawel_offer_contract.contract_nature') }}</span>
-                                    </div>
-                                    <div class="form-group form-md-line-input">
-                                        @if($contract->status == 'approved')
-                                            {!! Form::text('contract_name', null,
-                                            [ 'placeholder' => trans('labels.enter') . " ". trans('tqawel_offer_contract.contract_name'), 'disabled' => 'disabled',
-                                            'class' => 'form-control' ]) !!}
-                                        @else
-                                            {!! Form::text('contract_name', null,
-                                            [ 'placeholder' => trans('labels.enter') . " ". trans('tqawel_offer_contract.contract_name'),
-                                            'class' => 'form-control' ]) !!}
-                                        @endif
-                                        <label for="form_control_1">{{ trans('tqawel_offer_contract.contract_name')
-                                        }}</label>
-                                        <span class="help-block">{{ trans('tqawel_offer_contract.contract_name')
-                                        }}</span>
-                                    </div>
-
-
-                                    <div class="form-group form-md-line-input">
-                                        @if($contract->status == 'approved')
-                                            {!! Form::textarea('contract_desc', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_desc'), 'class' => 'form-control', 'disabled' => 'disabled' ]) !!}
-                                        @else
-                                            {!! Form::textarea('contract_desc', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_desc'), 'class' => 'form-control' ]) !!}
-                                        @endif
-                                        <label for="form_control_1">{{ trans('tqawel_offer_contract.contract_desc')
-                                        }}</label>
-                                        <span class="help-block">{{ trans('tqawel_offer_contract.contract_desc')
-                                        }}</span>
-                                    </div>
-
-
-                                    <div class="form-group form-md-line-input">
-                                        @if($contract->status == 'approved')
-                                            {!! Form::text('contract_amount', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_amount'), 'class' => 'form-control', 'disabled' => 'disabled' ]) !!}
-                                        @else
-                                            {!! Form::text('contract_amount', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_amount'), 'class' => 'form-control' ]) !!}
-                                        @endif
-                                        <label for="form_control_1">{{ trans('tqawel_offer_contract.contract_amount')
-                                        }}</label>
-                                        <span class="help-block">{{ trans('tqawel_offer_contract.contract_amount')
-                                        }}</span>
-                                    </div>
-
-
-                                    <div class="form-group form-md-line-input">
-                                        @if($contract->status == 'approved')
-                                            {!! Form::text('start_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.start_date'), 'class' => 'form-control date-picker-event from', 'disabled' => 'disabled' ]) !!}
-                                        @else
-                                            {!! Form::text('start_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.start_date'), 'class' => 'form-control date-picker-event from' ]) !!}
-                                        @endif
-                                        <label for="form_control_1">{{ trans('tqawel_offer_contract.start_date')
-                                        }}</label>
-                                        <span class="help-block">{{ trans('tqawel_offer_contract.start_date')
-                                        }}</span>
-                                    </div>
-
-
-                                    <div class="form-group form-md-line-input">
-                                        @if($contract->status == 'approved')
-                                            {!! Form::text('end_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.end_date'), 'class' => 'form-control date-picker-event to', 'disabled' => 'disabled' ]) !!}
-                                        @else
-                                            {!! Form::text('end_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.end_date'), 'class' => 'form-control date-picker-event to' ]) !!}
-                                        @endif
-                                        <label for="form_control_1">{{ trans('tqawel_offer_contract.end_date')
-                                        }}</label>
-                                        <span class="help-block">{{ trans('tqawel_offer_contract.end_date')
-                                        }}</span>
-                                    </div>
-
-
-                                    <div class="form-group form-md-radios form-md-line-input">
-                                        <label class="col-md-3 control-label"
-                                               for="form_control_1">{{ trans('tqawel_offer_contract.contract_type') }}</label>
-                                        <div class="col-md-9">
-                                            <div class="md-radio-inline">
-                                                <div class="md-radio">
-                                                    <input type="radio" id="radio6" name="contract_type" value="2"
-                                                           class="md-radiobtn"
-                                                           @if($contract->status == 'approved') disabled=""
-                                                           @endif @if(!$contract->contract_ref_no) checked @endif>
-                                                    <label for="radio6">
-                                                        <span></span>
-                                                        <span class="check"></span>
-                                                        <span class="box"></span> {{ trans('tqawel_offer_contract.direct_hiring') }}
-                                                    </label>
-                                                </div>
-
-                                                <div class="md-radio">
-                                                    <input type="radio" id="radio7" name="contract_type" value="1"
-                                                           class="md-radiobtn"
-                                                           @if($contract->status == 'approved') disabled=""
-                                                           @endif @if($contract->contract_ref_no) checked @endif>
-                                                    <label for="radio7">
-                                                        <span></span>
-                                                        <span class="check"></span>
-                                                        <span class="box"></span> {{ trans('tqawel_offer_contract.indirect_hiring') }}
-                                                    </label>
-                                                </div>
+                                    <div class="portlet blue box">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-info-circle"></i>
+                                                {{trans("temp_job.service_provider_info")}}
                                             </div>
                                         </div>
+                                        <div class="portlet-body">
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{ trans("temp_job.service_provider_name") }}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{ $contract->provider_name }}
+                                                </div>
+                                            </div>
+                                            @if($contract->provider_type == Constants::USERTYPES['est'])
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("temp_job.est_activity")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{ session()->get('selected_establishment')->est_activity }}
+                                                </div>
+                                            </div>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <br>
-
-
-                                    <div class="form-group form-md-line-input"
-                                         @if(!$contract->contract_ref_no) style="display: none;" @endif>
-                                        @if($contract->status == 'approved')
-                                            {!! Form::text('contract_ref_no', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_ref_no'), 'class' => 'form-control', 'disabled' => 'disabled' ]) !!}
-                                        @else
-                                            {!! Form::select('contract_ref_no', $contracts, [$contract->contract_ref_no], [ 'placeholder' =>  trans('tqawel_offer_contract.contract_ref_no'), 'class' => 'form-control' ]) !!}
-                                        @endif
-                                        <label for="form_control_1">{{ trans('tqawel_offer_contract.contract_ref_no')
-                                        }}</label>
-                                        <span class="help-block">{{ trans('tqawel_offer_contract.contract_ref_no')
-                                        }}</span>
+                                    <div class="portlet blue box">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-info-circle"></i>
+                                                {{trans("temp_job.service_benf_info")}}
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("temp_job.service_benf_name")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{ @$contract->benf_name }}
+                                                </div>
+                                            </div>
+                                            @if($contract->benf_type == Constants::USERTYPES['est'])
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("temp_job.est_activity")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{ $contract->benef->est_activity }}
+                                                </div>
+                                            </div>
+                                            @endif
+                                        </div>
                                     </div>
-
-                                    @if($contract->contractLocations->pluck('desc_location')->count() > 0)
-                                        <div class="form-group form-md-line-input add-input">
-                                            <label class="control-label col-md-1">{{ trans('tqawel_offer_contract.work_locations') }}</label>
-                                            <div class="col-md-11 container-inputs">
-                                                @foreach($contract->contractLocations->pluck('desc_location')->toArray() as $location)
-                                                    @if(!empty($location))
-                                                        {!! Form::text('desc_location[]', $location, ['class' => 'bs-select form-control desc-location']) !!}
+                                    <div class="portlet blue box">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                {{ trans('tqawel_offer_contract.contract_details') }}
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{ trans('tqawel_offer_contract.contract_nature') }}
+                                                </div>
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    {{ $contract->contractNature->name }}
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                    {{ trans('tqawel_offer_contract.contract_name') }}
+                                                </div>
+                                                @if($contract->status == 'approved')
+                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                    {{ $contract->contract_name }}
+                                                </div>
+                                                @else
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                   {!! Form::text('contract_name', null,
+                                                        [ 'placeholder' => trans('labels.enter') . " ". trans('tqawel_offer_contract.contract_name'),
+                                                        'class' => 'form-control' ]) !!}
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                    {{ trans('tqawel_offer_contract.contract_desc') }}
+                                                </div>
+                                                @if($contract->status == 'approved')
+                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                    {!! nl2br($contract->contract_desc) !!}
+                                                </div>
+                                                @else
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    {!! Form::textarea('contract_desc', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_desc'), 'class' => 'form-control' ]) !!}
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                    {{ trans('tqawel_offer_contract.contract_amount') }}
+                                                </div>
+                                                @if($contract->status == 'approved')
+                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                    {{ $contract->contract_amount }}
+                                                </div>
+                                                @else
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    {!! Form::text('contract_amount', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_amount'), 'class' => 'form-control' ]) !!}
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                    {{ trans('tqawel_offer_contract.start_date') }}
+                                                </div>
+                                                @if($contract->status == 'approved')
+                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                    {{ $contract->start_date }}
+                                                </div>
+                                                @else
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    {!! Form::text('start_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.start_date'), 'class' => 'form-control date-picker-event from' ]) !!}
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                    {{ trans('tqawel_offer_contract.end_date') }}
+                                                </div>
+                                                @if($contract->status == 'approved')
+                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                    {{ $contract->end_date }}
+                                                </div>
+                                                @else
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    {!! Form::text('end_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.end_date'), 'class' => 'form-control date-picker-event to' ]) !!}
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="row static-info padding-top-5">
+                                                <div class="col-md-3 name padding-top-5">
+                                                    {{ trans('tqawel_offer_contract.contract_type') }}
+                                                </div>
+                                                @if($contract->status == 'approved')
+                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                    @if($contract->contract_ref_no)
+                                                        {{ trans('tqawel_offer_contract.indirect_hiring') }}
+                                                    @else
+                                                        {{ trans('tqawel_offer_contract.direct_hiring') }}
                                                     @endif
-                                                @endforeach
+                                                </div>
+                                                @else
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    <div class="md-radio-inline">
+                                                        <div class="md-radio">
+                                                            <input type="radio" id="radio6" name="contract_type" value="2"
+                                                                   class="md-radiobtn"
+                                                                   @if(!$contract->contract_ref_no) checked @endif>
+                                                            <label for="radio6">
+                                                                <span></span>
+                                                                <span class="check"></span>
+                                                                <span class="box"></span> {{ trans('tqawel_offer_contract.direct_hiring') }}
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="md-radio">
+                                                            <input type="radio" id="radio7" name="contract_type" value="1"
+                                                                   class="md-radiobtn"
+                                                                   @if($contract->contract_ref_no) checked @endif>
+                                                            <label for="radio7">
+                                                                <span></span>
+                                                                <span class="check"></span>
+                                                                <span class="box"></span> {{ trans('tqawel_offer_contract.indirect_hiring') }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="row static-info" @if(!$contract->contract_ref_no) style="display: none;" @endif>
+                                                <span class="col-md-3 name padding-top-8">
+                                                    {{ trans('tqawel_offer_contract.contract_ref_no') }}
+                                                </span>
+                                                @if($contract->status == 'approved')
+                                                <span class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                    {{ $contract->contract_ref_no }}
+                                                </span>
+                                                @else
+                                                <span class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    {!! Form::select('contract_ref_no', $contracts, [$contract->contract_ref_no], [ 'placeholder' =>  trans('tqawel_offer_contract.contract_ref_no'), 'class' => 'form-control' ]) !!}
+                                                </span>
+                                                @endif
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                    {{ trans('tqawel_offer_contract.work_locations') }}
+                                                </div>
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top container-inputs">
+                                                    @if($contract->contractLocations->pluck('desc_location')->count() > 0)
+                                                        @foreach($contract->contractLocations->pluck('desc_location')->toArray() as $location)
+                                                            @if(!empty($location))
+                                                                <label class="col-md-12 no-padding-right">
+                                                                    {{ $location }}&nbsp;
+                                                                    <button class="btn red-intense remove_location" type="button">{{ trans('labels.delete') }}</button>
+                                                                    <input type="hidden" name="desc_location[]" value="{{ $location }}">
+                                                                </label>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                    <input id="pac-input" class="form-control" type="text" placeholder="{{ trans('labels.enter') . " " . trans('tqawel_offer_contract.work_locations') }}">
+                                                </div>
+                                            </div>
+                                            @if($hasInvoices)
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8"></div>
+                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    <a href="#" class="btn green add-new pull-right" data-error="{{ trans('tqawel_offer_contract.invalid_location') }}">{{ trans('tqawel_offer_contract.add_new') }}</a>
+                                                </div>
+                                            </div>
+                                            @endif
+                                            <div class="row static-info">
+                                                <div class="col-md-12 name no-padding-top">
+                                                    @include('components.map')
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                    {{ trans('tqawel_offer_contract.attached_file') }}
+                                                </div>
+                                                <div class="col-md-9 name no-padding-top">
+                                                    {!! Form::hidden('file_contract_old', @$contract->contract_file) !!}
+                                                    @include('components.fileupload', ['name' => 'file_contract', 'value' => @$contract->contract_file])
+                                                </div>
                                             </div>
                                         </div>
-                                    @else
-                                        <div class="form-group form-md-line-input add-input">
-                                            <label class="control-label col-md-1">{{ trans('tqawel_offer_contract.work_locations') }}</label>
-                                            <div class="col-md-11 container-inputs">
-                                                {!! Form::text('desc_location[]', '', ['class' => 'bs-select form-control desc-location']) !!}
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @if($hasInvoices > 0)
-                                        <div class="form-group form-md-line-input">
-                                            <div class="col-md-11">
-                                                <a href="#" class="btn green add-new"
-                                                   style="margin-top:20px">{{ trans('tqawel_offer_contract.add_new') }}</a>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    <div class="clearfix"></div>
-
-                                    <br><br>
-
-                                    <div class="form-group">
-                                        <label class="control-label col-md-1">{{ trans('tqawel_offer_contract.attached_file') }}</label>
-                                        {{--<label class="control-label col-md-1">{{ trans('tqawel_offer_contract.file_upload') }}</label>--}}
-                                        @include('components.fileupload', ['name' => 'file_contract'])
                                     </div>
-
-                                    <br><br>
-
-                                    @if($contract->contract_file)
-                                        <div class="form-group form-md-line-input">
-                                            <ul>
-                                                <li>
-                                                    <a href="{{ url('uploads/' . $contract->contract_file) }}">{{ basename($contract->contract_file) }}</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    @endif
-
                                 </div>
                                 <div class="clear"></div>
 

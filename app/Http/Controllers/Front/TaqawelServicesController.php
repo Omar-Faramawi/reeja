@@ -237,7 +237,7 @@ class TaqawelServicesController extends Controller
                 $data = $data->where(function ($responsible_q) {
                     $responsible_q->whereHas('establishment', function ($est_q) {
                         $est_q->whereHas("responsibles", function ($estr_q) {
-                            $estr_q->where('email', 'LIKE', '%' . request()->input('responsible_email') . '%');
+                            $estr_q->where('responsible_email', 'LIKE', '%' . request()->input('responsible_email') . '%');
                         });
                     });
                     $responsible_q->orWhereHas('individual', function ($est_q) {
@@ -248,16 +248,15 @@ class TaqawelServicesController extends Controller
                     });
                 });
             }
-            if (request()->input('responsible_mobile')) {
+            if (request()->input('phone')) {
                 $data = $data->where(function ($responsible_q) {
                     $responsible_q->whereHas('establishment', function ($est_q) {
                         $est_q->whereHas("responsibles", function ($estr_q) {
-                            $estr_q->where('responsible_phone', '=',
-                                "'" . request()->input('responsible_mobile') . "'");
+                            $estr_q->where('responsible_phone', request()->input('phone'));
                         });
                     });
                     $responsible_q->orWhereHas('individual', function ($est_q) {
-                        $est_q->where('phone', '=', request()->input('responsible_mobile'));
+                        $est_q->where('phone', request()->input('phone'));
                     });
                 });
             }
@@ -298,10 +297,6 @@ class TaqawelServicesController extends Controller
         } else {
             $id = Constants::SERVICETYPES['provider'];
             session()->replace(['service_type' => $id]);
-        }
-
-        if ($id !== Constants::SERVICETYPES['provider']) {
-            return $this->market($id);
         }
 
         if (request()->ajax()) {
@@ -425,7 +420,7 @@ class TaqawelServicesController extends Controller
         list($userId, $username) = getCurrentUserNameAndId();
         try {
             $contract = Contract::byMe()->editable()->findOrFail($id);
-            $contracts = Contract::byMe()->where('id', '!=', $id)->get()->pluck('id', 'id')->toArray();
+            $contracts = Contract::toMe()->where('id', '!=', $id)->get()->pluck('id', 'id')->toArray();
             $contractNatures = ContractNature::get()->pluck('name', 'id')->toArray();
             $regions = Region::all()->pluck('name', 'id')->toArray();
             $hasInvoices = InvoiceBundle::byMe()->paid()->notExpired()->count();
@@ -490,8 +485,8 @@ class TaqawelServicesController extends Controller
     {
         list($userId, $username) = getCurrentUserNameAndId();
         try {
-            $marketServices = MarketTaqawoulServices::findOrFail($id);
-            $contracts = Contract::byMe()->hasReference($marketServices)->get()->pluck('id', 'id')->toArray();
+            $marketServices = MarketTaqawoulServices::byOthers()->findOrFail($id);
+            $contracts = Contract::toMe()->hasReference($marketServices)->get()->pluck('id', 'id')->toArray();
             $regions = Region::all()->pluck('name', 'id')->toArray();
             $hasInvoices = InvoiceBundle::byMe()->paid()->notExpired()->count();
         } catch (ModelNotFoundException $e) {
@@ -529,6 +524,13 @@ class TaqawelServicesController extends Controller
             'contract_nature_id'         => $service->contract_nature_id,
             'market_taqaual_services_id' => $request->market_taqaual_services_id,
         ]));
+
+        // send notify email to beneficial
+        \Mail::send('emails.send_taqawel_offer',['contractName' => $contract->contractNature->name, 'contractId' => $contract->id], function ($message) use ($contract) {
+            $message->from(config('mail.from.address'))
+                    ->to($contract->responsible_email)
+                    ->subject(trans('email.subject_send_offer'));
+        });
 
         foreach ($request->desc_location as $location) {
             if (session()->has('selected_establishment.id')) {

@@ -28,14 +28,14 @@ class TaqawelSendOfferRequest extends Request
         {
             return [
                 'contract_id'        => 'sometimes|integer|exists:contracts,id',
-                'contract_name'      => 'sometimes|min:2|max:120|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
-                'contract_desc'      => 'sometimes|min:2|max:225|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
-                'contract_amount'    => 'sometimes|integer|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
-                'start_date'         => 'sometimes|date|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
-                'end_date'           => 'sometimes|after:start_date|after:'.date('Y-m-d').'|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
+                'contract_name'      => 'sometimes|required|min:2|max:120|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
+                'contract_desc'      => 'sometimes|required|min:2|max:225|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
+                'contract_amount'    => 'sometimes|required|integer|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
+                'start_date'         => 'sometimes|required|date|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
+                'end_date'           => 'sometimes|required|after:start_date|after:'.date('Y-m-d').'|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
                 'contract_ref_no'    => 'required_if:contract_type,1|integer|contract_field_cannot_edit_if_approved:' . $this->request->get('contract_id'),
-                'desc_location.*'    => 'required|min:3',
-                'file_contract'      => 'sometimes|mimes:jpeg,bmp,png,doc,docx,pdf|max:20000',
+                'desc_location.*'    => 'sometimes|required|min:3',
+                'file_contract'      => 'required_without:file_contract_old|mimes:jpeg,bmp,png,doc,docx,pdf|max:20000',
                 'status'             => 'sometimes|required|in:pending,approved',
             ];
         } else {
@@ -47,6 +47,7 @@ class TaqawelSendOfferRequest extends Request
                 'end_date'           => 'required|after:start_date|after:'.date('Y-m-d'),
                 'contract_ref_no'    => 'required_if:contract_type,1|integer',
                 'desc_location.*'    => 'required',
+                'desc_location'      => 'required',
                 'file_contract'      => 'required|mimes:jpeg,bmp,png,doc,docx,pdf|max:20000',
                 'status'             => 'sometimes|required|in:pending,approved',
             ];
@@ -68,9 +69,16 @@ class TaqawelSendOfferRequest extends Request
             'start_date'         => trans('tqawel_offer_contract.start_date'),
             'end_date'           => trans('tqawel_offer_contract.end_date'),
             'contract_ref_no'    => trans('tqawel_offer_contract.contract_ref_no'),
-            'desc_location.*'    => trans('temp_job.region_id'),
+            'desc_location'      => trans('tqawel_offer_contract.work_locations'),
             'file_contract'      => trans('tqawel_offer_contract.attached_file'),
             'contract_type'      => trans('tqawel_offer_contract.contract_type'),
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'file_contract.required_without' => trans('validation.required')
         ];
     }
 }

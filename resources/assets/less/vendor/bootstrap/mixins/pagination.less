@@ -1,0 +1,18 @@
+@import "../../../../../../bower_components/bootstrap/less/mixins/pagination.less";
+
+.pagination-size-rtl(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+  > li {
+    &:first-child {
+      > a,
+      > span {
+        .border-right-radius(@border-radius);
+      }
+    }
+    &:last-child {
+      > a,
+      > span {
+        .border-left-radius(@border-radius);
+      }
+    }
+  }
+}

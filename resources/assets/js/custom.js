@@ -14,13 +14,24 @@ $(function () {
         "hideMethod": "fadeOut"
     };
 
+    $("input[name=ishaar_cancel_paid], input[name=ishaar_cancel_free]").on('change', function() {
+        if(!$("input[name=ishaar_cancel_paid]").is(":checked") && !$("input[name=ishaar_cancel_free]").is(":checked")) {
+            $("input[name=ishaar_cancel_provider]").val('');
+            $("input[name=ishaar_cancel_benf]").val('');
+            $('.ishaar-cancel-container').hide();
+        } else {
+            $('.ishaar-cancel-container').show();
+        }
+    });
+
+
     /**
      * Get establishment data based on inputs
      * @constructor
      */
     function molConnect(error_out, success_out) {
         $(".form-body .alert-danger").remove();
-        
+
         var labour_office_no = $("#labour_office_no").val();
         var sequence_no = $("#sequence_no").val();
         var id_number = $("#id_number").val();
@@ -92,8 +103,10 @@ $(function () {
     function prepare_inputs() {
         $('.bs-select').selectpicker({
             noneSelectedText: noneSelectedTextValue,
-            noneResultsText: noSearchResult+" {0}",
-            countSelectedText:function(a,b){return 1==a?"{0} "+itemSelected:"{0} "+itemsSelected},
+            noneResultsText: noSearchResult + " {0}",
+            countSelectedText: function (a, b) {
+                return 1 == a ? "{0} " + itemSelected : "{0} " + itemsSelected
+            },
             selectAllText: selectAll,
             deselectAllText: deselectAll,
             iconBase: 'fa',
@@ -134,14 +147,15 @@ $(function () {
         $('#main').on('click', '#taqawel_services', function () {
             $("#taqawel_services_div").toggle(this.checked);
         });
-        $('#main').on('click','#hire_labore',function () {
+        $('#main').on('click', '#hire_labore', function () {
             $("#hire_labore_div").toggle(this.checked);
         });
-        $('#main').on('click','#direct_emp', function () {
+        $('#main').on('click', '#direct_emp', function () {
             $("#direct_emp_div").toggle(this.checked);
         });
 
     }
+
     validate_form();
     prepare_inputs();
 
@@ -193,8 +207,7 @@ $(function () {
             contentType: false,
             success: function (msg) {
                 toastr.success('', msg);
-                if(current.data('back-url'))
-                {
+                if (current.data('back-url')) {
                     setTimeout(function () {
                         window.location = current.data('back-url');
                     }, 2000);
@@ -318,7 +331,7 @@ $(function () {
                         }
                     });
                 });
-                
+
                 $(document).on('click', '.sessionClose', function (e) {
                     e.preventDefault();
                     $(this).closest('.submitform').fadeOut(300, function () {
@@ -352,7 +365,7 @@ $(function () {
                 $(document).on('click', '.remove', function () {
                     $(this).closest('.divAdd').remove();
                 });
-                
+
                 /* Banks Checkbox toggles*/
                 $('input[name="type"]').on('change', function (e) {
                     var checked = $(this).attr('id');
@@ -501,7 +514,7 @@ $(function () {
         });
     });
 
-    $('#main').on('change','input[name=taqyeem_type]', function(){
+    $('#main').on('change', 'input[name=taqyeem_type]', function () {
         $(".form-body .alert-danger").remove();
         $('.partial-resident-div').empty();
         $('.partial-page-content').empty();
@@ -514,8 +527,8 @@ $(function () {
             },
             success: function (response) {
                 $('.partial-div .page-loader').first().fadeOut();
-                
-                if(that.val() == "2") {
+
+                if (that.val() == "2") {
                     $('.partial-resident-div').append(response);
                     that.closest('.row').nextAll('.details').show();
                 } else {
@@ -527,10 +540,11 @@ $(function () {
         });
     });
 
-    $('#main').on('change','input[name=residents]', function(){
+    $('#main').on('change', 'input[name=residents]', function () {
         var that = $(this);
-        if(that.val() == 2) {
+        if (that.val() == 2) {
             $('.residents_search').remove();
+            $('#userTypeResidents').hide();
             $.ajax({
                 url: $(this).data('url'),
                 beforeSend: function (xhr) {
@@ -542,12 +556,13 @@ $(function () {
                 }
             });
         } else {
+            $('#userTypeResidents').show();
             $('.residents_search').remove();
         }
     });
 
-    $('#main').on('change','input[name=periodic_or_date]', function(){
-        if($(this).val() == 1) {
+    $('#main').on('change', 'input[name=periodic_or_date]', function () {
+        if ($(this).val() == 1) {
             $('#taqyeem_date_div').hide();
             $('#taqyeem_period').show();
         } else {
@@ -555,8 +570,8 @@ $(function () {
             $('#taqyeem_date_div').show();
         }
     });
-    
-    $('#main').on('click', '#search-users', function(){
+
+    $('#main').on('click', '#search-users', function () {
         $('.search-results').empty();
         var that = $(this);
         var inputValue = that.closest('.row').find('input').val();
@@ -578,7 +593,8 @@ $(function () {
     });
 
 
-    $('#main').on('click', 'a[rel]', function(e){
+    $('#main').on('click', 'a[rel]', function (e) {
+
         e.preventDefault();
         $('.search-results').empty();
         var that = $(this);
@@ -601,10 +617,10 @@ $(function () {
 
     var inputValue = new Array();
 
-    $('#main').on('change', '.input-id', function(e){
+    $('#main').on('change', '.input-id', function (e) {
         e.preventDefault();
         var that = $(this);
-        if(that.is(':checked')) {
+        if (that.is(':checked')) {
             if (!$("#taqyeem_row_" + that.attr('data-userType') + '_' + that.val()).length) {
                 var tr = that.closest('tr');
                 var tableDiv = $('.table-div');
@@ -612,7 +628,7 @@ $(function () {
                 tableDiv.show();
                 clonedTr.attr('id', "#taqyeem_row_" + that.attr('data-userType') + '_' + that.val());
                 clonedTr.find("td:first").remove();
-                clonedTr = clonedTr.append('<td><input type="hidden" name="ids[]" value="'+that.val()+'"><input type="hidden" name="userType[]" value="'+that.attr('data-userType')+'"><button class="remove-row btn btn-danger error">&times;</button></td>');
+                clonedTr = clonedTr.append('<td><input type="hidden" name="ids[]" value="' + that.val() + '"><input type="hidden" name="userType[]" value="' + that.attr('data-userType') + '"><button class="remove-row btn btn-danger error">&times;</button></td>');
 
                 tableDiv.find('tbody').append(clonedTr);
                 tableDiv.show();
@@ -620,7 +636,7 @@ $(function () {
         }
     });
 
-    $('#main').on('click', '.remove-row', function(e){
+    $('#main').on('click', '.remove-row', function (e) {
         e.preventDefault();
         $(this).closest('tr').remove();
         if ($('.table-div tbody tr').length) {
@@ -639,11 +655,11 @@ $(function () {
         var question = $("#question").val();
         var answers = [];
         $('input[id^="answer"]').each(function (input) {
-            if($(this).val() != '')
+            if ($(this).val() != '')
                 answers.push($(this).val());
             //var value = $(this).val();
         });
-        if(!answers[0])
+        if (!answers[0])
             answers.push('');
         $.ajax({
             type: "post",
@@ -735,8 +751,7 @@ $(function () {
             contentType: false,
             success: function (msg) {
                 toastr.success('', msg);
-                if(current.data('back-url'))
-                {
+                if (current.data('back-url')) {
                     setTimeout(function () {
                         window.location = current.data('back-url');
                     }, 2000);
@@ -757,14 +772,59 @@ $(function () {
         });
     });
 
-    $('body').on('click', 'button[value=cancel]', function(e){
-       e.preventDefault();
+    $('body').on('click', 'button[value=cancel]', function (e) {
+        e.preventDefault();
         location.reload();
     });
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         $(".form-body .alert-danger").remove();
     });
-    
+
+    $('#filter').change(function () {
+        var search_text = $(this).val();
+        if (search_text == '') {
+            $("#table tr").show();
+            $("#table2 tr").show();
+        } else {
+            $("#table tr").hide();
+            $("#table2 tr").hide();
+            $("#table td:first-child").filter(function () {
+                return $(this).text().trim() === search_text.trim();
+            }).parent().show();
+            $("#table2 td:last-child").filter(function () {
+                return $(this).text().trim() === search_text.trim();
+            }).parent().show();
+        }
+    });
+
     jQuery.extend(jQuery.validator.messages, {});
+
+    /**
+     * Hijri calender handler
+     */
+    var islamicCalendarLang = '';
+    if (App.isRTL()) {
+        islamicCalendarLang = 'ar';
+    }
+    $('#period_start_date, #period_end_date').calendarsPicker({
+        calendar: $.calendars.instance('islamic', islamicCalendarLang),
+        
+        onSelect: function() {
+            // floating label adjustment
+            if ($(this).val().length > 0) {
+                $(this).addClass('edited');
+            } else {
+                $(this).removeClass('edited');
+            }
+        },
+        onClose: function() {
+            // floating label adjustment
+            if ($(this).val().length > 0) {
+                $(this).addClass('edited');
+            } else {
+                $(this).removeClass('edited');
+            }
+        }
+    });
 });

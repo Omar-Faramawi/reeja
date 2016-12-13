@@ -49,11 +49,11 @@
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_start_date') }} </label> : <span id='start_date'>{{ $contractEmployee->contract->start_date }}</span></div>
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_end_date') }}</label> : <span id='end_date'>{{ $contractEmployee->contract->end_date }}</span></div>
                            <div class="col-md-6"><label id='amount'>{{ trans('contracts_cancelation.amount') }} : </label><span id='amount'>{{ $contractEmployee->contract->contract_amount }}</span></div>
-                           <div class="col-md-6"><label id='job'>{{ trans('contracts_cancelation.job') }} : </label><span id='job'>{{ $contractEmployee->contract->vacancy->job->job_name }}</span></div>
-                           <div class="col-md-6"><label id='nationality'>{{ trans('contracts_cancelation.nationality') }} : </label><span id='nationality'>{{ $contractEmployee->contract->vacancy->nationality->name }}</span></div>
-                           <div class="col-md-6"><label id='gender'>{{ trans('contracts_cancelation.gender') }} : </label><span id='gender'>{{  \Tamkeen\Ajeer\Utilities\Constants::gender()[$contractEmployee->contract->vacancy->gender] }}</span></div>
-                           <div class="col-md-6"> <label id='religion'>{{ trans('contracts_cancelation.religion') }} : </label><span id='religion'>{{
-                              \Tamkeen\Ajeer\Utilities\Constants::religions()[$contractEmployee->contract->vacancy->religion] }}</span>
+                           <div class="col-md-6"><label id='job'>{{ trans('contracts_cancelation.job') }} : </label><span id='job'>{{ $contractEmployee->contract->vacancy->job->job_name or '' }}</span></div>
+                           <div class="col-md-6"><label id='nationality'>{{ trans('contracts_cancelation.nationality') }} : </label><span id='nationality'>{{ $contractEmployee->contract->vacancy->nationality->name or '' }}</span></div>
+                           <div class="col-md-6"><label id='gender'>{{ trans('contracts_cancelation.gender') }} : </label><span id='gender'>{{ $contractEmployee->contract->vacancy->gender_name or '' }}</span></div>
+                           <div class="col-md-6"> <label id='religion'>{{ trans('contracts_cancelation.religion') }} : </label><span id='religion'>
+                                {{ $contractEmployee->contract->vacancy->religion_name or '' }}</span>
                            </div>
                         </div>
                      </div>

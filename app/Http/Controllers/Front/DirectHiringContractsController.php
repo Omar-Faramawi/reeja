@@ -27,6 +27,10 @@ class DirectHiringContractsController extends Controller
     public function index($id = null)
     {
         $isProvider = TRUE;
+        $userType = \Auth::user()->user_type_id;
+        if (!$id && $userType != Constants::USERTYPES['saudi'] && $userType != Constants::USERTYPES['job_seeker']) {
+            $id = Constants::SERVICETYPES['benf'];
+        }
 
         if ($id) {
             if (in_array($id, Constants::SERVICETYPES)) {
@@ -76,8 +80,7 @@ class DirectHiringContractsController extends Controller
 
     /**
      * Send offer to employee
-     *
-     * @param $contract_id
+     * @param $employeeId
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -214,6 +217,13 @@ class DirectHiringContractsController extends Controller
             'region_id'     => $request->region_id[0],
             'desc_location' => $request->contract_locations
         ]));
+
+        // send notify email to provider(job seeker)
+        \Mail::send('emails.send_direct_hiring_offer', ['benfName' => $contract_record->benf_name, 'contractId' => $contract_record->id], function ($message) use ($contract_record) {
+            $message->from(config('mail.from.address'))
+                    ->to($contract_record->provider_responsible_email)
+                    ->subject(trans('email.subject_send_offer'));
+        });
 
         return trans('temp_job.added');
     }

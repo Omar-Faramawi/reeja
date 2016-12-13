@@ -102,8 +102,12 @@
                                                             <td>{{$contract['hr_pool']['nationality']['name']}}</td>
                                                             <td>{{$contract['hr_pool']['region']['name']}}</td>
                                                             <td>
-                                                                <a href="{{url("offers/downloadfile/" . $contract['id'])}}"><i
-                                                                            class="fa fa-file"></i> </a></td>
+                                                                @if($contract['qualification_upload'])
+                                                                <a href="{{ url('uploads/'. $contract['qualification_upload']) }}" download>
+                                                                    <i class="fa fa-file"></i>
+                                                                </a>
+                                                                @endif
+                                                            </td>
                                                             <td>{{$contract['hr_pool']['work_start_date']}}</td>
                                                             <td>{{$contract['hr_pool']['work_end_date']}}</td>
                                                         </tr>

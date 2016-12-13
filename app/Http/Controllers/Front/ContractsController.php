@@ -40,8 +40,18 @@ class ContractsController extends Controller
         try {
             if (session()->get('service_type') == Constants::SERVICETYPES['benf']) {
                 $contract = Contract::toMe()->with('vacancy.job', 'vacancy.nationality')->findOrFail($id);
+                if ($contract->contract_type_id == Constants::CONTRACTTYPES['direct_emp'] && $contract->status == Constants::CONTRACT_STATUSES['pending']) {
+                    $status = Constants::CONTRACT_STATUSES['cancelled'];
+                } else {
+                    $status = Constants::CONTRACT_STATUSES['benef_cancel'];
+                }
             } else {
                 $contract = Contract::byMe()->with('vacancy.job', 'vacancy.nationality')->findOrFail($id);
+                if ($contract->contract_type_id != Constants::CONTRACTTYPES['direct_emp'] && $contract->status == Constants::CONTRACT_STATUSES['pending']) {
+                    $status = Constants::CONTRACT_STATUSES['cancelled'];
+                } else {
+                    $status = Constants::CONTRACT_STATUSES['provider_cancel'];
+                }
             }
             $reasons = Reason::forTempWorkCancel()->pluck('reason', 'id')->toArray();
 
@@ -51,16 +61,14 @@ class ContractsController extends Controller
                 $canCancel = false;
             }
 
-            $benfName = Contract::getName($contract->benf_type, $contract->benf_id);
-
         } catch (ModelNotFoundException $e) {
             abort(404);
         }
 
-        $status = 'provider_cancel';
+        
 
         return view('front.contracts.details',
-            compact('userId', 'username', 'contract', 'benfName', 'canCancel', 'reasons', 'status'));
+            compact('userId', 'username', 'contract', 'canCancel', 'reasons', 'status'));
 
     }
 
@@ -84,9 +92,20 @@ class ContractsController extends Controller
 
     public function updateStatus(ContractsRequest $request)
     {
+        $contract = Contract::findOrFail($request->id);
         $data = $request->only(array_keys($request->rules()));
+
+        if ($contract->contract_type_id != Constants::CONTRACTTYPES['direct_emp'] && ($data['status'] == 'provider_cancel' || $data['status'] == 'benef_cancel')) {
+            $contractSetup = ContractSetup::where('contract_type_id', $contract->contract_type_id)->firstOrFail();
+            if ($data['status'] == 'provider_cancel' && !$contractSetup->benf_cancel_contract) {
+                $data['status'] = 'cancelled';
+            } elseif ($data['status'] == 'benef_cancel' && !$contractSetup->provider_cancel_contract) {
+                $data['status'] = 'cancelled';
+            }
+        }
+        
         try {
-            Contract::findOrFail($request->id)->update($data);
+            $contract->update($data);
         } catch (ModelNotFoundException $e) {
             abort(404);
         }

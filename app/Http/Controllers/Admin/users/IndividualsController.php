@@ -101,19 +101,23 @@ class IndividualsController extends Controller
         $data = User::byId($id)->firstOrFail();
         $data->delete();
 
-        $indv = Individual::where('nid',$data->national_id)->first();
+        $indv = Individual::where([
+                'id'           => $data->id_no,
+                'user_type_id' => $data->user_type_id,
+            ])
+            ->first();
         if ($indv) {
             $indv->delete();
+        }
 
-            $hrPoolRec = HRPool::where([
-                    'id_number'     => $data->national_id,
-                    'provider_type' => $data->user_type_id,
-                    'provider_id'   => $indv->id,
+        $hrPoolRec = HRPool::where([
+                'id_number'     => $data->national_id,
+                'provider_type' => $data->user_type_id,
+                'provider_id'   => $data->id_no,
                 ]
             )->first();
-            if ($hrPoolRec) {
-                $hrPoolRec->delete();
-            }
+        if ($hrPoolRec) {
+            $hrPoolRec->delete();
         }
 
         $indLabor = IndividualLabor::where('id_number',$data->national_id)->first();

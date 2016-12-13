@@ -31,10 +31,10 @@ class UpdateTaqawelIshaarSetupRequest extends Request
                 'labor_status_visitor'       => 'required_without_all:labor_status_employed,labor_status_companion|in:0,1',
                 'labor_gender_male'          => 'required_without:labor_gender_female|in:0,1',
                 'labor_gender_female'        => 'required_without:labor_gender_male|in:0,1',
-                'ishaar_cancel_free'         => 'required_without:ishaar_cancel_paid|in:0,1',
-                'ishaar_cancel_paid'         => 'required_without:ishaar_cancel_free|in:0,1',
-                'ishaar_cancel_provider'     => 'required_without:ishaar_cancel_benf|in:0,1',
-                'ishaar_cancel_benf'         => 'required_without:ishaar_cancel_provider|in:0,1',
+                'ishaar_cancel_free'         => 'sometimes|required_without:ishaar_cancel_paid|in:0,1',
+                'ishaar_cancel_paid'         => 'sometimes|required_without:ishaar_cancel_free|in:0,1',
+                'ishaar_cancel_provider'     => 'in:0,1',
+                'ishaar_cancel_benf'         => 'in:0,1',
                 'nitaq_active'               => 'required|in:0,1',
             ];
         } else {
@@ -47,8 +47,7 @@ class UpdateTaqawelIshaarSetupRequest extends Request
             ];
             
             if (Request::get('tab') == 'free') {
-                $rules['min_no_of_ishaars'] = 'integer|min:0|max:1000000';
-                $rules['max_no_of_ishaars'] = 'required|integer|min:1|max:1000000|greater_than:min_no_of_ishaars';
+                $rules['max_no_of_ishaars'] = 'required|integer|min:1|max:1000000';
                 $rules['ishaar_lobor_times'] = 'required|integer|min:1|max:1000000';
             } elseif (Request::get('tab') == 'paid') {
                 $rules['labor_follow_provider_perm']                 = 'in:0,1';

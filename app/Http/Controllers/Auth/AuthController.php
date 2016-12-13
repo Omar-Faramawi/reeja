@@ -86,16 +86,58 @@ class AuthController extends Controller
     protected $foreigner;
 
     /**
+     * Define the Absher service
+     * @var object
+     */
+    protected $absher;
+
+    /**
      * Create a new authentication controller instance.
      *
-     * @return void
+     * @param CitizensRepository $cnic
+     * @param ForeignersRepository $fnic
+     * @param AuthenticateViaMobileService $absher
      */
 
-    public function __construct(CitizensRepository $cnic, ForeignersRepository $fnic)
+    public function __construct(CitizensRepository $cnic, ForeignersRepository $fnic, AuthenticateViaMobileService $absher)
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
         $this->citizensNic   = $cnic;
         $this->foreignersNic = $fnic;
+        $this->absher = $absher;
+    }
+
+    public function register(Request $request)
+    {
+        $data = $request->all();
+        $validator = $this->validator($data);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $isSaudi = (substr($data['id_number'], 0, 1) == "1");
+
+        if ($isSaudi && !$validator->fails()) {
+            //store registration in session
+            session(['temp_account_registration' => $data]);
+            // invoke sms service
+            if (env('APP_ENV') == 'local') {
+                $activationNumber = $this->absher->authenticateViaMobile($data['id_number'], "123123");
+            }else{
+                $activationNumber = $this->absher->authenticateViaMobile($data['id_number']);
+            }
+
+            session()->push('temp_account_registration.activation_number', $activationNumber);
+
+            return redirect("/activation");
+        }
+
+        Auth::guard($this->getGuard())->login($this->create($request->all()));
+
+        return redirect($this->redirectPath());
     }
 
     /**
@@ -103,21 +145,42 @@ class AuthController extends Controller
      *
      * @param  array $data
      *
+     * @param AuthenticateViaMobileService $service
      * @return \Illuminate\Contracts\Validation\Validator
      */
 
     protected function validator(array $data)
     {
-        if (isset($data['birth_date']) && $data['birth_date'] != "") {
-            $date = explode("-", $data['birth_date']);
-        } else {
-            $date = 0;
+        $isSaudi = (substr($data['id_number'], 0, 1) == "1");
+
+        $rules = [
+            'birth_date'        => 'bail|required|date',
+            'id_number'         => 'bail|required|digits:10|unique:hr_pool,id_number,0,id,deleted_at,NULL',
+            'first_name'        => 'required|min:2|max:255',
+            'last_name'         => 'required|min:2|max:255',
+            'email'             => 'required|email|max:255|unique:users,email,0,id,deleted_at,NULL',
+            'password'          => 'required|min:6|confirmed',
+            'phone'             => 'required|numeric|digits:10',
+            'activation_number' => 'sometimes|required',
+        ];
+
+        $attributes = [
+            'id_number'  => trans('registration.attributes.id_number_saudi'),
+            'birth_date' => trans('registration.attributes.birth_date'),
+        ];
+
+        $validator = Validator::make($data, $rules, [], $attributes);
+
+        if ($validator->fails()) {
+            return $validator;
         }
 
+        $date = explode("-", $data['birth_date']);
+
         // Custom NIC validation Rule
-        Validator::extend('nic', function ($attribute, $value, $parameters, $validator) use ($date) {
+        Validator::extend('nic', function ($attribute, $value, $parameters, $validator) use ($date, $isSaudi) {
             if ($this->checksum($value) == 1) {
-                if (substr($value, 0, 1) == "1" && $date != 0) {
+                if ($isSaudi) {
                     try {
                         $this->citizen = $this->citizensNic->fetchCitizen(IdNumber::fromString($value),
                             HijriDate::fromDate(intval($date[0]), intval($date[1]), intval($date[2])),
@@ -131,7 +194,7 @@ class AuthController extends Controller
                     try {
                         $this->foreigner = $this->foreignersNic->fetchForeigner(IdNumber::fromString($value),
                             IdNumber::fromInt(config('nic.operatorId')));
-
+                        //TODO: check for birth date
                         return isset($this->foreigner);
                     } catch (ForeignerDataNotFoundException $e) {
                         return false;
@@ -159,34 +222,30 @@ class AuthController extends Controller
 
         // set nic custom error message
         $messages = [
-            'nic'           => (isset($data['saudi']) ? trans('registration.validation.nicerror_saudi') : trans('registration.validation.nicerror_non_saudi')),
+            'nic'           => ($isSaudi ? trans('registration.validation.nicerror_saudi') : trans('registration.validation.nicerror_non_saudi')),
             'nic_not_active'=> trans('registration.validation.nic_not_active'),
-            'required_if'   => trans('registration.validation.required_if'),
-        ];
-
-        // set attributes
-        $attributes = [
-            'id_number'  => (isset($data['saudi']) ? trans('registration.attributes.id_number_saudi') : trans('registration.attributes.id_number_non_saudi')),
-            'birth_date' => trans('registration.attributes.birth_date'),
-            'saudi'      => trans('registration.attributes.saudi'),
-            'religion'   => trans('registration.attributes.religion'),
         ];
 
         $rules = [
-            'saudi'      => 'sometimes',
-            'id_number'  => 'bail|required|digits:10|unique:hr_pool,id_number,0,id,deleted_at,NULL|nic|nic_not_active',
-            'birth_date' => 'required_if:saudi,1',
-            'first_name' => 'required|min:2|max:255',
-            'last_name'  => 'required|min:2|max:255',
-            'email'      => 'required|email|max:255|unique:users,email,0,id,deleted_at,NULL',
-            'password'   => 'required|min:6|confirmed',
-            'phone'      => 'required|numeric|min:6',
-            'religion'   => 'required',
-            'gender'     => 'required',
+            'id_number'  => 'nic|nic_not_active',
         ];
 
-
         $validator = Validator::make($data, $rules, $messages, $attributes);
+
+        if ($isSaudi && !isset($data['activation_number']) && !$validator->fails()) {
+            //store registration in session
+            session(['temp_account_registration' => $data]);
+            // invoke sms service
+            if (env('APP_ENV') == 'local') {
+                $activationNumber = $this->absher->authenticateViaMobile($data['id_number'], "123123");
+            }else{
+                $activationNumber = $this->absher->authenticateViaMobile($data['id_number']);
+            }
+
+            session()->push('temp_account_registration.activation_number', $activationNumber);
+
+            redirect("/activation");
+        }
 
         return $validator;
     }
@@ -200,6 +259,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+
         if (isset($this->foreigner)) {
             $ownership_id      = $this->foreigner->sponsor->getIdNumber();
             $ownership_name    = $this->foreigner->sponsor->getName();
@@ -240,7 +300,7 @@ class AuthController extends Controller
             'name'           => $data['first_name'] . ' ' . $data['last_name'],
             'phone'          => $data['phone'],
             'gender'         => $gender,
-            'religion'       => $data['religion'],
+            'religion'       => 1, //TODO: get religion from NIC
             'email'          => $data['email'],
             'user_type_id'   => $user_type_id,
         ]);
@@ -273,13 +333,13 @@ class AuthController extends Controller
             'id_number'      => $data['id_number'],
             'provider_type'  => $user_type_id,
             'provider_id'    => $individual->id,
-            'name'           => $data['first_name'] . " " . $data['last_name'],
+            'name'           => $data['first_name'] . " " . $data['last_name'], //TODO: get name from NIC
             'gender'         => $gender,
             'job_id'         => $job_id,
             'email'          => $data['email'],
             'phone'          => $data['phone'],
             'birth_date'     => $birth_date,
-            'religion'       => $data['religion'],
+            'religion'       => 1, //TODO: get religion from NIC
             'nationality_id' => $nationality_id,
             'chk'            => '0',
             'status'         => '1',
@@ -424,7 +484,7 @@ class AuthController extends Controller
             if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
                 $this->fireLockoutEvent($request);
 
-                return $this->sendLockoutResponse($request);
+                return response()->json(['error' => trans('auth.throttle', ['seconds' => $this->secondsRemainingOnLockout($request)])], 422);
             }
 
             if ($auth->attempt($request->only('national_id', 'password'))) {
@@ -467,7 +527,7 @@ class AuthController extends Controller
             if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
                 $this->fireLockoutEvent($request);
 
-                return response()->json(['error' => trans('auth.messages.exceeded_failure_threshold')], 422);
+                return response()->json(['error' => trans('auth.throttle', ['seconds' => $this->secondsRemainingOnLockout($request)])], 422);
             }
 
             if ($auth->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
@@ -507,41 +567,14 @@ class AuthController extends Controller
         }
     }
 
-    public function citizenRegister(Request $request, AuthenticateViaMobileService $service)
-    {
-        $data = $request->all();
-        $validator = $this->validator($data);
-        if($validator->fails())
-        {
-           return response($validator->errors(), 403)->header('Content-Type', 'application/json');
-        }else{
-            //store registration in session
-            session(['temp_account_registration' => $data]);
-            // invoke sms service 
-            if (env('APP_ENV') == 'local') {
-                $activationNumber = $service->authenticateViaMobile($data['id_number'], "123123");
-            }else{
-                $activationNumber = $service->authenticateViaMobile($data['id_number']);
-            }
-
-            session()->push('temp_account_registration.activation_number', $activationNumber);
-            //redirect to activation page
-            return "true";   
-        }
-    }
-
     public function activation(Request $request)
     {
         $data = $request->all();
-
-        $this->validate($request, [
-            'activation_number' => 'required',
-        ]); 
       
         if(session()->has('temp_account_registration') && session('temp_account_registration.activation_number')[0] == $data['activation_number'])
         {
-            $validData = $this->validator(session('temp_account_registration'));
-            if($validData->fails()){
+            $validator = $this->validator(session('temp_account_registration'));
+            if($validator->fails()){
                     return response($validator->errors(), 403)->header('Content-Type', 'application/json');
             }else{
                 Auth::guard($this->getGuard())->login($this->create(session('temp_account_registration')));

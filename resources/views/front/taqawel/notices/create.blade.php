@@ -50,7 +50,7 @@
                                     {{ Form::open(['route' => 'taqawel.notices.store','method' => 'POST' ,'id'=>'taqawel_notices_form', 'class'=>'form-horizontal ','data-url' => url('/taqawel/notices')]) }}
                                     <div class="form-body">
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.form_attributes.contract_no')}}</label>
+                                            <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.form_attributes.contract_no')}}</label>
                                             <div class="col-md-4">
                                                 <input type="text" name='contract_id' id="contract_id"
                                                        class="form-control input-circle" value="{{$contract->id or ''}}"
@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.form_attributes.benifit_no')}}</label>
+                                            <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.form_attributes.benifit_no')}}</label>
                                             <div class="col-md-4">
                                                 <input type="text" name='benef_id' id="benef_id"
                                                        class="form-control input-circle" value="{{$contract->benf_id or ''}}"
@@ -68,7 +68,7 @@
 
                                         @if($contract->contract_ref_no)
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.form_attributes.ref_no')}}</label>
+                                                <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.form_attributes.ref_no')}}</label>
                                                 <div class="col-md-4">
                                                     <input type="text" name='contract_ref_no' id="contract_ref_no"
                                                            class="form-control input-circle"
@@ -78,7 +78,7 @@
                                             </div>
                                         @endif
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.form_attributes.benifit_name')}}</label>
+                                            <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.form_attributes.benifit_name')}}</label>
                                             <div class="col-md-4">
                                                 <div class="input-group">
                                                     <input type="text" class="form-control input-circle-left"
@@ -91,7 +91,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.form_attributes.benifit_activity')}}</label>
+                                            <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.form_attributes.benifit_activity')}}</label>
                                             <div class="col-md-4">
                                                 <div class="input-group">
                                                     <input  type="text" class="form-control input-circle-left"
@@ -111,7 +111,7 @@
                                         @if(!count($accountType))
 
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.attributes.ishaar_start_date')}}</label>
+                                                <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.attributes.ishaar_start_date')}}</label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control date-picker input-circle-left"
@@ -125,7 +125,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.attributes.ishaar_end_date')}}</label>
+                                                <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.attributes.ishaar_end_date')}}</label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control date-picker input-circle-left"
@@ -139,23 +139,18 @@
                                             </div>
                                         @else
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.attributes.ishaar_start_date')}}</label>
+                                                <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.attributes.ishaar_start_date')}}</label>
                                                 <div class="col-md-4">
-                                                    <div class="input-group">
-                                                        <input type="text" name="start_date" required value=""
-                                                               class="form-control date-picker" id="start_date">
-                                                    </div>
+                                                    <input type="text" name="start_date" required value=""
+                                                           class="form-control input-circle date-picker" id="start_date">
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.attributes.ishaar_end_date')}}</label>
+                                                <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.attributes.ishaar_end_date')}}</label>
                                                 <div class="col-md-4">
-                                                    <div class="input-group">
-                                                        <input type="text" name="end_date" required value=""
-                                                               class="form-control date-picker" id="end_date">
-
-                                                    </div>
+                                                    <input type="text" name="end_date" required value=""
+                                                           class="form-control input-circle date-picker" id="end_date">
                                                 </div>
                                             </div>
 
@@ -165,7 +160,7 @@
 
 
                                         <div class="form-group last">
-                                            <label class="col-md-2 control-label text-right">{{trans('ishaar_setup.form_attributes.work_areas')}}</label>
+                                            <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.form_attributes.work_areas')}}</label>
                                             <div class="col-md-4">
                                                 <span class="form-control-static">
                                                     <select class="bs-select form-control" name="work_areas"
@@ -189,7 +184,7 @@
                                         <br/><br/>
 
                                         <!-- BEGIN User Details -->
-                                        <div class="portlet box green">
+                                        <div class="portlet box green taqawel_selected_employees_container" style="display:none">
                                             <div class="portlet-title">
                                                 <div class="caption">
                                                     <i class="fa fa-comments"></i>{{trans('ishaar_setup.headings.user_details')}}
@@ -197,18 +192,14 @@
                                             </div>
                                             <div class="portlet-body selected_employees_parent">
                                                 <div class="table table-responsive">
-                                                    <table id="selected_employees" class="table table-striped table-bordered">
+                                                    <table id="taqawel_selected_employees" class="table table-striped table-bordered">
                                                         <thead>
                                                         <tr>
                                                             <th> #</th>
-                                                            <th>{{trans('ishaar_setup.form_attributes.id_number')}} </th>
-                                                            <th> {{trans('ishaar_setup.form_attributes.name')}} </th>
+                                                            <th class="no-sort">{{trans('ishaar_setup.form_attributes.id_number')}} </th>
+                                                            <th class="no-sort"> {{trans('ishaar_setup.form_attributes.name')}} </th>
                                                             <th class="no-sort"> {{trans('ishaar_setup.form_attributes.nationality')}} </th>
                                                             <th class="no-sort"> {{trans('ishaar_setup.form_attributes.job')}} </th>
-                                                            <th class="no-sort"> {{trans('ishaar_setup.form_attributes.gender')}} </th>
-                                                            <th class="no-sort"> {{trans('ishaar_setup.form_attributes.age')}} </th>
-                                                            <th class="no-sort"> {{trans('ishaar_setup.form_attributes.religion')}} </th>
-                                                            <th class="no-sort"> {{trans('ishaar_setup.form_attributes.approved_areas')}} </th>
                                                             <th class="no-sort"> {{trans('labels.options')}} </th>
                                                         </tr>
                                                         </thead>

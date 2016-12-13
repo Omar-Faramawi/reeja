@@ -2,17 +2,6 @@
 @section('title', trans('labels.reports.contractStatusReport'))
 
 @section('content')
-        <!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-    <h1>{{ trans('labels.reports.contractStatusReport') }}</h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="#">{{trans('user.home')}}</a>
-        </li>
-        <li class="active">{{ trans('labels.reports.contractStatusReport') }}</li>
-    </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <!-- BEGIN PAGE BASE CONTENT -->
 <!-- BEGIN DASHBOARD STATS 1-->
 

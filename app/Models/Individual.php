@@ -62,7 +62,10 @@ class Individual extends BaseModel
      */
     public function users()
     {
-        return $this->hasOne(User::class, 'id_no');
+        return $this->hasOne(User::class, 'id_no')->whereIn('user_type_id', [
+            \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['saudi'],
+            \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['job_seeker']
+        ]);
     }
 
     public function labor()

@@ -171,9 +171,11 @@
 
                                         <div class="row static-info">
                                             <div class="col-lg-3">{{trans("tqaweloffers.attachment")}}</div>
-                                            <div class="col-lg-2"><a
-                                                        href="{{url("taqawel/offers/downloadfile/" . $thisContract['id'])}}"><i
-                                                            class="fa fa-file"></i> </a></div>
+                                            <div class="col-lg-2">
+                                                <a href="{{ url('uploads/'. $thisContract['contract_file']) }}" download>
+                                                    <i class="fa fa-file"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     @endif
                                     <br>

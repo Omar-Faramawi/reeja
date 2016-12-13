@@ -1,42 +1,36 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 return [
-    'headings'                 => [
-        'list' => 'Rating Models',
+    "accept" => "Activate",
+    "activated" => "Activated",
+    "addAnswer" => "Add New Answer",
+    "addNewQuestion" => "Add New Question",
+    "addQA" => "Add Question",
+    "add_new" => "Add new evaluation form",
+    "answer" => " Answer",
+    "deleted" => "Deleted Successfully",
+    "email" => [
+        "afterUrl" => "For any question don't hesitate to send us  ",
+        "beforeUrl" => "Dear Member , you need to enter this URL to rate the contract with No. ",
+        "subject" => "Ajeer Evaluations"
     ],
-    'sub-headings'             => [
-        'list' => 'This page allows you to show,add,edit or delete any of Rating Models',
+    "error_delete" => "You Can't delete this element now ",
+    "formTitle" => "Evaluation",
+    "formTitleValidationError" => "you should provide rating model title",
+    "headings" => [
+        "list" => "Evaluations"
     ],
-    "widgetName"               => "Rating Models",
-    "formTitle"                => "Rating Model",
-    "sumbitedsucc"             => "Sumbited Succesfully",
-    "updated"                  => "Updated Succesfully",
-    "deleted"                  => "Deleted Succesfully",
-    "accept"                   => "Activate",
-    "reject"                   => "Stop activated",
-    "activated"                => "Activated",
-    "stopactivated"            => "Stoped Activated ",
-    "error_delete"             => "You Can't delete this element now ",
-    "addNewQuestion"           => "Add New Question",
-    "question"                 => " Question",
-    "answer"                   => " Answer",
-    "addQA"                    => "Add Question",
-    "addAnswer"                => "Add New Answer",
-    'formTitleValidationError' => 'you should provide rating model title',
-    'messages'                 => [
-        "questionRequired" => "You should provid question",
-        "answersRequired"  => "You should provide one answer at least"
-
+    "messages" => [
+        "answersRequired" => "You should provide one answer at least",
+        "questionRequired" => "You should provide question"
     ],
-    'email'                    => [
-        'subject'   => 'Ajeer Rating',
-        'beforeUrl' => 'Dear Member , you need to enter this URL to rate the contract with No. ',
-        'afterUrl'  => 'For any question don\'t hesitate to send us  ',
+    "question" => " Question",
+    "reject" => "Stop activated",
+    "stopactivated" => "Stoped Activated ",
+    "sub-headings" => [
+        "list" => "This page allows you to show,add,edit or delete any of evaluations"
     ],
+    "sumbitedsucc" => "Submitted Successfully",
+    "updated" => "Updated Successfully",
+    "widgetName" => "Evaluations"
 ];
-

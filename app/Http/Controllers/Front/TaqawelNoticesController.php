@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository;
 use Tamkeen\Ajeer\Models\SaudiPercentage;
 use Tamkeen\Ajeer\Models\Establishment;
+use Illuminate\Support\Facades\DB;
 
 class TaqawelNoticesController extends Controller
 {
@@ -44,12 +45,17 @@ class TaqawelNoticesController extends Controller
             $isProvider = FALSE;
         }
         $paid_package = InvoiceBundle::byMe()->paid()->notExpired()->get();
-        if(count($paid_package)){
+        if (count($paid_package)) {
             $ishaar_setup = IshaarSetup::taqawelPaid()->first();
             $can_cancel= $ishaar_setup->ishaar_cancel_paid;
-        }else{
+        } else {
             $ishaar_setup = IshaarSetup::taqawelFree()->first();
-            $can_cancel= $ishaar_setup->ishaar_cancel_free;
+            if ($ishaar_setup) 
+            {
+                $can_cancel = $ishaar_setup->ishaar_cancel_free;
+            } else {
+                $can_cancel = 0;
+            }
         }
 
         if (request()->ajax()) {
@@ -206,14 +212,16 @@ class TaqawelNoticesController extends Controller
      */
     public function store(TaqawelNoticesRequest $request,MolDataRepository $mol)
     {
-        $contract_id = request()->input('contract_id');
-        $emp_ids     = request()->input('ids');
-        $work_areas  = request()->input('work_areas');
-        $start_date  = request()->input('start_date');
-        $end_date    = request()->input('end_date');
-        $contract    = Contract::byMe()->approved()->taqawel()->findOrFail($contract_id);
-        $benf_id     = $contract->benf_id;
-        $provider_id = $contract->provider_id;
+        $contract_id   = request()->input('contract_id');
+        $emp_ids       = request()->input('ids');
+        $work_areas    = request()->input('work_areas');
+        $start_date    = request()->input('start_date');
+        $end_date      = request()->input('end_date');
+        $contract      = Contract::byMe()->approved()->taqawel()->findOrFail($contract_id);
+        $benf_id       = $contract->benf_id;
+        $benf_type     = $contract->benf_type;
+        $provider_id   = $contract->provider_id;
+        $provider_type = $contract->provider_type;
 
         // check if current Establishment or It's Benef Est Exceed percentage of loan Or Borrow
         $curr_est = session()->get('selected_establishment');
@@ -246,7 +254,7 @@ class TaqawelNoticesController extends Controller
             $loan_pct = BaseModel::estLoanPercentage(request()->input('provider_activity'));
             if ($loan_pct >0) {
                 $Lpercentage = ($loan_pct / 100) * $est_emp_count;
-                $emps = ContractEmployee::MaxIshaarsForProvider($provider_id) + count($emp_ids);
+                $emps = ContractEmployee::MaxIshaarsForProvider($provider_id, $provider_type) + count($emp_ids);
                 if( $emps > $Lpercentage){
                     return response()->json(['error' => trans('ishaar_setup.max_loan_percentage')], 422);
                 }
@@ -256,9 +264,9 @@ class TaqawelNoticesController extends Controller
             $borrow_pct = BaseModel::estBorrowPercentage(request()->input('benf_activity'));
             if ($borrow_pct >0) {
                 $Bpercentage = ($borrow_pct / 100) * $est_emp_count;
-                $emps = ContractEmployee::MaxIshaarsForBenf($benf_id) + count($emp_ids);
+                $emps = ContractEmployee::MaxIshaarsForBenf($benf_id, $benf_type) + count($emp_ids);
                 if ($emps > $Bpercentage) {
-                    return response()->json(['error' => trans('ishaar_setup.max_borrow_percentage')], 422);
+                   return response()->json(['error' => trans('ishaar_setup.max_borrow_percentage')], 422);
                 }
             }
         }
@@ -284,11 +292,19 @@ class TaqawelNoticesController extends Controller
                     return response()->json(['error' => trans('ishaar_setup.max_ishaar_period_exceeded')], 422);
                 }
                 //check max ishaars for this benf
-                if(ContractEmployee::MaxIshaarsForBenf($benf_id) >= $ishaar_setup->labor_same_benef_max_num_of_ishaar){
+                if(ContractEmployee::MaxIshaarsForBenf($benf_id, $benf_type) >= $ishaar_setup->labor_same_benef_max_num_of_ishaar){
                     return response()->json(['error' => trans('ishaar_setup.max_ishaar_for_benf')], 422);
                 }
             }else{
                 $ishaar_setup = IshaarSetup::taqawelFree()->first();
+                //check max ishaars num per month
+                $current_month_ishaars_num = ContractEmployee::whereHas('contract',
+                    function ($cont_q) {
+                        $cont_q->byMe()->approved()->taqawel();
+                    })->where(DB::raw('MONTH(created_at)'), '=', date('n'))->count();
+                
+                if($current_month_ishaars_num >= $ishaar_setup->max_no_of_ishaars)
+                    return response()->json(['error' => trans('ishaar_setup.max_ishaar_per_month')], 422);
             }
             
             foreach ($emp_ids as $emp) {
@@ -303,10 +319,8 @@ class TaqawelNoticesController extends Controller
                 if (count($account_type)) {
                     $max = $ishaar_setup->calcMaxPeriodInMonths($ishaar_setup->labor_same_benef_max_period_of_ishaar,
                         $ishaar_setup->labor_same_benef_max_period_of_ishaar_type);
-                    $min_date = ContractEmployee::MinEmployeeIshaarsForBenfInPeriod($benf_id,
-                            $emp);
-                    $max_date = ContractEmployee::MaxEmployeeIshaarsForBenfInPeriod($benf_id,
-                            $emp);
+                    $min_date = ContractEmployee::MinEmployeeIshaarsForBenfInPeriod($benf_id, $benf_type, $emp);
+                    $max_date = ContractEmployee::MaxEmployeeIshaarsForBenfInPeriod($benf_id, $benf_type, $emp);
                     $diff_dates = $ishaar_setup->calcTwoDatesDiffInMonths($min_date,
                         $max_date);
                     if ($max && $min_date && $max_date) {
@@ -357,9 +371,10 @@ class TaqawelNoticesController extends Controller
      *
      * @return mixed
      */
-    public function show($id)
+    public function show($id, MolDataRepository $mol)
     {
         $accountType   = InvoiceBundle::byMe()->paid()->notExpired()->hasRemainingNotices()->get();
+        
         if (count($accountType)) {
             $ishaar_setup = IshaarSetup::taqawelPaid()->first();
             $type = Constants::CONTRACTTYPES['taqawel_paid'];
@@ -371,33 +386,28 @@ class TaqawelNoticesController extends Controller
             return abort(404);
         }
         if (request()->ajax()) {
-            $columns     = request()->input('columns');
-            $employees   = HRPool::byMe()->allowedEmployeesType($type)->allowedEmployeesGender($type)->with('job', 'nationality', 'region');
-            $total_count = $employees->count() ? $employees->count() : 1;
-
-            if (request()->input('id_number')) {
-                $employees = $employees->where('id_number', request()->input('id_number'));
+            $columns = request()->input('columns');
+            
+            $filters = array('AllowedEmployeesType' => '1', 'AllowedEmployeesGender' => '1', 'buttons' => '1');
+           
+            if (request()->id_number) {
+                $filters['id_number'] = request()->id_number;
             }
-            if (request()->input('nationality_id')) {
-                $employees = $employees->where('nationality_id', request()->input('nationality_id'));
+            if (request()->nationality_id) {
+                $filters['nationality'] = request()->nationality_id;
             }
             if (request()->input('job_id')) {
-                $employees = $employees->where('job_id', request()->input('job_id'));
+                $filters['job'] = request()->job_id;
             }
+            $employees = $mol->fetchEstablishmentLaborers(session('selected_establishment')->FK_establishment_id, $filters,$ishaar_setup);
+            $total_count = $employees->count() ? $employees->count() : 1;
+            $buttons = [];
 
-            $buttons = [
-                'add' => [
-                    "text"      => trans("ishaar_setup.actions.add_emp"),
-                    "url"       => null,
-                    "uri"       => null,
-                    "css_class" => "blue add_contract_employee",
-                ],
-            ];
-
-            return dynamicAjaxPaginate($employees, $columns, $total_count, $buttons, true);
+            return dynamicAjaxPaginate($employees, $columns, $total_count, $buttons);
         }
-        $jobs          = Job::all()->pluck('job_name', 'id')->toArray();
-        $nationalities = Nationality::all()->pluck('name', 'id')->toArray();
+        
+        $jobs          = $mol->fetchJobsLookup();
+        $nationalities = $mol->fetchNationalitiesLookup();
         $contract      = Contract::byMe()->findOrFail($id);
         $maxdays = $ishaar_setup->calcMaxPeriodInDays($ishaar_setup->max_ishaar_period,
             $ishaar_setup->max_ishaar_period_type);

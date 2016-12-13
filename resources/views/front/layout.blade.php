@@ -14,28 +14,52 @@
     <title>{{ trans('labels.system_name') }} | @yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    @if (app()->getLocale()=="en")
-    <link href="//fonts.googleapis.com/css?family=Oswald:400,300,700" rel="stylesheet" type="text/css"/>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
-          type="text/css"/>
-    @endif
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendor.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/ajeer.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}">
     <link rel="stylesheet"
           href="{{ (app()->getLocale()=="ar") ? asset('assets/css/front-rtl.css') : asset('assets/css/front.css') }}">
     @yield('styles')
+    {{-- @yield('styles') --}}
 </head>
 
-<body class="page-container-bg-solid page-boxed page-md">
+<body>
 
 @include('front.partials.header')
+@if (($current_route_name === null ))
+<div class="container">
+    <div class="col-md-12 banners">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+                <li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="item">
+                    <img src="{{ asset('images/worker.jpg') }}" alt="B3" typeof="Image" height="562.5" width="900" style="top: -150px">
 
-<div class="page-container">
-    <div class="page-content-wrapper">
-        @yield('content')
+
+                </div>
+                <div class="item active">
+                    <img src="{{ asset('images/worker2.jpg') }}" alt="B2" typeof="Image" height="600" width="900" style="top: -70px">
+
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<div class="container" role="document">
+@else
+<div class="container container--mainContainer" role="document">
+@endif
+    <div ui-view="content">
+        @yield('content')
+    </div>
 
-@include('front.partials.footer')
+    @include('front.partials.footer')
+</div>
+
 
 <!--[if lt IE 9]>
 <script src="{{ asset('assets/metronic/js/respond.min.js') }}/"></script>
@@ -51,6 +75,7 @@
     var select_file = '{!! trans('labels.select_file') !!}';
     var generate_invoce = '{!! trans('labels.generate_invoice') !!}';
     var noneSelectedTextValue = '{!! trans('labels.noneSelectedTextValue') !!}';
+    var noSearchResult = '{!! trans('labels.noSearchResult') !!}';
     var select_at_least_one = '{!! trans('temp_job.select_at_least_one') !!}';
     var paginatation = {
         loading: '{!! trans('labels.loading') !!}....',
@@ -59,12 +84,12 @@
         sLengthMenu: '{!! trans('labels.pagination.sLengthMenu') !!}',
         sZeroRecords: '{!! trans('labels.pagination.sZeroRecords') !!}',
         emptyTable: '{!! trans('labels.no_data') !!}',
-        info: '{!! trans('labels.pagination.info') !!}',
+        info: '',
         sInfoEmpty: '{!! trans('labels.pagination.sInfoEmpty') !!}',
         sInfoFiltered: '{!! trans('labels.pagination.sInfoFiltered') !!}',
-        sInfoPostFix: '{!! trans('labels.pagination.sInfoPostFix') !!}',
+        sInfoPostFix: '',
         sSearch: '{!! trans('labels.pagination.sSearch') !!}',
-        sUrl: '{!! trans('labels.pagination.sUrl') !!}',
+        sUrl: '',
         sPage: '{!! trans('labels.pagination.sPage') !!}',
         oPaginate: {
             sFirst:'{!! trans('labels.pagination.oPaginate.sFirst') !!}',

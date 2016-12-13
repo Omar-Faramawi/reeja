@@ -1,17 +1,6 @@
 @extends ('admin.layout')
-@section('title', trans('user.dashboardwidgets'))
+@section('title', trans('contract_setup.temp_work_contract_setup'))
 @section('content')
-    <!-- BEGIN BREADCRUMBS -->
-    <div class="breadcrumbs">
-        <h1>{{ trans('contract_setup.temp_work_contract_setup') }}</h1>
-        <ol class="breadcrumb">
-            <li>
-                <a href="{{url('/admin')}}">{{trans('user.home')}}</a>
-            </li>
-            <li class="active">{{ trans('contract_setup.temp_work_contract_setup') }}</li>
-        </ol>
-    </div>
-    <!-- END BREADCRUMBS -->
     <!-- BEGIN PAGE BASE CONTENT -->
 
 

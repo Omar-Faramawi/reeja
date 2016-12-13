@@ -342,13 +342,13 @@
                                                     {{ Form::text('name', '', ['class' => "form-control form-filter input-sm"]) }}
                                                 </td>
                                                 <td>
-                                                    {{ Form::select('nationality_id', $nationalities, '', ['class' => 'form-control form-filter bs-select input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                    {{ Form::select('nationality_id', $nationalities, '', ['class' => 'form-control form-filter bs-select input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
                                                 </td>
                                                 <td>
                                                     {{ Form::select('gender', \Tamkeen\Ajeer\Utilities\Constants::gender(), '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                                 </td>
                                                 <td>
-                                                    {{ Form::select('job_id', $jobs , '', ['class' => 'form-control form-filter bs-select input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                    {{ Form::select('job_id', $jobs , '', ['class' => 'form-control form-filter bs-select input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
                                                 </td>
                                                 <td></td>
                                                 <td>

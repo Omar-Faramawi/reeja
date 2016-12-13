@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('labels.reports.ishaarReport'))
 @section('content')
-<!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-   <h1>{{ trans('labels.reports.ishaarReport') }}</h1>
-   <ol class="breadcrumb">
-      <li>
-         <a href="#">{{trans('user.home')}}</a>
-      </li>
-      <li class="active">{{ trans('labels.reports.ishaarReport') }}</li>
-   </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <!-- BEGIN PAGE BASE CONTENT -->
 <!-- BEGIN DASHBOARD STATS 1-->
 <div class="row">

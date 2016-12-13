@@ -11,8 +11,9 @@
         "vinkla/hashids": "^2.3",
         "platform/billing": "2.0.*",
         "platform/mol": "2.0.10",
-        "platform/nic": "6.0.4.19",
-        "doctrine/dbal": "^2.5"
+        "platform/nic": "6.2.6",
+        "doctrine/dbal": "^2.5",
+        "nikaia/translation-sheet": "^0.0.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -80,7 +80,7 @@
                                                 </td>
                                                 <td>
 
-                                                    {{ Form::select('job_id', @$jobs , null, ['class' => 'form-control form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall') ]) }}
+                                                    {{ Form::select('job_id', @$jobs , null, ['class' => 'form-control form-filter input-sm bs-select', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
 
                                                 </td>
                                                 <td>
@@ -89,7 +89,7 @@
                                                 <td>
                                                     {{ Form::select('gender', \Tamkeen\Ajeer\Utilities\Constants::gender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                                 <td>
-                                                    {{ Form::select('nationality_id', $nationalities, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                    {{ Form::select('nationality_id', $nationalities, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
                                                 </td>
                                                 <td>
                                                     {{ Form::select('region_id', $regions, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}

@@ -1,0 +1,72 @@
+@import "../../../../../bower_components/bootstrap/less/forms.less";
+
+[lang='ar'] {
+  .radio,
+  .checkbox {
+    label {
+      padding-right: 15px;
+    }
+  }
+  .radio input[type="radio"],
+  .radio-inline input[type="radio"],
+  .checkbox input[type="checkbox"],
+  .checkbox-inline input[type="checkbox"] {
+    margin-right: -20px;
+  }
+
+  .radio-inline,
+  .checkbox-inline {
+    padding-right: 15px;
+  }
+  .radio-inline + .radio-inline,
+  .checkbox-inline + .checkbox-inline {
+    margin-right: 10px; // space out consecutive inline controls
+  }
+
+  .has-feedback {
+    .form-control {
+      padding-right: (@input-height-base * 1.25);
+    }
+  }
+  // Feedback icon (requires .glyphicon classes)
+  .form-control-feedback {
+    right: 0;
+  }
+
+  .form-inline {
+    @media (min-width: @screen-sm-min) {
+      .radio,
+      .checkbox {
+        label {
+          padding-left: 0;
+        }
+      }
+
+      .radio input[type="radio"],
+      .checkbox input[type="checkbox"] {
+        margin-left: 0;
+      }
+    }
+  }
+
+  // Horizontal forms
+  //
+  // Horizontal forms are built on grid classes and allow you to create forms with
+  // labels on the left and inputs on the right.
+
+  .form-horizontal {
+    @media (min-width: @screen-sm-min) {
+      .control-label {
+        text-align: right;
+      }
+    }
+
+    // Validation states
+    //
+    // Reposition the icon because it's now within a grid column and columns have
+    // `position: relative;` on them. Also accounts for the grid gutter padding.
+    .has-feedback .form-control-feedback {
+      right: floor((@grid-gutter-width / 2));
+    }
+  }
+}

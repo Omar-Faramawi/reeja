@@ -1,5 +1,9 @@
 {!! Form::hidden('id', $contract->id) !!}
-{!! Form::hidden('status', isset($newStatus) ? $newStatus : $status) !!}
+@if(@$contract->status == "pending" && @$newStatus == 'provider_cancel')
+    {!! Form::hidden('status', 'cancelled') !!}
+@else
+    {!! Form::hidden('status', isset($newStatus) ? $newStatus : $status) !!}
+@endif
 
 <div class="form-group form-md-line-input">
     {!! Form::select('reason_id', $reasons,  null, [ 'placeholder' => trans('labels.enter') . " " . trans($reasonLabel),'id' => 'select_reason', 'class' => 'form-control']) !!}

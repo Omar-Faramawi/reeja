@@ -1,38 +1,37 @@
 <?php
 
 return [
-    'headings'        => [
-        'tab_head'      => 'فواتيرى',
-        'list_tab_head' => 'عرض جميع الفواتير',
-        'one_head' => 'عرض فاتورة رقم',
-        'basic_information' => 'معلومات الفاتورة الاساسية',
-        'contract_information' => 'العقود المدرجة على الفاتورة'
+    "buttons" => [
+        "details" => "تفاصيل"
     ],
-    'buttons'         => [
-        'details'            => 'تفاصيل',
+    "headings" => [
+        "basic_information" => "معلومات الفاتورة الاساسية",
+        "contract_information" => "العقود المدرجة على الفاتورة",
+        "list_tab_head" => "عرض جميع الفواتير",
+        "one_head" => "عرض فاتورة رقم",
+        "tab_head" => "فواتيرى"
     ],
-    'list_attributes' => [
-        'number'                => 'رقم الفاتورة',
-        'amount'          => 'قيمة الفاتورة ',
-        'description'      => 'الوصف',
-        'issue_date'      => ' تاريخ الإصدار',
-        'expiry_date'            => 'تاريخ الانتهاء',
-        'paid_date'         => 'تاريخ الدفع',
-        'status' => 'حالة الفاتورة',
-        'invoice_type'    => 'نوع الفاتورة',
-        'details'            => ' تفاصيل ',
-        'account_num'            => ' رقم العقد/العقود ',
+    "list_attributes" => [
+        "account_num" => " رقم العقد/العقود ",
+        "amount" => "قيمة الفاتورة ",
+        "description" => "الوصف",
+        "details" => " تفاصيل ",
+        "expiry_date" => "تاريخ الانتهاء",
+        "invoice_type" => "نوع الفاتورة",
+        "issue_date" => " تاريخ الإصدار",
+        "number" => "رقم الفاتورة",
+        "paid_date" => "تاريخ الدفع",
+        "status" => "حالة الفاتورة"
     ],
-
-    "statuses"          => [
-        'pending' => 'بانتظار الدفع',
-        'paid' => 'مدفوعة ',
-        'expired' => 'ملغية لعدم السداد',
+    "statuses" => [
+        "expired" => "ملغية لعدم السداد",
+        "paid" => "مدفوعة ",
+        "pending" => "بانتظار الدفع"
     ],
-    "types"        => [
-        'bundle' => 'شراء مجموعة إشعارات',
-        'certificate' => 'إصدار شهادة إتمام العمل',
-        'contract_hire_labor' => 'إصدار إشعار خدمات تأجير العمالة',
-        'contract_direct_employee' => 'إصدار إشعار للتوظيف المباشر',
-    ],
+    "types" => [
+        "bundle" => "شراء مجموعة إشعارات",
+        "certificate" => "إصدار شهادة إتمام العمل",
+        "contract_direct_employee" => "إصدار إشعار للتوظيف المباشر",
+        "contract_hire_labor" => "إصدار إشعار تأجير خدمات العمالة"
+    ]
 ];

@@ -1,20 +1,37 @@
 @extends ('admin.layout')
 @section('title', trans('occupation_managment.headings.list'))
 @section('content')
-        <!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-    <h1>{{ trans('occupation_managment.headings.list') }}</h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
-        </li>
-        <li class="active">{{ trans('occupation_managment.headings.list') }}</li>
-    </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <div class="m-heading-1 border-green m-bordered">
     <h3> {{ trans('occupation_managment.headings.list') }} </h3>
     <p> {{ trans('occupation_managment.sub-headings.list') }} </p>
+    <div class="row">
+        <div class="form-body">
+            {{ Form::model($data, ['route' => ['admin.settings.occupation_management.search'], 'method' => 'get', 'id'=>'search_form','class'=>'form-horizontal']) }}
+            <div class="col-md-1 pull-right">
+                <div class="btn-group pull-right">
+                    <button type="submit" data-loading-text="{{ trans('labels.loading') }}..."
+                            class="demo-loading-btn btn blue">
+                        <i class="fa fa-check"></i> {{ trans('labels.search') }}
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-2 pull-right">
+                <div class="form-group">
+                    {{ Form::text('q', null, ['id'=>'q', 'class'=>'form-control']) }}
+                </div>
+            </div>
+        </div>
+        {{Form::close()}}
+    </div>
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </div>
 {{ Form::model($data, ['route' => ['admin.settings.occupation_management.update'], 'method' => 'patch', 'id'=>'live_form']) }}
 {{ Form::hidden('page', $data->currentPage()) }}

@@ -50,6 +50,6 @@ class Government extends BaseModel
      */
     public function users()
     {
-        return $this->hasOne(User::class, 'id_no');
+        return $this->hasOne(User::class, 'id_no')->where('user_type_id',  \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['gov']);
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'headings' 					=>  'Qualifications',
-    'sub-headings' 				=> 'You can update and delete Qualifications in this page',
-    'attributes'  				=> [
-        'ar-name' 				=> 'Qualification name'
+    "attributes" => [
+        "ar-name" => "Qualification name"
     ],
-    'qualificationadded' 		=> 'Qualification Added',
-    'qualificationupdated' 		=> 'Qualification Updated',
-    'qualificationdeleted' 		=> 'Qualification Deleted',
+    "headings" => "Qualifications",
+    "qualificationadded" => "Qualification Added",
+    "qualificationdeleted" => "Qualification Deleted",
+    "qualificationupdated" => "Qualification Updated",
+    "sub-headings" => "You can update and delete Qualifications in this page"
 ];

@@ -33,6 +33,14 @@ class InvoiceBundle extends BaseModel
     protected $dates = ['deleted_at'];
 
     /**
+     * @var array
+     */
+    protected $appends = [
+        'status_alias',
+        'created_at_alias'
+    ];
+
+    /**
      * @param $query
      * @return mixed
      * To determine if current user account paid or free
@@ -119,4 +127,38 @@ class InvoiceBundle extends BaseModel
 		return $this->belongsTo(Bundle::class, "bundle_id");
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStatusAliasAttribute()
+    {
+        if ($this->status == '0') {
+            $invoiceStatus = @$this->invoice->status;
+            if ($invoiceStatus == '1') {
+                return trans('packagesubscribe.package_statuses.paid');
+            } elseif ($invoiceStatus == '0') {
+                return trans('packagesubscribe.package_statuses.pending');
+            } elseif ($invoiceStatus == '2') {
+                return trans('packagesubscribe.package_statuses.cancelled');
+            }
+        } elseif ($this->status == '1') {
+            if ($this->num_remaining_notices < 1) {
+                return trans('packagesubscribe.package_statuses.no_remaining_notices');
+            }
+
+            $expireDate = Carbon::createFromFormat('Y-m-d', $this->expire_date);
+            if ($expireDate < Carbon::now()) {
+                return trans('packagesubscribe.package_statuses.expired');
+            }
+
+            return trans('packagesubscribe.package_statuses.paid');
+        }
+
+        return trans('packagesubscribe.package_statuses.draft');
+    }
+
+    public function getCreatedAtAliasAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('Y-m-d');
+    }
 }

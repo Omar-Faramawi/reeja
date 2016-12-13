@@ -215,3 +215,12 @@ input[type=number]::-webkit-outer-spin-button {
 .activities_box input[type=number] {
     width:80px !important;
 }
+
+.dropdown-menu {
+    background: #eaeaea;
+}
+
+.dropdown-menu > li:hover > a, .dropdown-menu > li.active > a, .dropdown-menu > li.active:hover > a {
+    background-color: #f6f6f6;
+    color: #555;
+}

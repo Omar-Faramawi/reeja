@@ -5,17 +5,6 @@
           href="{{ (app()->getLocale()=="ar") ? asset('assets/css/modal-large-rtl.css') : asset('assets/css/modal-large.css') }}">
     @endsection
     @section('content')
-            <!-- BEGIN BREADCRUMBS -->
-    <div class="breadcrumbs">
-        <h1>{{ trans('ratingmodels.widgetName') }}</h1>
-        <ol class="breadcrumb">
-            <li>
-                <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
-            </li>
-            <li class="active">{{ trans('ratingmodels.widgetName') }}</li>
-        </ol>
-    </div>
-    <!-- END BREADCRUMBS -->
     <!-- BEGIN PAGE BASE CONTENT -->
     <div class="m-heading-1 border-green m-bordered">
         <h3> {{ trans('ratingmodels.headings.list') }} </h3>
@@ -38,7 +27,7 @@
                                 <div class="btn-group pull-right">
                                     <button data-toggle="modal" data-target="#main"
                                             data-href="{{ url('admin/ratingmodels/create') }}"
-                                            class="btn sbold green"> {{ trans('labels.add') }}
+                                            class="btn sbold green"> {{ trans('ratingmodels.add_new') }}
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
@@ -93,7 +82,7 @@
                                                         data-toggle="confirmation"
                                                         data-original-title="{{ trans('labels.request_approve') }}"
                                                         data-placement="top"
-                                                        data-btn-ok-label="{{ trans('labels.accept') }}"
+                                                        data-btn-ok-label="{{ trans('labels.confirm') }}"
                                                         data-btn-cancel-label="{{ trans('labels.cancel') }}">
                                                     <i class="fa fa-check"></i> {{ trans('labels.accept') }}</button>
                                                 <button data-popout="true" data-type="reject" id="taqyeem_disable_btn" @if($ratingModel->status == 0) style="display:none" @endif
@@ -104,7 +93,7 @@
                                                         data-trans="{{ trans('labels.status.0') }}"
                                                         data-original-title="{{ trans('labels.reject2') }}"
                                                         data-placement="top"
-                                                        data-btn-ok-label="{{ trans('labels.reject2') }}"
+                                                        data-btn-ok-label="{{ trans('labels.confirm') }}"
                                                         data-btn-cancel-label="{{ trans('labels.cancel') }}">
                                                     <i class="fa fa-times"></i> {{ trans('labels.reject2') }}</button>
                                                 <button data-toggle="modal" data-target="#main"

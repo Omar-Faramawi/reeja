@@ -63,7 +63,7 @@
                                                 {!! Form::text("owner_name", null, ['class' => 'form-control form-filter input-sm']) !!}
                                             </td>
                                             <td>
-                                                <select name="job_id" class="form-control bs-select form-filter">
+                                                <select name="job_id" class="form-control bs-select form-filter" data-live-search="true">
                                                     <option value="">{{ trans('labels.choose') }}</option>
                                                     @foreach($jobs as $key => $value)
                                                         <option value="{{ $key }}">{{ $value }}</option>
@@ -79,7 +79,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                {!! Form::select('status', \Tamkeen\Ajeer\Utilities\Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter']) !!}
+                                                {!! Form::select('status', \Tamkeen\Ajeer\Utilities\Constants::contract_statuses(['file' => 'contracts.statuses']), null, ['class' => 'form-control bs-select form-filter', 'placeholder' => trans('labels.choose')]) !!}
                                             </td>
                                             <td>
                                                 <button class="btn btn-sm green btn-outline filter-submit margin-bottom">

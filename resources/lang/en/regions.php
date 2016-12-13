@@ -1,22 +1,22 @@
 <?php
 
 return [
-    'menu_name' => 'Regions',
-    'headings'     => [
-        'list'   => 'Regions',
-        'create' => 'Create a new region',
-        'edit'   => 'Edit region',
+    "added" => "Added successfully",
+    "attributes" => [
+        "name" => "Name"
     ],
-    'sub-headings' => [
-        'list'   => 'This page allows you to manage regions',
-        'create' => 'This page allows you to add new region',
-        'edit'   => 'This page allows you to edit region',
+    "deleted" => "Deleted successfully",
+    "error_delete" => "Can't delete, This type contains ishaars",
+    "headings" => [
+        "create" => "Create a new region",
+        "edit" => "Edit region",
+        "list" => "Regions"
     ],
-    'attributes'   => [
-        'name' => 'Name',
+    "menu_name" => "Regions",
+    "sub-headings" => [
+        "create" => "This page allows you to add new region",
+        "edit" => "This page allows you to edit region",
+        "list" => "This page allows you to manage regions"
     ],
-    'added'        => 'Added successfully',
-    'updated'      => 'Updated successfully',
-    'deleted'      => 'Deleted successfully',
-    'error_delete' => 'Can\'t delete, This type contains ishaars',
+    "updated" => "Updated successfully"
 ];

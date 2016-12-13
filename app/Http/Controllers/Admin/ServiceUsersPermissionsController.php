@@ -2,17 +2,15 @@
 
 namespace Tamkeen\Ajeer\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-
-use Tamkeen\Ajeer\Http\Requests;
 use Tamkeen\Ajeer\Http\Controllers\Controller;
+use Tamkeen\Ajeer\Http\Requests;
+use Tamkeen\Ajeer\Http\Requests\EditServiceUsersPermissionsRequest;
 use Tamkeen\Ajeer\Models\Activity;
 use Tamkeen\Ajeer\Models\EstablishmentPermissionActivity;
 use Tamkeen\Ajeer\Models\GovernmentPermissionActivity;
 use Tamkeen\Ajeer\Models\ServiceUsersPermission;
-use Tamkeen\Ajeer\Http\Requests\EditServiceUsersPermissionsRequest;
-use Vinkla\Hashids\Facades\Hashids;
 use Tamkeen\Ajeer\Utilities\Constants;
+use Vinkla\Hashids\Facades\Hashids;
 
 class ServiceUsersPermissionsController extends Controller
 {
@@ -36,17 +34,20 @@ class ServiceUsersPermissionsController extends Controller
         // Indv permissions object data
         $govServ = $serviceUserPerm[2];
 
-        $activities = Activity::orWhereHas('establishments', function ($q) use ($serUserPermId) {
+        $oldActivities = Activity::orWhereHas('establishments', function ($q) use ($serUserPermId) {
             $q->where('service_users_permission_id', '=', $serUserPermId);
-        })->with(['governments',
+        })->with([
+            'governments',
             'establishments' => function ($q) use ($serUserPermId) {
                 $q->where('service_users_permission_id', '=', $serUserPermId);
             }
         ])->get();
 
-        $activities = $activities->toArray() + Activity::all()->toArray();
+        $activities = $oldActivities->toArray() + Activity::all()->toArray();
+        $filterActivites = $oldActivities->pluck('name', 'name')->toArray() + Activity::all()->pluck('name',
+                'name')->toArray();
         return view('admin.taqawel.service_users_permissions.edit',
-            compact('estServ', 'indvServ','govServ', 'activities', 'serUserPermId'));
+            compact('estServ', 'indvServ', 'govServ', 'activities', 'serUserPermId', 'filterActivites'));
     }
 
     /**
@@ -64,7 +65,7 @@ class ServiceUsersPermissionsController extends Controller
 
         // Government activities coming in the request
         $govReq = $request->get('gover_activities');
-         
+
         // Checks if the activity permission exists in the DB, if so, it will be updated, if not, it will be created.
         foreach ($estReq as $value) {
             $est_record = EstablishmentPermissionActivity::firstOrNew([
@@ -82,20 +83,20 @@ class ServiceUsersPermissionsController extends Controller
         }
         // Checks if the activity permission exists in the DB, if so, it will be updated, if not, it will be created.
         foreach ($govReq as $value) {
-           if (array_key_exists('service_users_permission_id', $value)) {
-                $gres = GovernmentPermissionActivity::where('activity_id',$value['activity_id'])->first();
+            if (array_key_exists('service_users_permission_id', $value)) {
+                $gres = GovernmentPermissionActivity::where('activity_id', $value['activity_id'])->first();
                 // Remove unchecked activities
                 if ($gres) {
                     $gres->update(['service_users_permission_id' => $value['service_users_permission_id']]);
-                }else{
+                } else {
                     GovernmentPermissionActivity::Create([
-                    'service_users_permission_id' => $value['service_users_permission_id'],
-                    'activity_id'                 => $value['activity_id'],
-                    'created_by'                  => auth()->id()
-                ]);
+                        'service_users_permission_id' => $value['service_users_permission_id'],
+                        'activity_id'                 => $value['activity_id'],
+                        'created_by'                  => auth()->id()
+                    ]);
                 }
             } else {
-                GovernmentPermissionActivity::where('activity_id',$value['activity_id'])->delete();
+                GovernmentPermissionActivity::where('activity_id', $value['activity_id'])->delete();
             }
         }
 
@@ -103,7 +104,8 @@ class ServiceUsersPermissionsController extends Controller
         $estServ = ServiceUsersPermission::where('service_prvdr_benf_id',
             1)->with('estPermActivities')->withTrashed()->first();
         $indvServ = ServiceUsersPermission::where('service_prvdr_benf_id', 3)->withTrashed()->first();
-        $govServ = ServiceUsersPermission::whereContractTypeId(Constants::CONTRACTTYPES['taqawel'])->where('service_prvdr_benf_id', 2)->withTrashed()->first();
+        $govServ = ServiceUsersPermission::whereContractTypeId(Constants::CONTRACTTYPES['taqawel'])->where('service_prvdr_benf_id',
+            2)->withTrashed()->first();
 
         if ($request->get('indvIsProvider')) {
             if ($indvServ->trashed()) {

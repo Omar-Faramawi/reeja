@@ -1,34 +1,34 @@
 <?php
 
 return [
-    'menu_name'    => 'Ishaar Type',
-    'headings'     => [
-        'list'   => 'Ishaar types',
-        'list1'  => 'Types',
-        'create' => 'Create a new ishaar type',
-        'edit'   => 'Edit ishaar type',
+    "added" => "Added successfully",
+    "attributes" => [
+        "name" => "Name"
     ],
-    'sub-headings' => [
-        'list'   => 'This page allows you to manage ishaar types',
-        'create' => 'This page allows you to add new ishaar type',
-        'edit'   => 'This page allows you to edit ishaar type',
+    "deleted" => "Deleted successfully",
+    "error_delete" => "Can't delete, This type contains ishaars",
+    "error_updated" => "Can't update, This type contains ishaars",
+    "headings" => [
+        "create" => "Create a new ishaar type",
+        "edit" => "Edit ishaar type",
+        "list" => "Ishaar types",
+        "list1" => "Types"
     ],
-    'attributes'   => [
-        'name' => 'Name',
+    "ishaars_list" => "Ishaars",
+    "menu_name" => "Ishaar Type",
+    "names" => [
+        "direct_emp" => "Direct Employment",
+        "hire_labor" => "Hire Labor",
+        "taqawel" => "Taqawol",
+        "taqawel_free" => "Free Taqawol Ishaars",
+        "taqawel_paid" => "Paid Taqawol Ishaars",
+        "temp_work" => "Temp Work"
     ],
-    'added'        => 'Added successfully',
-    'updated'      => 'Updated successfully',
-    'deleted'      => 'Deleted successfully',
-    'error_delete' => 'Can\'t delete, This type contains ishaars',
-    'ishaars_list' => 'Ishaars',
-    'error_updated' => 'Can\'t update, This type contains ishaars',
-    'users_list'    => 'Users',
-    'names'        => [
-        'taqawel'    => 'Taqawol',
-        'temp_work'  => 'Temp Work',
-        'hire_labor' => 'Hire Labor',
-        'direct_emp' => 'Direct Employment',
-        'taqawel_free' => 'Free Taqawol Ishaars',
-        'taqawel_paid' => 'Paid Taqawol Ishaars',
-    ]
+    "sub-headings" => [
+        "create" => "This page allows you to add new ishaar type",
+        "edit" => "This page allows you to edit ishaar type",
+        "list" => "This page allows you to manage ishaar types"
+    ],
+    "updated" => "Updated successfully",
+    "users_list" => "Users"
 ];

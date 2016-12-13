@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('establishments_registration.headings.list'))
 @section('content')
-<!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-    <h1>{{ trans('establishments_registration.headings.list') }}</h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
-        </li>
-        <li class="active">{{ trans('establishments_registration.headings.list') }}</li>
-    </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <div class="m-heading-1 border-green m-bordered">
     <h3> {{ trans('establishments_registration.headings.list') }} </h3>
     <p> {{ trans('establishments_registration.sub-headings.list') }} </p>
@@ -32,7 +21,7 @@
                             <div class="btn-group pull-right">
                                 <button data-toggle="modal" data-target="#main"
                                         data-href="{{ url('admin/users/establishments_registeration/create') }}"
-                                        class="btn sbold green"> {{ trans('labels.add') }}
+                                        class="btn sbold green"> {{ trans('establishments_registration.headings.create') }}
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>

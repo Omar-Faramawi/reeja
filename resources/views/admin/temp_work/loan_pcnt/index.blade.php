@@ -1,16 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('loan_pcnt.headings'))
 @section('content')
-        <!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-    <ol class="breadcrumb">
-        <li>
-            <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
-        </li>
-        <li class="active">{{ trans('loan_pcnt.headings') }}</li>
-    </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <!-- BEGIN PAGE BASE CONTENT -->
 <div class="m-heading-1 border-green m-bordered">
     <h3> {{ trans('loan_pcnt.headings') }} </h3>

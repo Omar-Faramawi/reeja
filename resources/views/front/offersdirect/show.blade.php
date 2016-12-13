@@ -28,16 +28,16 @@
                                                     {{trans("offersdirect.providerName")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['benf_name']}}
+                                                    {{$thisContract->benf_name}}
                                                 </div>
                                             </div>
-                                            @if(isset($thisContract['benef']['est_activity']))
+                                            @if(isset($thisContract->benef->est_activity))
                                                 <div class="row static-info">
                                                     <div class="col-md-3 name">
                                                         {{trans("offersdirect.providerType")}}
                                                     </div>
                                                     <div class="col-md-9 value">
-                                                        {{$thisContract['benef']['est_activity']}}
+                                                        {{$thisContract->benef->est_activity}}
                                                     </div>
                                                 </div>
                                             @endif
@@ -56,7 +56,7 @@
                                                     {{trans("offersdirect.benfName")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{ $thisContract['provider']['name'] }}
+                                                    {{ $thisContract->provider->name }}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -64,7 +64,7 @@
                                                     {{trans("offersdirect.benfNo")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{ ($thisContract['provider']['id'])}}
+                                                    {{ $thisContract->provider_id }}
                                                 </div>
 
                                             </div>
@@ -84,7 +84,7 @@
                                                     {{trans("offersdirect.job")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['job']['job_name']}}
+                                                    {{$jobSeeker->job->job_name}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -92,7 +92,7 @@
                                                     {{trans("offersdirect.nationality")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['nationality']['name']}}
+                                                    {{$jobSeeker->nationality->name}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -100,7 +100,7 @@
                                                     {{trans("offersdirect.gender")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['gender_name']}}
+                                                    {{$jobSeeker->gender_name}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -108,7 +108,7 @@
                                                     {{trans("offersdirect.religion")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['religion_name']}}
+                                                    {{$jobSeeker->religion_name}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -116,7 +116,7 @@
                                                     {{trans("offersdirect.workStartDate")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['work_start_date']}}
+                                                    {{$thisContract->start_date}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -124,7 +124,7 @@
                                                     {{trans("offersdirect.workEndDate")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['work_end_date']}}
+                                                    {{$thisContract->end_date}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -132,7 +132,7 @@
                                                     {{trans("offersdirect.region")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['region']['name']}}
+                                                    {{$jobSeeker->region->name}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -140,7 +140,7 @@
                                                     {{trans("offersdirect.jobtype")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['job_type_text']}}
+                                                    {{$jobSeeker->job_type_name}}
                                                 </div>
                                             </div>
                                             <div class="row static-info">
@@ -148,17 +148,17 @@
                                                     {{trans("offersdirect.salary")}}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{$thisContract['vacancy']['salary']}}
+                                                    {{$thisContract->contract_amount}}
                                                 </div>
                                             </div>
-                                            @if (is_array($thisContract['contract_locations']))
-                                                @foreach($thisContract['contract_locations'] as $location)
+                                            @if (is_array($thisContract->contract_locations))
+                                                @foreach($thisContract->contract_locations as $location)
                                                     <div class="row static-info">
                                                         <div class="col-md-3 name">
                                                             {{trans("offersdirect.workplaces")}}
                                                         </div>
                                                         <div class="col-md-9 value">
-                                                            {{$location['desc_location']}}
+                                                            {{$location->desc_location}}
                                                         </div>
                                                     </div>
                                                 @endforeach
@@ -166,7 +166,7 @@
 
                                         </div>
                                     </div>
-                                    {{Form::open(['url' => url('/offersdirect/accept/' . $thisContract['id']), 'data-url'=>url('/offersdirect/' . $thisContract['id']), 'id'=>'acceptform',"method"=>"PUT","role"=>"form"])}}
+                                    {{Form::open(['url' => url('/offersdirect/accept/' . $thisContract->id), 'data-url'=>url('/offersdirect/' . $thisContract->id), 'id'=>'acceptform',"method"=>"PUT","role"=>"form"])}}
                                     <div class="row static-info">
                                         <div class="col-lg-3">{{trans("offersdirect.offerValideTo")}}</div>
                                         <div class="col-lg-9">{{$dateEnded}}</div>
@@ -179,19 +179,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br>
-                                    <div class="row static-info">
-                                        <div class="col-lg-12 col-lg-6">
-                                            <div class="input-group">
-                                                <div class="icheck-inline">
-                                                    <label>
-                                                        <input type="checkbox" class="icheck" name="agree" value="1"
-                                                               data-checkbox="icheckbox_flat-grey"> {{trans("offersdirect.acceptRules")}}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <br>
                                     <div class="row">
                                         <div class="form-body">
@@ -205,6 +193,16 @@
                                             @endif
                                         </div>
                                         @if(isset($canAccept) && isset($canAcceptStatus))
+                                            <div class="col-lg-12 col-lg-6">
+                                                <div class="input-group">
+                                                    <div class="icheck-inline">
+                                                        <label>
+                                                            <input type="checkbox" class="icheck" name="agree" value="1"
+                                                                   data-checkbox="icheckbox_flat-grey"> {{trans("offersdirect.acceptRules")}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-6"></div>
                                             <div class="col-lg-6">
                                                 <div class="form-actions">
@@ -212,7 +210,7 @@
                                                             data-loading-text="{{ trans('labels.loading') }}..."
                                                     > {{trans("offersdirect.accept")}} </button>
                                                     <a class="btn yellow btn-outline sbold"
-                                                       href="{{url("offersdirect/reject/" . $thisContract['id'])}}"
+                                                       href="{{url("offersdirect/reject/" . $thisContract->id)}}"
                                                        data-target="#ajax"
                                                        data-toggle="modal"> {{trans("offersdirect.decline")}} </a>
 
@@ -226,17 +224,17 @@
                                                 </div>
                                             @endif
                                             @if (!isset($canAcceptStatus))
-                                                @if ($thisContract['status']=="pending_ownership")
+                                                @if ($thisContract->status=="pending_ownership")
                                                     <div class="alert alert-warning">
                                                         {{trans("offersdirect.pending_ownership_error")}}
                                                     </div>
                                                 @endif
-                                                @if ($thisContract['status']=="rejected")
+                                                @if ($thisContract->status=="rejected")
                                                     <div class="alert alert-warning">
                                                         {{trans("offersdirect.offer_rejected")}}
                                                     </div>
                                                 @endif
-                                                @if ($thisContract['status']=="approved")
+                                                @if ($thisContract->status=="approved")
                                                     <div class="alert alert-warning">
                                                         {{trans("offersdirect.offer_approved")}}
                                                     </div>
@@ -299,7 +297,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    {{ Form::open(['url' => url('/offersdirect/accept/approve/' . $thisContract['id']), 'data-url'=>url('/offersdirect'), 'id'=>'form',"method"=>"PUT","role"=>"form"]) }}
+                    {{ Form::open(['url' => url('/offersdirect/accept/approve/' . $thisContract->id), 'data-url'=>url('/offersdirect'), 'id'=>'form',"method"=>"PUT","role"=>"form"]) }}
                     <div class="form-actions">
                         <button type="submit" class="btn blue"
                                 data-loading-text="{{ trans('labels.loading') }}..."

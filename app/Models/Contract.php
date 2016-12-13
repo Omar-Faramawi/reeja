@@ -109,14 +109,9 @@ class  Contract extends BaseModel
      *
      * return the contracts pending
      */
-    public function scopePending($query, $id = null)
+    public function scopePending($query)
     {
-        if ($id) {
-            $query = $query->where('provider_id', $id);
-        }
-
         return $query->where('status', 'pending');
-
     }
 
     /**

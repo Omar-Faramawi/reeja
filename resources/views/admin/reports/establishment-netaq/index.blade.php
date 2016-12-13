@@ -2,17 +2,6 @@
 @section('title', trans('labels.reports.invoiceNetaqChart'))
 
 @section('content')
-        <!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-    <h1>{{ trans('labels.reports.invoiceNetaqChart') }}</h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="#">{{trans('user.home')}}</a>
-        </li>
-        <li class="active">{{ trans('labels.reports.invoiceNetaqChart') }}</li>
-    </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <!-- BEGIN PAGE BASE CONTENT -->
 <!-- BEGIN DASHBOARD STATS 1-->
 

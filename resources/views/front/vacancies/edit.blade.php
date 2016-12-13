@@ -85,7 +85,7 @@
                                                     </label>
                                                     <div class="col-md-8">
                                                         <select class="form-control select2me bs-select" name="job_id"
-                                                                id="job">
+                                                                id="job" data-live-search="true">
                                                             @if(!count($jobs))
                                                                 <option>{{ trans('labels.no_data') }}</option>
                                                             @else
@@ -148,7 +148,7 @@
                                                     <div class="col-md-8">
                                                         <select name='nationality_id'
                                                                 class="form-control select2me bs-select"
-                                                                id="nationality">
+                                                                id="nationality" data-live-search="true">
                                                             @if(!count($nationalities))
                                                                 <option>{{ trans('labels.no_data') }}</option>
                                                             @else
@@ -345,10 +345,6 @@
                                             <div class="form-actions row">
                                                 <div class="row">
                                                     <div class="col-md-offset-1 col-md-9">
-
-                                                        <button type="submit" class="btn btn-primary" name="status"
-                                                                value="0" data-loading-text="{{ trans('labels.loading') }}..."
-                                                                id="update_draft">{{trans('vacancies.buttons.update_draft')}}</button>
 
                                                         <button type="submit" class="btn green" name="status" value="1"
                                                                 data-loading-text="{{ trans('labels.loading') }}..."

@@ -13,6 +13,7 @@ elixir(function (mix) {
     mix.copy('resources/assets/img', 'public/assets/img');
     mix.copy('resources/assets/global', 'public/assets/global');
     mix.copy('resources/assets/images', 'public/assets/images');
+    mix.copy('resources/assets/images', 'public/images');
     mix.copy('resources/assets/js/respond.min.js', 'public/assets/js/respond.min.js');
     mix.copy('resources/assets/js/morris.min.js', 'public/assets/js/morris.min.js');
     mix.copy('resources/assets/js/excanvas.min.js', 'public/assets/js/excanvas.min.js');
@@ -20,6 +21,15 @@ elixir(function (mix) {
     mix.copy('resources/assets/css/ltr/modal-large.css', 'public/assets/css/modal-large.css');
     mix.copy('resources/assets/css/rtl/modal-large-rtl.css', 'public/assets/css/modal-large-rtl.css');
     mix.copy('resources/assets/css/rtl/morris.css', 'public/assets/css/morris.css');
+
+    mix.less([
+        'resources/assets/less/app/main.less',
+        'resources/assets/less/app/print.less'
+    ], paths.production.css + 'ajeer.css');
+
+    mix.less([
+        'resources/assets/less/vendor/vendor.less'
+    ], paths.production.css + 'vendor.css');
 
     mix.styles([
         'font-awesome.min.css',
@@ -37,14 +47,16 @@ elixir(function (mix) {
         'bootstrap-fileinput.css',
         'bootstrap-select.min.css',
         'jquery.dataTables.min.css',
+        'jquery.calendars.picker.css',
         'morris.css',
+        'admin-light.css',
         'custom.min.css'
     ], paths.production.css + 'app.css', 'resources/assets/css/ltr');
 
     mix.styles([
         'font-awesome.min.css',
         'simple-line-icons.min.css',
-        'bootstrap.min.css',
+        //'bootstrap.min.css',
         'uniform.default.min.css',
         'bootstrap-switch.min.css',
         'components-md.min.css',
@@ -88,14 +100,16 @@ elixir(function (mix) {
         'bootstrap-fileinput.css',
         'bootstrap-select-rtl.min.css',
         'jquery.dataTables.min.css',
+        'jquery.calendars.picker.css',
         'morris.css',
+        'admin-light-rtl.css',
         'custom-rtl.min.css'
     ], paths.production.css + 'app-rtl.css', 'resources/assets/css/rtl');
 
     mix.styles([
         'font-awesome.min.css',
         'simple-line-icons.min.css',
-        'bootstrap-rtl.min.css',
+        // 'bootstrap-rtl.min.css',
         'uniform.default.min.css',
         'bootstrap-switch-rtl.min.css',
         'components-md-rtl.min.css',
@@ -144,6 +158,11 @@ elixir(function (mix) {
         'app.min.js',
         'layout.min.js',
         'jquery.dataTables.min.js',
+        'jquery.calendars.js',
+        'jquery.calendars.islamic.js',
+        'jquery.calendars.plus.js',
+        'jquery.plugin.min.js',
+        'jquery.calendars.picker.js',
         'custom.js'
     ], paths.production.js + 'app.js', 'resources/assets/js');
 
@@ -226,6 +245,13 @@ elixir(function (mix) {
         'bootstrap-fileinput.js',
         'bootstrap-select.min.js',
         'app.min.js',
+        'jquery.calendars.js',
+        'jquery.calendars.islamic.js',
+        'jquery.calendars.plus.js',
+        'jquery.plugin.min.js',
+        'jquery.calendars.picker.js',
+        'jquery.calendars.picker-ar.js',
+        'jquery.calendars.islamic-ar.js',
         'layout.min.js',
         'jquery.dataTables.min.js',
         'custom.js',

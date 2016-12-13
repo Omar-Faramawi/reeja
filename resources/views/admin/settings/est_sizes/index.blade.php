@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('est_sizes.headings'))
 @section('content')
-<!-- BEGIN BREADCRUMBS -->
-<div class="breadcrumbs">
-   <h1>{{ trans('user.settings') }}</h1>
-   <ol class="breadcrumb">
-      <li>
-         <a href="/admin">{{trans('user.home')}}</a>
-      </li>
-      <li class="active">{{ trans('est_sizes.headings') }}</li>
-   </ol>
-</div>
-<!-- END BREADCRUMBS -->
 <!-- BEGIN PAGE BASE CONTENT -->
 <div class="m-heading-1 border-green m-bordered">
    <h3> {{ trans('est_sizes.headings') }} </h3>

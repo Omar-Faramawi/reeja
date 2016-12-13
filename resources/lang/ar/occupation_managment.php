@@ -1,22 +1,27 @@
 <?php
 
 return [
-    'headings'     => [
-        'list' => 'المهن و المؤهلات',
+    "added" => "تم الإضافة بنجاح",
+    "attributes" => [
+        "attachment_id" => "المرفق",
+        "attachment_mandatory" => "الزامية المرفق",
+        "job_name" => "اسم المهنة"
     ],
-    'sub-headings' => [
-        'list' => 'هذه الصفحة تمكنك من تحديد المرفقات الواجب ارفاقها حسب المهنة',
+    "choose_attachment" => "اختر مرفق",
+    "deleted" => "تم الحذف بنجاح",
+    "headings" => [
+        "list" => "المهن و المؤهلات"
     ],
-    'attributes'   => [
-        'job_name'  => 'اسم المهنة',
-        'attachment_mandatory' => 'الزامية المرفق',
-		'attachment_id' => 'المرفق',
+    "no" => "لا",
+    "search" => [
+        "atleast3chars" => "يجب ان لا تقل كلمة البحث عن 3 حروف",
+        "required" => "يجب ادخال كلمة البحث",
+        "submit" => "بحث"
     ],
-    'added'        => 'تم الإضافة بنجاح',
-    'updated'      => 'تم التحديث بنجاح',
-    'deleted'      => 'تم الحذف بنجاح',
-    'settings'     => 'الإعدادات',
-	'yes' 			=> 'نعم',
-	'no'			=> 'لا',
-	'choose_attachment' => 'اختر مرفق'
+    "settings" => "الإعدادات",
+    "sub-headings" => [
+        "list" => "هذه الصفحة تمكنك من تحديد المرفقات الواجب ارفاقها حسب المهنة"
+    ],
+    "updated" => "تم التحديث بنجاح",
+    "yes" => "نعم"
 ];

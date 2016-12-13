@@ -140,9 +140,9 @@
                                                     </div>
                                                     <div class="col-md-9 value form-group form-md-line-input no-padding-top">
                                                         @if(request()->segment(1) !== "occasional-work")
-                                                            {!! Form::select('region_id[]', $regions , $contract->region_id, ['class' => 'bs-select form-control']) !!}
+                                                            {!! Form::select('region_id[]', $regions , $contract->region_id, ['class' => 'bs-select form-control', 'placeholder' => trans("labels.noneSelectedTextValueSmall")]) !!}
                                                         @else
-                                                            {!! Form::select('region_id[]', $regions , [1], ['class' => 'bs-select form-control', 'readonly' => 'readonly',  'placeholder' => trans("temp_job.region_id") ]) !!}
+                                                            {!! Form::select('region_id[]', $regions , [1], ['class' => 'bs-select form-control', 'readonly' => 'readonly',  'placeholder' => trans("labels.noneSelectedTextValueSmall") ]) !!}
                                                         @endif
                                                     </div>
                                                 </div>
@@ -234,13 +234,13 @@
                                                         {{ Form::text('name', '', ['class' => "form-control form-filter input-sm"]) }}
                                                     </td>
                                                     <td>
-                                                        {{ Form::select('nationality_id', $nationalities, '', ['class' => 'form-control form-filter bs-select input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                        {{ Form::select('nationality_id', $nationalities, '', ['class' => 'form-control form-filter bs-select input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')], "data-live-search" => "true") }}
                                                     </td>
                                                     <td>
                                                         {{ Form::select('gender', \Tamkeen\Ajeer\Utilities\Constants::gender(), '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                                     </td>
                                                     <td>
-                                                        {{ Form::select('job_id', $jobs , '', ['class' => 'form-control form-filter bs-select input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                        {{ Form::select('job_id', $jobs , '', ['class' => 'form-control form-filter bs-select input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
                                                     </td>
                                                     <td></td>
                                                     <td>

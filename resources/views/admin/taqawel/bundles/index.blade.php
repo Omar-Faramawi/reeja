@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('bundles.headings'))
 @section('content')
-    <!-- BEGIN BREADCRUMBS -->
-    <div class="breadcrumbs">
-        <h1>{{ trans('contractnature.headings.taqawel') }}</h1>
-        <ol class="breadcrumb">
-            <li>
-                <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
-            </li>
-            <li class="active">{{ trans('bundles.headings') }}</li>
-        </ol>
-    </div>
-    <!-- END BREADCRUMBS -->
     <!-- BEGIN PAGE BASE CONTENT -->
     <div class="m-heading-1 border-green m-bordered">
         <h3> {{ trans('bundles.headings') }} </h3>

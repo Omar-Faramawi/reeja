@@ -49,7 +49,7 @@
                                             class="no-sort">{{ trans('vacancies.list_attributes.work_area') }}</th>
                                         <th id='no_of_vacancies'>{{ trans('vacancies.list_attributes.needed_number') }}</th>
                                         <th id="details" class="no-sort"
-                                            width="20%"> {{ trans('vacancies.list_attributes.details') }}</th>
+                                            width="23%"> {{ trans('vacancies.list_attributes.details') }}</th>
                                     </tr>
                                     <tr role="row" class="filter">
                                         <td>
@@ -57,7 +57,7 @@
                                                    name="id">
                                         </td>
                                         <td>
-                                         {{ Form::select('job_id', $jobs, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
+                                         {{ Form::select('job_id', $jobs, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.default'), "data-live-search" => "true"]) }}
 
                                         <td>
                                         {{ Form::select('region_id', $regions, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
@@ -69,9 +69,9 @@
                                             <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
                                                 <i class="fa fa-search"></i> {{ trans('labels.search') }}
                                             </button>
-                                           <!-- <button class="btn btn-sm red btn-outline filter-cancel">
+                                            <button class="btn btn-sm red btn-outline filter-cancel">
                                                 <i class="fa fa-times"></i> {{ trans('labels.reset') }}
-                                            </button>-->
+                                            </button>
                                         </td>
                                     </tr>
                                     </thead>

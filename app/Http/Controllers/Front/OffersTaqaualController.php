@@ -55,7 +55,7 @@ class OffersTaqaualController extends Controller
                 $data = $data->where(function ($responsible_q) {
                     $responsible_q->whereHas('establishment', function ($est_q) {
                         $est_q->whereHas("responsibles", function ($estr_q) {
-                            $estr_q->where('email', 'LIKE', '%' . request()->input('responsible_email') . '%');
+                            $estr_q->where('responsible_email', 'LIKE', '%' . request()->input('responsible_email') . '%');
                         });
                     });
                     $responsible_q->orWhereHas('individual', function ($est_q) {
@@ -129,7 +129,7 @@ class OffersTaqaualController extends Controller
         $thisContract = $thisContract->findOrFail($id)->load([
             "contractLocations",
         ]);
-        $dateEnded    = getDiffPeriodDay($thisContract->created_at,
+        $dateEnded    = getDiffPeriodDay($thisContract->updated_at,
             $thisContract->contractType->setup->max_accept_period,
             $thisContract->contractType->setup->max_accept_period_type);
         if ($dateEnded >= Carbon::today()->format("Y-m-d")) {

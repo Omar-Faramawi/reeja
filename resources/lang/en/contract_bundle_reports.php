@@ -1,5 +1,5 @@
 <?php
 
-return  [
-	'heading' => 'Contracts per bundles',
+return [
+    "heading" => "Contracts per bundles"
 ];

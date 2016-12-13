@@ -148,8 +148,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        Vinkla\Hashids\HashidsServiceProvider::class,
-
         /*
          * Application Service Providers...
          */
@@ -161,6 +159,7 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
+        Nikaia\TranslationSheet\TranslationSheetServiceProvider::class,
 
         Tamkeen\Platform\MOL\ServiceProvider::class,
         Tamkeen\Platform\Billing\BillingServiceProvider::class,

@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
           type="text/css"/>
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/vendor.css') }}">
     <link rel="stylesheet" href="{{ (app()->getLocale()=="ar") ? asset('assets/css/login-rtl.css') : asset('assets/css/login.css') }}">
 </head>
 <!-- END HEAD -->

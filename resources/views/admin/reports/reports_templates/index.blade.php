@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('reports.'.isset($title) ? $title : 'heading') )
 @section('content')
-    <!-- BEGIN BREADCRUMBS -->
-    <div class="breadcrumbs">
-        <h1>{{ trans('reports.reports') }}</h1>
-        <ol class="breadcrumb">
-            <li>
-                <a href="/admin">{{trans('user.home')}}</a>
-            </li>
-            <li class="active">{{ trans('reports.headings') }}</li>
-        </ol>
-    </div>
-    <!-- END BREADCRUMBS -->
     <!-- BEGIN PAGE BASE CONTENT -->
     <div class="m-heading-1 border-green m-bordered">
         <h3> {{ trans('reports.'.isset($title) ? $title : 'heading') }} </h3>

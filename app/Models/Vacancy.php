@@ -181,7 +181,10 @@ class Vacancy extends BaseModel
      */
     public function scopeNotSeasonal($query)
     {
-        return $query->where('region_id', '!=', 1);
+        return $query->where(function($query) {
+            $query->where('region_id', '!=', 1)
+                  ->orWhereNull('region_id');
+        });
     }
 
     /**

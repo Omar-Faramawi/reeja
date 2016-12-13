@@ -52,6 +52,7 @@ $router->group(['prefix' => 'taqawel', 'middleware' => ['auth', 'EstablishmentSe
         $router->put("accept", "Front\PackageSubscribeController@accept");
         $router->put("activate", "Front\PackageSubscribeController@activate");
         $router->get("invoice", "Front\PackageSubscribeController@invoice");
+        $router->get("my_packages", "Front\PackageSubscribeController@myPackages");
         $router->resource("", "Front\PackageSubscribeController");
     });
 

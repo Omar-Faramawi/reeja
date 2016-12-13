@@ -1,62 +1,61 @@
 <?php
 
 return [
-    'headings'        => [
-        'tab_head'      => 'الشواغر',
-        'Add'           => 'إضافة شاغر عمل مؤقت',
-        'update'        => 'تعديل شاغر عمل مؤقت',
-        'list_tab_head' => 'عرض الشواغر',
-        'list_one' => 'عرض شاغر',
+    "buttons" => [
+        "cancel" => "إلغاء",
+        "details" => "تفاصيل إضافية",
+        "save_and_publish" => "حفظ و نشر",
+        "save_draft" => "حفظ والإكمال لاحقا",
+        "update_and_publish" => "تحديث و نشر",
+        "update_draft" => "حفظ التعديلات والإكمال لاحقا"
     ],
-    'buttons'         => [
-        'details'            => 'تفاصيل إضافية',
-        'save_and_publish'   => 'حفظ و نشر',
-        'update_and_publish' => 'تحديث و نشر',
-        'save_draft'         => 'حفظ والإكمال لاحقا',
-        'update_draft'       => 'حفظ التعديلات والإكمال لاحقا',
-        'cancel'             => 'إلغاء',
+    "form_attributes" => [
+        "currency" => "ريال",
+        "gender" => "الجنس",
+        "job" => "المهنة",
+        "job_type" => "نوع الوظيفة",
+        "nationality" => "الجنسية",
+        "region_id" => "منطقة العمل",
+        "religion" => " الديانة",
+        "required_number" => "العدد المطلوب",
+        "salary" => "الراتب",
+        "work_areas" => "مواقع العمل",
+        "work_end_date" => "تاريخ نهاية العمل",
+        "work_start_date" => " تاريخ بداية العمل"
     ],
-    'list_attributes' => [
-        'job'                => 'المهنة',
-        'work_area'          => 'منطقة العمل',
-        'needed_number'      => 'العدد المطلوب',
-        'remain_number'      => ' العدد المتبقى',
-        'details'            => 'تفاصيل',
-        'taeed_side'         => 'جهة التأييد',
-        'taeed_side_default' => 'وزارة الحج',
-        'approved_number'    => 'العدد المستحق',
-        'taeed_start_date'   => 'تاريخ بداية التأييد',
-        'taeed_end_date'     => 'تاريخ نهاية التأييد',
+    "gender" => [
+        "أنثى",
+        "ذكر"
     ],
-    'form_attributes' => [
-        'job'             => 'المهنة',
-        'gender'          => 'الجنس',
-        'nationality'     => 'الجنسية',
-        'religion'        => ' الديانة',
-        'region_id'       => 'منطقة العمل',
-        'job_type'        => 'نوع الوظيفة',
-        'salary'          => 'الراتب',
-        'currency'        => 'ريال',
-        'work_areas'      => 'مواقع العمل',
-        'work_start_date' => ' تاريخ بداية العمل',
-        'work_end_date'   => 'تاريخ نهاية العمل',
-        'required_number' => 'العدد المطلوب',
+    "headings" => [
+        "Add" => "إضافة شاغر عمل مؤقت",
+        "list_one" => "عرض شاغر",
+        "list_tab_head" => "عرض الشواغر",
+        "tab_head" => "الشواغر",
+        "update" => "تعديل شاغر عمل مؤقت"
     ],
-    "gender"          => [
-        '1' => 'ذكر',
-        '0' => 'أنثى',
+    "hide_option" => "إخفاء من سوق العمل",
+    "job_type" => [
+        "بدون أجر",
+        "بأجر"
     ],
-    "religion"        => [
-        '2' => 'غير مسلم',
-        '1' => 'مسلم',
-        '3' => 'غير محدد',
+    "list_attributes" => [
+        "approved_number" => "العدد المستحق",
+        "details" => "تفاصيل",
+        "job" => "المهنة",
+        "needed_number" => "العدد المطلوب",
+        "remain_number" => " العدد المتبقى",
+        "taeed_end_date" => "تاريخ نهاية التأييد",
+        "taeed_side" => "جهة التأييد",
+        "taeed_side_default" => "وزارة الحج",
+        "taeed_start_date" => "تاريخ بداية التأييد",
+        "work_area" => "منطقة العمل"
     ],
-    "job_type"        => [
-        '0' => 'بدون أجر',
-        '1' => 'بأجر',
+    "religion" => [
+        1 => "مسلم",
+        2 => "غير مسلم",
+        3 => "غير محدد"
     ],
-    
-    'hide_option'    => 'إخفاء من سوق العمل',
-    'success_data'   => 'تمت الاضافة بنجاح',
-    'success_update' => 'تم التعديل بنجاح',
+    "success_data" => "تمت الاضافة بنجاح",
+    "success_update" => "تم التعديل بنجاح"
 ];

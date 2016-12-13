@@ -2,6 +2,7 @@
 
 namespace Tamkeen\Ajeer\Http\Controllers\Admin;
 
+use DateTime;
 use Illuminate\Http\Request;
 use Tamkeen\Ajeer\Http\Controllers\Controller;
 use Tamkeen\Ajeer\Http\Requests\IshaarSetupsRequest;
@@ -38,7 +39,7 @@ class IshaarSetupsController extends Controller
      */
     public function create()
     {
-        $regions = Region::where('id', '!=', 1)->pluck('name', 'id')->toArray();
+        $regions = Region::pluck('name', 'id')->toArray();
         $ishaarTypes = IshaarType::pluck('name', 'id')->toArray();
         $jobs = Job::all();
         $nationalities = Nationality::pluck('name', 'id')->toArray();
@@ -57,6 +58,19 @@ class IshaarSetupsController extends Controller
     public function store(IshaarSetupsRequest $request)
     {
         $data = array_except($request->only(array_keys($request->rules())), ['regions', 'job', 'nationalities']);
+        if(!empty($data['period_start_date']) && !empty($data['period_end_date'])){
+            $startDate = explode("-", $data['period_start_date']);
+            $gerogorianStart = Hijri2Greg(intval($startDate[2]), intval($startDate[1]), intval($startDate[0]));
+            $gregStartDate = new DateTime();
+            $gregStartDate->setDate($gerogorianStart['year'], $gerogorianStart['month'], $gerogorianStart['day']);
+            $data['period_start_date'] = $gregStartDate->format('Y-m-d');
+
+            $endDate = explode("-", $data['period_end_date']);
+            $gerogorianEnd = Hijri2Greg(intval($endDate[2]), intval($endDate[1]), intval($endDate[0]));
+            $gregEndDate = new DateTime();
+            $gregEndDate->setDate($gerogorianEnd['year'], $gerogorianEnd['month'], $gerogorianEnd['day']);
+            $data['period_end_date'] = $gregEndDate->format('Y-m-d');
+        }
         $setup = IshaarSetup::create($data);
         $setup->regions()->attach($request->regions);
 
@@ -98,7 +112,22 @@ class IshaarSetupsController extends Controller
     public function edit($id)
     {
         $data = IshaarSetup::byId($id)->with('regions', 'jobs', 'ishaarjobs')->firstOrFail();
-        $regions = Region::where('id', '!=', 1)->pluck('name', 'id')->toArray();
+        if(!empty($data->period_start_date) && !empty($data->period_end_date)){
+            $startDate = explode('-', $data->period_start_date);
+            $endDate = explode('-', $data->period_end_date);
+
+            $gregStartDate = Greg2Hijri($startDate[2], $startDate[1], $startDate[0]);
+            $gregEndDate = Greg2Hijri($endDate[2], $endDate[1], $endDate[0]);
+
+            $gregorianStartDate = new DateTime();
+            $gregorianStartDate->setDate($gregStartDate['year'], $gregStartDate['month'], $gregStartDate['day']);
+            $readableStartDate = $gregorianStartDate->format('Y-m-d');
+
+            $gregorianEndDate = new DateTime();
+            $gregorianEndDate->setDate($gregEndDate['year'], $gregEndDate['month'], $gregEndDate['day']);
+            $readableEndDate = $gregorianEndDate->format('Y-m-d');
+        }
+        $regions = Region::pluck('name', 'id')->toArray();
         $ishaarTypes = IshaarType::lists('name', 'id')->toArray();
         $jobs = Job::all();
         $selectedJob = $data->jobs()->select('ad_jobs.id')->lists('id')->toArray();
@@ -114,7 +143,7 @@ class IshaarSetupsController extends Controller
 
         return view('admin.ishaars.setups.edit',
             compact('data', 'regions', 'ishaarTypes', 'jobs', 'selectedJob', 'selected_nationalities',
-                'nationalities'));
+                'nationalities', 'readableStartDate', 'readableEndDate'));
     }
 
     /**
@@ -128,6 +157,19 @@ class IshaarSetupsController extends Controller
     public function update(IshaarSetupsRequest $request, $id)
     {
         $data = array_except($request->only(array_keys($request->rules())), ['regions', 'job', 'nationalities']);
+        if(!empty($data['period_start_date']) && !empty($data['period_end_date'])){
+            $startDate = explode("-", $data['period_start_date']);
+            $gerogorianStart = Hijri2Greg(intval($startDate[2]), intval($startDate[1]), intval($startDate[0]));
+            $gregStartDate = new DateTime();
+            $gregStartDate->setDate($gerogorianStart['year'], $gerogorianStart['month'], $gerogorianStart['day']);
+            $data['period_start_date'] = $gregStartDate->format('Y-m-d');
+
+            $endDate = explode("-", $data['period_end_date']);
+            $gerogorianEnd = Hijri2Greg(intval($endDate[2]), intval($endDate[1]), intval($endDate[0]));
+            $gregEndDate = new DateTime();
+            $gregEndDate->setDate($gerogorianEnd['year'], $gerogorianEnd['month'], $gerogorianEnd['day']);
+            $data['period_end_date'] = $gregEndDate->format('Y-m-d');
+        }
         $setup = IshaarSetup::byId($id)->with(['jobs', 'ishaarjobs'])->firstOrFail();
         $setup->update($data);
         if ($setup->id != 3) {

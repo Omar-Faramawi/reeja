@@ -20,25 +20,45 @@
           type="text/css"/>
     @endif
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/vendor.css') }}">
     <link rel="stylesheet"
           href="{{ (app()->getLocale()=="ar") ? asset('assets/css/app-rtl.css') : asset('assets/css/app.css') }}">
     @yield('styles')
 </head>
 
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-md">
-<div class="wrapper">
-
+<body class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo page-md">
     @include('admin.partials.header')
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container">
+        @include('admin.partials.sidebar')
+        <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <!-- BEGIN CONTENT BODY -->
+                <div class="page-content">
+                    <div class="page-head">
+                        <div class="page-title">
+                            <h1>@yield('title')</h1>
+                        </div>
+                    </div>
 
-    {{--@include('partials.sidemenu')--}}
-    <div class="container-fluid">
-        <div class="page-content">
-            @yield('content')
-        </div>
+                    <ul class="page-breadcrumb breadcrumb">
+                        <li>
+                            <a href="{{ url('admin') }}">{{trans('user.home')}}</a>
+                            <i class="fa fa-circle"></i>
+                        </li>
+                        <li>
+                            <span class="active">@yield('title')</span>
+                        </li>
+                    </ul>
+
+                    @yield('content')
+                </div>
+                <!-- END CONTENT BODY -->
+            </div>
+            <!-- END CONTENT -->
     </div>
+    <!-- END CONTAINER -->
     @include('admin.partials.footer')
-</div>
-<!-- ./wrapper -->
 
 <!--[if lt IE 9]>
 <script src="{{ asset('assets/metronic/js/respond.min.js')}}/"></script>
@@ -63,12 +83,12 @@
         sLengthMenu: '{!! trans('labels.pagination.sLengthMenu') !!}',
         sZeroRecords: '{!! trans('labels.pagination.sZeroRecords') !!}',
         emptyTable: '{!! trans('labels.no_data') !!}',
-        info: '{!! trans('labels.pagination.info') !!}',
+        info: '',
         sInfoEmpty: '{!! trans('labels.pagination.sInfoEmpty') !!}',
-        sInfoFiltered: '{!! trans('labels.pagination.sInfoFiltered') !!}',
-        sInfoPostFix: '{!! trans('labels.pagination.sInfoPostFix') !!}',
+        sInfoFiltered: '',
+        sInfoPostFix: '',
         sSearch: '{!! trans('labels.pagination.sSearch') !!}',
-        sUrl: '{!! trans('labels.pagination.sUrl') !!}',
+        sUrl: '',
         sPage: '{!! trans('labels.pagination.sPage') !!}',
         oPaginate: {
             sFirst:'{!! trans('labels.pagination.oPaginate.sFirst') !!}',

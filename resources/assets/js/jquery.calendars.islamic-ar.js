@@ -13,7 +13,7 @@
 		dayNamesShort: ['يوم الأحد', 'يوم الإثنين', 'يوم الثلاثاء', 'يوم الأربعاء', 'يوم الخميس', 'يوم الجمعة', 'يوم السبت'],
 		dayNamesMin: ["ح", "ن", "ث", "ع", "خ", "ج", "س", "ح"],
 		digits: $.calendars.substituteDigits(['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩']),
-		dateFormat: 'yyyy/mm/dd',
+		dateFormat: 'yyyy-mm-dd',
 		firstDay: 6,
 		isRTL: true
 	};

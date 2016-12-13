@@ -1,20 +1,19 @@
 <?php
 
 return [
-    'headings' 					=> 'البنوك',
-    'sub-headings' 				=> 'تمكنك هذه الصفحة من إضافة وتعديل وحذف البنوك',
-    'attributes'  				=> [
-        'ar-name' 				=> 'اسم البنك',
-		'type'					=> 'النوع',
-		'parent_bank_id'				=> 'البنك الرئيسي',
+    "attributes" => [
+        "ar-name" => "اسم البنك",
+        "parent_bank_id" => "البنك الرئيسي",
+        "type" => "النوع"
     ],
-    'banksadded' 				=> 'تم اضافة بنك',
-    'banksupdated' 				=> 'تم التعديل',
-    'banksdeleted' 				=> 'تم الحذف',
-	'select'					=> 'اختر البنك الرئيسي',
-	'parent'					=> 'رئيسي',
-	'children'					=> 'فرعي',
-	'subfrom'					=> 'فرعي من',
-	'error_delete'				=> 'عذرا هذا البنك يحتوي على بنوك فرعية',
-
+    "banksadded" => "تم اضافة بنك",
+    "banksdeleted" => "تم الحذف",
+    "banksupdated" => "تم التعديل",
+    "children" => "فرعي",
+    "error_delete" => "عذرا هذا البنك يحتوي على بنوك فرعية",
+    "headings" => "البنوك",
+    "parent" => "رئيسي",
+    "select" => "اختر البنك الرئيسي",
+    "sub-headings" => "تمكنك هذه الصفحة من إضافة وتعديل وحذف البنوك",
+    "subfrom" => "فرعي من"
 ];

@@ -1,0 +1,26 @@
+@import "../../../../../bower_components/bootstrap/less/input-groups.less";
+
+[lang='ar'] {
+  .input-group {
+    .form-control {
+      float: right;
+    }
+  }
+
+  .input-group-btn {
+    &:first-child {
+      > .btn,
+      > .btn-group {
+        margin-right: auto;
+        margin-left: -1px;
+      }
+    }
+    &:last-child {
+      > .btn,
+      > .btn-group {
+        margin-left: auto;
+        margin-right: -1px;
+      }
+    }
+  }
+}

@@ -31,6 +31,7 @@ class ContractMembersTaqyeemRequest extends Request
             'portal_services'     => 'required_if:taqyeem_type,1',
             'periodic_period'     => 'required_if:periodic_or_date,1',
             'taqyeem_date'        => 'required_if:periodic_or_date,2',
+            'userTypeResidents'        => 'required_if:residents,1',
         ];
         if (is_array(Input::get('portal_services'))) {
             if (in_array('taqawel_services', Input::get('portal_services'))) {
@@ -57,6 +58,7 @@ class ContractMembersTaqyeemRequest extends Request
             'direct_emp.required'         => trans('contractmembertaqyeem.direct_emp_required'),
             'periodic_period.required_if' => trans('contractmembertaqyeem.periodic_period_required_if'),
             'taqyeem_date.required_if'    => trans('contractmembertaqyeem.taqyeem_date_required_if'),
+            'userTypeResidents.required_if'    => trans('contractmembertaqyeem.userTypeResidents_if'),
         ];
     }
 }

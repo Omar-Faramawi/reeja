@@ -227,4 +227,23 @@ class PackageSubscribeController extends Controller
 
         return view("front.packagesubscribe.invoice", compact("invoice", 'ishaar_setup'));
     }
+
+    /**
+     * List user subscribed packages .
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function myPackages()
+    {
+        if (request()->ajax()) {
+            $packages   = InvoiceBundle::byMe();
+            $total_count = ($packages->count()) ? $packages->count() : 1;
+            $columns     = request()->input('columns');
+
+            return dynamicAjaxPaginate($packages, $columns, $total_count, []);
+        }
+
+        return view('front.packagesubscribe.my_packages');
+    }
+
 }

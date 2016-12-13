@@ -1,47 +1,50 @@
 <?php
 
 return [
-    'title' 				    => 'Individuals Registration',
-    'title_active'              => 'Activate user',
-    'activation_number'         => 'Activation number', 
-    'activate'                  => 'activate', 
-    'register'				    => 'register',
-    'validation'                => [
-
-        'nicerror_saudi'        => 'National Id is incorrect',
-        'nicerror_non_saudi'    => 'National Id is incorrect',
-        'required_if'           => 'This :attribute is required when :other is saudi',   
-        'nic_not_active'        => 'The account is not active in NIC',
+    "activate" => "activate",
+    "activation_number" => "Activation number",
+    "attributes" => [
+        "birth_date" => "Birth date",
+        "confirm_password" => "Confim password",
+        "email" => "Email",
+        "first_name" => "First name",
+        "gender" => "Gender",
+        "id_number_non_saudi" => "National Id",
+        "id_number_resident" => "Iqama Id",
+        "id_number_saudi" => "Id number",
+        "id_number_visitor" => "Border Number",
+        "id_numbers" => "Id number",
+        "id_numbers_non_saudi" => "Residency/Border number",
+        "id_numbers_saudi" => "National Id",
+        "id_type" => "Id Type",
+        "last_name" => "Last name",
+        "password" => "Password",
+        "phone" => "Mobile No.",
+        "religion" => "Religion",
+        "saudi" => "Saudi"
     ],
-    'attributes'                => [
-
-        'id_number_saudi'       => 'National Id',
-        'id_number_non_saudi'   => 'National Id',
-        'saudi'                 => 'Saudi',
-        'birth_date'            => 'Birth date',
-        'religion'              => 'Religion',       
-        'id_numbers'            => 'National Id',
-        'id_numbers_saudi'      => 'National Id',
-        'id_numbers_non_saudi'  => 'National Id',
-        'first_name'            => 'First name',
-        'last_name'             => 'Last name',
-        'password'              => 'Password',
-        'confirm_password'      => 'Confim password',
-        'phone'                 => 'Mobile phone',
-        'email'                 => 'Email',
-        'gender'                => 'Gender' 
-        
+    "choose" => "choose religion",
+    "female" => "Female",
+    "id_types" => [
+        "national_id" => "National Id",
+        "resident_id" => "Resident Id",
+        "visitor_id" => "Visitor's Id"
     ],
-    'male'                      => 'Male',
-    'female'                    => 'Female',
-    'religions'                 => [
-
-        'non_muslim'            => 'non muslim',
-        'muslim'                => 'muslim',
-        'na'                    => 'na',
-
+    "male" => "Male",
+    "register" => "register",
+    "religions" => [
+        "muslim" => "muslim",
+        "na" => "na",
+        "non_muslim" => "non muslim"
     ],
-    'choose'                    => 'choose religion',
-    'success'                   => 'Registration successed',
-    'wrong_activation'          => 'Wrong activation code',
+    "success" => "Registration successed",
+    "title" => "Individuals Registration",
+    "title_active" => "Activate user",
+    "validation" => [
+        "nic_not_active" => "The account is not active in NIC",
+        "nicerror_non_saudi" => "Please check the values of Id number and Birth date",
+        "nicerror_saudi" => "Please check the values of National ID and Birth date",
+        "required_if" => "This :attribute is required when :other is saudi"
+    ],
+    "wrong_activation" => "Wrong activation code"
 ];

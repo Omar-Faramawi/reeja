@@ -71,13 +71,13 @@
                                                    name="name">
                                         </td>
                                         <td>
-                                            {{ Form::select('nationality', $nationalities, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                            {{ Form::select('nationality', $nationalities, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
                                         </td>
                                         <td>
                                             {{ Form::select('gender', \Tamkeen\Ajeer\Utilities\Constants::gender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
                                         </td>
                                         <td>
-                                            {{ Form::select('job', $jobs, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                            {{ Form::select('job', $jobs, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
                                         </td>
                                         <td>
                                             <input type="text" class="form-control form-filter input-sm"

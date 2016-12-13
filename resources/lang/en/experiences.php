@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'headings' 					=>  'Experiences',
-    'sub-headings' 				=> 'You can update and delete Experiences in this page',
-    'attributes'  				=> [
-        'ar-name' 				=> 'Experience name'
+    "attributes" => [
+        "ar-name" => "Experience name"
     ],
-    'experienceadded' 		=> 'Experience Added',
-    'experienceupdated' 		=> 'Experience Updated',
-    'experiencedeleted' 		=> 'Experience Deleted',
+    "experienceadded" => "Experience Added",
+    "experiencedeleted" => "Experience Deleted",
+    "experienceupdated" => "Experience Updated",
+    "headings" => "Experiences",
+    "sub-headings" => "You can update and delete Experiences in this page"
 ];

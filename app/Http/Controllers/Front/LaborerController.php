@@ -160,7 +160,7 @@ class LaborerController extends Controller
             $HRPool->provider_id = \Auth::user()->id_no;
         }
         $HRPool->provider_type = $provider_type;
-        $HRPool->job_id        = 1; /* To do : get this value from NIC */
+        //$HRPool->job_id        = 1; /* To do : get this value from NIC */
         $HRPool->religion      = 1; /* To do : get this value from NIC */
 
         $HRPool->save();

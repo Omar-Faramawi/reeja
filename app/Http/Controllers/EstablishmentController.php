@@ -47,10 +47,15 @@ class EstablishmentController extends Controller
         }
         $establishment = Establishment::findEstablishmentOrCreate($establishment_data, $owner_id);
         session()->set('selected_establishment', $establishment);
-        if($login){
-           return trans('auth.success');
+        if($establishment){
+            $responsible = $establishment->responsibles()->count();
+            if (!$responsible) {
+                return redirect()->route('establishment.profile.edit')->with(['msg' => trans('establishment.should_add_responsible'), 'status'=>'block alert-danger']);
+            }
+
+            return redirect('home');
         }else{
-        return redirect('home');
+            return redirect('home');
         }
     }
     
@@ -147,7 +152,7 @@ class EstablishmentController extends Controller
             
             $establishment->hajj     = isset($data['est_type']['hajj']) ? $data['est_type']['hajj'] : null;
             $establishment->catering = isset($data['est_type']['catering']) ? $data['est_type']['catering'] : null;
-            
+
             $establishment->save();
         }
         

@@ -1,20 +1,19 @@
 <?php
 
 return [
-    'headings' 					=> 'Reasons',
-    'sub-headings' 				=> 'You can update and delete Reasons in this page',
-    'attributes'  				=> [
-        'reason' 				=> 'Reason',
-		'type'					=> 'Type',
-		'parent_id'				=> 'Parent Reason'
+    "attributes" => [
+        "parent_id" => "Parent Reason",
+        "reason" => "Reason",
+        "type" => "Type"
     ],
-    'reasonsadded' 				=> 'Reason Added',
-    'reasonsupdated' 				=> 'Reason Updated',
-    'reasonsdeleted' 				=> 'Reason Deleted',
-	'select'					=> 'choose parent reason',
-	'parent'					=> 'Major',
-	'children'					=> 'Subsidiary',
-	'subfrom'					=> 'Subsidiary from',
-	'error_delete'				=> 'Can\'t delete, This reason contains subsidiaries reasons',
-	
+    "children" => "Subsidiary",
+    "error_delete" => "Can't delete, This reason contains subsidiaries reasons",
+    "headings" => "Reasons",
+    "parent" => "Major",
+    "reasonsadded" => "Reason Added",
+    "reasonsdeleted" => "Reason Deleted",
+    "reasonsupdated" => "Reason Updated",
+    "select" => "choose parent reason",
+    "sub-headings" => "You can update and delete Reasons in this page",
+    "subfrom" => "Subsidiary from"
 ];

@@ -70,7 +70,7 @@ class Establishment extends BaseModel
      */
     public function users()
     {
-        return $this->hasOne(User::class, 'id_no');
+        return $this->hasOne(User::class, 'id_no')->where('user_type_id',  Constants::USERTYPES['est']);
     }
 
     /**
@@ -128,7 +128,7 @@ class Establishment extends BaseModel
 
     public function contract()
     {
-        return $this->hasMany(Contract::class, "provider_id");
+        return $this->hasMany(Contract::class, "provider_id")->where('provider_type', Constants::USERTYPES['est']);
     }
 
     /* End Of Abdelrazek Work */
@@ -202,7 +202,7 @@ class Establishment extends BaseModel
 
     public function invoice()
     {
-        return $this->hasMany(Invoice::class, 'provider_id');
+        return $this->hasMany(Invoice::class, 'provider_id')->where('provider_type', Constants::USERTYPES['est']);
     }
 
     public function estSize()

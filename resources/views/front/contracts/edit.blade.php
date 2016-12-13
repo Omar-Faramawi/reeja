@@ -123,7 +123,9 @@
 
                                      <div class="form-group form-md-line-input">
                                         <label class="control-label col-md-1">{{ trans('temp_job.attachment') }}</label>
-                                        @include('components.fileupload', ['name' => 'contract_file'])
+                                        <div class="col-md-11">
+                                            @include('components.fileupload', ['name' => 'contract_file'])
+                                        </div>
                                     </div>
                                     <br><br>
 

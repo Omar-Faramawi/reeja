@@ -37,13 +37,17 @@
                         <div class="form-group form-md-line-input form-md-floating-label">
                             <label {{ isset($data) ? 'style=top:0;' : "" }} for="min_ishaar_period">{{ trans('ishaar_setup.attributes.min_ishaar_period')." [".trans('labels.day')."]" }}
                                 <span class="required">*</span></label>
-                            {{ Form::selectRange("min_ishaar_period", 1,90, null, ["class" => "form-control bs-select","placeholder"=> trans("ishaar_setup.attributes.default")]) }}
+
+                            {{ Form::number("min_ishaar_period", null, ["class" => "form-control"]) }}
+
                             <span class="help-block">{{ trans('ishaar_setup.attributes.min_ishaar_period') }}</span>
                         </div>
                         <div class="form-group form-md-line-input form-md-floating-label">
                             <label {{ isset($data) ? 'style=top:0;' : "" }} for="max_ishaar_period">{{ trans('ishaar_setup.attributes.max_ishaar_period')." [".trans('labels.day')."]" }}
                                 <span class="required">*</span></label>
-                            {{ Form::selectRange("max_ishaar_period",1 ,90 ,null, ["class" => "form-control bs-select","placeholder"=> trans("ishaar_setup.attributes.default")]) }}
+
+                            {{ Form::number("max_ishaar_period", null, ["class" => "form-control"]) }}
+
                             <span class="help-block">{{ trans('ishaar_setup.attributes.max_ishaar_period') }}</span>
                         </div>
                         <div class="form-group form-md-line-input form-md-floating-label">
@@ -73,7 +77,7 @@
                                 <div class="form-group form-md-line-input">
                                     <label {{ isset($data) ? 'style=top:0;' : "" }} for="period_start_date">{{ trans('ishaar_setup.attributes.period_start_date') }}
                                     </label>
-                                    {{ Form::text("period_start_date", null, ["class" => "form-control date-picker", "data-value" => "0"]) }}
+                                    {{ Form::text("period_start_date", isset($readableStartDate) ? $readableStartDate : null, ["id"=>"period_start_date", "class" => "form-control", "data-value" => "0"]) }}
                                     <span class="help-block">{{ trans('ishaar_setup.attributes.period_start_date') }}</span>
                                 </div>
                             </div>
@@ -82,12 +86,12 @@
                                 <div class="form-group form-md-line-input">
                                     <label {{ isset($data) ? 'style=top:0;' : "" }} for="period_end_date">{{ trans('ishaar_setup.attributes.period_end_date') }}
                                         <span class="required">*</span></label>
-                                    {{ Form::text("period_end_date", null, ["class" => "form-control date-picker", "data-value" => "0"]) }}
+                                    {{ Form::text("period_end_date", isset($readableEndDate) ? $readableEndDate : null, ["id"=>"period_end_date", "class" => "form-control", "data-value" => "0"]) }}
                                     <span class="help-block">{{ trans('ishaar_setup.attributes.period_end_date') }}</span>
                                 </div>
                             </div>
                         </div>
-                        @if(empty($data) || (!empty($data) && $data->id != 3))
+                       
                             <div class="form-group form-md-line-input">
                                 <label {{ isset($data) ? 'style=top:0;' : "" }} for="regions">{{ trans('ishaar_setup.attributes.regions') }}
                                 </label>
@@ -107,7 +111,7 @@
                                 {{ Form::number("max_labor_from_haj", null, ["class" => "form-control", "data-value" => "1", "data-id" => "regions-select"]) }}
                                 <span class="help-block">{{ trans('ishaar_setup.attributes.max_labor_from_haj') }}</span>
                             </div>
-                        @endif
+                     
 
                         <div class="form-group form-md-line-input">
                             <label class="col-md-2">{{ trans('ishaar_setup.attributes.nitaq_active') }}</label>

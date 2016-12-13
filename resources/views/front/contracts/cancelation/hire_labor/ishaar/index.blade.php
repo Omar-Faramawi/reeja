@@ -23,7 +23,7 @@
             <i class="fa fa-circle"></i>
          </li>
          <li>
-            <span>{{ trans('front.menu.temp_direct_contract') }}</span>
+            <span>{{ trans('front.menu.hire_labor') }}</span>
             <i class="fa fa-circle"></i>
          </li>
          <li>
@@ -105,7 +105,7 @@
                                        name="name">
                                  </td>
                                   <td>
-                                    {{ Form::select('job_name', $jobs, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                    {{ Form::select('job_name', $jobs, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
                                  </td>
                                  <td>
                                     <input type="text" class="form-control form-filter input-sm"

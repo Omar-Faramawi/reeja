@@ -307,6 +307,15 @@ $factory->define(\Tamkeen\Ajeer\Models\ContractLocation::class, function () use 
     ];
 });
 
+
+$factory->define(\Tamkeen\Ajeer\Models\VacancyLocations::class, function () use ($faker) {
+    return [
+        'location'   => $faker->country,
+        'vacancies_id' => factory(\Tamkeen\Ajeer\Models\Vacancy::class)->create()->id,
+    ];
+});
+
+
 $factory->define(Tamkeen\Ajeer\Models\Attachment::class, function (Faker\Generator $faker) {
     return [
         'name'       => $faker->name,
@@ -430,9 +439,14 @@ $factory->define(Tamkeen\Ajeer\Models\JobRequest::class, function (Faker\Generat
 
 $factory->define(Tamkeen\Ajeer\Models\MarketTaqawoulServices::class, function (Faker\Generator $faker) {
     return [
-        'contract_nature_id' => function () {
-            return factory(Tamkeen\Ajeer\Models\ContractNature::class)->create()->id;
-        },
+        'contract_nature_id'    => 1,
+        'description'           => $faker->text(),
+        'provider_or_benf'      => $faker->numberBetween(1, 2),
+        'service_prvdr_benf_id' => $faker->numberBetween(1, 10),
+        'service_id'            => $faker->numberBetween(1, 10),
+        'status'                => $faker->numberBetween(1, 10),
+        'created_by'            => $faker->randomNumber(),
+        'updated_by'            => $faker->randomNumber(),
     ];
 });
 

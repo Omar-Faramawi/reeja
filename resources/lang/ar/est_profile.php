@@ -1,35 +1,35 @@
 <?php
 
 return [
-    'est_profile'             => 'ملف المنشأة',
-    'responsibles_data'       => 'بيانات المسئولين',
-    'add_responsible'         => 'إضافة مسئول',
-    'remove_responsible'      => 'حذف مسئول',
-    'updated'                 => 'تم تحديث ملف المنشأة بنجاح',
-    'at_least_one'            => 'يجب إضافة مسئول واحد على الأقل',
-    'est_type'                => 'نوع المنشأة',
-    'hajj_est'                => 'شركة حج',
-    'catering_est'            => 'شركة إعاشة/نقل',
-    'est_type_error_message'  => 'يجب إختيار نوع المنشأة',
-    'invalid'                 => 'غير صحيح',
-    'attributes'              => [
-        'FK_establishment_id' => 'رقم المنشأة',
-        'name'                => 'إسم المنشأة',
-        'est_size'            => 'حجم المنشأة',
-        'est_nitaq'           => 'نطاق المنشأة',
-        'status'              => 'حالة المنشأة'
+    "add_responsible" => "إضافة مسئول",
+    "approved" => "تمت الموافقة عليها",
+    "at_least_one" => "يجب إضافة مسئول واحد على الأقل",
+    "attributes" => [
+        "FK_establishment_id" => "رقم المنشأة",
+        "est_nitaq" => "نطاق المنشأة",
+        "est_size" => "حجم المنشأة",
+        "name" => "إسم المنشأة",
+        "status" => "حالة المنشأة"
     ],
-    'pending'                 => 'بإنتظار الموافقة',
-    'hajj_approved'           => 'تمت الموافقة عليها كشركة حج',
-    'catt_approved'           => 'تمت الموافقة عليها كشركة إعاشة/نقل',
-    'approved'                => 'تمت الموافقة عليها',
-    'rejected'                => 'تم رفضها',
-    'responsibles_attributes' => [
-        'id_number'         => 'رقم هوية المسئول',
-        'responsible_name'  => 'إسم المسئول',
-        'job_name'          => 'المسمى الوظيفي للمسئول',
-        'responsible_phone' => 'رقم جوال المسئول',
-        'responsible_email' => 'البريد الإلكتروني للمسئول',
-        'id'                => 'المسئول'
-    ]
+    "catering_est" => "شركة إعاشة/نقل",
+    "catt_approved" => "تمت الموافقة عليها كشركة إعاشة/نقل",
+    "est_profile" => "ملف المنشأة",
+    "est_type" => "نوع المنشأة",
+    "est_type_error_message" => "يجب إختيار نوع المنشأة",
+    "hajj_approved" => "تمت الموافقة عليها كشركة حج",
+    "hajj_est" => "شركة حج",
+    "invalid" => "غير صحيح",
+    "pending" => "بإنتظار الموافقة",
+    "rejected" => "تم رفضها",
+    "remove_responsible" => "حذف مسئول",
+    "responsibles_attributes" => [
+        "id" => "المسئول",
+        "id_number" => "رقم هوية المسئول",
+        "job_name" => "المسمى الوظيفي للمسئول",
+        "responsible_email" => "البريد الإلكتروني للمسئول",
+        "responsible_name" => "إسم المسئول",
+        "responsible_phone" => "رقم جوال المسئول"
+    ],
+    "responsibles_data" => "بيانات المسئولين",
+    "updated" => "تم تحديث ملف المنشأة بنجاح"
 ];

@@ -91,6 +91,14 @@ class ContractEmployee extends BaseModel
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class, 'invoices_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function ishaarSetup()
@@ -111,34 +119,51 @@ class ContractEmployee extends BaseModel
      */
     public function getTranslatedStatusAttribute()
     {
+        if ($this->status == Constants::CONTRACT_STATUSES['pending']) {
+            if ($this->invoices_id) {
+                $invoiceStatus = @$this->invoice->status;
+                if ($invoiceStatus == '1') {
+                    return trans('contracts.notice_invoice_statuses.paid');
+                } elseif ($invoiceStatus == '0') {
+                    return trans('contracts.notice_invoice_statuses.pending');
+                } elseif ($invoiceStatus == '2') {
+                    return trans('contracts.notice_invoice_statuses.cancelled');
+                }
+            } else {
+                return trans('contracts.notice_invoice_statuses.draft');
+            }
+        } elseif ($this->status == Constants::CONTRACT_STATUSES['approved']) {
+            return trans('contracts.notice_invoice_statuses.paid');
+        }
+
         return Constants::contract_statuses($this->status, ['file' => 'contracts.statuses']);
     }
 
-    public static function MaxIshaarsForBenf($benf_id)
+    public static function MaxIshaarsForBenf($benf_id, $benf_type)
     {
-        return self::whereHas('contract', function ($cont) use ($benf_id) {
-            $cont->byMe()->approved()->taqawel()->where('benf_id', $benf_id);
+        return self::whereHas('contract', function ($cont) use ($benf_id, $benf_type) {
+            $cont->approved()->taqawel()->where('benf_id', $benf_id)->where('benf_type', $benf_type);
         })->count();
     }
 
-    public static function MaxEmployeeIshaarsForBenfInPeriod($benf_id, $id_number)
+    public static function MaxEmployeeIshaarsForBenfInPeriod($benf_id, $benf_type, $id_number)
     {
-        return self::whereHas('contract', function ($cont) use ($benf_id) {
-            $cont->byMe()->approved()->taqawel()->where('benf_id', $benf_id);
+        return self::whereHas('contract', function ($cont) use ($benf_id, $benf_type) {
+            $cont->approved()->taqawel()->where('benf_id', $benf_id)->where('benf_type', $benf_type);
         })->where('id_number', $id_number)->max('end_date');
     }
 
-    public static function MinEmployeeIshaarsForBenfInPeriod($benf_id, $id_number)
+    public static function MinEmployeeIshaarsForBenfInPeriod($benf_id, $benf_type, $id_number)
     {
-        return self::whereHas('contract', function ($cont) use ($benf_id) {
-            $cont->byMe()->approved()->taqawel()->where('benf_id', $benf_id);
+        return self::whereHas('contract', function ($cont) use ($benf_id, $benf_type) {
+            $cont->approved()->taqawel()->where('benf_id', $benf_id)->where('benf_type', $benf_type);
         })->where('id_number', $id_number)->min('start_date');
     }
 
-    public static function MaxIshaarsForProvider($provider_id){
-        return self::whereHas('contract',function ($cont) use($provider_id) {
-                        $cont->byMe()->approved()->taqawel()->where('provider_id',$provider_id);
-                    })->count();
+    public static function MaxIshaarsForProvider($provider_id, $provider_type){
+        return self::whereHas('contract',function ($cont) use($provider_id, $provider_type) {
+            $cont->approved()->taqawel()->where('provider_id',$provider_id)->where('provider_type', $provider_type);
+        })->count();
     }
 
     /**

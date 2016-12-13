@@ -3,12 +3,12 @@
 namespace Tamkeen\Ajeer\Http\Controllers\Admin\Settings;
 
 use Illuminate\Http\Request;
+use Tamkeen\Ajeer\Http\Controllers\Controller;
 use Tamkeen\Ajeer\Http\Requests;
-use Tamkeen\Ajeer\Http\Requests\ProfessionsRequest;
+use Tamkeen\Ajeer\Http\Requests\JobSearchRequest;
 use Tamkeen\Ajeer\Models\Job;
 use Tamkeen\Ajeer\Models\Nationality;
 use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository;
-use Tamkeen\Ajeer\Http\Controllers\Controller;
 
 class ProfessionsController extends Controller
 {
@@ -24,13 +24,13 @@ class ProfessionsController extends Controller
         foreach ($professions as $profession) {
             Job::firstOrCreate(['job_name' => $profession['name']]);
         }
-        
-        $data          = Job::with('nationalities')->latest()->paginate(20);
+
+        $data = Job::with('nationalities')->latest()->paginate(20);
         $nationalities = Nationality::pluck('name', 'id')->toArray();
-        
+
         return view('admin.settings.professions.list', compact('data', 'nationalities'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -40,7 +40,7 @@ class ProfessionsController extends Controller
     {
         //
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -52,7 +52,7 @@ class ProfessionsController extends Controller
     {
         //
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -64,7 +64,7 @@ class ProfessionsController extends Controller
     {
         //
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -76,7 +76,7 @@ class ProfessionsController extends Controller
     {
         //
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -86,7 +86,7 @@ class ProfessionsController extends Controller
     {
         // Get the form data
         $nations = $data->get('nations', []);
-        
+
         // Update all of the page results because of the deactivation
         $professions = Job::latest()->paginate(20, ['*'], 'page', $data->get('page'));
         foreach ($professions as $one) {
@@ -94,10 +94,10 @@ class ProfessionsController extends Controller
             $one->nationalities()->sync($nations[$one->hashids]);
             $one->save();
         }
-        
+
         return trans('professions.updated');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -108,5 +108,32 @@ class ProfessionsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param JobSearchRequest $request
+     */
+    public function search(JobSearchRequest $request)
+    {
+        $data = Job::where('job_name', 'LIKE', '%' . $request->q . "%")->with('nationalities')->latest()->paginate(20);
+        $nationalities = Nationality::pluck('name', 'id')->toArray();
+
+        return view('admin.settings.professions.listforsearch', compact('data', 'nationalities'));
+    }
+
+    public function updateForSearch(Request $data)
+    {
+        // Get the form data
+        $nations = $data->get('nations', []);
+        // Update all of the page results because of the deactivation
+        foreach ($data->job_id as $newData) {
+            $job = Job::byId($newData)->first();
+            $nations[$newData] = empty($nations[$newData]) ? [] : $nations[$newData];
+            $job->nationalities()->sync($nations[$job->hashids]);
+            $job->save();
+        }
+
+
+        return trans('professions.updated');
     }
 }

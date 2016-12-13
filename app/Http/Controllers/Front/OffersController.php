@@ -129,7 +129,7 @@ class OffersController extends Controller
                 }
             ])
             ->findOrFail($id);
-        $dateEnded = getDiffPeriodDay($thisContract->created_at,
+        $dateEnded = getDiffPeriodDay($thisContract->updated_at,
             $thisContract->contractType->setup->max_accept_period,
             $thisContract->contractType->setup->max_accept_period_type);
         if (Carbon::now()->format("Y-m-d") <= $dateEnded) {
@@ -235,7 +235,7 @@ class OffersController extends Controller
                 },
             ])
             ->findOrFail($id);
-        $dateEnded = getDiffPeriodDay($thisContract->created_at,
+        $dateEnded = getDiffPeriodDay($thisContract->updated_at,
             $thisContract->contractType->setup->max_accept_period,
             $thisContract->contractType->setup->max_accept_period_type);
 
@@ -262,7 +262,7 @@ class OffersController extends Controller
         /*
          * check if offer is still available or not
          */
-        $dateEnded = getDiffPeriodDay($thisContract->created_at,
+        $dateEnded = getDiffPeriodDay($thisContract->updated_at,
             $thisContract->contractType->setup->max_accept_period,
             $thisContract->contractType->setup->max_accept_period_type);
         if (Carbon::now()->format("Y-m-d") > $dateEnded) {

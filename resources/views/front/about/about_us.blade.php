@@ -1,5 +1,5 @@
 @extends('front.layout')
-@section('title', trans('front.menu.definition'))
+@section('title', trans('front.menu.about'))
 @section('content')
         <!-- BEGIN PAGE HEAD-->
 <div class="page-head">
@@ -19,6 +19,13 @@
     <div class="container">
         <!-- BEGIN PAGE BREADCRUMBS -->
         <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="{{ url('/') }}">{{ trans('labels.home') }}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span>{{ trans('front.menu.about') }}</span>
+            </li>
         </ul>
         <!-- END PAGE BREADCRUMBS -->
         <!-- BEGIN PAGE CONTENT INNER -->
@@ -28,39 +35,39 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="portlet light">
                             <div class="card-icon">
-                                <i class="icon-user-follow font-red-sunglo theme-font"></i>
+                                <i class="icon-briefcase font-red-sunglo theme-font"></i>
                             </div>
                             <div class="card-title">
                                 <span>{{ trans('about.ajeer_for_job_service.heading') }}</span>
                             </div>
                             <div class="card-desc">
-                                <span>{{ trans('about.ajeer_for_job_service.body') }}</span>
+                                <div>{{ trans('about.ajeer_for_job_service.body') }}</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="portlet light">
                             <div class="card-icon">
-                                <i class="icon-trophy font-green-haze theme-font"></i>
+                                <i class="icon-users font-green-haze theme-font"></i>
                             </div>
                             <div class="card-title">
                                 <span>{{ trans('about.ajeer_for_companies_service.heading') }}</span>
                             </div>
                             <div class="card-desc">
-                                <span>{{ trans('about.ajeer_for_companies_service.body') }}</span>
+                                <div>{{ trans('about.ajeer_for_companies_service.body') }}</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="portlet light">
                             <div class="card-icon">
-                                <i class="icon-layers font-blue theme-font"></i>
+                                <i class="icon-flag font-blue theme-font"></i>
                             </div>
                             <div class="card-title">
                                 <span>{{ trans('about.ajeer_for_visitor_service.heading') }}</span>
                             </div>
                             <div class="card-desc">
-                                <span>{{ trans('about.ajeer_for_visitor_service.body') }}</span>
+                                <div>{{ trans('about.ajeer_for_visitor_service.body') }}</div>
                             </div>
                         </div>
                     </div>

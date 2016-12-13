@@ -1,45 +1,46 @@
 <?php
 
 return [
-    'headings'     => [
-        'list'   => 'Establishments Registration',
-        'list1'  => 'Establishments',
-        'create' => 'Create a new establishment',
-        'edit'   => 'Edit establishment',
+    "added" => "Added successfully",
+    "attributes" => [
+        "branch_no" => "Branch number",
+        "city" => "City",
+        "district" => "District",
+        "email" => "Email",
+        "est_activity" => "Establishment activity",
+        "est_nitaq" => "Establishment Nitaq",
+        "est_size" => "Establishment size",
+        "id_number" => "100 / 700",
+        "labour_office_no" => "Office number",
+        "local_liecense_no" => "License number",
+        "name" => "Establishment Name",
+        "parent_id" => "Main Establishment",
+        "phone" => "Phone",
+        "reason_id" => "Reason number",
+        "region" => "Region",
+        "rejection_reason" => "Rejection reason",
+        "sequence_no" => "Sequence number",
+        "status_title" => "Status",
+        "wasel_address" => "Wasel Address"
     ],
-    'sub-headings' => [
-        'list' => 'This page allows you to manage establishments users',
+    "change" => "Change Establishment",
+    "deleted" => "Deleted successfully",
+    "error_delete" => "Error Can't delete",
+    "fetch_establishment_data" => "Fetch establishment data",
+    "headings" => [
+        "create" => "Add an establishment",
+        "edit" => "Edit establishment",
+        "list" => "Establishments",
+        "list1" => "Establishments"
     ],
-    'attributes'   => [
-        'labour_office_no'  => 'Office number',
-        'sequence_no'       => 'Sequence number',
-        'id_number'         => '100 / 700',
-        'branch_no'         => 'Branch number',
-        'email'             => 'Email',
-        'name'              => 'Establishment Name',
-        'est_activity'      => 'Establishment activity',
-        'est_size'          => 'Establishment size',
-        'est_nitaq'         => 'Establishment Nitaq',
-        'district'          => 'District',
-        'city'              => 'City',
-        'region'            => 'Region',
-        'wasel_address'     => 'Wasel Address',
-        'local_liecense_no' => 'License number',
-        'phone'             => 'Phone',
-        'parent_id'         => 'Main Establishment',
-        'reason_id'         => 'Reason number',
-        'rejection_reason'  => 'Rejection reason',
-        'status_title'      => 'Status',
+    "no_data" => "Sorry ! no data for this establishment",
+    "status" => [
+        "Closed",
+        "Active"
     ],
-    "status"       => [
-        '0' => 'Closed',
-        '1' => 'Active',
+    "sub-headings" => [
+        "list" => "This page allows you to manage establishments users"
     ],
-    'added'        => 'Added successfully',
-    'updated'      => 'Updated successfully',
-    'deleted'      => 'Deleted successfully',
-    'error_delete' => 'Error Can\'t delete',
-    'no_data'      => 'Sorry ! no data for this company',
-    'success_data' => 'Done, The establishment is here',
-    'change'       => 'Change Establishment',
+    "success_data" => "Done, The establishment is here",
+    "updated" => "Updated successfully"
 ];

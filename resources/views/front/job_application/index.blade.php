@@ -70,7 +70,7 @@
                                                    name="id">
                                         </td>
                                         <td>
-                                            <select name="job_id" class="form-control bs-select form-filter">
+                                            <select name="job_id" class="form-control bs-select form-filter" data-live-search="true">
                                                 <option value="">{{ trans('labels.choose') }}</option>
                                                 @foreach($jobs as $key => $value)
                                                     <option value="{{ $key }}">{{ $value }}</option>

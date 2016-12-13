@@ -1,27 +1,27 @@
 <?php
 
 return [
-    'headings'     => [
-        'list'   => 'Individuals Edit',
-        'list1'  => 'Individuals',
-        'create' => 'Create a new individual',
-        'edit'   => 'Edit individual',
+    "added" => "Added successfully",
+    "attributes" => [
+        "email" => "Email",
+        "name" => "Name",
+        "status_title" => "Status"
     ],
-    'sub-headings' => [
-        'list' => 'This page allows you to manage individual users',
+    "deleted" => "Deleted successfully",
+    "error_delete" => "Error Can't delete",
+    "headings" => [
+        "create" => "Create a new individual",
+        "edit" => "Edit individual",
+        "list" => "Individuals Edit",
+        "list1" => "Individuals"
     ],
-    'attributes'   => [
-        'email'        => 'Email',
-        'name'         => 'Name',
-        'status_title' => 'Status',
+    "no_data" => "Sorry! no data for this company",
+    "status" => [
+        "Closed",
+        "Active"
     ],
-    "status"       => [
-        '0' => 'Closed',
-        '1' => 'Active',
+    "sub-headings" => [
+        "list" => "This page allows you to manage individual users"
     ],
-    'added'        => 'Added successfully',
-    'updated'      => 'Updated successfully',
-    'deleted'      => 'Deleted successfully',
-    'error_delete' => 'Error Can\'t delete',
-    'no_data'      => 'Sorry! no data for this company',
+    "updated" => "Updated successfully"
 ];

@@ -1,0 +1,35 @@
+@import "../../../../../bower_components/bootstrap/less/pagination.less";
+
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+.panel-footer .pagination {
+  margin: 0;
+}
+
+[lang='ar'] {
+  .pagination {
+    padding-left: 0;
+
+    > li {
+      > a,
+      > span {
+        float: right;
+        margin-left: -1px;
+      }
+      &:first-child {
+        > a,
+        > span {
+          margin-left: 0;
+          .border-right-radius(@border-radius-base);
+        }
+      }
+      &:last-child {
+        > a,
+        > span {
+          .border-left-radius(@border-radius-base);
+        }
+      }
+    }
+  }
+}

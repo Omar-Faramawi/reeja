@@ -126,7 +126,7 @@
                                                     </label>
                                                     <div class="col-md-8">
                                                         <select class="form-control select2me bs-select" name="job_id"
-                                                                id="job">
+                                                                id="job" data-live-search="true">
                                                             @if(!count($jobs))
                                                                 <option>{{ trans('labels.no_data') }}</option>
                                                             @else
@@ -179,7 +179,7 @@
                                                     <div class="col-md-8">
                                                         <select name='nationality_id'
                                                                 class="form-control select2me bs-select"
-                                                                id="nationality">
+                                                                id="nationality" data-live-search="true">
                                                             @if(!count($nationalities))
                                                                 <option>{{ trans('labels.no_data') }}</option>
                                                             @else

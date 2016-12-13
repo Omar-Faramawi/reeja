@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'headings' 					=> 'المؤهلات',
-    'sub-headings' 				=> 'تمكنك هذه الصفحة من إضافة وتعديل وحذف المؤهلات',
-    'attributes'  				=> [
-        'ar-name' 				=> 'اسم المؤهل',
+    "attributes" => [
+        "ar-name" => "اسم المؤهل"
     ],
-    'qualificationadded' 		=> 'تم اضافة مؤهل',
-    'qualificationupdated' 		=> 'تم التعديل',
-    'qualificationdeleted' 		=> 'تم الحذق',
+    "headings" => "المؤهلات",
+    "qualificationadded" => "تم اضافة مؤهل",
+    "qualificationdeleted" => "تم الحذق",
+    "qualificationupdated" => "تم التعديل",
+    "sub-headings" => "تمكنك هذه الصفحة من إضافة وتعديل وحذف المؤهلات"
 ];

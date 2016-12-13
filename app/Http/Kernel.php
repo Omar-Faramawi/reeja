@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'EstablishmentSelected'        => \Tamkeen\Ajeer\Http\Middleware\EstablishmentSelected::class,
         'EstablishmentUpdated'         => \Tamkeen\Ajeer\Http\Middleware\EstablishmentUpdated::class,
         'rating'                       => \Tamkeen\Ajeer\Http\Middleware\Rating::class,
+        'AllUsersExceptAdmin'          => \Tamkeen\Ajeer\Http\Middleware\AllUsersExceptAdmin::class,
     ];
 }

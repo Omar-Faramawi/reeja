@@ -1,17 +1,6 @@
 @extends ('admin.layout')
 @section('title', trans('ishaar_setup.ishaars_bundles_management'))
 @section('content')
-    <!-- BEGIN BREADCRUMBS -->
-    <div class="breadcrumbs">
-        <h1>{{ trans('ishaar_setup.ishaars_bundles_management') }}</h1>
-        <ol class="breadcrumb">
-            <li>
-                <a href="{{url('/admin')}}">{{trans('user.home')}}</a>
-            </li>
-            <li class="active">{{ trans('ishaar_setup.ishaars_bundles_management') }}</li>
-        </ol>
-    </div>
-    <!-- END BREADCRUMBS -->
     <!-- BEGIN PAGE BASE CONTENT -->
 
     <div class="m-heading-1 border-green m-bordered">
@@ -119,6 +108,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group form-md-checkboxes">
                                     <label class="col-md-2 control-label text-right"
                                            for="form_control_1">{{trans('ishaar_setup.form_attributes.ishaar_cancel_type')}}</label>
@@ -141,7 +131,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group form-md-checkboxes">
+
+{{--{{ dd((is_null($taqawel_free->ishaar_cancel_free) &&  is_null($taqawel_free->ishaar_cancel_paid))) }}--}}
+                                <div class="form-group form-md-checkboxes ishaar-cancel-container" {{ (is_null($taqawel_free->ishaar_cancel_free) &&  is_null($taqawel_free->ishaar_cancel_paid)) ? "style=display:none" : '' }}>
                                     <label class="col-md-2 control-label text-right"
                                            for="form_control_1">{{trans('ishaar_setup.form_attributes.ishaar_cancel_permission')}}</label>
                                     <div class="col-md-10">
@@ -165,6 +157,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+
                                 <div class="form-group form-md-radios">
                                     <label class="control-label col-sm-2 text-right"> {{trans('ishaar_setup.attributes.nitaq_active')}} </label>
                                     <div class="col-md-10">
@@ -235,13 +229,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3 text-right"
-                                           for="min_no_of_ishaars">{{trans('ishaar_setup.attributes.min_no_of_ishaars')}}</label>
-                                    <div class="col-sm-9">
-                                        {!! Form::number('min_no_of_ishaars',  null, ['class'=> 'form-control', 'id' => 'min_no_of_ishaars']) !!}
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label class="control-label col-sm-3 text-right"
                                            for="max_no_of_ishaars">{{trans('ishaar_setup.attributes.max_no_of_ishaars')}}</label>

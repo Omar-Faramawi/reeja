@@ -1,14 +1,5 @@
-@font-face {
-    font-family: 'Droid Arabic Kufi';
-    font-style: normal;
-    font-weight: 400;
-    src: url(../fonts/DroidKufi-Regular.eot);
-    src: url(../fonts/DroidKufi-Regular.eot?#iefix) format('embedded-opentype'), url(../fonts/DroidKufi-Regular.woff2) format('woff2'), url(../fonts/DroidKufi-Regular.woff) format('woff'), url(../fonts/DroidKufi-Regular.ttf) format('truetype');
-    font-weight: bold;
-}
-
 .label, body, h1, h2, h3, h4, h5, h6, a, p, table,.bs-select-all,.bs-deselect-all {
-    font-family: 'Droid Arabic Kufi', Sans-Serif !important;
+    font-family: 'Frutiger LT Arabic 55 Roman', Sans-Serif !important;
 }
 
 .btn-group .btn {
@@ -254,7 +245,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .amcharts-label tspan{
-    font-family: 'Droid Arabic Kufi', Sans-Serif !important;
+    font-family: 'Frutiger LT Arabic 55 Roman', Sans-Serif !important;
 }
 
 .margin-10 {
@@ -272,4 +263,13 @@ select.form-control{
 
 .activities_box input[type=number] {
     width:80px !important;
+}
+
+.dropdown-menu {
+    background: #eaeaea;
+}
+
+.dropdown-menu > li:hover > a, .dropdown-menu > li.active > a, .dropdown-menu > li.active:hover > a {
+    background-color: #f6f6f6;
+    color: #555;
 }

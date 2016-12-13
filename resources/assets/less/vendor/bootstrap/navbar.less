@@ -1,0 +1,46 @@
+@import "../../../../../bower_components/bootstrap/less/navbar.less";
+
+[lang='ar'] {
+  .navbar-brand {
+    float: right;
+  }
+
+  .navbar-toggle {
+    float: right;
+    margin-right: auto;
+    margin-left: @navbar-padding-horizontal;
+  }
+}
+
+@media (min-width: @grid-float-breakpoint) {
+  [lang='ar'] {
+    .navbar-header {
+      float: right;
+    }
+
+    .navbar > .container .navbar-brand,
+    .navbar > .container-fluid .navbar-brand {
+      margin-left: auto;
+      margin-right: -@navbar-padding-horizontal;
+    }
+
+    .navbar-nav {
+      float: right;
+
+      .open .dropdown-menu {
+        > li > a,
+        .dropdown-header {
+          padding: 5px 25px 5px 15px;
+        }
+      }
+
+      > li {
+        float: right;
+      }
+    }
+
+    .navbar-text {
+      float: right;
+    }
+  }
+}

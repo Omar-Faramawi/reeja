@@ -1,0 +1,65 @@
+@import "../../../../../../bower_components/bootstrap/less/mixins/grid-framework.less";
+
+// Framework grid generation
+//
+// Used only by Bootstrap to generate the correct number of grid classes given
+// any value of `@grid-columns`.
+
+.float-grid-columns-rtl(@class) {
+  .col(@index) when (@index = 1) { // initial
+    @item: ~"[lang='ar'] .col-@{class}-@{index}";
+    .col((@index + 1), @item);
+  }
+  .col(@index, @list) when (@index =< @grid-columns) { // general
+    @item: ~"[lang='ar'] .col-@{class}-@{index}";
+    .col((@index + 1), ~"@{list}, @{item}");
+  }
+  .col(@index, @list) when (@index > @grid-columns) { // terminal
+    @{list} {
+      float: right;
+    }
+  }
+  .col(1); // kickstart it
+}
+
+.calc-grid-column-rtl(@index, @class, @type) when (@type = push) and (@index > 0) {
+  [lang='ar'] .col-@{class}-push-@{index} {
+    right: percentage((@index / @grid-columns));
+  }
+}
+.calc-grid-column-rtl(@index, @class, @type) when (@type = push) and (@index = 0) {
+  [lang='ar'] .col-@{class}-push-0 {
+    right: auto;
+  }
+}
+.calc-grid-column-rtl(@index, @class, @type) when (@type = pull) and (@index > 0) {
+  .col-@{class}-pull-@{index} {
+    left: percentage((@index / @grid-columns));
+  }
+}
+.calc-grid-column-rtl(@index, @class, @type) when (@type = pull) and (@index = 0) {
+  .col-@{class}-pull-0 {
+    left: auto;
+  }
+}
+.calc-grid-column-rtl(@index, @class, @type) when (@type = offset) {
+  .col-@{class}-offset-@{index} {
+    margin-right: percentage((@index / @grid-columns));
+  }
+}
+
+// Basic looping in LESS
+.loop-grid-columns-rtl(@index, @class, @type) when (@index >= 0) {
+  .calc-grid-column-rtl(@index, @class, @type);
+  // next iteration
+  .loop-grid-columns-rtl((@index - 1), @class, @type);
+}
+
+// Create grid for specific class
+.make-grid-rtl(@class) {
+  .float-grid-columns-rtl(@class);
+  .loop-grid-columns-rtl(@grid-columns, @class, width);
+  .loop-grid-columns-rtl(@grid-columns, @class, pull);
+  .loop-grid-columns-rtl(@grid-columns, @class, push);
+  .loop-grid-columns-rtl(@grid-columns, @class, offset);
+}

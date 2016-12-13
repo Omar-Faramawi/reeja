@@ -9,47 +9,45 @@
                id="datatable_ajax">
             <thead>
             <tr role="row" class="heading">
-                <th id="id">#</th>
+                <th id="id" class="no-sort">#</th>
                 <th id="check" class="no-sort"></th>
-                <th id="id_number">{{trans('ishaar_setup.form_attributes.id_number')}} </th>
-                <th id="name"> {{trans('ishaar_setup.form_attributes.name')}} </th>
-                <th class="no-sort" id="nationality.name"> {{trans('ishaar_setup.form_attributes.nationality')}} </th>
-                <th class="no-sort" id="job.job_name"> {{trans('ishaar_setup.form_attributes.job')}} </th>
-                <th class="no-sort" id="gender_name"> {{trans('ishaar_setup.form_attributes.gender')}} </th>
-                <th class="no-sort" id="age"> {{trans('ishaar_setup.form_attributes.age')}} </th>
-                <th class="no-sort" id="religion_name"> {{trans('ishaar_setup.form_attributes.religion')}} </th>
-                <th class="no-sort" id="region.name"> {{trans('ishaar_setup.form_attributes.approved_areas')}} </th>
-                <th class="no-sort" id="details" class="no-sort"
+                <th id="id_number" class="no-sort">{{trans('ishaar_setup.form_attributes.id_number')}} </th>
+                <th id="name" class="no-sort"> {{trans('ishaar_setup.form_attributes.name')}} </th>
+                <th class="no-sort" id="nationality"> {{trans('ishaar_setup.form_attributes.nationality')}} </th>
+                <th class="no-sort" id="occupation"> {{trans('ishaar_setup.form_attributes.job')}} </th>
+                <th class="no-sort" id="buttons" class="no-sort"
                     width="10%"> {{trans('ishaar_setup.attributes.details')}}</th>
             </tr>
             <tr role="row" class="filter">
-                <td>
-                    <input type="text" class="form-control form-filter input-sm" name="id">
-                </td>
-
                 <td></td>
-
+                <td></td>
                 <td>
                     <input type="text" class="form-control form-filter input-sm" name="id_number">
                 </td>
+                <td></td>
                 <td>
+                    <select class="form-control bs-select form-filter input-sm"  name="nationality_id" data-live-search="true">
+                        <option selected="selected" value="">{{ trans('labels.noneSelectedTextValueSmall')}}</option>
+                        @foreach($nationalities as $value)
+                        <option value="{{$value['id']}}">{{$value['name']}}</option>
+                        @endforeach
+                    </select>
 
                 </td>
                 <td>
-                    {{ Form::select('nationality_id', $nationalities, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
-
+                    <select class="form-control bs-select form-filter input-sm"  name="job_id" data-live-search="true">
+                        <option selected="selected" value="">{{ trans('labels.noneSelectedTextValueSmall')}}</option>
+                        @foreach($jobs as $value)
+                        <option value="{{$value['id']}}">{{$value['name']}}</option>
+                        @endforeach
+                    </select>
                 </td>
-                <td>
-                    {{ Form::select('job_id', $jobs, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.default')]) }}
-
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
                 <td>
                     <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
                         <i class="fa fa-search"></i> {{ trans('add_laborer.search') }}
+                    </button>
+                    <button class="btn btn-sm red btn-outline filter-cancel">
+                        <i class="fa fa-times"></i> {{ trans('add_laborer.reset') }}
                     </button>
                 </td>
             </tr>
@@ -57,18 +55,13 @@
             <tbody>
             </tbody>
         </table>
-    </div>
 
+        @if(count($accountType))
+            <button type="button" class="btn btn-circle green pull-right"
+                id="add_employees">{{trans('ishaar_setup.actions.add_employee')}}</button>
+            <div class="clearfix"></div>
+        @endif
+    </div>
 </div>
-@if(count($accountType))
-    <div class="row">
-        <div class="col-md-offset-3 col-md-12">
-            <button type="button" class="btn btn-circle green left"
-                    id="add_employees">{{trans('ishaar_setup.actions.add_employee')}}</button>
-        </div>
-    </div>
-@endif
+
 <div class="row" id="only_one_employee_msg"></div>
-
-
-<!-- END EXAMPLE TABLE PORTLET-->
