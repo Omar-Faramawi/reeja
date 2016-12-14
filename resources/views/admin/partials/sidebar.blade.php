@@ -73,7 +73,7 @@
 					</li>
 				</ul>
 			</li>
-			<li class="nav-item {{ request()->is( 'admin/settings/attachments*', 'admin/settings/occupation_management*', 'admin/contractSetup/rnglabnaeo-p*', 'admin/contractSetup/np-lae-agboe*', 'admin/ishaar_setup*', 'admin/loan_pcnt*' ) ? 'active open selected' : '' }}">
+			<li class="nav-item {{ request()->is( 'admin/settings/attachments*', 'admin/settings/occupation_management*', 'admin/contractSetup/np-lae-agboe*', 'admin/contractSetup/gbrlaroape-n*', 'admin/ishaar_setup*', 'admin/loan_pcnt*' ) ? 'active open selected' : '' }}">
 				<a href="javascript:;" class="nav-link nav-toggle">
 					<i class="icon-clock"></i>
 					<span class="title">{{ trans('contractnature.headings.temp_jobs') }}</span>
@@ -86,13 +86,13 @@
 					<li class="nav-item {{ request()->is( "admin/settings/occupation_management*" ) ? 'active open selected' : '' }}">
 						<a class="nav-link" href="{{ url('admin/settings/occupation_management') }}">{{ trans('occupation_managment.headings.list') }}</a>
 					</li>
-					<li class="nav-item {{ (request()->is('admin/contractSetup/rnglabnaeo-p*') )? 'active open selected':'' }}">
-						<a class="nav-link" href="{{route('admin.contractSetup.edit', Hashids::encode(2))}}">
+					<li class="nav-item {{ (request()->is('admin/contractSetup/np-lae-agboe*') )? 'active open selected':'' }}">
+						<a class="nav-link" href="{{route('admin.contractSetup.edit', Hashids::encode(3))}}">
 							{{trans('contract_setup.hire_labor_contracts_setup') }}
 						</a>
 					</li>
-					<li class="nav-item {{ (request()->is('admin/contractSetup/np-lae-agboe*') )? 'active open selected':'' }}">
-						<a class="nav-link" href="{{route('admin.contractSetup.edit', Hashids::encode(3))}}"> {{trans('contract_setup.direct_emp_contracts_setup') }}
+					<li class="nav-item {{ (request()->is('admin/contractSetup/gbrlaroape-n*') )? 'active open selected':'' }}">
+						<a class="nav-link" href="{{route('admin.contractSetup.edit', Hashids::encode(4))}}"> {{trans('contract_setup.direct_emp_contracts_setup') }}
 						</a>
 					</li>
 					<li class="nav-item {{ (request()->route()->getName() == 'admin.ishaar_setup.index' )? 'active open selected':'' }}">

@@ -49,6 +49,7 @@
                     <button class="btn btn-sm red btn-outline filter-cancel">
                         <i class="fa fa-times"></i> {{ trans('add_laborer.reset') }}
                     </button>
+                   
                 </td>
             </tr>
             </thead>

@@ -131,7 +131,7 @@ final class Constants
         ],
         'rejected'                 => [
             '1' => ['details'],
-
+            '2' => ['details']
         ],
         'pending_ownership'        => [
             '1' => ['details'],
@@ -164,8 +164,8 @@ final class Constants
 
         ],
         'approved_finished'        => [
-            '1' => ['rate_benf'],
-            '2' => ['rate_provider'],
+            '1' => ['details'],
+            '2' => ['details'],
 
         ],
         'benef_cancel_employee'    => [

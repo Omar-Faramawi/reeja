@@ -26,7 +26,7 @@ class CancelIshaarRequest extends Request
         return [
             'reason'        => 'required',
             'report_check'  => 'required|in:1',
-            'other'         => 'required_if:reason,34|min:0|max:255',
+            'other'         => 'required_if:reason,36|min:0|max:255',
         ];
     }
 

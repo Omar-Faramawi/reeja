@@ -98,7 +98,7 @@
 											<label for="is_slider">{{trans('contract_setup.ishaar_cancel_acc')}}</label>
 											<div class="md-checkbox-inline">
 												<div class="md-checkbox">
-													{!! Form::checkbox('benf_cancel_ishaar', @$contractSetup->benf_cancel_ishaar, null, ['class' => 'md-check', 'id' => 'benf_cancel_ishaar']) !!}
+													{!! Form::checkbox('benf_cancel_ishaar', 1, @$contractSetup->benf_cancel_ishaar, ['class' => 'md-check', 'id' => 'benf_cancel_ishaar']) !!}
 													<label for="benf_cancel_ishaar" class="text-right">
 														<span></span>
 														<span class="check"></span>
@@ -106,7 +106,7 @@
 													</label>
 												</div>
 												<div class="md-checkbox">
-													{!! Form::checkbox('provider_cancel_ishaar', @$contractSetup->provider_cancel_ishaar, null, ['class' => 'md-check', 'id' => 'provider_cancel_ishaar']) !!}
+													{!! Form::checkbox('provider_cancel_ishaar', 1, @$contractSetup->provider_cancel_ishaar, ['class' => 'md-check', 'id' => 'provider_cancel_ishaar']) !!}
 													<label for="provider_cancel_ishaar" class="text-right">
 														<span></span>
 														<span class="check"></span>

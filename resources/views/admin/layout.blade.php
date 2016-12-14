@@ -76,6 +76,7 @@
     var itemsSelected = '{!! trans('labels.itemsSelected') !!}';
     var selectAll = '{!! trans('labels.selectAll') !!}';
     var deselectAll = '{!! trans('labels.deselectAll') !!}';
+    var display_delete_button = '{!! trans('labels.delete') !!}';
     var paginatation = {
         loading: '{!! trans('labels.loading') !!}....',
         search: '{!! trans('labels.pagination.search') !!}....',

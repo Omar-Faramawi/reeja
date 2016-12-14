@@ -10,7 +10,7 @@ return [
             'view'   => [
                 '1' => 'taqawel.contract_setup',
                 '2' => 'temp_work.contract_setup.hire_labor',
-                '3' => 'temp_work.contract_setup.direct_emp',
+                '3' => 'temp_work.contract_setup.hire_labor',
                 '4' => 'temp_work.contract_setup.direct_emp'
             ],
             'string' => [

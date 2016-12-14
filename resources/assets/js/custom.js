@@ -827,4 +827,27 @@ $(function () {
             }
         }
     });
+	
+    
+    // add job nationalities
+     $('body').on('click', 'button[id=add_job_nationalities]', function (e) {
+        var job_name = $('select[name="jobs"] option:selected').text();
+		var nationalities = $('select[name="nationalities[]"] option:selected').text();
+		var edit_nationalities = []; 
+		$('select[name="nationalities[]"] option:selected').each(function(i, selected){ 
+		if($(selected).val()>0)
+		  edit_nationalities[i] = $(selected).text(); 
+		});
+		 
+		var delete_button = '<button type="button" class="btn sbold red" id="delete_job_nationalities"><i class="fa fa-check"></i> '+ display_delete_button +'</button>';
+        $("#job_nationalities_table tbody #second_row_in_selected").css('display','block');       
+        $("#job_nationalities_table tbody").append('<tr><td><input type="hidden" name="job[]" value="'+ $('select[name="jobs"]').val()+'">'+ job_name +'</td><td><input type="hidden" name="nationalities['+$('select[name="jobs"]').val()+']" value="'+ $('select[name="nationalities[]"').val()+'">'+ edit_nationalities +'</td><td>'+ delete_button +'</td></tr>');
+		$('.bs-select').selectpicker('deselectAll');
+    });
+	
+	//delete already added job nationality
+	$('body').on('click', 'button[id=delete_job_nationalities]', function (e) {
+        $(this).closest ('tr').remove ();
+    });
+	
 });

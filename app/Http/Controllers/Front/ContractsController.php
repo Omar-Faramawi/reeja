@@ -447,7 +447,7 @@ class ContractsController extends Controller
     public function acceptCancel(Request $request)
     {
         if (!$request->confirmed) {
-            throw new Exception;
+            return response()->json(['confirmed' => trans('contracts.accept_disclaimers')], 422);
         } else {
             switch ($request->type) {
                 case 'contract':
@@ -692,7 +692,7 @@ class ContractsController extends Controller
     public function accept_direct_hiring_contract_cancelation(Request $request)
     {
         if (!$request->confirmed) {
-            throw new Exception;
+            return response()->json(['confirmed' => trans('contracts.accept_disclaimers')], 422);
         } else {
             switch ($request->type) {
                 case 'contract':
@@ -920,6 +920,9 @@ class ContractsController extends Controller
         if (!in_array($ct_id, array_values(Constants::CONTRACTTYPES)) || !in_array($prvd_benf, [1, 2])) {
             abort(404);
         }
+        if (in_array($prvd_benf, Constants::SERVICETYPES)) {
+            session()->replace(['service_type' => $prvd_benf]);    // save to session
+        }
 
         if (request()->ajax()) {
 
@@ -968,9 +971,9 @@ class ContractsController extends Controller
                 ],
                 'send_offer'              => [
                     'text'                                          => trans('contracts.action_buttons.send_offer'),
-                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/temp_work/received-contracts/{id}/show',
-                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/temp_work/received-contracts/{id}/show',
-                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/received-contracts',
+                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/direct-hiring-contracts/{id}/show',
+                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/temp_work/received-contracts/{id}/show-received-contract',
+                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/offer-taqawel-contract/{id}/edit',
                     'params'                                        => ['id' => ['name' => 'id', 'value' => null]],
                     "css_class"                                     => "blue",
                     "attributes"                                    => [
@@ -979,19 +982,19 @@ class ContractsController extends Controller
                 ],
                 'reject_request'          => [
                     'text'                                          => trans('contracts.action_buttons.reject_request'),
-                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/offers/reject/{id}',
-                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/offers/reject/{id}',
-                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => 'taqawel/offers/reject/{id}',
+                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/direct-hiring-contracts/{id}/reject',
+                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/contracts/{id}/reject',
+                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/offer-taqawel-contract/{id}/reject',
                     'params'                                        => ['id' => ['name' => 'id', 'value' => null]],
-                    "css_class"                                     => "blue",
+                    "css_class"                                     => "red",
                     "attributes"                                    => [
                         "data-token" => csrf_token(),
                     ],
                 ],
                 'edit_offer'              => [
                     'text'                                          => trans('contracts.action_buttons.edit_offer'),
-                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/{contract_type_id}/contracts/{contracts}/edit',
-                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/{contract_type_id}/contracts/{contracts}/edit',
+                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/direct-hiring-contract/{contracts}/edit',
+                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/temp_work/contract/{contracts}/edit',
                     'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/offer-taqawel-contract/{contracts}/edit',
                     'params'                                        => [
                         'contracts'        => ['name' => 'id', 'value' => null],
@@ -1027,7 +1030,7 @@ class ContractsController extends Controller
                             'value' => null
                         ]
                     ],
-                    "css_class"                                     => "blue",
+                    "css_class"                                     => "red",
                     "attributes"                                    => [
                         "data-token" => csrf_token(),
                     ],
@@ -1053,7 +1056,7 @@ class ContractsController extends Controller
                     'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/ishaar/{id}/show_ishaar',
                     'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/notices/{id}/show_ishaar',
                     'params'                                        => ['id' => ['name' => 'id', 'value' => null]],
-                    "css_class"                                     => "green",
+                    "css_class"                                     => "red-pink",
                     "attributes"                                    => [
                         "data-token" => csrf_token(),
                     ],
@@ -1069,7 +1072,7 @@ class ContractsController extends Controller
                             'value' => null
                         ]
                     ],
-                    "css_class"                                     => "blue",
+                    "css_class"                                     => "red",
                     "attributes"                                    => [
                         "data-token" => csrf_token(),
                     ],
@@ -1092,7 +1095,7 @@ class ContractsController extends Controller
                     'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/contracts/cancellation/{type}/{id}',
                     'params'                                        => [
                         'id'   => ['name' => 'id', 'value' => null],
-                        'type' => ['value' => request()->route()->parameter('prvd_benf') == Constants::PRVD_BENF_SHORTCUT['1'] ? 'provider' : 'beneficial']
+                        'type' => ['value' => request()->route()->parameter('prvd_benf') == '1' ? 'provider' : 'beneficial']
                     ],
                     "css_class"                                     => "blue",
                     "attributes"                                    => [
@@ -1101,12 +1104,12 @@ class ContractsController extends Controller
                 ],
                 'process_cancel_ishaar_request'  => [
                     'text'                                          => trans('contracts.action_buttons.process_cancel_request'),
-                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/contracts/cancelation/ishaar/direct_hiring/{type}/{id}',
+                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/contracts/cancelation/direct_hiring/ishaar/{type}/{id}',
                     'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/contracts/cancelation/ishaar/{type}/{id}',
                     'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/notices/{id}/show_ishaar',
                     'params'                                        => [
                         'id'   => ['name' => 'id', 'value' => null],
-                        'type' => ['value' => request()->route()->parameter('prvd_benf') == Constants::PRVD_BENF_SHORTCUT['1'] ? 'provider' : 'beneficial']
+                        'type' => ['value' => request()->route()->parameter('prvd_benf') == '1' ? 'provider' : 'beneficial']
                     ],
                     "css_class"                                     => "blue",
                     "attributes"                                    => [
@@ -1149,9 +1152,9 @@ class ContractsController extends Controller
                 ],
                 'view_offer'              => [
                     'text'                                          => trans('contracts.action_buttons.view_offer'),
-                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/offers/{id}',
+                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/offersdirect/{id}',
                     'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/offers/{id}',
-                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel//offers/{id}',
+                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/offers/{id}',
                     'params'                                        => ['id' => ['name' => 'id', 'value' => null]],
                     "css_class"                                     => "blue",
                     "attributes"                                    => [
@@ -1160,7 +1163,7 @@ class ContractsController extends Controller
                 ],
             ];
 
-            return dynamicAjaxPaginate($data, $columns, $total_count, $buttons, false, [], ['follow_contracts']);
+            return dynamicAjaxPaginate($data, $columns, $total_count, $buttons);
         }
 
         return view('front.follow_contracts.index', compact('data', 'prvd_benf', 'ct_id'));

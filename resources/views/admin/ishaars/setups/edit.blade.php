@@ -227,31 +227,40 @@
 
                         <div class="table-resonsive">
                             <label class="col-md-12 m-heading-1 border-green m-bordered">{{ trans('ishaar_setup.attributes.ishaar_setup_jobs') }}</label>
-                            <table class="table table-striped table-bordered table-hover order-column">
+                            <table class="table table-striped table-bordered table-hover order-column" id="job_nationalities_table">
                                 <thead>
                                 <tr class="odd gradeX">
                                     <th>{{ trans('ishaar_setup.attributes.job') }}</th>
                                     <th>{{ trans('ishaar_setup.attributes.nationalities') }}</th>
+                                    <th>{{ trans('ishaar_setup.actions.details') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($jobs as $job)
+                                
                                     <tr>
-                                        <td><input name="job[]" type="hidden"
-                                                   value="{{ $job->id }}"/> {{ $job->job_name }}
+                                        <td>
+                                    {{ Form::select('jobs', $jobs, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
+
                                         </td>
                                         <td>
-                                            {{ Form::select('nationalities['.$job->id.'][]', $nationalities, @$selected_nationalities[$job->id], ['class'=>'form-control bs-select', "data-size"=>"8", "data-width" => "300", "data-live-search" => "true", "data-actions-box" => "true", "data-selected-text-format" => "count", 'multiple']) }}
+                                    {{ Form::select('nationalities[]', $nationalities, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true", "data-actions-box" => "true", "data-selected-text-format" => "count", 'multiple']) }}
+
+                                            {{-- Form::select('nationalities['.$job->id.'][]', $nationalities, @$selected_nationalities[$job->id], ['class'=>'form-control bs-select', "data-size"=>"8", "data-width" => "300", "data-live-search" => "true", "data-actions-box" => "true", "data-selected-text-format" => "count", 'multiple']) --}}
+                                        </td>
+                                        <td>
+                                            <button type="button" data-loading-text="{{ trans('labels.loading') }}..."
+                                                    class="btn sbold green" id="add_job_nationalities"><i class="fa fa-check"></i> {{ trans('ishaar_setup.attributes.add') }}</button>
+                    
                                         </td>
                                     </tr>
-                                @endforeach
+                                    <tr id="second_row_in_selected" style="display: none;"><td colspan="3">{{trans('ishaar_setup.selected_jobs')}}</td></tr>
+                                
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
 
-                    <button type="submit" data-loading-text="{{ trans('labels.loading') }}..."
+                    <button type="submit" data-token="{{ csrf_token()}}" data-loading-text="{{ trans('labels.loading') }}..."
                             class="demo-loading-btn btn blue"><i class="fa fa-check"></i> {{ trans('labels.save') }}
                     </button>
                     <a href="{{ url('/admin/ishaar_setup') }}" class="btn default">{{ trans('labels.cancel') }}</a>

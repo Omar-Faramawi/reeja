@@ -31,7 +31,7 @@ class IshaarSetupsRequest extends Request
             'ishaar_type_id'                             => 'required|in:3',
             'min_ishaar_period'                          => 'required|integer|min:0|max:365',
             'max_ishaar_period'                          => 'required|integer|min:0|max:365',
-            'amount'                                     => 'required|integer|max:90',
+            'amount'                                     => 'required|integer',
             'payment_period'                             => 'required|integer|min:0',
             'issued_season'                              => 'required|integer',
             'period_start_date'                          => 'required_if:issued_season,0|date',

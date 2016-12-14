@@ -14,8 +14,8 @@ return [
         "rate_benf" => "Rate service beneficial",
         "rate_provider" => "Rate service provider",
         "reject_request" => "Reject Request",
-        "request_contract_cancel" => "Cancel contract request",
-        "request_contract_ishaar" => "Cancel notice request",
+        "request_contract_cancel" => "Cancel contract",
+        "request_contract_ishaar" => "Cancel notice",
         "revert_cancel" => "Revert Cancellation",
         "send_offer" => "Send Offer",
         "view_offer" => "View Offer"
@@ -62,32 +62,32 @@ return [
         1 => [
             "approved" => "Approved Contract - Has Notice",
             "approved_finished" => "Finished contract",
-            "approved_without_ishaar" => "Approved offer - Approved Contract",
-            "benef_cancel" => "Received contract cancel request - pending approval",
+            "approved_without_ishaar" => "Approved offer - Waiting for notices generation",
+            "benef_cancel" => "Sent contract cancel request - pending approval",
             "benef_cancel_employee" => "Received notice cancel request - pending approval",
             "cancelled" => "Cancelled Contract",
-            "pending" => "Received request - Pending offer",
+            "pending" => "Offer sent - Pending appproval",
             "pending_acc" => "Sent offer - Pending approval",
             "pending_ownership" => "Pending work owner approval",
             "provider_cancel" => "Sent contract cancel request - pending approval",
-            "provider_cancel_employee" => "Sent notice cancel request - pending approval",
+            "provider_cancel_employee" => "Received notice cancel request - pending approval",
             "rejected" => "Reject offer",
-            "requested" => "Request to send offer"
+            "requested" => "Received request - pending sending offer"
         ],
         2 => [
             "approved" => "Approved Contract - Has Notice",
             "approved_finished" => "Finished contract",
-            "approved_without_ishaar" => "Approved Contract - pending notice",
+            "approved_without_ishaar" => "Approved offer - pending notice",
             "benef_cancel" => "Received contract cancel request - pending approval",
             "benef_cancel_employee" => "Received notice cancel request - pending approval",
             "cancelled" => "Cancelled Contract",
-            "pending" => "Sent request - pending offer",
+            "pending" => "Received offer",
             "pending_acc" => "Received offer - pending approval",
             "pending_ownership" => "Pending work owner approval",
             "provider_cancel" => "Received contract cancel request - pending approval",
-            "provider_cancel_employee" => "Sent notice cancel request - pending approval",
+            "provider_cancel_employee" => "Received notice cancel request - pending approval",
             "rejected" => "Rejected offer",
-            "requested" => "Request to send offer"
+            "requested" => "Sent request - pending sending offer"
         ]
     ],
     "statuses" => [

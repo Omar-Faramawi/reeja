@@ -215,7 +215,6 @@
                         <option value="{{ $reason->id }}">{{ $reason->reason}}</option>
                      @endforeach
                      @endif
-                        <option value='other'>{{ trans('contracts_cancelation.other') }}</option>
                </select>
                <label for="form_control_1">{{ trans('contracts_cancelation.refusereason') }}</label>
             </div>

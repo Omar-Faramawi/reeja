@@ -199,10 +199,8 @@ class OfferDirectController extends Controller
      */
     public function reject($id)
     {
-        $reasons = Reason::all()->pluck("reason", "id");
-        $reasons->prepend('');
-        array_add($reasons, "other", trans("offers.modal.reject.other"));
-
+        $reasons = Reason::where('parent_id', 1)->lists("reason", "id");
+        
         return view("front.offersdirect.reject", compact("reasons", "id"));
     }
 
@@ -218,7 +216,7 @@ class OfferDirectController extends Controller
         $mail = [
             "mailFrom"     => config("mail.from.address"),
             "mailFromName" => config("mail.from.name"),
-            "mailTo"       => $contract->benef->email,
+            "mailTo"       => $contract->responsible_email,
             "mailToName"   => $contract->benef->name,
         ];
         Mail::queue('front.offersdirect.emails.reject', ['contract' => $contract], function ($m) use ($mail) {

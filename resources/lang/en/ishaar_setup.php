@@ -19,6 +19,7 @@ return [
     "after_generate_invoice" => "Note .. You should pay Invoice Before 72 Hours.",
     "already_added" => "This Employee Already AddedS..",
     "ask_cancel_ishaar_success" => "Your Request Sent Successfully",
+    "selected_jobs" => "Selected Jobs List",
     "attributes" => [
         "add" => "Add",
         "amount" => "Amount",
@@ -160,6 +161,7 @@ return [
     "max_ishaar_for_benf" => "Sorry , You Have Exceeded Tha Max Ishaar Number With This Benef Establishment",
     "max_ishaar_for_benf_in_period" => "Sorry , You Have Exceeded Tha Max Ishaar Number With This Benef Establishment",
     "max_ishaar_per_month" => "Sorry , Your Have Exceeded Tha Max Number Of Ishaars For Current Month",
+    'max_ishaar_period_exceed'     => 'Sorry , Your Have Exceeded Tha Max Ishaar Period,Please Update Your Ishaar Start Date & End Date To be In Range ',
     "max_ishaar_period_exceeded" => "I agree",
     "max_ishaar_period_greater_than" => "Max Ishaar Period must be greater than Min Ishaar Period",
     "max_labor_times" => "Sorry , You Have Exceeded Tha Max Labor Times For Employee Number :id ",

@@ -17,7 +17,7 @@
                     </div>
                 @endif
                 <div class="form-group form-md-line-input form-md-floating-label has-info">
-                    {{Form::select("reason_id",$reasons,null,["class"=>"form-control edited",'required'=>'required', 'id' => 'select_reason'])}}
+                    {{Form::select("reason_id",$reasons,null,["class"=>"form-control edited",'required'=>'required', 'id' => 'select_reason', 'placeholder' => trans('labels.noneSelectedTextValueSmall') . " " . trans('offers.modal.reject.reason')])}}
                     <label for="reason_id">{{trans("offers.modal.reject.reason")}}<span
                                 class="required">*</span></label>
                     <span class="help-block">{{ trans('offers.modal.reject.reasonRequired') }} ...</span>

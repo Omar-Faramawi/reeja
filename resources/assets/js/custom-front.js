@@ -1347,6 +1347,7 @@ $('document').ready(function () {
 
     $('body').find("#ensure_data").on('click', function () {
         var emp_ids = [];
+		var id_numbers = [];
         var rowsCount = $('#taqawel_selected_employees tr').length;
         var areas = [];
         $('#work_areas :selected').each(function (i, selected) {
@@ -1362,6 +1363,9 @@ $('document').ready(function () {
             $('#taqawel_selected_employees tbody').find("tr td:first-child").each(function () {
                 emp_ids.push($(this).text());
             });
+			$('#taqawel_selected_employees tbody').find("tr td:nth-child(2)").each(function () {
+                id_numbers.push($(this).text());
+            });
 
             // submit form
             $.ajax({
@@ -1369,6 +1373,7 @@ $('document').ready(function () {
                 url: $("#taqawel_notices_form").attr('action'),
                 data: {
                     ids: emp_ids,
+					id_numbers: id_numbers,
                     contract_id: $("#contract_id").val(),
                     start_date: $("#start_date").val(),
                     end_date: $("#end_date").val(),

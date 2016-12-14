@@ -214,6 +214,7 @@ class TaqawelNoticesController extends Controller
     {
         $contract_id   = request()->input('contract_id');
         $emp_ids       = request()->input('ids');
+        $id_numbers       = request()->input('id_numbers');
         $work_areas    = request()->input('work_areas');
         $start_date    = request()->input('start_date');
         $end_date      = request()->input('end_date');
@@ -289,7 +290,7 @@ class TaqawelNoticesController extends Controller
                 $max_date = getDiffPeriodDay($start_date, $ishaar_setup->max_ishaar_period, $ishaar_setup->max_ishaar_period_type);
                 $in_range = checkInRange($start_date, $max_date, $end_date);
                 if(!$in_range){
-                    return response()->json(['error' => trans('ishaar_setup.max_ishaar_period_exceeded')], 422);
+                    return response()->json(['error' => trans('ishaar_setup.max_ishaar_period_exceed')], 422);
                 }
                 //check max ishaars for this benf
                 if(ContractEmployee::MaxIshaarsForBenf($benf_id, $benf_type) >= $ishaar_setup->labor_same_benef_max_num_of_ishaar){
@@ -332,11 +333,23 @@ class TaqawelNoticesController extends Controller
                     }
                 }
             }
-            foreach ($emp_ids as $emp) {
+            foreach ($id_numbers as $id_number) {
+                // add employee in hrpool
+                $employee = $mol->findLaborer($id_number);
+                $add_emp = new HRPool();
+                $add_emp->id_number = $id_number;
+                $add_emp->provider_type = $provider_type;
+                $add_emp->provider_id = $provider_id;
+                $add_emp->name = $employee['name'];
+                $add_emp->gender = $employee['FK_GenderId'];
+                $add_emp->job_id = $employee['FK_occupation_id'];
+                $add_emp->nationality_id = $employee['FK_NationalityId'];
+                $add_emp->status = 1;
+                $add_emp->save();
 
                 $add              = new ContractEmployee();
                 $add->contract_id = $contract_id;
-                $add->id_number   = $emp;
+                $add->id_number   = $add_emp->id;
                 $add->start_date  = request()->input('start_date');
                 $add->end_date    = request()->input('end_date');
                 $add->status      = Constants::CONTRACT_STATUSES['approved'];

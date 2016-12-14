@@ -14,7 +14,7 @@ return [
         "rate_benf" => "تقييم المستفيد من الخدمة",
         "rate_provider" => "تقييم مقدم الخدمة",
         "reject_request" => "رفض الطلب",
-        "request_contract_cancel" => "طلب إلغاء العقد",
+        "request_contract_cancel" => " إلغاء العقد",
         "revert_cancel" => "التراجع عن الإلغاء",
         "send_offer" => "تقديم عرض",
         "view_offer" => "إستعراض العرض"
@@ -63,32 +63,32 @@ return [
         1 => [
             "approved" => "عقد مبرم - إشعار صادر",
             "approved_finished" => "عقد منتهي",
-            "approved_without_ishaar" => "عرض مقبول - عقد مبرم",
+            "approved_without_ishaar" => "عرض مقبول - بإنتظار إصدار الإشعار",
             "benef_cancel" => "طلب إلغاء عقد مستلم - بإنتظار القبول",
-            "benef_cancel_employee" => "طلب إلغاء إشعار مستلم - بإنتظار القبول",
+            "benef_cancel_employee" => "طلب إلغاء إشعار مرسل - بإنتظار القبول",
             "cancelled" => "عقد ملغي",
-            "pending" => "طلب مستلم - بإنتظار عرض",
+            "pending" => "عرض مرسل - بإنتظار القبول",
             "pending_acc" => "عرض مرسل - بإنتظار القبول",
-            "pending_ownership" => "بإنتظار موافقة صاحب العمل",
+            "pending_ownership" => "بإنتظار موافقة الكفيل",
             "provider_cancel" => "طلب إلغاء عقد مرسل - بإنتظار الإعتماد",
-            "provider_cancel_employee" => "طلب إلغاء إشعار مرسل - بإنتظار القبول",
+            "provider_cancel_employee" => "طلب إلغاء إشعار مستلم - بإنتظار القبول",
             "rejected" => "عرض مرفوض",
-            "requested" => "طلب إرسال عقد لخدمة"
+            "requested" => "طلب مستلم - بإنتظار إرسال عرض"
         ],
         2 => [
             "approved" => "عقد مبرم - إشعار صادر",
             "approved_finished" => "عقد منتهي",
-            "approved_without_ishaar" => "عرض مبرم - بإنتظار الإشعار",
+            "approved_without_ishaar" => "عرض مقبول - بإنتظار إصدار الإشعار",
             "benef_cancel" => "طلب إلغاء عقد مرسل - بإنتظار الإعتماد",
             "benef_cancel_employee" => "طلب إلغاء إشعار مستلم - بإنتظار القبول",
             "cancelled" => "عقد ملغي",
-            "pending" => "طلب مرسل - بإنتظار عرض",
+            "pending" => "عرض مستلم ",
             "pending_acc" => "عرض مستلم - بإنتظار القبول",
-            "pending_ownership" => "بإنتظار موافقة صاحب العمل",
+            "pending_ownership" => "بإنتظار موافقة الكفيل",
             "provider_cancel" => "طلب إلغاء عقد مستلم - بإنتظار القبول",
-            "provider_cancel_employee" => "طلب إلغاء إشعار مرسل - بإنتظار القبول",
+            "provider_cancel_employee" => "طلب إلغاء إشعار مستلم - بإنتظار القبول",
             "rejected" => "عرض مرفوض",
-            "requested" => "طلب إرسال عقد لخدمة"
+            "requested" => "طلب مرسل - بإنتظار إرسال عرض"
         ]
     ],
     "statuses" => [

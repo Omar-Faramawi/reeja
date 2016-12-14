@@ -19,12 +19,6 @@ class ProfessionsController extends Controller
      */
     public function index(MolDataRepository $mol)
     {
-        // Connecting to MOL and retrieve the professions list
-        $professions = $mol->fetchJobsLookup(false);
-        foreach ($professions as $profession) {
-            Job::firstOrCreate(['job_name' => $profession['name']]);
-        }
-
         $data = Job::with('nationalities')->latest()->paginate(20);
         $nationalities = Nationality::pluck('name', 'id')->toArray();
 

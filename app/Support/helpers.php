@@ -187,16 +187,28 @@ if (!function_exists('dynamicAjaxPaginate')) {
 if (!function_exists('followContractsDatatableCallback')) {
     function followContractsDatatableCallback($records, $i, $key, $buttons)
     {
+        $prvd_benf = request()->route()->parameter('prvd_benf');
+        if ($records['data'][$i]['contract_type_id'] == Constants::CONTRACTTYPES['direct_emp'] && 
+                !in_array($records['data'][$i]['status'], ['approved', 'provider_cancel', 'benef_cancel'])) {
+            if ( in_array($records['data'][$i]['provider_type'],
+                    [Constants::USERTYPES['saudi'], Constants::USERTYPES['job_seeker']]) && $prvd_benf == 1
+            ) {
+                $prvd_benf = 2;
+            } else {
+                $prvd_benf = 1;
+            }
+        }
+
         // Special case - Job seeker - no actions
-        if ($records['data'][$i]['status'] != 'requested' && !in_array($records['data'][$i]['provider_type'],
+        /*if (!in_array($records['data'][$i]['provider_type'],
                 [Constants::USERTYPES['saudi'], Constants::USERTYPES['job_seeker']])
-        ) {
+        ) {*/
             // -- Dual state status
             if ($records['data'][$i]['status'] == 'approved') {
                 // If it has no contract employee (Ishaar)
                 if (count($records['data'][$i]['employees']) == 0) {
                     if (in_array($key,
-                        Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status'] . '_without_ishaar'][request()->route()->parameter('prvd_benf')])) {
+                        Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status'] . '_without_ishaar'][$prvd_benf])) {
                         $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
                                 $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
                     }
@@ -205,14 +217,14 @@ if (!function_exists('followContractsDatatableCallback')) {
                         if ($records['data'][$i]['cancelled_employees']) {
                             foreach ($records['data'][$i]['cancelled_employees'] as $ke => $ve) {
                                 if (in_array($key,
-                                    Constants::CONTRACT_STATUSES_MAP[Constants::PRVD_BENF_SHORTCUT[3 - request()->route()->parameter('prvd_benf')] . '_cancel_employee'])) {
+                                    Constants::CONTRACT_STATUSES_MAP[Constants::PRVD_BENF_SHORTCUT[3 - $prvd_benf] . '_cancel_employee'])) {
                                     $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
                                             $records['data'][$i]) . "'>" . $buttons[$key]['text'] . " ($ve)" . "</a>";
                                 }
                             }
                         } else {
                             if (in_array($key,
-                                Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status'] . '_finished'][request()->route()->parameter('prvd_benf')])) {
+                                Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status'] . '_finished'][$prvd_benf])) {
                                 $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
                                         $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
                             }
@@ -220,27 +232,33 @@ if (!function_exists('followContractsDatatableCallback')) {
 
                     } else {
                         if (in_array($key,
-                            Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status']][request()->route()->parameter('prvd_benf')])) {
-
+                            Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status']][$prvd_benf])) {
                             if (!isset($buttons[$key]['repeated'])) {
                                 $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
                                         $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
                             } else {
+                                $buttonsBeforeLoop = $records['data'][$i]['follow_contract_options'];
                                 foreach ($records['data'][$i]['employees'] as $ind => $emp) {
                                     if ($emp->status == Constants::CONTRACT_STATUSES['provider_cancel'] || $emp->status == Constants::CONTRACT_STATUSES['benef_cancel']) {
-                                        $records['data'][$i]['follow_contract_options'] = '';
-                                        if ($emp->status == Constants::CONTRACT_STATUSES['provider_cancel'] && request()->route()->parameter('prvd_benf') == 1) {
+                                        $records['data'][$i]['follow_contract_options'] = $buttonsBeforeLoop;
+                                        if ($emp->status == Constants::CONTRACT_STATUSES['benef_cancel'] && $prvd_benf == 1) {
                                             $records['data'][$i]['follow_contract_options'] = "<a class='btn btn-default " . $buttons['process_cancel_ishaar_request']['css_class'] . "' href='" . datatableBtnURI($buttons['process_cancel_ishaar_request'],
                                                     $emp) . "'>" . $buttons['process_cancel_ishaar_request']['text'] . "</a>";
-                                        } elseif ($emp->status == Constants::CONTRACT_STATUSES['benef_cancel'] && request()->route()->parameter('prvd_benf') == 2) {
+                                        } elseif ($emp->status == Constants::CONTRACT_STATUSES['provider_cancel'] && $prvd_benf == 2) {
                                             $records['data'][$i]['follow_contract_options'] = "<a class='btn btn-default " . $buttons['process_cancel_ishaar_request']['css_class'] . "' href='" . datatableBtnURI($buttons['process_cancel_ishaar_request'],
                                                     $emp) . "'>" . $buttons['process_cancel_ishaar_request']['text'] . "</a>";
                                         }
                                         break;
+                                    } elseif ($emp->status == Constants::CONTRACT_STATUSES['cancelled']) {
+                                        continue;
                                     }
 
+                                    $empIndex = '';
+                                    if (count($records['data'][$i]['employees']) > 1) {
+                                        $empIndex = ' (' . ($ind + 1) . ') ';
+                                    }
                                     $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
-                                            $emp) . "'>" . $buttons[$key]['text'] . ' (' . ($ind + 1) . ') ' . "</a>";
+                                            $emp) . "'>" . $buttons[$key]['text'] . $empIndex . "</a>";
                                 }
                             }
                         }
@@ -248,12 +266,12 @@ if (!function_exists('followContractsDatatableCallback')) {
                 }
             } else {
                 if (in_array($key,
-                    Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status']][request()->route()->parameter('prvd_benf')])) {
+                    Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status']][$prvd_benf])) {
                     $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
                             $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
                 }
             }
-        }
+        //}
     }
 }
 if (!function_exists('datatableBtnURI')) {

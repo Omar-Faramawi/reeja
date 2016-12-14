@@ -281,7 +281,6 @@ class NoticesController extends Controller
      */
     public function showIshaar($id)
     {
-
         if (session()->get('service_type') === Constants::SERVICETYPES['benf']) {
             $contract = ContractEmployee::whereHas('contract', function ($cont_q) {
                     if(Route::getCurrentRoute()->getcompiled()->getstaticPrefix()== '/direct_ishaar')
@@ -316,42 +315,48 @@ class NoticesController extends Controller
         $auth = ContractEmployee::has_permission_cancelIshaar($request->id_r);
         $ishaar = ContractEmployee::findOrFail($request->id_r);
         if (!in_array($ishaar->status,['cancelled', 'provider_cancel', 'benef_cancel'])) {
-        if ($auth == '1') {
-            if(session()->get('service_type') === Constants::SERVICETYPES['provider'])
-            $status = 'provider_cancel';
-            else
-            $status = 'benef_cancel';
-
-            $msg = trans('ishaar_setup.ask_cancel_ishaar_success');
-
-        }else {
-            $status = 'cancelled';
-            $msg = trans('ishaar_setup.cancelIshaar_success');
-        }
-                if ($request->reason != 'other') {
-                    $ishaar->status = $status;
-                    $ishaar->reasons_id = $request->reason;
-                    $ishaar->rejection_reason = $request->details;
-                    $ishaar->save();
-                    return $msg;
+            if ($auth == '1') {
+                if (session()->get('service_type') === Constants::SERVICETYPES['provider']) {
+                    $status = 'provider_cancel';
                 } else {
-                    if (!$request->other) {
-                        throw new Exception;
-                    } else {
-                        $ishaar->status = $status;
-                        $ishaar->rejection_reason = $request->details;
-                        $ishaar->other_reasons = $request->other;
-                        $ishaar->save();
-                        return $msg;
-                    }
+                    $status = 'benef_cancel';
                 }
+                $msg = trans('ishaar_setup.ask_cancel_ishaar_success');
+            } else {
+                $status = 'cancelled';
+                $msg = trans('ishaar_setup.cancelIshaar_success');
 
-
-        } else {
-                return response()->json(['error' => trans('ishaar_setup.cancelIshaar_refused')],
-                        422);
+                // update contract status to be the same as notice status
+                $contract = Contract::findOrFail($ishaar->contract_id);
+                $contract->status = $status;
+                $contract->save();
             }
 
-            return abort(401);
+            
+            if ($request->reason != 'other') {
+                $ishaar->status = $status;
+                $ishaar->reasons_id = $request->reason;
+                $ishaar->rejection_reason = $request->details;
+                $ishaar->save();
+                
+                return $msg;
+            } else {
+                if (!$request->other) {
+                    throw new Exception;
+                } else {
+                    $ishaar->status = $status;
+                    $ishaar->rejection_reason = $request->details;
+                    $ishaar->other_reasons = $request->other;
+                    $ishaar->save();
+
+                    return $msg;
+                }
+            }
+        } else {
+            return response()->json(['error' => trans('ishaar_setup.cancelIshaar_refused')],
+                    422);
+        }
+        
+        return abort(401);
     }
 }
