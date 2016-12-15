@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/', 'HomeController@home');
+Route::get('/', 'HomeController@home')->name('homepage');
 //Basic authentication
 Route::auth();
 Route::post('auth/individualsLogin', 'Auth\AuthController@individualsLogin');
@@ -64,5 +64,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('establishments', [
         'uses' => 'EstablishmentController@establishments',
         'as'   => 'establishment.select',
+    ]);
+
+    Route::get('government/edit', [
+        'uses' => 'GovernmentController@edit',
+        'as'   => 'government.profile.edit',
+    ]);
+
+    Route::patch('government/update', [
+        'uses' => 'GovernmentController@update',
+        'as'   => 'government.profile.update',
     ]);
 });

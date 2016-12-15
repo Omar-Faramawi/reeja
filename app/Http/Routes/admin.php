@@ -109,7 +109,10 @@ Route::group(['middleware' => ['admin_auth']], function () {
         Route::resource('/bundles', 'Admin\Settings\BundlesController');
         Route::resource('/regions', 'Admin\RegionsController');
         Route::resource('/ishaar_setup', 'Admin\IshaarSetupsController');
-        Route::resource('saudi_percentage', 'Admin\SaudiPercentageController');
+        /*
+         * Removed temporarily
+         * Route::resource('saudi_percentage', 'Admin\SaudiPercentageController');
+         */
 
         Route::get('/taqawel_ishaar_management',
             'Admin\IshaarSetupsController@taqawelIshaarManagement')->name('admin.taqawel_ishaar_management.edit');

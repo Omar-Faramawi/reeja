@@ -11,6 +11,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
+    private $sentryID = null;
     /**
      * A list of the exception types that should not be reported.
      *
@@ -32,6 +33,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+        if ($this->shouldReport($e)) {
+            $this->sentryID = app('sentry')->captureException($e);
+        }
         parent::report($e);
     }
 
@@ -41,7 +45,7 @@ class Handler extends ExceptionHandler
      * @param \Illuminate\Http\Request $request
      * @param \Exception               $e
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $e)
     {

@@ -38,7 +38,6 @@
                                        id="datatable_ajax">
                                     <thead>
                                     <tr role="row" class="heading">
-                                        <th id="id" width="5%">#</th>
                                         <th id="benf_name" width="200"
                                             class="no-sort"> {{trans("offersdirect.providerName")}}</th>
                                         <th id="vacancy.job.job_name" width="200"
@@ -57,9 +56,6 @@
                                             width="5%"> {{trans("offersdirect.details")}}</th>
                                     </tr>
                                     <tr role="row" class="filter">
-                                        <td>
-                                            <input type="text" class="form-control form-filter input-sm"
-                                                   name="id"></td>
                                         <td>
                                             {{ Form::text('benef_name', null, ['class' => 'form-control form-filter']) }}
                                         </td>

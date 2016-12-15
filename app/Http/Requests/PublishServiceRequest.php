@@ -23,6 +23,9 @@ class PublishServiceRequest extends Request
      */
     public function rules()
     {
+        if ($this->get('save_action') == 'draft') {
+            return [];
+        }
         return [
             "contract_nature_id" => "required|not_in:0",
             "new_service"        => "required_if:contract_nature_id,other|unique:contract_nature,name,0,id,deleted_at,NULL",

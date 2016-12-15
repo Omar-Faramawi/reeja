@@ -4,6 +4,7 @@ namespace Tamkeen\Ajeer\Http\Controllers\front;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Tamkeen\Ajeer\Http\Requests;
 use Tamkeen\Ajeer\Http\Requests\TaqawelSendOfferRequest;
 use Tamkeen\Ajeer\Http\Requests\TaqawelServicesRequest;
@@ -79,9 +80,26 @@ class TaqawelServicesController extends Controller
         if (BaseModel::estCanBeBenf()) {
             $service_types = ContractNature::active()->get()->pluck("name", "id");
             $service_types["other"] = trans("taqawoul.form_attributes.other");
-            
+
+            $cached_data = [
+                'contract_nature_id' => null,
+                'new_service' => null,
+                'description' => null
+            ];
+
+            if (session()->get('selected_establishment')) {
+                $id = session()->get('selected_establishment.id');
+            } elseif (session()->get('government')) {
+                $id = session()->get('government.id');
+            } else {
+                $id = auth()->user()->id_no;
+            }
+            if (Cache::has('taqawel_service.' . $id)) {
+                $cached_data = Cache::pull('taqawel_service.' . $id);
+            }
+
             return view("front.taqawel.taqawel_services.create",
-                compact('service_types'));
+                compact('service_types', 'cached_data'));
         } else {
             return abort(401);
         }
@@ -98,7 +116,21 @@ class TaqawelServicesController extends Controller
     public function store(TaqawelServicesRequest $request)
     {
         if (BaseModel::estCanBeBenf()) {
-            $data = $request->only(array_keys($request->rules()));
+            $data = $request->only(['contract_nature_id', 'new_service', 'description']);
+
+            if ($request->get('save_action') == 'draft') {
+                if (session()->get('selected_establishment')) {
+                    $id = session()->get('selected_establishment.id');
+                } elseif (session()->get('government')) {
+                    $id = session()->get('government.id');
+                } else {
+                    $id = auth()->user()->id_no;
+                }
+
+                Cache::put('taqawel_service.'.$id, $data, 7200);
+                return trans('taqawoul.success_data');
+            }
+
             if (!empty($data['new_service'])) {
                 $new_nature = ContractNature::create(['name' => $request->new_service, 'status' => 0]);
                 $data['contract_nature_id'] = $new_nature->id;
@@ -133,8 +165,14 @@ class TaqawelServicesController extends Controller
             $service_types[$service->contract_nature_id] = $service->contractNature->name;
         }
         $service_types["other"] = trans("taqawoul.form_attributes.other");
-        
-        return view("front.taqawel.taqawel_services.create", compact('service', 'service_types'));
+
+        $cached_data = [
+            'contract_nature_id' => $service->contract_nature_id,
+            'new_service' => null,
+            'description' => $service->description
+        ];
+
+        return view("front.taqawel.taqawel_services.create", compact('service', 'service_types', 'cached_data'));
 
     }
 

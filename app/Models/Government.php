@@ -52,4 +52,12 @@ class Government extends BaseModel
     {
         return $this->hasOne(User::class, 'id_no')->where('user_type_id',  \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['gov']);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function responsibles()
+    {
+        return $this->hasMany(GovResponsible::class, 'government_id');
+    }
 }

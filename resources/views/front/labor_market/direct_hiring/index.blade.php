@@ -57,8 +57,6 @@
                                             <thead>
 
                                             <tr role="row" class="heading">
-                                                <th id="check" class="no-sort"></th>
-                                                <th id="provider_name" class="no-sort" width="120"> {{trans('temp_job.provider_id') }} </th>
                                                 <th id="name" width="120"  class="no-sort"> {{ trans('temp_job.name') }} </th>
                                                 <th id="job.job_name" class="no-sort"> {{ trans('temp_job.job_id') }} </th>
                                                 <th id="job_type_name" class="no-sort"> {{ trans('temp_job.job_type.name') }} </th>
@@ -71,10 +69,6 @@
                                             </tr>
 
                                             <tr role="row" class="filter">
-                                                <td></td>
-                                                <td>
-                                                    {{ Form::text('provider_name', null, ['class' => "form-control form-filter input-sm"]) }}
-                                                </td>
                                                 <td>
                                                     {{ Form::text('name', null, ['class' => 'form-control form-filter input-sm']) }}
                                                 </td>

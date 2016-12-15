@@ -29,7 +29,7 @@
                </div>
                <div class="portlet-body">
                   <div class="slimScrollDiv">
-                     {{ Form::open(['url' => '/activation', "files"=>"false", "id"=>"register-form", "data-url"=>url('/')]) }}
+                     {{ Form::open(['url' => '/activation', "files"=>"false", "id"=>"activation-form", "data-url"=>url('/')]) }}
                      <div class="form-body">
                         @if (count($errors))
                         <div class="alert alert-danger">

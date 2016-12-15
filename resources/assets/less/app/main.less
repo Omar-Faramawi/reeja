@@ -2624,15 +2624,19 @@ input.select-style-height.form-control {
 
 /* bootstrap edit */
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-  background: #4f5557 !important;
+  background: #e0e0e0 !important;
+}
+
+.dropdown-menu > li.active:hover > a, .dropdown-menu > li.active > a, .dropdown-menu > li:hover > a {
+  background: #eee !important;
 }
 
 /* components-md ( metronic ) edit */
 .dropdown-menu>li>a {
-  color: #fff !important;
+  color: #000 !important;
 }
 .dropdown-menu {
-  background: #424749 !important;
+  background: #fff !important;
 }
 .form-group.form-md-line-input .bs-searchbox .form-control {
     background-color: #fff;
@@ -2640,4 +2644,13 @@ input.select-style-height.form-control {
 
 .page-header .page-header-menu .hor-menu .navbar-nav > li > a{
   padding: 13px 20px;
+}
+.page-header .page-header-menu .hor-menu .navbar-nav > li .dropdown-menu li > a {
+  color: #fff !important;
+}
+.navbar-nav .dropdown-menu > li.active:hover > a, .navbar-nav .dropdown-menu > li.active > a, .navbar-nav .dropdown-menu > li:hover > a {
+  background: #585a5d !important;
+}
+.navbar-nav  li  .dropdown-menu {
+  background-color: #424749 !important;
 }

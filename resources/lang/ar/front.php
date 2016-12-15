@@ -6,7 +6,7 @@ return [
         "establishment" => "المنشأة",
         "establishment_select" => "لقد تم إختيار : ",
         "establishments" => "المنشآت",
-        "new_est" => "الشركات الجديدة",
+        "new_est" => "المنشآت الجديدة",
         "new_users" => "المستخدمين الجدد",
         "rate" => "معدل النمو"
     ],
@@ -45,6 +45,7 @@ return [
         "publish_cv" => "السيرة الذاتية",
         "received" => "الطلبات المستلمة",
         "receivedOffers" => "العروض المستلمة",
+        "services" => "الخدمات",
         "taqawel_notices" => "إشعارات التقاول",
         "taqawel_requests" => "طلبات التقاول",
         "taqawel_services" => "خدمات التقاول",

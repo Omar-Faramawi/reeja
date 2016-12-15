@@ -174,9 +174,7 @@
                                     <div class="row static-info">
                                         <div class="col-lg-3">{{trans("offersdirect.qualifications")}}</div>
                                         <div class="col-lg-9">
-                                            <div class="form-group">
-                                                {!! Form::file('qualifications',["class"=>"form-control"]) !!}
-                                            </div>
+                                            @include('components.fileupload', ['name' => 'qualifications'])
                                         </div>
                                     </div>
                                     
@@ -198,7 +196,8 @@
                                                     <div class="icheck-inline">
                                                         <label>
                                                             <input type="checkbox" class="icheck" name="agree" value="1"
-                                                                   data-checkbox="icheckbox_flat-grey"> {{trans("offersdirect.acceptRules")}}
+                                                                   data-checkbox="icheckbox_flat-grey">
+                                                            <a href="{{ url('/terms') }}">{{trans("offersdirect.acceptRules")}}</a>
                                                         </label>
                                                     </div>
                                                 </div>

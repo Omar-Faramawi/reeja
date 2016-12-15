@@ -103,7 +103,7 @@
                                             <div class="col-md-3 name">
                                                 {{ trans('tqawel_offer_contract.contract_nature') }}
                                             </div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <div class="col-md-9 value form-group no-padding-top">
                                                 {{ $marketServices->contractNature->name }}
                                                 {!! Form::hidden('market_taqaual_services_id', $id) !!}
                                             </div>
@@ -112,7 +112,7 @@
                                             <div class="col-md-3 name padding-top-8">
                                                 {{ trans('tqawel_offer_contract.contract_name') }}
                                             </div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <div class="col-md-9 value form-group no-padding-top">
                                                 {!! Form::text('contract_name', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_name'), 'class' => 'form-control' ]) !!}
                                             </div>
                                         </div>
@@ -120,7 +120,7 @@
                                             <div class="col-md-3 name padding-top-8">
                                                 {{ trans('tqawel_offer_contract.contract_desc') }}
                                             </div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <div class="col-md-9 value form-group no-padding-top">
                                                 {!! Form::textarea('contract_desc', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_desc'), 'class' => 'form-control' ]) !!}
                                             </div>
                                         </div>
@@ -128,7 +128,7 @@
                                             <div class="col-md-3 name padding-top-8">
                                                 {{ trans('tqawel_offer_contract.contract_amount') }}
                                             </div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <div class="col-md-9 value form-group no-padding-top">
                                                 {!! Form::number('contract_amount', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_amount'), 'class' => 'form-control' ]) !!}
                                             </div>
                                         </div>
@@ -136,7 +136,7 @@
                                             <div class="col-md-3 name padding-top-8">
                                                 {{ trans('tqawel_offer_contract.start_date') }}
                                             </div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <div class="col-md-9 value form-group no-padding-top">
                                                 {!! Form::text('start_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.start_date'), 'class' => 'form-control date-picker-event from' ]) !!}
                                             </div>
                                         </div>
@@ -144,7 +144,7 @@
                                             <div class="col-md-3 name padding-top-8">
                                                 {{ trans('tqawel_offer_contract.end_date') }}
                                             </div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <div class="col-md-9 value form-group no-padding-top">
                                                 {!! Form::text('end_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.end_date'), 'class' => 'form-control date-picker-event to' ]) !!}
                                             </div>
                                         </div>
@@ -152,7 +152,7 @@
                                             <div class="col-md-3 name padding-top-8">
                                                 {{ trans('tqawel_offer_contract.duration') }} {{ trans('tqawel_offer_contract.inmonth')}}
                                             </div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <div class="col-md-9 value form-group no-padding-top">
                                                 {!! Form::number('duration', null, [ 'placeholder' => trans('tqawel_offer_contract.duration'), 'class' => 'form-control  duration', 'disabled' => 'disabled']) !!}
                                             </div>
                                         </div>
@@ -160,7 +160,7 @@
                                             <div class="col-md-3 name padding-top-5">
                                                 {{ trans('tqawel_offer_contract.contract_type') }}
                                             </div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <div class="col-md-9 value form-group no-padding-top">
                                                 <div class="md-radio-inline">
                                                     <div class="md-radio">
                                                         <input type="radio" id="radio6" name="contract_type" checked value="2" class="md-radiobtn">
@@ -186,7 +186,7 @@
                                             <span class="col-md-3 name padding-top-8">
                                                 {{ trans('tqawel_offer_contract.contract_ref_no') }}
                                             </span>
-                                            <span class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <span class="col-md-9 value form-group no-padding-top">
                                                 {!! Form::select('contract_ref_no', $contracts, [], [ 'placeholder' =>  trans('tqawel_offer_contract.contract_ref_no'), 'class' => 'form-control' ]) !!}
                                             </span>
                                         </div>
@@ -195,14 +195,14 @@
                                             <div class="col-md-3 name padding-top-5">
                                                 {{ trans('tqawel_offer_contract.work_locations') }}
                                             </div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top container-inputs">
+                                            <div class="col-md-9 value form-group no-padding-top container-inputs">
                                                 <input id="pac-input" class="form-control" type="text" placeholder="{{ trans('labels.enter') . " " . trans('tqawel_offer_contract.work_locations') }}">
                                             </div>
                                         </div>
                                         @if($hasInvoices)
                                         <div class="row static-info">
                                             <div class="col-md-3 name padding-top-8"></div>
-                                            <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                            <div class="col-md-9 value form-group no-padding-top">
                                                 <a href="#" class="btn green add-new pull-right" data-error="{{ trans('tqawel_offer_contract.invalid_location') }}">{{ trans('tqawel_offer_contract.add_new') }}</a>
                                             </div>
                                         </div>

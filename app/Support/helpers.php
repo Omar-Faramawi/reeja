@@ -49,6 +49,7 @@ if (!function_exists('dynamicAjaxPaginate')) {
      * @param bool $checkbox
      * @param array $html
      *
+     * @param null $orderBy
      * @return mixed
      */
     function dynamicAjaxPaginate(
@@ -57,11 +58,12 @@ if (!function_exists('dynamicAjaxPaginate')) {
         $total_count,
         $buttons,
         $checkbox = false,
-        $html = []
+        $html = [],
+        $orderBy = null
     ) {
         $length = request()->input('length');
         $start  = request()->input('start');
-        if (!empty(request()->input('order'))) {
+        if (!$orderBy and !empty(request()->input('order'))) {
             $orderBy = $columns[request()->input('order')[0]['column']]['name'];
             if ($orderBy == 'check') {
                 $orderBy = 'id';

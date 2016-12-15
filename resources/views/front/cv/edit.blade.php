@@ -15,19 +15,17 @@
     </div>
     <!-- END PAGE HEAD-->
 
-
-    <div class="container">
-        <br>
-        @if(!is_null($data->age()) && $data->age() >= 18)
-            <div class="row">
-                @if(\Illuminate\Support\Facades\Session::has('msg'))
-                    <div class="alert alert-{{\Illuminate\Support\Facades\Session::get('status')}}">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        {{\Illuminate\Support\Facades\Session::get('msg')}}
-                    </div>
-                @endif
-
+    <div class="page-content">
+        <div class="container">
+            @if(!is_null($data->age()) && $data->age() >= 18)
                 <div class="row">
+                    @if(\Illuminate\Support\Facades\Session::has('msg'))
+                        <div class="alert alert-{{\Illuminate\Support\Facades\Session::get('status')}}">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{\Illuminate\Support\Facades\Session::get('msg')}}
+                        </div>
+                    @endif
+
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <ul>
@@ -79,11 +77,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3"> {{trans('cv_publishment.attributes.chk')}} </label>
+                                    <label class="control-label col-sm-3"> {{trans('cv_publishment.attributes.status')}} </label>
                                     <div class="col-sm-9">
-                            <span class="label label-{{$data->chk ? 'info' : 'danger'}}">
-                                {{$data->chk ? trans('cv_publishment.published') : trans('cv_publishment.not_published')}}
-                            </span>
+{{--                                        {{ auth()->user()->type->name }}--}}
+                                        {{-- TODO: update the status --}}
+                                        على رأس العمل
+                            {{--<span class="label label-{{$data->chk ? 'info' : 'danger'}}">--}}
+                                {{--{{ auth()->user()->type->name }}--}}
+                                {{--{{$data->chk ? trans('cv_publishment.published') : trans('cv_publishment.not_published')}}--}}
+                            {{--</span>--}}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -102,28 +104,28 @@
                                     <label class="control-label col-sm-3"
                                            for="job_id">{{trans('cv_publishment.attributes.job_id')}}</label>
                                     <div class="col-sm-9">
-                                        {!! Form::select('job_id', [null => trans('labels.choose')] + $jobs->toArray(), null, ['class'=> 'form-control selectpicker', 'id' => 'job_id']) !!}
+                                        {!! Form::select('job_id', [null => trans('labels.choose')] + $jobs->toArray(), null, ['class'=> 'form-control bs-select', 'id' => 'job_id']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"
                                            for="qualification_id">{{trans('cv_publishment.attributes.qualification_id')}}</label>
                                     <div class="col-sm-9">
-                                        {!! Form::select('qualification_id', [null => trans('labels.choose')] + $qualifications->toArray(), null, ['class'=> 'form-control selectpicker', 'id' => 'qualification_id']) !!}
+                                        {!! Form::select('qualification_id', [null => trans('labels.choose')] + $qualifications->toArray(), null, ['class'=> 'form-control bs-select', 'id' => 'qualification_id']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"
                                            for="region_id">{{trans('cv_publishment.attributes.region_id')}}</label>
                                     <div class="col-sm-9">
-                                        {!! Form::select('region_id', [null => trans('labels.choose')] + $regions->toArray(), null, ['class'=> 'form-control selectpicker', 'id' => 'region_id']) !!}
+                                        {!! Form::select('region_id', [null => trans('labels.choose')] + $regions->toArray(), null, ['class'=> 'form-control bs-select', 'id' => 'region_id']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"
                                            for="experience_id">{{trans('cv_publishment.attributes.experience_id')}}</label>
                                     <div class="col-sm-9">
-                                        {!! Form::select('experience_id', [null => trans('labels.choose')] + $experiences->toArray(), null, ['class'=> 'form-control selectpicker', 'id' => 'experience_id']) !!}
+                                        {!! Form::select('experience_id', [null => trans('labels.choose')] + $experiences->toArray(), null, ['class'=> 'form-control bs-select', 'id' => 'experience_id']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -181,12 +183,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        @else
-            <div class="alert alert-warning">
-                <button  type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{trans('cv_publishment.age_alert')}}
-            </div>
-        @endif
+            @else
+                <div class="alert alert-warning">
+                    <button  type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{trans('cv_publishment.age_alert')}}
+                </div>
+            @endif
+        </div>
     </div>
 @endsection

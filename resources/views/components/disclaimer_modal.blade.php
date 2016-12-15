@@ -12,7 +12,7 @@
                 @include($content)
             </div>
             <div class="modal-footer">
-                <button type="submit" name="status" class="btn green update_contract" value="approved" onclick="$('.modal').modal('hide');">{{ trans('temp_job.save_and_send') }}</button>
+                <button type="submit" name="status" class="btn green update_contract" value="approved" onclick="$('.modal').modal('hide');">{{ trans('temp_job.confirm') }}</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('labels.cancel') }}
                 </button>
             </div>

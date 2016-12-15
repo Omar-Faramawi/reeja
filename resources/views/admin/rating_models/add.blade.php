@@ -66,9 +66,10 @@
 </div>
 
 <div class="modal-footer">
-    <button type="submit" data-loading-text="{{ trans('labels.loading') }}..." class="demo-loading-btn btn blue">
+    <button type="submit" data-loading-text="{{ trans('labels.loading') }}..." class="demo-loading-btn btn blue send_template" name="save">
         <i class="fa fa-check"></i> {{ trans('labels.save') }} </button>
-    <button type="submit" data-loading-text="{{ trans('labels.loading') }}..." class="demo-loading-btn btn blue"
+    <input type="hidden" name="goNext" id="go_next" value="0">
+    <button type="submit" data-loading-text="{{ trans('labels.loading') }}..." class="demo-loading-btn btn blue send_template"
             name="next" value="1" id="nextButton" data-href="{{route('nextToTaqyeemFromForm')}}">
         <i class="fa fa-check"></i> {{ trans('labels.next') }} </button>
     <button type="button" data-dismiss="modal" class="btn default">{{ trans('labels.cancel') }}</button>

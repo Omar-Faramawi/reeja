@@ -19,7 +19,6 @@ return [
     "after_generate_invoice" => "Note .. You should pay Invoice Before 72 Hours.",
     "already_added" => "This Employee Already AddedS..",
     "ask_cancel_ishaar_success" => "Your Request Sent Successfully",
-    "selected_jobs" => "Selected Jobs List",
     "attributes" => [
         "add" => "Add",
         "amount" => "Amount",
@@ -109,6 +108,7 @@ return [
     "deleted" => "Deleted successfully",
     "edit_permission" => "Permissions Edit",
     "employees_bigger_allowed" => "Sorry , Your Contract Employees Greater Than Permitted Number",
+    "enter_job_and_nationality" => "You should choose a job and choose the allowed nationalities for it",
     "error_delete" => "Can't delete, This type has regions",
     "error_delete_regions" => "Sorry! this Notice includes occupations or nationalities.",
     "error_updated" => "Sorry! cannot update.",
@@ -161,7 +161,7 @@ return [
     "max_ishaar_for_benf" => "Sorry , You Have Exceeded Tha Max Ishaar Number With This Benef Establishment",
     "max_ishaar_for_benf_in_period" => "Sorry , You Have Exceeded Tha Max Ishaar Number With This Benef Establishment",
     "max_ishaar_per_month" => "Sorry , Your Have Exceeded Tha Max Number Of Ishaars For Current Month",
-    'max_ishaar_period_exceed'     => 'Sorry , Your Have Exceeded Tha Max Ishaar Period,Please Update Your Ishaar Start Date & End Date To be In Range ',
+    "max_ishaar_period_exceed" => "Sorry , Your Have Exceeded Tha Max Ishaar Period,Please Update Your Ishaar Start Date & End Date To be In Range ",
     "max_ishaar_period_exceeded" => "I agree",
     "max_ishaar_period_greater_than" => "Max Ishaar Period must be greater than Min Ishaar Period",
     "max_labor_times" => "Sorry , You Have Exceeded Tha Max Labor Times For Employee Number :id ",
@@ -186,6 +186,7 @@ return [
         "Muslim",
         "NA"
     ],
+    "selected_jobs" => "Selected Jobs List",
     "sub-headings" => [
         "create" => "This page allows you to add new ishaar ",
         "edit" => "This page allows you to edit ishaar ",

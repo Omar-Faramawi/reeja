@@ -80,7 +80,7 @@ class RatingModelsController extends Controller
         }
         $createdTemplate->items()->attach($createdQuestionArray,
             ['created_by' => auth()->id(), 'updated_by' => auth()->id()]);
-        if ($ratingModelsRequest->next == 1) {
+        if ($ratingModelsRequest->get('goNext') == 1) {
             return json_encode(['msg' => trans("ratingmodels.sumbitedsucc"), 'taqeemID' => $createdTemplate->id]);
         }
         return json_encode([

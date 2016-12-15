@@ -14,7 +14,8 @@ return [
         "rate_benf" => "تقييم المستفيد من الخدمة",
         "rate_provider" => "تقييم مقدم الخدمة",
         "reject_request" => "رفض الطلب",
-        "request_contract_cancel" => " إلغاء العقد",
+        "request_contract_cancel" => "إلغاء العقد",
+        "request_contract_ishaar" => "إلغاء الإشعار",
         "revert_cancel" => "التراجع عن الإلغاء",
         "send_offer" => "تقديم عرض",
         "view_offer" => "إستعراض العرض"
@@ -50,7 +51,7 @@ return [
     "reason" => "سبب الغاء العقد",
     "reason_id" => "سبب الرفض",
     "rejection_reason" => "سبب الغاء التعاقد",
-    "rejection_reasons_details" => "تفاصيل أخري",
+    "rejection_reasons_details" => "تفاصيل أخرى",
     "reset" => "الغاء",
     "reset_back" => "تراجع عن الالغاء",
     "reset_back_reason" => "سبب التراجع عن الالغاء",

@@ -56,11 +56,13 @@
 							<span class="title">{{trans('service_users_permissions.service_users_permissions')}}</span>
 						</a>
 					</li>
+					{{--
+					@Removed temporarily
 					<li class="nav-item {{ (request()->route()->getName() == 'admin.saudi_percentage.index' )? 'active open selected':'' }}">
 						<a href="{{  route('admin.saudi_percentage.index') }}" class="nav-link ">
 							<span class="title">{{ trans('saudi_percentage.menu_name') }}</span>
 						</a>
-					</li>
+					</li> --}}
 					<li class="nav-item {{ (request()->route()->getName() == 'admin.taqawel_ishaar_management.edit' )? 'active open selected':'' }}">
 						<a href="{{ route('admin.taqawel_ishaar_management.edit') }}" class="nav-link ">
 							<span class="title">{{ trans('ishaar_setup.ishaars_bundles_management') }}</span>

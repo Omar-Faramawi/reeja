@@ -28,7 +28,7 @@ return [
         "benef_cancel" => "ملغى من قبل المستفيد",
         "cancelled" => "ملغى",
         "pending" => "بانتظار الموافقة",
-        "pending_ownership" => "بانتظار المسئول",
+        "pending_ownership" => "بانتظار موافقة الكفيل",
         "provider_cancel" => "ملغى من قبل المزود",
         "rejected" => "مرفوض",
         "requested" => "طلب مرسل / مستلم"
@@ -70,7 +70,7 @@ return [
         "benef_cancel" => "ملغى من قبل المستفيد",
         "cancelled" => "ملغى",
         "pending" => "بانتظار الموافقة",
-        "pending_ownership" => "بانتظار المسئول",
+        "pending_ownership" => "بانتظار موافقة الكفيل",
         "provider_cancel" => "ملغى من قبل المزود",
         "rejected" => "مرفوض"
     ],
@@ -183,7 +183,7 @@ return [
     "system_name" => "أجير",
     "taqawel" => "تقاول",
     "updated" => "تم التعديل بنجاح",
-    "view" => "مشاهده",
+    "view" => "استعراض",
     "year" => "سنة",
     "yes" => "نعم"
 ];

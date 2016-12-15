@@ -4,6 +4,7 @@ namespace Tamkeen\Ajeer\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Cache;
 use Tamkeen\Ajeer\Http\Requests;
 use Tamkeen\Ajeer\Http\Controllers\Controller;
 use Tamkeen\Ajeer\Http\Requests\PublishServiceRequest;
@@ -81,7 +82,24 @@ class PublishServiceTaqaualController extends Controller
             $service_types = ContractNature::active()->get()->pluck("name", "id");
             $service_types["other"] = trans("offers.modal.reject.other");
 
-            return view("front.taqawel.publishservice.create", compact("service_types"));
+            $cached_data = [
+                'contract_nature_id' => null,
+                'new_service' => null,
+                'description' => null
+            ];
+
+            if (session()->get('selected_establishment')) {
+                $id = session()->get('selected_establishment.id');
+            } elseif (session()->get('government')) {
+                $id = session()->get('government.id');
+            } else {
+                $id = auth()->user()->id_no;
+            }
+            if (Cache::has('publish_taqawel_service.' . $id)) {
+                $cached_data = Cache::pull('publish_taqawel_service.' . $id);
+            }
+
+            return view("front.taqawel.publishservice.create", compact("service_types", 'cached_data'));
         }else {
             return abort(401);
         }
@@ -98,7 +116,21 @@ class PublishServiceTaqaualController extends Controller
     public function store(PublishServiceRequest $publishServiceRequest)
     {
         if (BaseModel::estCanBeProvider()) {
-            $data                          = $publishServiceRequest->only(array_keys($publishServiceRequest->rules()));
+            $data = $publishServiceRequest->only(['contract_nature_id', 'new_service', 'description']);
+
+            if ($publishServiceRequest->get('save_action') == 'draft') {
+                if (session()->get('selected_establishment')) {
+                    $id = session()->get('selected_establishment.id');
+                } elseif (session()->get('government')) {
+                    $id = session()->get('government.id');
+                } else {
+                    $id = auth()->user()->id_no;
+                }
+
+                Cache::put('publish_taqawel_service.'.$id, $data, 7200);
+                return trans('taqawoul.success_data');
+            }
+
             $data['status']                = '1';
             if ($data['contract_nature_id']=='other') {
                 $new_nature                 = ContractNature::create(['name' => $publishServiceRequest->input('new_service'), 'status' => 0]);
@@ -135,8 +167,13 @@ class PublishServiceTaqaualController extends Controller
             $service_types[$service->contract_nature_id] = $service->contractNature->name;
         }
         $service_types["other"] = trans("offers.modal.reject.other");
+        $cached_data = [
+            'contract_nature_id' => $service->contract_nature_id,
+            'new_service' => null,
+            'description' => $service->description
+        ];
         
-        return view("front.taqawel.publishservice.create", compact("service", "service_types"));
+        return view("front.taqawel.publishservice.create", compact("service", "service_types", 'cached_data'));
     }
     
     /**

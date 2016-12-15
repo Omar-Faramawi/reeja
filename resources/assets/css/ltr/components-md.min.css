@@ -5375,7 +5375,7 @@ Dropdown Menu
 .dropdown-menu > li:hover > a, .dropdown-menu > li.active > a, .dropdown-menu > li.active:hover > a {
     text-decoration: none;
     background-image: none;
-    background-color: #f6f6f6;
+    background-color: #4f5557;
     color: #555;
     filter: none; }
 .dropdown-menu.bottom-up {

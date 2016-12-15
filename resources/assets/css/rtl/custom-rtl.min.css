@@ -273,3 +273,18 @@ select.form-control{
     background-color: #f6f6f6;
     color: #555;
 }
+
+/* vendor -> boostrap-select edit for RTL */
+.bootstrap-select.btn-group .btn .filter-option {
+    text-align: right
+}
+
+.bootstrap-select.btn-group .dropdown-toggle .caret {
+    right: auto;
+    left: 12px;
+}
+
+.bootstrap-select>.dropdown-toggle {
+    padding-right: 14px;
+    padding-left: 25px;
+}

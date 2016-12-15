@@ -209,7 +209,7 @@
          <div class="modal-body form-body">
             <input type="hidden" id='modal-type-r' name='type_r' value='contract'>
             <input type="hidden" id='modal-id-r' name='id_r' value='{{ $contract->id }}'>
-            <div class="form-group form-md-line-input has-info">
+            <div class="form-group has-info">
                <select class="form-control" id="select_reason" name='reason'>
                      <option value=""></option>
                      @if(!empty($reasons))

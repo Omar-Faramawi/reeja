@@ -83,7 +83,7 @@ class OfferDirectController extends Controller
             }
             $buttons = ['view' => []];
             $total_count = ($data->count()) ? $data->count() : 1;
-            $returned = dynamicAjaxPaginate($data, $columns, $total_count, $buttons);
+            $returned = dynamicAjaxPaginate($data, $columns, $total_count, $buttons, false, [], 'start_date');
 
             return $returned;
         }
@@ -219,11 +219,12 @@ class OfferDirectController extends Controller
             "mailTo"       => $contract->responsible_email,
             "mailToName"   => $contract->benef->name,
         ];
-        Mail::queue('front.offersdirect.emails.reject', ['contract' => $contract], function ($m) use ($mail) {
+        //TODO: fix this with log
+        /*Mail::send('front.offersdirect.emails.reject', ['contract' => $contract], function ($m) use ($mail) {
             $m->from($mail['mailFrom'], $mail['mailFromName']);
 
             $m->to($mail['mailTo'], $mail['mailToName'])->subject(trans("offersdirect."));
-        });
+        });*/
 
         $contract->reason_id = $offerRejectRequest->reason_id;
         $contract->rejection_reason = $offerRejectRequest->other_reason;
@@ -247,13 +248,14 @@ class OfferDirectController extends Controller
                 "mailTo"       => $contract->benef->email,
                 "mailToName"   => $contract->benef->name,
             ];
-            Mail::queue('front.offersdirect.emails.pendingownership', ['contract' => $contract],
+            //TODO: fix this with log
+            /*Mail::send('front.offersdirect.emails.pendingownership', ['contract' => $contract],
                 function ($m) use ($mail) {
                     $m->from($mail['mailFrom'], $mail['mailFromName']);
 
                     $m->to($mail['mailTo'],
                         $mail['mailToName'])->subject(trans("offersdirect.modal.reject.mail.subject"));
-                });
+                });*/
 
             $ownerShipNumber = $contract->provider->ownership_phone;
             //TODO : SMS MESSAGE AND LINK\

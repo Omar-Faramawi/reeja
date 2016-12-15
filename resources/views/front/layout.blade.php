@@ -26,7 +26,7 @@
 <body>
 
 @include('front.partials.header')
-@if (($current_route_name === null ))
+@if ((request()->route()->getName() == 'homepage'))
 <div class="container">
     <div class="col-md-12 banners">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">

@@ -189,7 +189,7 @@
                                     <div class="col-lg-3">{{trans("packagesubscribe.noOfRequestedIshaars")}}</div>
                                     <div class="col-lg-5">
 
-                                        <div class="form-group form-md-line-input has-warning">
+                                        <div class="form-group form-md-line-input">
                                             <div class="input-group">
 
                                                 <div class="input-group-control">
@@ -248,10 +248,10 @@
                                     <div class="col-lg-6"></div>
                                     <div class="col-lg-6">
                                         <div class="form-actions">
-                                            <button type="submit" class="btn blue"
+                                            <button type="submit" class="btn btn-primary"
                                                     data-loading-text="{{ trans('labels.loading') }}..."
                                             > {{trans("packagesubscribe.approve")}} </button>
-                                            <a class="btn yellow btn-outline sbold"
+                                            <a class="btn grey"
                                                href="{{url("")}}"
                                             > {{trans("packagesubscribe.cancel")}} </a>
 

@@ -43,6 +43,8 @@ return [
         "packageSubscribe" => "Subscribe to paid bundle",
         "publish_cv" => "CV",
         "received" => "Received Requests",
+        "receivedOffers" => "Received Offers\n",
+        "services" => "Services",
         "taqawel_notices" => "Taqawol Notices",
         "taqawel_requests" => "Taqawol Requests",
         "taqawel_services" => "Taqawol Services",

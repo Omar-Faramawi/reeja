@@ -41,6 +41,10 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
         ],
+        'ResponsibleUpdated' => [
+            \Tamkeen\Ajeer\Http\Middleware\EstablishmentUpdated::class,
+            \Tamkeen\Ajeer\Http\Middleware\GovernmentUpdated::class,
+        ],
     ];
     
     /**
@@ -63,6 +67,7 @@ class Kernel extends HttpKernel
         'indvidualContractCancelation' => \Tamkeen\Ajeer\Http\Middleware\IndvidualContractCancelation::class,
         'EstablishmentSelected'        => \Tamkeen\Ajeer\Http\Middleware\EstablishmentSelected::class,
         'EstablishmentUpdated'         => \Tamkeen\Ajeer\Http\Middleware\EstablishmentUpdated::class,
+        'GovernmentUpdated'            => \Tamkeen\Ajeer\Http\Middleware\GovernmentUpdated::class,
         'rating'                       => \Tamkeen\Ajeer\Http\Middleware\Rating::class,
         'AllUsersExceptAdmin'          => \Tamkeen\Ajeer\Http\Middleware\AllUsersExceptAdmin::class,
     ];

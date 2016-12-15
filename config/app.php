@@ -160,6 +160,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Nikaia\TranslationSheet\TranslationSheetServiceProvider::class,
+        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         Tamkeen\Platform\MOL\ServiceProvider::class,
         Tamkeen\Platform\Billing\BillingServiceProvider::class,
@@ -214,7 +215,8 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'Hashids'   => Vinkla\Hashids\Facades\Hashids::class,
-        'Constants' => Tamkeen\Ajeer\Utilities\Constants::class
+        'Constants' => Tamkeen\Ajeer\Utilities\Constants::class,
+        'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
     ],
 
 ];

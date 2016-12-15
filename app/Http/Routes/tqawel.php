@@ -3,7 +3,7 @@
 /** Taqawel */
 use Illuminate\Routing\Router;
 
-$router->group(['prefix' => 'taqawel', 'middleware' => ['auth', 'EstablishmentSelected', 'EstablishmentUpdated']], function (Router $router) {
+$router->group(['prefix' => 'taqawel', 'middleware' => ['auth', 'EstablishmentSelected', 'ResponsibleUpdated']], function (Router $router) {
     $router->post('market/offer', 'Front\TaqawelServicesController@askTaqawelOffer');
     $router->get('taqawelService/{id}/delete', 'Front\TaqawelServicesController@destroy');
     $router->get('market/{id?}', ['as' => 'taqawel.market', 'uses' => 'Front\TaqawelServicesController@listMarketServices']);

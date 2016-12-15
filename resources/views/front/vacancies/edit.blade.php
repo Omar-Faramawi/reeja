@@ -110,7 +110,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group form-md-line-input md-radio-inline">
+                                                <div class="form-group md-radio-inline">
                                                     <label class="control-label text-right col-md-3">{{trans('vacancies.form_attributes.gender')}}
                                                         <span class="required"> * </span>
                                                     </label>
@@ -166,7 +166,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group form-md-line-input md-radio-inline">
+                                                <div class="form-group md-radio-inline">
                                                     <label class="control-label text-right col-md-3">{{trans('vacancies.form_attributes.religion')}}
                                                         <span class="required"> * </span>
                                                     </label>
@@ -221,7 +221,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group form-md-line-input md-radio-inline">
+                                                <div class="form-group md-radio-inline">
                                                     <label class="control-label text-right col-md-3"
                                                            for="job_type">{{trans('vacancies.form_attributes.job_type')}}
                                                         <span class="required"> * </span>

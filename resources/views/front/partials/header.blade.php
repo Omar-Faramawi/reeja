@@ -7,45 +7,45 @@
                 <div class="col-md-12 col-sm-12 col-xs-9 top_navigation">
                     <nav>
                         @if($auth_user)
-                            <a class="icon_user" href="#">
-                                <i class="icon icon-user icon-for-mobile"></i>
+                            <a href="#">
+                                <i class="icon icon-user"></i>
                                 {{ $auth_user->name }}
                                 @if(session()->has('selected_establishment.name'))
                                     - <span class="establishment">{{ session('selected_establishment.name')  }}</span>
                                 @endif
                             </a>
                             @if(session('auth.type') == 'mol')
-                                <a class="icon-share-alt" href="{{ url('/establishments') }}">
-                                    <i class="icon icon-share-alt icon-for-mobile"></i>
+                                <a href="{{ url('/establishments') }}">
+                                    <i class="icon icon-share-alt"></i>
                                     {{ trans('establishments_registration.change') }}
                                 </a>
                             @endif
                             @if(session()->has('selected_establishment'))
-                                <a class="icon-wrench" href="{{ url('establishment/edit') }}">
-                                    <i class="icon icon-wrench icon-for-mobile"></i>
+                                <a href="{{ url('establishment/edit') }}">
+                                    <i class="icon icon-wrench"></i>
                                     {{ trans('establishment.can_change') }}
                                 </a>
                             @endif
 
-                            <a class="icon-logout" href="{{ url('/logout') }}">
-                                <i class="icon icon-logout icon-for-mobile"></i>
+                            <a href="{{ url('/logout') }}">
+                                <i class="icon icon-logout"></i>
                                 {{ trans('front.header.logout') }}
                             </a>
                         @else
-                            <a class="icon_user" href="{{ url('/login') }}">
-                                <i class="icon icon-user icon-for-mobile"></i>
+                            <a href="{{ url('/login') }}">
+                                <i class="icon icon-user"></i>
                                 {{ trans('front.header.login') }}
                             </a>
                         @endif
 
                         @if(app()->getLocale() == 'ar')
-                            <a class="icon_locale" href="{{ action('UserController@getLocale', 'en')}}">
-                                <i class="icon icon-lang-en icon-for-mobile"></i>
+                            <a href="{{ action('UserController@getLocale', 'en')}}">
+                                <i class="icon icon-lang-en"></i>
                                 English
                             </a>
                         @else
-                            <a class="icon_locale" href="{{ action('UserController@getLocale', 'ar')}}">
-                                <i class="icon icon-lang-ar icon-for-mobile"></i>
+                            <a href="{{ action('UserController@getLocale', 'ar')}}">
+                                <i class="icon icon-lang-ar"></i>
                                 عربي
                             </a>
                         @endif
@@ -79,10 +79,17 @@
                                         </a>
                                     </li>
                                     @if(auth()->check())
+                                    <li class="menu-dropdown classic-menu-dropdown">
+                                        <a>
+                                            <i class="icon-folder-alt"></i>
+                                            {{ trans('front.menu.services') }}
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <ul class="dropdown-menu pull-left">
                                         @if(auth()->user()->user_type_id == \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['job_seeker'])
-                                            <li class="menu-dropdown classic-menu-dropdown">
+                                            <li class="dropdown-submenu">
                                                 <a>
-                                                    <i class="icon-briefcase"></i>
+                                                    <i class="icon-user"></i>
                                                     <span class="arrow"></span>
                                                     {{ trans('labor_market.job_seeker') }}
                                                 </a>
@@ -120,14 +127,14 @@
                                             </li>
                                             <li class="menu-dropdown mega-menu-dropdown">
                                                 <a href="{{url('/my_invoices')}}">
-                                                    <i class="icon-layers"></i>
+                                                    <i class="icon-credit-card"></i>
                                                     {{ trans('front.menu.invoices') }}
                                                     <span class="arrow"></span>
                                                 </a>
                                             </li>
                                         @elseif(auth()->user()->user_type_id != \Tamkeen\Ajeer\Utilities\Constants::USERTYPES['admin'])
-                                            <li class="menu-dropdown classic-menu-dropdown {{ ( in_array($current_route_name, ["labor-market.index", "received-contracts.view"]) ) ? "active" : "" }}">
-                                                <a class="" data-toggle="dropdown"> <i
+                                            <li class="dropdown-submenu {{ ( in_array($current_route_name, ["labor-market.index", "received-contracts.view"]) ) ? "active" : "" }}">
+                                                <a class="nav-link nav-toggle" data-toggle="dropdown"> <i
                                                             class="icon-clock"></i> {{ trans('front.menu.temp_work') }}
                                                     <span class="arrow"></span>
                                                 </a>
@@ -263,7 +270,7 @@
                                                     @endif
                                                 </ul>
                                             </li>
-                                            <li class="menu-dropdown classic-menu-dropdown">
+                                            <li class="dropdown-submenu">
                                                 <a href="#" data-toggle="dropdown"> <i class="icon-briefcase"></i>
                                                     {{ trans('front.menu.tqawel') }}
                                                     <span class="arrow"></span>
@@ -328,12 +335,14 @@
                                             </li>
                                             <li class="menu-dropdown mega-menu-dropdown">
                                                 <a href="{{url('/my_invoices')}}">
-                                                    <i class="icon-layers"></i>
+                                                    <i class="icon-credit-card"></i>
                                                     {{ trans('front.menu.invoices') }}
                                                     <span class="arrow"></span>
                                                 </a>
                                             </li>
                                         @endif
+                                        </ul>
+                                    </li>
                                     @endif
                                 </ul>
                             </div>
@@ -344,6 +353,5 @@
             </div>
 
         </div>
-    </div>
     </div>
 </header>

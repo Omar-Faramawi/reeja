@@ -23,6 +23,9 @@ class TaqawelServicesRequest extends Request
      */
     public function rules()
     {
+        if ($this->get('save_action') == 'draft') {
+            return [];
+        }
         return [
             'contract_nature_id' => 'required|required_if:new_service,null|'.$this->determineRule(Request::get('contract_nature_id')),
             'new_service'        => 'required_if:contract_nature_id,other|unique:contract_nature,name,NULL,id,deleted_at,NULL',

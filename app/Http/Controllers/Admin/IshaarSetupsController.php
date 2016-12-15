@@ -57,7 +57,6 @@ class IshaarSetupsController extends Controller
      */
     public function store(IshaarSetupsRequest $request)
     {
-        
         $data = array_except($request->only(array_keys($request->rules())), ['regions', 'job', 'nationalities']);
         if(!empty($data['period_start_date']) && !empty($data['period_end_date'])){
             $startDate = explode("-", $data['period_start_date']);
@@ -83,6 +82,7 @@ class IshaarSetupsController extends Controller
             $job_nationalities= explode(',',$request->nationalities[$one_job]);
             if (!empty($request->nationalities[$one_job])) {
                 foreach($job_nationalities as $nationality_id) {
+                    if(is_numeric($nationality_id))
                     $ishaarJob->nationalities()->save(new NationalityForJob(['nationality_id' => $nationality_id]));
                 }
             }
@@ -113,7 +113,8 @@ class IshaarSetupsController extends Controller
     public function edit($id)
     {
         $data = IshaarSetup::byId($id)->with('regions', 'jobs', 'ishaarjobs')->firstOrFail();
-        if(!empty($data->period_start_date) && !empty($data->period_end_date)){
+        if (!empty($data->period_start_date) && $data->period_start_date != "0000-00-00"
+            && !empty($data->period_end_date) && $data->period_end_date != "0000-00-00"){
             $startDate = explode('-', $data->period_start_date);
             $endDate = explode('-', $data->period_end_date);
 
@@ -128,11 +129,12 @@ class IshaarSetupsController extends Controller
             $gregorianEndDate->setDate($gregEndDate['year'], $gregEndDate['month'], $gregEndDate['day']);
             $readableEndDate = $gregorianEndDate->format('Y-m-d');
         }
+        
         $regions = Region::pluck('name', 'id')->toArray();
-        $ishaarTypes = IshaarType::lists('name', 'id')->toArray();
-        $jobs = Job::all();
-        $selectedJob = $data->jobs()->select('ad_jobs.id')->lists('id')->toArray();
+        $ishaarTypes = IshaarType::pluck('name', 'id')->toArray();
+        $jobs = Job::pluck('job_name', 'id')->toArray();
         $nationalities = Nationality::pluck('name', 'id')->toArray();
+        $selectedJob = $data->jobs()->select('ad_jobs.id')->lists('id')->toArray();
         $selected_nationalities = [];
         if (!empty($selectedJob)) {
             foreach ($selectedJob as $one_job) {
@@ -141,9 +143,8 @@ class IshaarSetupsController extends Controller
                     $this_job)->select('nationality_id')->lists('nationality_id')->toArray();
             }
         }
-
         return view('admin.ishaars.setups.edit',
-            compact('data', 'regions', 'ishaarTypes', 'jobs', 'selectedJob', 'selected_nationalities',
+            compact('data', 'regions', 'ishaarTypes', 'jobs', 'selected_nationalities',
                 'nationalities', 'readableStartDate', 'readableEndDate'));
     }
 
@@ -182,18 +183,21 @@ class IshaarSetupsController extends Controller
             $nation->delete();
         }
 
-        foreach ($request->job as $one_job) {
+        foreach($request->job as $one_job) {
             $ishaarJob = IshaarJob::create([
                 'ishaar_setup_id' => $setup->id,
                 'job_id'          => $one_job,
             ]);
 
             if (!empty($request->nationalities[$one_job])) {
-                foreach ($request->nationalities[$one_job] as $nationality_id) {
+                $nationals= explode(',', $request->nationalities[$one_job]);
+                foreach($nationals as $nationality_id) {
+                    if(is_numeric($nationality_id))
                     $ishaarJob->nationalities()->save(new NationalityForJob(['nationality_id' => $nationality_id]));
                 }
             }
         }
+        
 
         return trans('ishaar_setup.updated');
     }

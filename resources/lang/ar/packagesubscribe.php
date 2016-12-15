@@ -14,7 +14,7 @@ return [
     "close" => "اغلاق",
     "created_at" => "تاريخ الإضافة",
     "expire_date" => "تاريخ انتهاء الصلاحية",
-    "invoiceDetails" => "لقد تم اختيار شراء :ishaarNu قيمة السداد :billingAmount رقم فاتورة السداد :account_no",
+    "invoiceDetails" => "لقد تم اختيار شراء :ishaarNu اشعار قيمة السداد :billingAmount ريال سعودي رقم فاتورة السداد :account_no",
     "ishaar" => "اشعار",
     "ishaarGroups" => "مجموعة الاشعارات",
     "ishaarPriceForMonth" => "قيمة الاشعار للشهر الواحد",

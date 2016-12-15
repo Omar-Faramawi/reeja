@@ -293,13 +293,6 @@ select.form-control{
     padding-top: 2px;
 }
 
-/* fix dropdown overflow issue */
-@media (min-width: 768px){
-    .table-responsive {
-        overflow: visible;
-    }
-}
-
 /** google map styling RTl **/
 #map-custom-container #map {
     width: 100%;
@@ -335,4 +328,31 @@ select.form-control{
 
 .no-padding-right {
     padding-right: 0 !important;
+}
+
+/* vendor -> boostrap-select edit for RTL */
+.bootstrap-select.btn-group .btn .filter-option {
+    text-align: right
+}
+
+.bootstrap-select.btn-group .dropdown-toggle .caret {
+    right: auto;
+    left: 12px;
+}
+
+.bootstrap-select>.dropdown-toggle {
+    padding-right: 14px;
+    padding-left: 25px;
+}
+
+/* vendor -> select-bootstrap */
+.bs-select.form-control,
+.bootstrap-select.form-control {
+    border-bottom: 0 !important;
+}
+
+/* radio , checkbox */
+form .md-radio, {
+form .md-checkbox {
+    margin-top: 10px;
 }

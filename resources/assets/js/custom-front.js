@@ -19,17 +19,19 @@ $(function () {
         noneSelectedText: noneSelectedTextValue,
         noneResultsText: noSearchResult+" {0}",
         iconBase: 'fa',
-        tickIcon: 'fa-check'
+        tickIcon: 'fa-check',
+        container: 'body'
     });
+
+    // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+    //     $('.bs-select').selectpicker('mobile');
+    // }
+
+
     $(".make-switch").bootstrapSwitch();
     $(".date-picker").datepicker({
         dateFormat: 'yy-mm-dd',
         changeYear: true
-    });
-    $('.selectpicker').selectpicker({
-        noneSelectedText: noneSelectedTextValue,
-        style: 'btn-default',
-        size: 4
     });
 
     if (App.isRTL()) {
@@ -301,6 +303,45 @@ $(function () {
         });
     });
 
+    $("#activation-form").on("submit", function (e) {
+        var btn = $(this).find("[type='submit']").button('loading');
+        var current = $(this);
+        var postURL = $(this).attr('action');
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: postURL,
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            success: function (msg) {
+                setTimeout(function () {
+                    window.location = current.data('url');
+                }, 2000);
+            },
+            error: function (msg) {
+                btn.button('reset');
+                if (msg.status == 401 || msg.status == 404) {
+                    window.location = msg.getResponseHeader('Location')
+                }
+                if (msg.status == 500 || msg.status == 405) {
+                    toastr.error("", bug_msg);
+                }
+                current.find(".alert-danger").fadeOut(500);
+                var json = $.parseJSON(msg.responseText);
+                var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
+                $.each(json, function (k, v) {
+                    error += v + "</p>";
+                });
+                current.find(".form-body").prepend(error + '</div>');
+                toastr.error("", error_msg);
+                $('html,body').animate({
+                    scrollTop: ($(".form-body").offset().top - 200)
+                }, 1000);
+            }
+        });
+    });
+
     $("#form").validate({
         errorElement: 'span', //default input error message container
         errorClass: 'help help-block help-block-error', // default input error message class
@@ -536,6 +577,9 @@ $(function () {
                                 item.details = strReplace("cancel_ishaar", "hidden", item.details);
                                 item.details = strReplace("askcancelishaar", "hidden", item.details);
                             }
+                            if (item.status != 'approved') {
+                                item.details = strReplace("printishaar", "hidden", item.details);
+                            }
                         }
                     })
                     // grid:        grid object
@@ -694,12 +738,6 @@ $(function () {
         }
     });
 
-    $('.selectpicker').selectpicker({
-        noneSelectedText: noneSelectedTextValue,
-        style: 'btn-default',
-        size: 12
-    });
-
 // shwagher Modal
     $('#show_details').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -788,10 +826,9 @@ $(function () {
         if (results)
             return results[1] || 0;
     }
-
+	
     //Print Show Ishaar Page If Get Print params on url
     if ($.urlParam('print')) {
-        console.log($.urlParam('print'));
         window.print();
     }
 
@@ -1141,6 +1178,13 @@ $('document').ready(function () {
                 }
             }
         });
+    });
+    $('body').on('click', '.publish_or_draft', function (e) {
+        if ($(this).attr('id') == 'save_draft') {
+            $('#save_action').val('draft');
+        } else {
+            $('#save_action').val('publish');
+        }
     });
     $('#ask-offer').on('click', function () {
         $.ajax({

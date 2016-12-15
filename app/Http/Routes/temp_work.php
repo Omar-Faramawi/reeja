@@ -1,7 +1,7 @@
 <?php
 
 //Contracts Cancelation
-Route::group(['middleware' => ['auth','EstablishmentSelected', 'EstablishmentUpdated']], function () {
+Route::group(['middleware' => ['auth','EstablishmentSelected', 'ResponsibleUpdated']], function () {
     Route::group(['prefix' => 'contracts'], function () {
         //Direct hiring
         Route::get('cancelation/direct_hiring/ishaar/{type}',

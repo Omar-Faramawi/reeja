@@ -128,7 +128,7 @@
                                                 <div class="col-md-3 name">
                                                     {{ trans('tqawel_offer_contract.contract_nature') }}
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {{ $contract->contractNature->name }}
                                                 </div>
                                             </div>
@@ -137,11 +137,11 @@
                                                     {{ trans('tqawel_offer_contract.contract_name') }}
                                                 </div>
                                                 @if($contract->status == 'approved')
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <div class="col-md-9 value form-group padding-top-8">
                                                     {{ $contract->contract_name }}
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                    {!! Form::text('contract_name', null,
                                                         [ 'placeholder' => trans('labels.enter') . " ". trans('tqawel_offer_contract.contract_name'),
                                                         'class' => 'form-control' ]) !!}
@@ -153,11 +153,11 @@
                                                     {{ trans('tqawel_offer_contract.contract_desc') }}
                                                 </div>
                                                 @if($contract->status == 'approved')
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <div class="col-md-9 value form-group padding-top-8">
                                                     {!! nl2br($contract->contract_desc) !!}
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::textarea('contract_desc', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_desc'), 'class' => 'form-control' ]) !!}
                                                 </div>
                                                 @endif
@@ -167,11 +167,11 @@
                                                     {{ trans('tqawel_offer_contract.contract_amount') }}
                                                 </div>
                                                 @if($contract->status == 'approved')
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <div class="col-md-9 value form-group padding-top-8">
                                                     {{ $contract->contract_amount }}
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::text('contract_amount', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.contract_amount'), 'class' => 'form-control' ]) !!}
                                                 </div>
                                                 @endif
@@ -181,11 +181,11 @@
                                                     {{ trans('tqawel_offer_contract.start_date') }}
                                                 </div>
                                                 @if($contract->status == 'approved')
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <div class="col-md-9 value form-group padding-top-8">
                                                     {{ $contract->start_date }}
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::text('start_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.start_date'), 'class' => 'form-control date-picker-event from' ]) !!}
                                                 </div>
                                                 @endif
@@ -195,11 +195,11 @@
                                                     {{ trans('tqawel_offer_contract.end_date') }}
                                                 </div>
                                                 @if($contract->status == 'approved')
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <div class="col-md-9 value form-group padding-top-8">
                                                     {{ $contract->end_date }}
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::text('end_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.end_date'), 'class' => 'form-control date-picker-event to' ]) !!}
                                                 </div>
                                                 @endif
@@ -209,7 +209,7 @@
                                                     {{ trans('tqawel_offer_contract.contract_type') }}
                                                 </div>
                                                 @if($contract->status == 'approved')
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <div class="col-md-9 value form-group padding-top-8">
                                                     @if($contract->contract_ref_no)
                                                         {{ trans('tqawel_offer_contract.indirect_hiring') }}
                                                     @else
@@ -217,7 +217,7 @@
                                                     @endif
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     <div class="md-radio-inline">
                                                         <div class="md-radio">
                                                             <input type="radio" id="radio6" name="contract_type" value="2"
@@ -249,11 +249,11 @@
                                                     {{ trans('tqawel_offer_contract.contract_ref_no') }}
                                                 </span>
                                                 @if($contract->status == 'approved')
-                                                <span class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <span class="col-md-9 value form-group padding-top-8">
                                                     {{ $contract->contract_ref_no }}
                                                 </span>
                                                 @else
-                                                <span class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <span class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::select('contract_ref_no', $contracts, [$contract->contract_ref_no], [ 'placeholder' =>  trans('tqawel_offer_contract.contract_ref_no'), 'class' => 'form-control' ]) !!}
                                                 </span>
                                                 @endif
@@ -262,7 +262,7 @@
                                                 <div class="col-md-3 name padding-top-8">
                                                     {{ trans('tqawel_offer_contract.work_locations') }}
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top container-inputs">
+                                                <div class="col-md-9 value form-group no-padding-top container-inputs">
                                                     @if($contract->contractLocations->pluck('desc_location')->count() > 0)
                                                         @foreach($contract->contractLocations->pluck('desc_location')->toArray() as $location)
                                                             @if(!empty($location))
@@ -280,7 +280,7 @@
                                             @if($hasInvoices)
                                             <div class="row static-info">
                                                 <div class="col-md-3 name padding-top-8"></div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     <a href="#" class="btn green add-new pull-right" data-error="{{ trans('tqawel_offer_contract.invalid_location') }}">{{ trans('tqawel_offer_contract.add_new') }}</a>
                                                 </div>
                                             </div>

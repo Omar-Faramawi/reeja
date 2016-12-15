@@ -1,9 +1,9 @@
 <?php
 
 return [
-    "add_responsible" => "إضافة مسئول",
+    "add_responsible" => "إضافة مسؤول",
     "approved" => "تمت الموافقة عليها",
-    "at_least_one" => "يجب إضافة مسئول واحد على الأقل",
+    "at_least_one" => "يجب إضافة مسؤول واحد على الأقل",
     "attributes" => [
         "FK_establishment_id" => "رقم المنشأة",
         "est_nitaq" => "نطاق المنشأة",
@@ -21,15 +21,15 @@ return [
     "invalid" => "غير صحيح",
     "pending" => "بإنتظار الموافقة",
     "rejected" => "تم رفضها",
-    "remove_responsible" => "حذف مسئول",
+    "remove_responsible" => "حذف مسؤول",
     "responsibles_attributes" => [
-        "id" => "المسئول",
-        "id_number" => "رقم هوية المسئول",
-        "job_name" => "المسمى الوظيفي للمسئول",
-        "responsible_email" => "البريد الإلكتروني للمسئول",
-        "responsible_name" => "إسم المسئول",
-        "responsible_phone" => "رقم جوال المسئول"
+        "id" => "المسؤول",
+        "id_number" => "رقم هوية المسؤول",
+        "job_name" => "المسمى الوظيفي للمسؤول",
+        "responsible_email" => "البريد الإلكتروني للمسؤول",
+        "responsible_name" => "إسم المسؤول",
+        "responsible_phone" => "رقم جوال المسؤول"
     ],
-    "responsibles_data" => "بيانات المسئولين",
+    "responsibles_data" => "بيانات المسؤولين",
     "updated" => "تم تحديث ملف المنشأة بنجاح"
 ];

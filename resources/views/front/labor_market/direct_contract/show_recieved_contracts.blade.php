@@ -134,7 +134,7 @@
                                                     {{ trans('temp_job.work_start_date') }}
                                                     <span class="required">*</span>
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::text('start_date', $contract->start_date, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.work_start_date'), 'class' => 'form-control date-picker' ]) !!}
                                                 </div>
                                             </div>
@@ -143,7 +143,7 @@
                                                     {{ trans('temp_job.work_end_date') }}
                                                     <span class="required">*</span>
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::text('end_date', $contract->end_date, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.work_end_date'), 'class' => 'form-control date-picker' ]) !!}
                                                 </div>
                                             </div>
@@ -152,7 +152,7 @@
                                                     {{ trans('temp_job.region_id') }}
                                                     <span class="required">*</span>
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::select('region_id[]', $regions ,$contract->vacancy->region_id, ['class' => 'bs-select form-control', 'readonly' => 'readonly',  'placeholder' => trans("temp_job.region_id") ]) !!}
                                                 </div>
                                             </div>
@@ -161,7 +161,7 @@
                                                     {{ trans('temp_job.job_type.name') }}
                                                     <span class="required">*</span>
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     <div class="md-radio-inline">
                                                         <div class="md-radio">
                                                             <input type="radio" id="radio6" name="job_type_id" value="1"
@@ -190,7 +190,7 @@
                                                     {{ trans('temp_job.salary') }}
                                                     <span class="required">*</span>
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::text('contract_amount', $contract->vacancy->salary, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.salary'), 'class' => 'form-control' ]) !!}
                                                 </div>
                                             </div>
@@ -199,7 +199,7 @@
                                                     {{ trans('temp_job.contract_locations') }}
                                                     <span class="required">*</span>
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::textarea('contract_locations', @$contract->vacancy->locations[0]->location, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.contract_locations'), 'class' => 'form-control' ]) !!}
                                                 </div>
                                             </div>

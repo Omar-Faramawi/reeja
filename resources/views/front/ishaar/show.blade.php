@@ -14,6 +14,7 @@
 </div>
 <!-- END PAGE HEAD-->
 <!-- BEGIN PAGE CONTENT BODY -->
+@if((isset($_GET['print']) && $contract->status == 'approved') || (isset($_GET['print'])== False))
 <div class="page-content">
     <div class="container">
         <!-- BEGIN PAGE BREADCRUMBS -->
@@ -194,6 +195,7 @@
         <!-- END PAGE CONTENT INNER -->
     </div>
 </div>
+@endif
 <!-- END PAGE CONTENT BODY -->
 <!-- END CONTENT BODY -->
 <div class="modal fade" id="refuse" tabindex="-1" aria-hidden="true">
@@ -207,7 +209,7 @@
          <div class="modal-body form-body">
             <input type="hidden" id='modal-type-r' name='type_r' value='contract'>
             <input type="hidden" id='modal-id-r' name='id_r' value='{{ $contract->id }}'>
-            <div class="form-group form-md-line-input has-info">
+            <div class="form-group has-info">
                <select class="form-control" id="select_reason" name='reason'>
                      <option value=""></option>
                      @if(!empty($reasons))

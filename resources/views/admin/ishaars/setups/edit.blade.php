@@ -73,20 +73,20 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 extra" {{ empty($data->issued_season) ? '' : 'style=display:none;' }}>
+                            <div class="col-md-4 extra" {{ (isset($data) && empty($data->issued_season)) ? '' : 'style=display:none;' }}>
                                 <div class="form-group form-md-line-input">
                                     <label {{ isset($data) ? 'style=top:0;' : "" }} for="period_start_date">{{ trans('ishaar_setup.attributes.period_start_date') }}
-                                    </label>
-                                    {{ Form::text("period_start_date", isset($readableStartDate) ? $readableStartDate : null, ["id"=>"period_start_date", "class" => "form-control", "data-value" => "0"]) }}
+                                    <span class="required">*</span></label>
+                                    {{ Form::text("period_start_date",isset($readableStartDate) ? $readableStartDate : '', ["id"=>"period_start_date", "class" => "form-control", "data-value" => "0"]) }}
                                     <span class="help-block">{{ trans('ishaar_setup.attributes.period_start_date') }}</span>
                                 </div>
                             </div>
 
-                            <div class="col-md-4 extra" {{ empty($data->issued_season) ? '' : 'style=display:none;' }}>
+                            <div class="col-md-4 extra" {{ (isset($data) && empty($data->issued_season)) ? '' : 'style=display:none;' }}>
                                 <div class="form-group form-md-line-input">
                                     <label {{ isset($data) ? 'style=top:0;' : "" }} for="period_end_date">{{ trans('ishaar_setup.attributes.period_end_date') }}
                                         <span class="required">*</span></label>
-                                    {{ Form::text("period_end_date", isset($readableEndDate) ? $readableEndDate : null, ["id"=>"period_end_date", "class" => "form-control", "data-value" => "0"]) }}
+                                    {{ Form::text("period_end_date", isset($readableEndDate) ? $readableEndDate : '', ["id"=>"period_end_date", "class" => "form-control", "data-value" => "0"]) }}
                                     <span class="help-block">{{ trans('ishaar_setup.attributes.period_end_date') }}</span>
                                 </div>
                             </div>
@@ -239,29 +239,36 @@
                                 
                                     <tr>
                                         <td>
-                                    {{ Form::select('jobs', $jobs, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
+                                    {{ Form::select('', $jobs,'', ['id' => 'jobs', 'class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
 
                                         </td>
                                         <td>
-                                    {{ Form::select('nationalities[]', $nationalities, '', ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true", "data-actions-box" => "true", "data-selected-text-format" => "count", 'multiple']) }}
+                                    {{ Form::select('', $nationalities,'', ['id' => 'nationalities', 'class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true", "data-actions-box" => "true", "data-selected-text-format" => "count", 'multiple']) }}
 
-                                            {{-- Form::select('nationalities['.$job->id.'][]', $nationalities, @$selected_nationalities[$job->id], ['class'=>'form-control bs-select', "data-size"=>"8", "data-width" => "300", "data-live-search" => "true", "data-actions-box" => "true", "data-selected-text-format" => "count", 'multiple']) --}}
                                         </td>
                                         <td>
-                                            <button type="button" data-loading-text="{{ trans('labels.loading') }}..."
+                                            <button type="button" data-loading-text="{{ trans('labels.loading') }}..." data-error="{{ trans('ishaar_setup.enter_job_and_nationality') }}"
                                                     class="btn sbold green" id="add_job_nationalities"><i class="fa fa-check"></i> {{ trans('ishaar_setup.attributes.add') }}</button>
                     
                                         </td>
                                     </tr>
                                     <tr id="second_row_in_selected" style="display: none;"><td colspan="3">{{trans('ishaar_setup.selected_jobs')}}</td></tr>
-                                
+                                    @if(isset($selected_nationalities))
+                                    @foreach($selected_nationalities as $key=>$valu)
+                                    <tr>
+                                        <td><input type="hidden" name="job[]" value="{{$key}}">{{$jobs[$key]}}</td>
+                                        <td><input type="hidden" name="nationalities[{{$key}}]" value="@foreach($valu as $val){{$val}},@endforeach">@foreach($valu as $val){{$nationalities[$val]}},@endforeach</td>
+                                        <td><button type="button" class="btn sbold red" id="delete_job_nationalities"><i class="fa fa-check"></i> {{trans('labels.delete')}} </button></td>
+                                    </tr>
+                                    @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
                     <button type="submit" data-token="{{ csrf_token()}}" data-loading-text="{{ trans('labels.loading') }}..."
-                            class="demo-loading-btn btn blue"><i class="fa fa-check"></i> {{ trans('labels.save') }}
+                            class="demo-loading-btn btn blue" id="ishaar_job_national_submit"><i class="fa fa-check"></i> {{ trans('labels.save') }}
                     </button>
                     <a href="{{ url('/admin/ishaar_setup') }}" class="btn default">{{ trans('labels.cancel') }}</a>
                     {{ Form::close() }}

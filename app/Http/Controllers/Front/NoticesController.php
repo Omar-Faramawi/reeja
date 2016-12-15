@@ -133,7 +133,7 @@ class NoticesController extends Controller
                     "text" => trans("ishaar_setup.actions.print"),
                     "url" => url($url),
                     "uri" => "show_ishaar?print=1",
-                    "css_class" => "blue",
+                    "css_class" => "blue printishaar",
                 ]
             ];
 

@@ -16,7 +16,7 @@ return [
         "ishaar_cancel_period" => "مدة صلاحية طلب إلغاء الإشعار",
         "ishaar_cancel_period_type" => "مدة صلاحيه طلب الغاء نوع الاشعار",
         "max_accept_period" => "الحد الأعلى لمدة العقد",
-        "max_accept_period_greater_than" => "الحد الادنى لمدة العقد يجب ان تكون أقل من الحد الاعلى لمدة العقد",
+        "max_accept_period_greater_than" => "الحد الادنى لمدة العقد يجب ان يكون أقل من الحد الاعلى لمدة العقد",
         "max_accept_period_type" => "أقصى مدة للقبول",
         "max_contract_period" => "الحد الاعلى لمدة العقد",
         "max_labor_avb" => "الحد الأقصى لتوفير بيانات العمالة للطرف الآخر قبل سريان العقد",

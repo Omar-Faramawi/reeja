@@ -88,7 +88,7 @@
                                                 <div class="col-md-3 name padding-top-8">
                                                     {{ trans('temp_job.job_id') }}
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::select('job_id', $jobs, @$contract->vacancy->job->id,array_merge([ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.job_id'), 'class' => 'form-control' ], $readonly) ) !!}
                                                 </div>
                                             </div>
@@ -96,7 +96,7 @@
                                                 <div class="col-md-3 name padding-top-8">
                                                     {{ trans('temp_job.nationality_id') }}
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::select('nationality_id', $nationalities, @$contract->vacancy->nationality->id, array_merge([ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.nationality_id'), 'class' => 'form-control' ], $readonly)) !!}
                                                 </div>
                                             </div>
@@ -105,12 +105,12 @@
                                                     {{ trans('temp_job.gender.name') }}
                                                 </div>
                                                 @if($contract->status == Constants::CONTRACT_STATUSES['approved'])
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <div class="col-md-9 value form-group padding-top-8">
                                                     {{ $contract->vacancy->gender_name }}
                                                     {!! Form::hidden('gender', $contract->vacancy->gender_name) !!}
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::select('gender', Constants::gender(), @$contract->vacancy->gender, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.gender.name'), 'class' => 'form-control']) !!}
                                                 </div>
                                                 @endif
@@ -120,12 +120,12 @@
                                                     {{ trans('temp_job.religion_id') }}
                                                 </div>
                                                 @if($contract->status == Constants::CONTRACT_STATUSES['approved'])
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-5">
+                                                <div class="col-md-9 value form-group padding-top-5">
                                                     {{ $contract->vacancy->religion_name }}
                                                     {!! Form::hidden('religion_id', $contract->vacancy->religion_name) !!}
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::select('religion_id', Constants::religions()  ,@$contract->vacancy->religion, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.religion_id'), 'class' => 'form-control']) !!}
                                                 </div>
                                                 @endif
@@ -138,12 +138,12 @@
                                                     <span class="required">*</span>
                                                 </div>
                                                 @if($contract->status == Constants::CONTRACT_STATUSES['approved'])
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <div class="col-md-9 value form-group padding-top-8">
                                                     {{ $contract->start_date }}
                                                     {!! Form::hidden('start_date', $contract->start_date) !!}
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::text('start_date', $contract->start_date, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.work_start_date'), 'class' => 'form-control date-picker' ]) !!}
                                                 </div>
                                                 @endif
@@ -154,12 +154,12 @@
                                                     <span class="required">*</span>
                                                 </div>
                                                 @if($contract->status == Constants::CONTRACT_STATUSES['approved'])
-                                                <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                <div class="col-md-9 value form-group padding-top-8">
                                                     {{ $contract->end_date }}
                                                     {!! Form::hidden('end_date', $contract->end_date) !!}
                                                 </div>
                                                 @else
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::text('end_date', $contract->end_date, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.work_end_date'), 'class' => 'form-control date-picker' ]) !!}
                                                 </div>
                                                 @endif
@@ -171,12 +171,12 @@
                                                     <span class="required">*</span>
                                                 </div>
                                                 @if($contract->status == Constants::CONTRACT_STATUSES['approved'])
-                                                    <div class="col-md-9 value form-group form-md-line-input padding-top-8">
+                                                    <div class="col-md-9 value form-group padding-top-8">
                                                         {{ trans('labor_market.job_type.' . $contract->job_type) }}
                                                         {!! Form::hidden('job_type', $contract->job_type) !!}
                                                     </div>
                                                 @else
-                                                    <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                    <div class="col-md-9 value form-group no-padding-top">
                                                         <div class="md-radio-inline">
                                                             <div class="md-radio">
                                                                 <input type="radio" id="radio6" name="job_type" value="1"
@@ -207,7 +207,7 @@
                                                     {{ trans('temp_job.region_id') }}
                                                     <span class="required">*</span>
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     @if($contract->status == Constants::CONTRACT_STATUSES['approved'])
                                                         {!! Form::select('region_id[]', $regions ,@$contract->contractLocations[0]->region_id, ['class' => 'form-control', 'disabled' => 'disabled',  'placeholder' => trans("temp_job.region_id") ]) !!}
                                                     @else
@@ -220,7 +220,7 @@
                                                     {{ trans('temp_job.contract_locations') }}
                                                     <span class="required">*</span>
                                                 </div>
-                                                <div class="col-md-9 value form-group form-md-line-input no-padding-top">
+                                                <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::textarea('contract_locations', @$contract->contractLocations[0]->desc_location, [ 'placeholder' => trans('labels.enter') . " " . trans('temp_job.contract_locations'), 'class' => 'form-control' ]) !!}
                                                 </div>
                                             </div>

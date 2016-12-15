@@ -257,13 +257,6 @@ table.dataTable {
     text-align: left;
 }
 
-/* fix dropdown overflow issue */
-@media (min-width: 768px){
-    .table-responsive {
-        overflow: visible;
-    }
-}
-
 /** google map styling **/
 #map-custom-container #map {
     width: 100%;
@@ -295,4 +288,17 @@ table.dataTable {
     font-family: Roboto;
     font-size: 13px;
     font-weight: 300;
+}
+
+/* vendor -> select-bootstrap */
+.bs-select.form-control,
+.bootstrap-select.form-control {
+    border-bottom: 0 !important;
+}
+
+
+/* radio , checkbox */
+form .md-radio, {
+form .md-checkbox {
+    margin-top: 10px;
 }
