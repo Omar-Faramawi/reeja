@@ -51,8 +51,7 @@
                                 </div>
                             </div>
                             <div class="portlet-body">
-
-                                <!-- BEGIN FORM-->
+                            <!-- BEGIN FORM-->
                                 @if($contract->status == 'requested')
                                     {!! Form::model($contract, ['route' => [ 'taqawel.contracts.update', $contract->id ], 'method' => 'PUT', 'id' =>'form','files' => true , 'data-url'=> route('taqawel.received-contracts'), 'class' => 'taqawel_contract_edit_form' ]) !!}
                                 @else

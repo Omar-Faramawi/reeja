@@ -163,16 +163,49 @@
                                                     </div>
                                                 @endforeach
                                             @endif
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("contracts.contractStatus")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{trans("labels.contractStatus." . $thisContract['status'])}}
+                                                </div>
+                                            </div>
 
+                                            @if($thisContract['status'] == 'rejected' || $thisContract['status'] == 'cancelled')
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        @if($thisContract['status'] == 'rejected')
+                                                            {{ trans('contracts.cancel_reason') }}
+                                                        @else
+                                                            {{ trans('contracts.rejection_reason') }}
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        @if($thisContract['other_reasons'])
+                                                            {{ $thisContract['other_reasons'] }}
+                                                        @elseif($thisContract['reason_id'])
+                                                            {{ $thisContract['reason']['reason'] }}
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                @if($thisContract['rejection_reason'])
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        @if($thisContract['status'] == 'rejected')
+                                                            {{ trans('contracts.more_details_about_rejection') }}
+                                                        @else
+                                                            {{ trans('contracts.more_details_about_cancellation') }}
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {!! nl2br($thisContract['rejection_reason']) !!}
+                                                    </div>
+                                                </div>
+                                                @endif
+                                            @endif
                                         </div>
-
                                     </div>
-                                    <div class="row">
-                                        <div class="col-lg-3">{{trans("contracts.contractStatus")}}</div>
-                                        <div class="col-lg-2">{{trans("labels.contractStatus." . $thisContract['status'])}}</div>
-                                        <div class="col-lg-7"></div>
-                                    </div>
-                                    <br>
                                 </div>
                             </div>
                         @else

@@ -113,7 +113,7 @@ class Vacancy extends BaseModel
      */
     public function getGenderNameAttribute()
     {
-        return Constants::GENDER($this->gender);
+        return Constants::VacancyGENDER($this->gender);
     }
 
     /**

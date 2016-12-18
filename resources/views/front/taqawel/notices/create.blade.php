@@ -58,6 +58,14 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.attributes.contract_nature_id')}}</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control input-circle"
+                                                       value="{{ $contract->contractNature->name }}"
+                                                       disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.form_attributes.benifit_no')}}</label>
                                             <div class="col-md-4">
                                                 <input type="text" name='benef_id' id="benef_id"
@@ -107,6 +115,21 @@
                                         <input name="provider_activity" id="provider_activity" type="hidden" value="{{$contract->provider->activity_id or ''}}" >
                                         <input name="benf_activity" id="benf_activity" type="hidden" value="{{$contract->benef->activity_id or ''}}" >
                                         <input name="benf_FK" type="hidden" id="benf_FK" value="{{$contract->benef->FK_establishment_id or ''}}" >
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.attributes.contract_start_date')}}</label>
+                                            <div class="col-md-4">
+                                                <input type="text" value="{{$contract->start_date}}"
+                                                       class="form-control input-circle date-picker" disabled="disabled" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.attributes.contract_end_date')}}</label>
+                                            <div class="col-md-4">
+                                                <input type="text" value="{{$contract->end_date}}"
+                                                       class="form-control input-circle date-picker" disabled="disabled">
+                                            </div>
+                                            </div>
 
                                         @if(!count($accountType))
 
@@ -155,6 +178,7 @@
                                             </div>
 
                                         @endif
+                                        
                                         <input type="hidden" id="contract_start_date" value="{{$contract->start_date}}"/>
                                         <input type="hidden" id="contract_end_date" value="{{$contract->end_date}}"/>
 

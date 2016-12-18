@@ -637,6 +637,10 @@ class TaqawelServicesController extends Controller
                 $reasonLabel = 'contracts.reset_back_reason';
             }
 
+            if($contract->expired) {
+                $contract->status = 'expired';
+            }
+
         } catch (ModelNotFoundException $e) {
             abort(404);
         }

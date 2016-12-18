@@ -9,6 +9,7 @@
                     <div class="col-md-12">
                         @if(isset($thisContract))
                             <div class="portlet light portlet-fit portlet-datatable">
+
                                 <div class="portlet-title">
                                     <div class="caption">
                                         <i class="fa fa-info-circle"></i>{{trans("contracts.contractDetails")}}
@@ -20,7 +21,9 @@
                                             <div class="caption">
                                                 <i class="fa fa-info-circle"></i>{{trans("offers.providerInfo")}}</div>
                                         </div>
+
                                         <div class="portlet-body">
+
                                             <div class="row static-info">
                                                 <div class="col-md-3 name">
                                                     {{trans("offers.providerName")}}
@@ -120,12 +123,41 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-3">{{trans("contracts.contractStatus")}}</div>
-                                        <div class="col-lg-2">{{trans("labels.contractStatus." . $thisContract['status'])}}</div>
-                                        <div class="col-lg-7"></div>
+                                        <div class="col-lg-9">{{trans("labels.contractStatus." . $thisContract['status'])}}</div>
                                     </div>
-                                    <br>
 
-
+                                    @if($thisContract['status'] == 'rejected' || $thisContract['status'] == 'cancelled')
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                @if($thisContract['status'] == 'rejected')
+                                                    {{ trans('contracts.cancel_reason') }}
+                                                @else
+                                                    {{ trans('contracts.rejection_reason') }}
+                                                @endif
+                                            </div>
+                                            <div class="col-lg-9">
+                                                @if($thisContract['other_reasons'])
+                                                    {{ $thisContract['other_reasons'] }}
+                                                @elseif($thisContract['reason_id'])
+                                                    {{ $thisContract['reason']['reason'] }}
+                                                @endif
+                                            </div>
+                                        </div>
+                                        @if($thisContract['rejection_reason'])
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                @if($thisContract['status'] == 'rejected')
+                                                    {{ trans('contracts.more_details_about_rejection') }}
+                                                @else
+                                                    {{ trans('contracts.more_details_about_cancellation') }}
+                                                @endif
+                                            </div>
+                                            <div class="col-lg-9">
+                                                {!! nl2br($thisContract['rejection_reason']) !!}
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
                                 </div>
                             </div>
                         @else

@@ -140,6 +140,9 @@
 					<li class="nav-item {{ (request()->route()->getName() == 'admin.reports.countriesIshaars' )? 'active open selected':'' }}">
 						<a class="nav-link" href="{{ route('admin.reports.countriesIshaars') }}">{{ trans('labels.reports.countriesIshaars') }}</a>
 					</li>
+					<li class="nav-item {{ (request()->route()->getName() == 'IshaarStatusReport' )? 'active open selected':'' }}">
+						<a class="nav-link" href="{{ route('IshaarStatusReport') }}">{{ trans('labels.reports.ishaarStatusReport') }}</a>
+					</li>
 					<li class="nav-item {{ (request()->route()->getName() == 'IshaarReportChart' )? 'active open selected':'' }}">
 						<a class="nav-link" href="{{ route('IshaarReportChart') }}">{{ trans('labels.reports.ishaarReport') }}</a>
 					</li>

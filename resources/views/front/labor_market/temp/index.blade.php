@@ -35,9 +35,9 @@
                             <div class="col-md-12">
                                 <label for="gender">{{ trans('temp_job.service_type') }}</label>
 								@if( $occasionalWork )
-									{{ Form::select('service_type', \Tamkeen\Ajeer\Utilities\Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => url('occasional-work/labor-market') , 'placeholder' => trans('labels.default')]) }}
+									{{ Form::select('service_type', Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => url('occasional-work/labor-market') , 'placeholder' => trans('labels.default')]) }}
 								@else
-									{{ Form::select('service_type', \Tamkeen\Ajeer\Utilities\Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => url('temp_work/labor-market') , 'placeholder' => trans('labels.default')]) }}
+									{{ Form::select('service_type', Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => url('temp_work/labor-market') , 'placeholder' => trans('labels.default')]) }}
 								@endif
                             </div>
 
@@ -57,8 +57,8 @@
 
                                             <tr role="row" class="heading">
                                                 <th id="check" class="no-sort"></th>
-                                                <th id="{{ ( session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'] ) ? 'vacancy_name' : 'provider_name' }}"
-                                                    class="no-sort" width="120"> {{ ( session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>
+                                                <th id="{{ ( session()->get('service_type') === Constants::SERVICETYPES['provider'] ) ? 'vacancy_name' : 'provider_name' }}"
+                                                    class="no-sort" width="120"> {{ ( session()->get('service_type') === Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>
                                                 @if( session()->get('service_type') === Constants::SERVICETYPES['benf'])
                                                 <th id="name" width="120"
                                                     class="no-sort"> {{ trans('temp_job.name') }} </th>
@@ -93,7 +93,11 @@
                                                     {{ Form::select('job_id', @$jobs , null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
                                                 </td>
                                                 <td>
-                                                    {{ Form::select('gender', \Tamkeen\Ajeer\Utilities\Constants::gender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                    @if( session()->get('service_type') === Constants::SERVICETYPES['provider'])
+                                                        {{ Form::select('gender', Constants::vacancyGender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                    @else
+                                                        {{ Form::select('gender', Constants::gender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                    @endif
                                                 <td>
                                                     {{ Form::select('nationality_id', $nationalities, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
                                                 </td>
@@ -134,7 +138,7 @@
                                         </table>
                                     </div>
 
-                                    @if( session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['benf'] )
+                                    @if( session()->get('service_type') === Constants::SERVICETYPES['benf'] )
                                         <button type="button" class="btn blue pull-right" id="select_employees_benf"
                                             value="pending">{{ trans('temp_job.add') }}</button>
                                     @endif
@@ -151,7 +155,7 @@
                                         <table id="selected_employees_benf" class="table table-striped table-bordered">
                                             <thead>
                                                 <tr role="row" class="heading">
-                                                    <th width="120"> {{ ( session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>
+                                                    <th width="120"> {{ ( session()->get('service_type') === Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>
                                                     <th width="120"> {{ trans('temp_job.name') }} </th>
                                                     <th> {{ trans('temp_job.job_id') }} </th>
                                                     <th> {{ trans('temp_job.gender.name') }} </th>
@@ -174,7 +178,7 @@
                 </div>
             </div>
 
-            @if( session()->get('service_type') === \Tamkeen\Ajeer\Utilities\Constants::SERVICETYPES['benf'] )
+            @if( session()->get('service_type') === Constants::SERVICETYPES['benf'] )
             <div class="row">
                 <div class="col-md-12">
                     <button class="btn btn-primary btn-lg pull-right" value="" name="id" data-token="{{ csrf_token() }}" data-url="{{ request()->fullUrl() }}" data-route="{{ route('temp_work_labor_market.ask_offer') }}" id="ask-offer">{{ trans('temp_job.get_offer') }}</button>

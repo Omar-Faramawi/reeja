@@ -115,29 +115,25 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-8">
-                                                        <div class="md-radio">
-                                                            <input type="radio" name="gender" value="1"
-                                                                   class="md-radiobtn"
-                                                                   @if ($vacancy->gender == 1) checked @endif />
-
-                                                            <label for="male">
-                                                                <span></span>
-                                                                <span class="check"></span>
-                                                                <span class="box"></span> {{ trans('vacancies.gender.1') }}
-                                                            </label>
+                                                        <div class="md-checkbox-inline">
+                                                            <div class="md-checkbox">
+                                                                {{ Form::checkbox('gender_male', 1,($vacancy->gender ==1 || $vacancy->gender ==2), ['id' => 'checkbox4', 'class' => 'md-check']) }}
+                                                                <label for="checkbox4">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> {{trans('ishaar_setup.gender.1')}}
+                                                                </label>
+                                                            </div>
+                                                            <div class="md-checkbox">
+                                                                {!! Form::checkbox('gender_female', 1,($vacancy->gender ==0 || $vacancy->gender ==2), ['id' => 'checkbox5', 'class' => 'md-check']) !!}
+                                                                <label for="checkbox5">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> {{trans('ishaar_setup.gender.0')}}
+                                                                </label>
+                                                            </div>
                                                         </div>
-                                                        <div class="md-radio">
-                                                            <input type="radio" name="gender" value="0"
-                                                                   class="md-radiobtn"
-                                                                   @if ($vacancy->gender == 0) checked @endif/>
-
-                                                            <label for="female">
-                                                                <span></span>
-                                                                <span class="check"></span>
-                                                                <span class="box"></span> {{ trans('vacancies.gender.0') }}
-                                                            </label>
-                                                        </div>
-                                                        <div id="form_2_gender_error"></div>
+                                                       
                                                     </div>
                                                 </div>
 

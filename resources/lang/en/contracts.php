@@ -102,5 +102,7 @@ return [
     ],
     "undo_invoice_notice" => "<strong>Note: </strong> In case you have generated an invoice and needed to undo this action, you will have to wait 3 days till the invoice expires, then it is declined automatically",
     "updated" => "Updated",
-    "work_completion_cert" => "Generate Work Completion Certificate"
+    "work_completion_cert" => "Generate Work Completion Certificate",
+    "more_details_about_rejection" => "More details about rejection reason",
+    "more_details_about_cancellation" => "More details about cancellation reason"
 ];

@@ -65,7 +65,11 @@
                                                     @endif
                                                     <td>{{ $contract->start_date }}</td>
                                                     <td>{{ $contract->end_date }}</td>
-                                                    <td>{{ trans('contracts.statuses.'.$contract->status) }}</td>
+                                                    @if($contract->status == "approved" && $contract->expired)
+                                                        <td>{{ trans('labels.contractStatus.expired') }}</td>
+                                                    @else
+                                                        <td>{{ trans('contracts.statuses.'.$contract->status) }}</td>
+                                                    @endif
                                                     <td>
                                                         @if($isProvider)
                                                             @if($contract->status == "pending")
@@ -74,7 +78,7 @@
                                                                     class="btn blue btn-sm">{{ trans('contracts.action_buttons.offer_details') }}</a>
                                                             @endif
                                                         @else
-                                                            @if($contract->status == "pending" || $contract->status == "approved")
+                                                            @if($contract->status == "pending" || ($contract->status == "approved" && !$contract->expired))
                                                                 <a type="button"
                                                                    href="{{ url('direct-hiring-contract/'.$contract->id.'/edit') }}"
                                                                    class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>

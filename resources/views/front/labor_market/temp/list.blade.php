@@ -66,7 +66,13 @@
                                                 @endif
                                                 <td>{{ $contract->start_date }}</td>
                                                 <td>{{ $contract->end_date }}</td>
-                                                <td>{{ trans('contracts.statuses.'.$contract->status) }}</td>
+
+                                                @if($contract->status == "approved" && $contract->expired)
+                                                    <td>{{ trans('labels.contractStatus.expired') }}</td>
+                                                @else
+                                                    <td>{{ trans('contracts.statuses.'.$contract->status) }}</td>
+                                                @endif
+
                                                 <td>
                                                     @if($isProvider)
                                                         @if($contract->status == "requested")
@@ -84,7 +90,7 @@
                                                             <a type="button"
                                                                href="{{ url('contracts/cancellation/provider/'.$contract->id) }}"
                                                                class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
-                                                        @elseif($contract->status == "pending" || $contract->status == "approved")
+                                                        @elseif($contract->status == "pending" || ($contract->status == "approved" && !$contract->expired))
                                                             <a type="button"
                                                                    href="{{ route('tempwork.contracts.edit', ['id' => $contract->id] ) }}"
                                                                    class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>
@@ -103,7 +109,7 @@
                                                             <a type="button"
                                                                href="{{ url('contracts/cancelation/beneficial/'.$contract->id) }}"
                                                                class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
-                                                        @elseif($contract->status == "approved")
+                                                        @elseif($contract->status == "approved" && !$contract->expired)
                                                             <a type="button"
                                                                href="{{ url('contracts/'.$contract->id.'/cancel') }}"
                                                                class="btn red btn-sm">{{ trans('temp_job.reset') }}</a>

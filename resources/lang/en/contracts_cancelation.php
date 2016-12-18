@@ -41,5 +41,6 @@ return [
     "service_description" => "Service description",
     "should_be_confirmed" => "You Should Accept all reports Firstly ..",
     "single_ishaar" => "Ishaar",
-    "user" => "User"
+    "user" => "User",
+    "contract_value" => "Contract value"
 ];

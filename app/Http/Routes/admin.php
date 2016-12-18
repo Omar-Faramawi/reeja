@@ -184,6 +184,22 @@ Route::group(['middleware' => ['admin_auth']], function () {
                     'uses' => 'Admin\Reports\IshaarRegionsReportController@getIshaarByRegion'
                 ]);
 
+            /* Ishaar  Status reports*/
+            Route::get('/ishaar-status-report',
+                ['as' => 'IshaarStatusReport', 'uses' => 'Admin\Reports\IshaarStatusReportController@index']);
+
+            Route::get('/ishaar-status-report-chart/{startDate?}/{endDate?}',
+                [
+                    'as'   => 'reportStatusChart',
+                    'uses' => 'Admin\Reports\IshaarStatusReportController@ishaarStatusReportChart'
+                ]);
+
+            Route::get('/get-ishaar-by-status/{status}',
+                [
+                    'as'   => 'getIshaarByIshaarStatus',
+                    'uses' => 'Admin\Reports\ishaarStatusReportController@getIshaarByIshaarStatus'
+                ]);
+
             /* Ishaar Laborer status Reports*/
             Route::get('/ishaar-laborer-status-report',
                 [

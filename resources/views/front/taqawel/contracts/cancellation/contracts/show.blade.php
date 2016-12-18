@@ -58,7 +58,7 @@
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_benef') }}</label> : <span id='benf_name'>{{ $contract->benf_name }}</span></div>
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_start_date') }} </label> : <span id='start_date'>{{ $contract->start_date }}</span></div>
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_end_date') }}</label> : <span id='end_date'>{{ $contract->end_date }}</span></div>
-                           <div class="col-md-6"><label id='amount'>{{ trans('contracts_cancelation.amount') }}</label> : <span id='amount'>{{ $contract->contract_amount }}</span></div>
+                           <div class="col-md-6"><label id='amount'>{{ trans('contracts_cancelation.contract_value') }}</label> : <span id='amount'>{{ $contract->contract_amount }}</span></div>
                            <div class="col-md-6"><label id='desc'>{{ trans('contracts_cancelation.service_description') }}</label> : <span id='desc'>{{ $contract->marketTaqawoulServices->description }}</span></div>
 
 
@@ -87,7 +87,7 @@
                                     <tbody>
                                        @foreach($contract->contractEmployee as $one)
                                        <tr>
-                                          <td>{{ $one->hrPool->job->job_name }}</td>
+                                          <td>{{ $one->hrPool->job->job_name or '' }}</td>
                                           <td>{{ \Tamkeen\Ajeer\Utilities\Constants::gender()[$one->hrPool->gender] }}</td>
                                           <td>{{ $one->hrPool->nationality->name }}</td>
                                           <td>{{ $one->start_date }}</td>

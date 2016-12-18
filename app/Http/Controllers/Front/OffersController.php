@@ -213,7 +213,8 @@ class OffersController extends Controller
     {
         $contract = Contract::findOrFail($id);
         $contract->reason_id = $offerRejectRequest->reason_id;
-        $contract->rejection_reason = $offerRejectRequest->other_reason;
+        $contract->other_reasons = $offerRejectRequest->other_reason;
+        $contract->rejection_reason = $offerRejectRequest->extraDetails;
         $contract->status = "rejected";
         $contract->save();
 

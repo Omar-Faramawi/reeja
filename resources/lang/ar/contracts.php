@@ -104,5 +104,7 @@ return [
     ],
     "undo_invoice_notice" => "<strong>تنبيه: </strong> في حالة إصدار فاتورة ثم الرغبة في التراجع عن العملية، يجب الإنتظار 3 أيام حتى إنتهاء صلاحية الفاتورة وبالتالي يتم إلغاؤها تلقائياً",
     "updated" => "تم التعديل",
-    "work_completion_cert" => "إصدار شهادة إتمام عمل مؤقت"
+    "work_completion_cert" => "إصدار شهادة إتمام عمل مؤقت",
+    "more_details_about_rejection" => "تفاصيل أخرى متعلقة بسبب الرفض",
+    "more_details_about_cancellation" => "تفاصيل أخرى متعلقة بسبب الإلغاء"
 ];

@@ -28,75 +28,164 @@
                                             {{ trans('contracts.can_delete') }}
                                         </div>
                                     @endif
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('temp_job.service_provider_name') }}</p>
-                                        <p><i>{{ $contract->provider_name  }}</i></p>
+                                    <div class="portlet grey-cascade box">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-info-circle"></i>{{trans("temp_job.service_provider_info")}}
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("temp_job.service_provider_name")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$contract->provider_name}}
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("temp_job.service_provider_number")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$contract->provider_id}}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('temp_job.service_provider_number') }}</p>
-                                        <p><i>{{ $contract->provider_id }}</i></p>
+                                    <div class="portlet grey-cascade box">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-info-circle"></i>{{trans("temp_job.service_benf_info")}}
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("temp_job.service_benf_name")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$contract->benf_name}}
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("temp_job.service_benf_number")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$contract->benf_id}}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('temp_job.service_benf_name') }}</p>
-                                        <p><i>{{ $contract->benf_name }}</i></p>
-                                    </div>
-
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('temp_job.service_benf_number') }}</p>
-                                        <p><i>{{ $contract->benf_id }}</i></p>
-                                    </div>
-
-                                    <div class="caption">
-                                        <h5>{{ trans('temp_job.application_info') }}</h5><br>
-                                    </div>
-
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('tqawel_offer_contract.contract_name') }}</p>
-                                        <p><i>{{ $contract->contract_name }}</i></p>
-                                    </div>
-
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('tqawel_offer_contract.contract_desc') }}</p>
-                                        <p><i>{{ $contract->contract_desc }}</i></p>
-                                    </div>
-
-
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('tqawel_offer_contract.contract_nature') }}</p>
-                                        <p><i>{{ $contract->contractNature->name }}</i></p>
-                                    </div>
-
-
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('tqawel_offer_contract.work_locations') }}</p>
-                                        <p>
-                                            @if($contract->contractLocations->pluck('desc_location')->count() > 0)
-                                                @foreach($contract->contractLocations->pluck('desc_location')->toArray() as $location)
-                                                    @if(!empty($location))
-                                                    {{$location }} <br>
+                                    <div class="portlet grey-cascade box">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-info-circle"></i>{{trans("temp_job.application_info")}}
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqawel_offer_contract.contract_name")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$contract->contract_name}}
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqawel_offer_contract.contract_desc")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$contract->contract_desc}}
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqawel_offer_contract.contract_nature")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$contract->contractNature->name}}
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqawel_offer_contract.work_locations")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    @if($contract->contractLocations->pluck('desc_location')->count() > 0)
+                                                        @foreach($contract->contractLocations->pluck('desc_location')->toArray() as $location)
+                                                            @if(!empty($location))
+                                                                {{$location }} <br>
+                                                            @endif
+                                                        @endforeach
                                                     @endif
-                                                @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqawel_offer_contract.start_date")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$contract->start_date}}
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqawel_offer_contract.end_date")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{$contract->end_date}}
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("contracts.contractStatus")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{trans("labels.contractStatus." . $contract->status)}}
+                                                </div>
+                                            </div>
+
+                                            @if($contract->status == 'rejected' || $contract->status == 'cancelled')
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        @if($contract->status == 'rejected')
+                                                            {{ trans('contracts.cancel_reason') }}
+                                                        @else
+                                                            {{ trans('contracts.rejection_reason') }}
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        @if($contract->other_reasons)
+                                                            {{ $contract->other_reasons }}
+                                                        @elseif($contract->reason_id)
+                                                            {{ $contract->reason->reason }}
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                @if($contract->rejection_reason)
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        @if($contract->status == 'rejected')
+                                                            {{ trans('contracts.more_details_about_rejection') }}
+                                                        @else
+                                                            {{ trans('contracts.more_details_about_cancellation') }}
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {!! nl2br($contract->rejection_reason) !!}
+                                                    </div>
+                                                </div>
+                                                @endif
                                             @endif
-                                        </p>
+                                        </div>
                                     </div>
-
-
-
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('tqawel_offer_contract.start_date') }}</p>
-                                        <p><i>{{ $contract->start_date }}</i></p>
-                                    </div>
-
-                                    <div class="form-group form-md-line-input">
-                                        <p>{{ trans('tqawel_offer_contract.end_date') }}</p>
-                                        <p><i>{{ $contract->end_date }}</i></p>
-                                    </div>
-
                                 </div>
                             </div>
-
                         </div>
 
                         @if(isset($wantReject))

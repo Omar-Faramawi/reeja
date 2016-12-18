@@ -25,6 +25,7 @@ return [
     "confirm" => "تأكيد",
     "contractStatus" => [
         "approved" => "Approved",
+        "expired" => "Expired",
         "benef_cancel" => "Benef Cancel",
         "cancelled" => "Cancelled",
         "pending" => "Pending",
@@ -81,6 +82,7 @@ return [
     "just_add" => "Add",
     "loading" => "Loading",
     "male" => "Male",
+    "male_or_female" => "Male Or Female",
     "max_arrived" => "You don't allowed to enter this page",
     "menu" => [
         "contract_name" => "Contracts",
@@ -155,7 +157,8 @@ return [
         "ishaarReport" => "Ishaar Report",
         "ishaarTypesGrouped" => "Generated notices for ishaar types",
         "jobsChart" => "Generated notices for jobs",
-        "mainTitle" => "reports"
+        "mainTitle" => "reports",
+        "ishaarStatusReport" => "Ishaar report according to status",
     ],
     "request_approve" => "Request Approve",
     "requested" => "requested",

@@ -14,6 +14,7 @@
 </div>
 <!-- END PAGE HEAD-->
 <!-- BEGIN PAGE CONTENT BODY -->
+@if((isset($_GET['print']) && $contract->status == 'approved') || (isset($_GET['print'])== False))
 <div class="page-content">
     <div class="container">
         <!-- BEGIN PAGE BREADCRUMBS -->
@@ -59,6 +60,15 @@
                                             </div>
 
                                             <div class="form-group">
+                                                <label class="col-md-3 control-label text-right">{{trans('ishaar_setup.attributes.contract_nature_id')}}</label>
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control input-circle"
+                                                           value="{{ $contract->contract->contractNature->name }}"
+                                                           disabled="disabled">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
                                                 <label class="col-md-3 control-label">{{trans('ishaar_setup.form_attributes.benifit_no')}}</label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
@@ -87,6 +97,30 @@
                                                         <input type="text" class="form-control input-circle-left" value="{{$contract->contract->benef->est_activity or ''}}" disabled="disabled">
                                                         <span class="input-group-addon input-circle-right">
                                                             <i class="fa fa-user"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">{{trans('ishaar_setup.attributes.contract_start_date')}}</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control input-circle-left" value="{{$contract->contract->start_date or ''}}" disabled="disabled">
+                                                        <span class="input-group-addon input-circle-right">
+                                                           <i class="fa fa-microphone"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">{{trans('ishaar_setup.attributes.contract_end_date')}}</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control input-circle-left" value="{{$contract->contract->end_date or ''}}" disabled="disabled">
+                                                        <span class="input-group-addon input-circle-right">
+                                                           <i class="fa fa-microphone"></i>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -159,9 +193,9 @@
                                                             <td class="success"> {{$contract->hrPool->name or ''}} </td>
                                                             <td class="warning"> {{$contract->hrPool->nationality->name or ''}} </td>
                                                             <td class="danger"> {{$contract->hrPool->job->job_name or ''}} </td>
-                                                            <td class="active"> @if($contract->hrPool){{Tamkeen\Ajeer\Utilities\Constants::gender($contract->hrPool->gender)}} @endif</td>
+                                                            <td class="active"> {{ $contract->hrPool->gender_name or '' }}</td>
                                                             <td class="success"> {{$contract->hrPool->age or ''}} </td>
-                                                            <td class="warning"> @if($contract->hrPool){{ Tamkeen\Ajeer\Utilities\Constants::religions($contract->hrPool->religion)}}@endif </td>
+                                                            <td class="warning"> {{ $contract->hrPool->religion_name or '' }}</td>
                                                         </tr>
 
                                                     </tbody>
@@ -196,6 +230,7 @@
         <!-- END PAGE CONTENT INNER -->
     </div>
 </div>
+@endif
 <!-- END PAGE CONTENT BODY -->
 <!-- END CONTENT BODY -->
 <div class="modal fade" id="refuse" tabindex="-1" aria-hidden="true">

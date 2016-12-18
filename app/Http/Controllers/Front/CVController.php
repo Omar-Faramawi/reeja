@@ -19,7 +19,6 @@ class CVController extends Controller
     {
         $user = auth()->user();
         $data = HRPool::me()->first();
-        
         // Extracts the first character from the National ID
         $nidChar = substr($user->national_id, 0, 1);
         

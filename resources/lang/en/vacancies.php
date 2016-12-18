@@ -20,7 +20,9 @@ return [
         "salary" => "Salary",
         "work_areas" => "Work Areas",
         "work_end_date" => "Work End Date",
-        "work_start_date" => "Work Start Date"
+        "work_start_date" => "Work Start Date",
+        "choose_gender_male" => "Male Field Is Required In Case of The Female field doesn't choosed",
+        "choose_gender_female" => "Female Field Is Required In Case of The Male field doesn't choosed",
     ],
     "gender" => [
         "Female",

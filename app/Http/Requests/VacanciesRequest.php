@@ -44,7 +44,8 @@ class VacanciesRequest extends Request
             return [
                 'job_id'          => 'required|integer',
                 'no_of_vacancies' => 'required|integer',
-                'gender'          => 'required',
+                'gender_male'     => 'required_without:gender_female|in:0,1',
+                'gender_female'   => 'required_without:gender_male|in:0,1',
                 'religion'        => 'required',
                 'region_id'       => 'required',
                 'nationality_id'  => 'required',
@@ -84,6 +85,18 @@ class VacanciesRequest extends Request
             'job_id'          => trans('vacancies.form_attributes.job'),
             'nationality_id'  => trans('vacancies.form_attributes.nationality'),
             'region_id'       => trans('vacancies.form_attributes.region_id'),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'gender_male.required_without'                     => trans('vacancies.form_attributes.choose_gender_male'),
+            'gender_female.required_without'                     => trans('vacancies.form_attributes.choose_gender_female'),
+
         ];
     }
 }

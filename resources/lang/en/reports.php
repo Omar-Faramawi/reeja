@@ -74,5 +74,6 @@ return [
     "sub-headings" => "Reports",
     "to" => "To",
     "top_ten_ishaars" => "Top ten activities based on number if ishaars",
-    "type" => "Type"
+    "type" => "Type",
+    "status" => "Status"
 ];

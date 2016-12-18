@@ -41,5 +41,6 @@ return [
     "service_description" => "وصف الخدمة",
     "should_be_confirmed" => "يجب أن توافق على الاقرارات أعلاه أولا ..",
     "single_ishaar" => "الاشعار",
-    "user" => "المستخدم"
+    "user" => "المستخدم",
+    "contract_value" => "قيمة العقد"
 ];

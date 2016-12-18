@@ -48,7 +48,7 @@
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_benef') }}</label> : <span id='benf_name'>{{ $contract->benf_name }}</span></div>
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_start_date') }} </label> : <span id='start_date'>{{ $contract->start_date }}</span></div>
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_end_date') }}</label> : <span id='end_date'>{{ $contract->end_date }}</span></div>
-                           <div class="col-md-6"><label id='amount'>{{ trans('contracts_cancelation.amount') }} : </label><span id='amount'>{{ $contract->contract_amount }}</span></div>
+                           <div class="col-md-6"><label id='amount'>{{ trans('contracts_cancelation.contract_value') }} : </label><span id='amount'>{{ $contract->contract_amount }}</span></div>
                            <div class="col-md-6"><label id='job'>{{ trans('contracts_cancelation.job') }} : </label><span id='job'>{{ $contract->vacancy->job->job_name or '' }}</span></div>
                            <div class="col-md-6"><label id='nationality'>{{ trans('contracts_cancelation.nationality') }} : </label><span id='nationality'>{{ $contract->vacancy->nationality->name or '' }}</span></div>
                            <div class="col-md-6"><label id='gender'>{{ trans('contracts_cancelation.gender') }} : </label><span id='gender'>{{ $contract->vacancy->gender_name or '' }}</span></div>
@@ -80,7 +80,7 @@
                                     <tbody>
                                        @foreach($contract->contractEmployee as $one)
                                        <tr>
-                                          <td>{{ $one->hrPool->job->job_name }}</td>
+                                          <td>{{ $one->hrPool->job->job_name or ''}}</td>
                                           <td>{{ \Tamkeen\Ajeer\Utilities\Constants::gender()[$one->hrPool->gender] }}</td>
                                           <td>{{ $one->hrPool->nationality->name }}</td>
                                           <td>{{ $one->start_date }}</td>

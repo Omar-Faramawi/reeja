@@ -27,6 +27,7 @@ return [
         "approved" => "معتمد",
         "benef_cancel" => "ملغى من قبل المستفيد",
         "cancelled" => "ملغى",
+        "expired" => "منتهي",
         "pending" => "بانتظار الموافقة",
         "pending_ownership" => "بانتظار موافقة الكفيل",
         "provider_cancel" => "ملغى من قبل المزود",
@@ -80,6 +81,7 @@ return [
     "just_add" => "إضافة",
     "loading" => "جار التحميل",
     "male" => "ذكر",
+    "male_or_female" => "ذكر أو أنثى",
     "max_arrived" => "غير مسموح لك بدخول هذه الصفحه",
     "menu" => [
         "contract_name" => "العقود",
@@ -153,7 +155,8 @@ return [
         "ishaarReport" => "الإشعارات الصادرة حسب نوع الجهة",
         "ishaarTypesGrouped" => "الإشعارات الصادرة حسب نوع الإشعار",
         "jobsChart" => "الإشعارات الصادرة حسب المهنة",
-        "mainTitle" => "التقارير"
+        "mainTitle" => "التقارير",
+        "ishaarStatusReport" => 'الاشعارات الصادرة حسب حالة الاشعار',
     ],
     "request_approve" => "طلب التفعيل",
     "requested" => "مطلوب",

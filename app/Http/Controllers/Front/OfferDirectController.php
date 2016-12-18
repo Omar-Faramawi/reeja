@@ -35,7 +35,7 @@ class OfferDirectController extends Controller
                     }
                     ,
                 ]);
-            if (request()->input('job_name') || request()->input('region_name') || request()->input('religion_name') || request()->input('gender_name')) {
+            if (request()->input('job_name') || request()->input('region_name') || request()->input('religion_name') || request()->input('gender_name') || request()->input('gender_name') === '0') {
                 $data = $data->whereHas('vacancy', function ($q) {
                     if (request()->input('job_name')) {
                         $q->where('job_id', request()->input('job_name'));
@@ -46,12 +46,8 @@ class OfferDirectController extends Controller
                     if (request()->input('religion_name')) {
                         $q->where('religion', request()->input('religion_name'));
                     }
-                    if (request()->input('gender_name')) {
-                        if (request()->input('gender_name') == 'male') {
-                            $q->where('gender', '1');
-                        } else {
-                            $q->where('gender', '0');
-                        }
+                    if (request()->input('gender_name') || request()->input('gender_name') === '0') {
+                        $q->where('gender', request()->input('gender_name'));
                     }
                 });
             }
@@ -89,7 +85,7 @@ class OfferDirectController extends Controller
         }
         $jobs = Job::get()->pluck('job_name', 'id');
         $regions = Region::get()->pluck('name', 'id');
-        $genders = ['female' => trans('registration.female'), 'male' => trans('registration.male')];
+        $genders = Constants::vacancyGender();
         $religions = Constants::religions(['file' => 'registration.religions']);
         return view("front.offersdirect.index", compact('jobs', 'regions', 'genders', 'religions'));
     }
@@ -227,7 +223,8 @@ class OfferDirectController extends Controller
         });*/
 
         $contract->reason_id = $offerRejectRequest->reason_id;
-        $contract->rejection_reason = $offerRejectRequest->other_reason;
+        $contract->other_reasons = $offerRejectRequest->other_reason;
+        $contract->rejection_reason = $offerRejectRequest->extraDetails;
         $contract->status = "rejected";
         $contract->save();
 

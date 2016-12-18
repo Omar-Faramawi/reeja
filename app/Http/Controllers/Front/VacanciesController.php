@@ -114,6 +114,15 @@ class VacanciesController extends Controller
         if (!$data['hide_salary']) {
             $data['hide_salary'] = '0';
         }
+        if($request->input('gender_male') && $request->input('gender_female')){
+            $data['gender'] =2;
+        }
+        elseif($request->input('gender_male')){
+            $data['gender'] =1;
+        }
+        elseif($request->input('gender_female')){
+            $data['gender'] =0;
+        }
         $save              = Vacancy::create($data);
         if ($request->work_areas) {
             $add               = new VacancyLocations;
@@ -154,6 +163,15 @@ class VacanciesController extends Controller
     public function update(VacanciesRequest $request, $id)
     {
         $data = $request->only(array_keys($request->rules()));
+        if($request->input('gender_male') && $request->input('gender_female')){
+            $data['gender'] =2;
+        }
+        elseif($request->input('gender_male')){
+            $data['gender'] =1;
+        }
+        elseif($request->input('gender_female')){
+            $data['gender'] =0;
+        }
         $update = Vacancy::findOrFail($id)->update($data);
         if ($request->work_areas) {
             $add = new VacancyLocations;

@@ -2,11 +2,12 @@
 
 namespace Tamkeen\Ajeer\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tamkeen\Ajeer\Utilities\Constants;
 
-class  Contract extends BaseModel
+class Contract extends BaseModel
 {
 
     use SoftDeletes;
@@ -34,6 +35,7 @@ class  Contract extends BaseModel
         'status_alias',
         'cancelled_employees',
         'cancelled_employees_by_others',
+        'expired'
     ];
 
     /**
@@ -723,5 +725,33 @@ class  Contract extends BaseModel
         } else {
             return array_search('provider', Constants::PRVD_BENF_SHORTCUT);
         }
+    }
+
+
+    /**
+     * Check if contract is expired contract status
+     *
+     * @return bool
+     */
+    public function getExpiredAttribute()
+    {
+        $contractEndDate = Carbon::parse($this->end_date);
+        $today           = Carbon::now();
+
+        if($this->status  == 'approved' && $contractEndDate->lt($today)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * Contract related to a reason
+     */
+    public function reason()
+    {
+        return $this->belongsTo(Reason::class, 'reason_id');
     }
 }

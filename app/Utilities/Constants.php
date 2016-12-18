@@ -61,6 +61,14 @@ final class Constants
         'female' => '0',
         'male'   => '1',
     ];
+    /**
+     * cons genders
+     */
+    const VacancyGENDER = [
+        'female' => '0',
+        'male'   => '1',
+        'male_or_female'   => '2',
+    ];
 
     /**
      * const religions
@@ -229,6 +237,16 @@ final class Constants
     private static function gender()
     {
         return array_flip(self::GENDER);
+    }
+
+    /**
+     * list genders
+     *
+     * @return array
+     */
+    private static function vacancyGender()
+    {
+        return array_flip(self::VacancyGENDER);
     }
 
     /**

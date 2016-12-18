@@ -807,7 +807,8 @@ class ContractsController extends Controller
             $contract = $byMecontract->load([
                 'provider',
                 'benef',
-                "contractLocations"
+                "contractLocations",
+                "reason"
             ]);
         }
         $toMecontract = Contract::toMe()
@@ -830,7 +831,8 @@ class ContractsController extends Controller
             $contract = $toMecontract->load([
                 'provider',
                 'benef',
-                "contractLocations"
+                "contractLocations",
+                "reason"
             ]);
         }
         if (!is_object($toMecontract) && !is_object($byMecontract)) {
@@ -838,6 +840,10 @@ class ContractsController extends Controller
         }
 
         $thisContract = $contract->toArray();
+
+        if($thisContract['expired']) {
+            $thisContract['status'] = 'expired';
+        }
 
         if ($contract->contract_type_id == Constants::CONTRACTTYPES["hire_labor"]) {
 
