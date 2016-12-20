@@ -203,20 +203,6 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3 text-right"
-                                           for="min_ishaar_period">{{trans('ishaar_setup.attributes.min_ishaar_period')}}</label>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                {!! Form::number('min_ishaar_period', null, ['class'=> 'form-control', 'id' => 'min_ishaar_period']) !!}
-                                            </div>
-                                            <div class="col-md-6">
-                                                {!! Form::select('min_ishaar_period_type',  trans('contract_setup.period_type_array'), null, ['class'=> 'form-control selectpicker', 'id' => 'min_ishaar_period_type']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3 text-right"
                                            for="max_ishaar_period">{{trans('ishaar_setup.attributes.max_ishaar_period')}}</label>
                                     <div class="col-sm-9">
                                         <div class="row">

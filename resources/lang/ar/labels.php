@@ -98,7 +98,7 @@ return [
     "no" => "لا",
     "noSearchResult" => "لاتوجد نتائج للبحث عن",
     "no_data" => "عفوا ! لا توجد بيانات للعرض",
-    "no_salary" => "بدون راتب",
+    "no_salary" => "بدون أجر",
     "non_muslim" => "غير مسلم",
     "noneSelectedTextValue" => "اختر من فضلك",
     "noneSelectedTextValueSmall" => "اختر",
@@ -162,7 +162,7 @@ return [
     "requested" => "مطلوب",
     "reset" => "مسح",
     "rights_reserved" => "جميع الحقوق محفوظة .",
-    "salary" => " راتب",
+    "salary" => "بأجر",
     "saudi" => "سعودي",
     "save" => "حفظ",
     "saveAndAdd" => "حفظ و اضافة جديد",
@@ -188,5 +188,6 @@ return [
     "updated" => "تم التعديل بنجاح",
     "view" => "استعراض",
     "year" => "سنة",
-    "yes" => "نعم"
+    "yes" => "نعم",
+    'missing_accept_box'=>'يجب عليك قبول الشروط والاحكام'
 ];

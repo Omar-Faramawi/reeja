@@ -110,7 +110,7 @@ class TempWorkContractsController extends Controller
         $regions       = Region::pluck('name', 'id')->toArray();
         $nationalities = Nationality::pluck('name', 'id')->toArray();
         $jobs          = Job::pluck('job_name', 'id')->toArray();
-       
+
         list($user_id, $user_name ) = getCurrentUserNameAndId();
 
         if ( ! empty($id)) {
@@ -239,7 +239,7 @@ class TempWorkContractsController extends Controller
         }
 
         $data['status'] = Constants::CONTRACT_STATUSES['pending'];
-        
+
         if ($request->hasFile('contract_file')) {
             $data['contract_file'] = customUploadFile('contract_file', 'TempWork');
         } else {
@@ -293,7 +293,7 @@ class TempWorkContractsController extends Controller
                     $employee->salary                   = $salary;
                     if ($uploadedFile) {
                         $employee->qualification_upload = $uploadedFile;
-                    }  
+                    }
                 }
                 $employee->save();
                 $contractEmployees[] = $employee->id;
@@ -320,7 +320,7 @@ class TempWorkContractsController extends Controller
                 ['contract_type_id' => Constants::CONTRACTTYPES['hire_labor']],
                 ['vacancy_id' => $request->vacancy_id]
             ),
-            ['region_id', 'status', 'job_id', 'ids', 'contract_file']
+            ['region_id', 'status', 'job_id', 'ids', 'contract_file', 'salary']
         );
 
         // Calculate contract amount

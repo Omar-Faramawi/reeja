@@ -28,19 +28,19 @@ class LaborMarketController extends Controller
      */
     public function index($id = null)
     {
-		$occasionalWork = FALSE;
-		if (request()->route()->getName() === "occasional-labor-market.index") {
-			$occasionalWork = TRUE;
-		}
-		
+        $occasionalWork = FALSE;
+        if (request()->route()->getName() === "occasional-labor-market.index") {
+            $occasionalWork = TRUE;
+        }
+
         if (request()->ajax()) {
 
             // if the user is provider
             if (session()->get('service_type') === Constants::SERVICETYPES['provider']) {
-                $query = Vacancy::byOthers()->with('job', 'nationality','region');
+                $query = Vacancy::byOthers()->with('job', 'nationality', 'region');
             } else {
                 // if the user is beneficial
-                $query = HRPool::byOthers()->with('job', 'nationality','region')->checked();
+                $query = HRPool::byOthers()->with('job', 'nationality', 'region')->checked();
             }
 
             if (request()->route()->getName() === "occasional-labor-market.index") {
@@ -50,7 +50,7 @@ class LaborMarketController extends Controller
             }
 
             $total_count = ($query->count()) ? $query->count() : 1;
-            $columns     = request()->input('columns');
+            $columns = request()->input('columns');
 
 
             $inputs = request()->only([
@@ -59,6 +59,7 @@ class LaborMarketController extends Controller
                 "nationality_id",
                 "work_start_date",
                 'job_id',
+                'job_type',
                 "work_end_date",
             ]);
 
@@ -73,10 +74,10 @@ class LaborMarketController extends Controller
 
                 $buttons = [
                     'show' => [
-                        "text"      => trans("temp_job.show_offer"),
-                        "url"       => url(request()->segment(1) . "/received-contracts"),
-                        "col"       => "id",
-                        "uri"       => "show",
+                        "text" => trans("temp_job.show_offer"),
+                        "url" => url(request()->segment(1) . "/received-contracts"),
+                        "col" => "id",
+                        "uri" => "show",
                         "css_class" => "blue",
                     ],
                 ];
@@ -84,15 +85,17 @@ class LaborMarketController extends Controller
             } else {
 
                 $buttons = [
-                    'show' => [
-                        "text"      => trans("temp_job.ask_offer"),
-                        "url"       => '#',
+                    'showRequest' => [
+                        "text" => trans("temp_job.ask_offer"),
+                        "url" => '#',
                         "css_class" => "select_emp blue",
+                        "showRequest" => true
                     ],
                 ];
+
             }
 
-            return dynamicAjaxPaginate($query, $columns, $total_count, $buttons,true);
+            return dynamicAjaxPaginate($query, $columns, $total_count, $buttons, true);
 
 
         }
@@ -111,9 +114,9 @@ class LaborMarketController extends Controller
         }
 
         $currentRouteName = request()->route()->getName();
-        $regions          = Region::all()->pluck('name', 'id')->toArray();
-        $jobs             = Job::all()->pluck('job_name', 'id')->toArray();
-        $nationalities    = Nationality::all()->pluck('name', 'id')->toArray();
+        $regions = Region::all()->pluck('name', 'id')->toArray();
+        $jobs = Job::all()->pluck('job_name', 'id')->toArray();
+        $nationalities = Nationality::all()->pluck('name', 'id')->toArray();
 
         return view('front.labor_market.temp.index', compact('regions', 'jobs', 'nationalities', 'currentRouteName', 'occasionalWork'));
     }
@@ -126,11 +129,20 @@ class LaborMarketController extends Controller
     public function askOffer()
     {
         $id = request()->input('id');
-
         if (empty($id)) {
             return response(trans('temp_job.offer_not_chosen'), 405);
         }
 
+        // check if there are requests sent to the same employees before
+        $selectedEmployees = explode(',', $id);
+        $contract = Contract::toMe()->requested()->hireLabor()
+            ->whereHas('contractEmployee', function ($q) use ($selectedEmployees) {
+                return $q->whereIn('id_number', $selectedEmployees);
+            })->first();
+        if ($contract) {
+            return response(trans('temp_job.cantSelectEmployee'), 405);
+        }
+        
         if (session()->get('selected_establishment')) {
             $user_id = session()->get('selected_establishment.id');
         } elseif (session()->get('government')) {
@@ -139,25 +151,25 @@ class LaborMarketController extends Controller
             $user_id = auth()->user()->id_no;
         }
 
-        $labors = HRPool::whereIn('id', explode(',', $id))->get();
+        $labors = HRPool::whereIn('id', $selectedEmployees)->get();
 
         foreach ($labors as $labor) {
             if (!isset($contracts[$labor->provider_type][$labor->provider_id])) {
                 $contracts[$labor->provider_type][$labor->provider_id] = Contract::create([
                     'contract_type_id' => Constants::CONTRACTTYPES['hire_labor'],
-                    'provider_id'      => $labor->provider_id,
-                    'provider_type'    => $labor->provider_type,
-                    'benf_type'        => \Auth::user()->user_type_id,
-                    'benf_id'          => $user_id,
+                    'provider_id' => $labor->provider_id,
+                    'provider_type' => $labor->provider_type,
+                    'benf_type' => \Auth::user()->user_type_id,
+                    'benf_id' => $user_id,
                 ]);
             }
-            
+
             $contracts[$labor->provider_type][$labor->provider_id]->contractEmployee()->save(new ContractEmployee([
-                'ishaar_id'  => Constants::CONTRACTTYPES['hire_labor'],
-                'id_number'  => $labor->id,
+                'ishaar_id' => Constants::CONTRACTTYPES['hire_labor'],
+                'id_number' => $labor->id,
                 'start_date' => $labor->start_date,
-                'end_date'   => $labor->end_date,
-                'status'     => 'pending',
+                'end_date' => $labor->end_date,
+                'status' => 'pending',
             ]));
         }
 
@@ -165,7 +177,7 @@ class LaborMarketController extends Controller
 
     }
 
-     /**
+    /**
      * Display a listing of the Direct hiring
      * Labor Market .
      * @return \Illuminate\Http\Response
@@ -174,9 +186,9 @@ class LaborMarketController extends Controller
     {
         if (request()->ajax()) {
 
-            $query = HRPool::jobseeker()->byOthers()->checked()->with('job', 'nationality','region');
+            $query = HRPool::jobseeker()->byOthers()->checked()->with('job', 'nationality', 'region');
             $total_count = ($query->count()) ? $query->count() : 1;
-            $columns     = request()->input('columns');
+            $columns = request()->input('columns');
 
 
             $inputs = request()->only([
@@ -190,7 +202,7 @@ class LaborMarketController extends Controller
                 "work_start_date",
                 "work_end_date",
             ]);
-            
+
             foreach ($inputs as $key => $input) {
                 if (request()->input($key)) {
                     $query->where($key, $input);
@@ -214,23 +226,23 @@ class LaborMarketController extends Controller
 
             if ($name = request()->input('name')) {
                 $query->where('name', 'LIKE', '%' . $name . '%');
-                }
-           
+            }
 
-                $buttons = [
-                    'show' => [
-                        "text"      => trans("temp_job.offer_contract"),
-                        "url"       => url("direct-hiring/send-offer"),
-                        "css_class" => "blue",
-                    ],
-                ];
+
+            $buttons = [
+                'show' => [
+                    "text" => trans("temp_job.offer_contract"),
+                    "url" => url("direct-hiring/send-offer"),
+                    "css_class" => "blue",
+                ],
+            ];
 
             return dynamicAjaxPaginate($query, $columns, $total_count, $buttons);
 
         }
-        $regions          = Region::all()->pluck('name', 'id')->toArray();
-        $jobs             = Job::all()->pluck('job_name', 'id')->toArray();
-        $nationalities    = Nationality::all()->pluck('name', 'id')->toArray();
+        $regions = Region::all()->pluck('name', 'id')->toArray();
+        $jobs = Job::all()->pluck('job_name', 'id')->toArray();
+        $nationalities = Nationality::all()->pluck('name', 'id')->toArray();
 
         return view('front.labor_market.direct_hiring.index', compact('regions', 'jobs', 'nationalities'));
     }

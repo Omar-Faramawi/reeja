@@ -176,7 +176,7 @@ class LaborerController extends Controller
     public function save(PublishLaborerRequest $request)
     {
         $data = $request->only(array_keys($request->rules()));
-        if($data['enddate'] < $data['startdate']){
+        if(!empty($data['enddate']) && !empty($data['startdate']) && ($data['enddate'] < $data['startdate'])){
             return Response::json([
                 'startdate' => trans('add_laborer.enddate_before_start_date')
             ], 422);
@@ -184,8 +184,12 @@ class LaborerController extends Controller
         foreach ($data['id'] as $key) {
             $hrpool                  = HRPool::find(intval($key));
             $hrpool->chk             = '1';
-            $hrpool->work_start_date = $data['startdate'];
-            $hrpool->work_end_date   = $data['enddate'];
+            if (!empty($data['startdate'])) {
+                $hrpool->work_start_date = $data['startdate'];
+            }
+            if (!empty($data['enddate'])) {
+                $hrpool->work_end_date = $data['enddate'];
+            }
             $hrpool->save();
         }
 

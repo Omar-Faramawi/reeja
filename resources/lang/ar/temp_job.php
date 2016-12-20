@@ -43,6 +43,7 @@ return [
     "no_seelcted_employees" => "لم يتم اختيار عمالة للتعاقد",
     "offer_contract" => "تقديم عرض",
     "offer_not_chosen" => "لم يتم اختيار العمالة",
+    "cantSelectEmployee" => "لا يمكنك تقديم عرض لهذا العامل",
     "please_choose_contract_to_show" => "اختر عقد لمعرفة التفاصيل",
     "provider" => "مقدم الخدمة",
     "provider_id" => "مقدم الخدمة",
@@ -84,5 +85,7 @@ return [
     "updated" => "تم التعديل",
     "work_date" => "تاريخ العمل ",
     "work_end_date" => "تاريخ نهاية العمل",
-    "work_start_date" => "تاريخ بداية العمل "
+    "work_start_date" => "تاريخ بداية العمل ",
+    "sallaryRequiredIf"=>'يجب ادخال الراتب',
+    "sallaryInteger"=>'يجب ان يكون الراتب رقم صحيح '
 ];

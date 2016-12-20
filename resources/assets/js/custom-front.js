@@ -17,7 +17,7 @@ $(function () {
 
     $(".bs-select").selectpicker({
         noneSelectedText: noneSelectedTextValue,
-        noneResultsText: noSearchResult+" {0}",
+        noneResultsText: noSearchResult + " {0}",
         iconBase: 'fa',
         tickIcon: 'fa-check',
         container: 'body'
@@ -135,7 +135,7 @@ $(function () {
                 var json = $.parseJSON(msg.responseText);
                 var error = '<div class="alert alert-block alert-danger fade in"><button type="button" class="close" data-dismiss="alert"></button> <p>';
                 $.each(json, function (k, v) {
-                     error += v + "</p>";
+                    error += v + "</p>";
                 });
                 current.find(".form-body").prepend(error + '</div>');
                 toastr.error("", error_msg);
@@ -424,7 +424,7 @@ $(function () {
                     });
                     toastr.error("", error);
                 },
-                complete: function() {
+                complete: function () {
                     btn.button('reset');
                 }
             });
@@ -720,7 +720,7 @@ $(function () {
     $('#birth_date').calendarsPicker({
         calendar: $.calendars.instance('islamic', islamicCalendarLang),
         maxDate: 0,
-        onSelect: function() {
+        onSelect: function () {
             // floating label adjustment
             if ($(this).val().length > 0) {
                 $(this).addClass('edited');
@@ -728,7 +728,7 @@ $(function () {
                 $(this).removeClass('edited');
             }
         },
-        onClose: function() {
+        onClose: function () {
             // floating label adjustment
             if ($(this).val().length > 0) {
                 $(this).addClass('edited');
@@ -775,7 +775,7 @@ $(function () {
 //if Work type is temprory at hajj sprint
 
     $('#region_id').bind('change', function (e) {
-        if($('#region_id').val() == ''){
+        if ($('#region_id').val() == '') {
             $('#vacancies_area').hide();
             $('#tayeed_area').hide();
         }
@@ -826,7 +826,7 @@ $(function () {
         if (results)
             return results[1] || 0;
     }
-	
+
     //Print Show Ishaar Page If Get Print params on url
     if ($.urlParam('print')) {
         window.print();
@@ -842,7 +842,7 @@ $(function () {
         if (id.length == 10) {
             var url = '/laborer';
             $.get(url + '/' + id, function (data) {
-                if( data == 'false2' ){
+                if (data == 'false2') {
                     $('#status-label-not-active').show();
                     $('#status-label-exist').hide();
                     $('#status-label-not-exist').hide();
@@ -867,7 +867,7 @@ $(function () {
             $('#status-label-not-active').hide();
         }
     });
-    
+
     /**
      * publish Laborer to labor market handlers
      */
@@ -894,7 +894,7 @@ $(function () {
             $(v).attr('name', $(v).data('seg1') + size + $(v).data('seg2'));
             $(v).closest('.data-box').find('label').attr('for', $(v).data('seg1') + size + $(v).data('seg2'));
         });
-        
+
         myclone.find("input").val('');
 
         myclone.val("");
@@ -1055,7 +1055,7 @@ window.onload = function () {
     $(document).on('click', '.generate_cert', function () {
         if ($('.contracts_cert_list tbody tr#cid_' + $(this).data('cid')).length > 0)
             return false;
-        $('.table_container #certificate_generate_invoice').attr("href","certificate_generate_invoice");
+        $('.table_container #certificate_generate_invoice').attr("href", "certificate_generate_invoice");
         var record = $(this).closest('tr').clone();
         record.attr('id', 'cid_' + $(this).data('cid'));
         var remove_btn = $('<a />').addClass('btn btn-danger remove_record').text(remove);
@@ -1234,13 +1234,13 @@ $('document').ready(function () {
                 from = $('.from').val().length !== 0 ? new Date($('.from').val()) : to;
             }
             var timeDiff = Math.abs(to.getTime() - from.getTime());
-            var duration = Math.ceil(timeDiff / (1000 * 3600 * 24))/30;
-            if(duration >= 1){
+            var duration = Math.ceil(timeDiff / (1000 * 3600 * 24)) / 30;
+            if (duration >= 1) {
                 $('#not_allowed_period').text("");
                 $('.duration').val(Math.round(duration));
             }
             else
-            $('#not_allowed_period').text(minimum_contract_period);
+                $('#not_allowed_period').text(minimum_contract_period);
 
         },
     });
@@ -1254,16 +1254,16 @@ $('document').ready(function () {
         $(".date-picker-event").datepicker("option", "currentText", 'الان');
         $(".date-picker-event").datepicker("option", "firstDay", 6);
     }
-    
-    $(".duration").on('change', function (){
-       var x = parseInt($(this).val());
-       var from = $(".from").val();
-       var CurrentDate = new Date(from);
-      CurrentDate.setMonth(CurrentDate.getMonth() + x);
-       $('.to').datepicker("setDate", CurrentDate);
+
+    $(".duration").on('change', function () {
+        var x = parseInt($(this).val());
+        var from = $(".from").val();
+        var CurrentDate = new Date(from);
+        CurrentDate.setMonth(CurrentDate.getMonth() + x);
+        $('.to').datepicker("setDate", CurrentDate);
     })
-    
-   
+
+
     $('input[name=contract_type]').on('change', function () {
         if ($(this).val() == 1) {
             $('select[name=contract_ref_no]').closest('div').slideDown();
@@ -1278,16 +1278,16 @@ $('document').ready(function () {
         if ($('#pac-input').attr("name") != 'desc_location[]') {
             toastr.error('', $(this).data('error'));
         } else {
-            $('<label class="col-md-12 no-padding-right">' + $('#pac-input').val() + '&nbsp;<button class="btn red-intense remove_location" type="button">' + delete_label + '</button>'+
+            $('<label class="col-md-12 no-padding-right">' + $('#pac-input').val() + '&nbsp;<button class="btn red-intense remove_location" type="button">' + delete_label + '</button>' +
                 '<input type="hidden" name="desc_location[]" value="' + $('#pac-input').val() + '"></label>').insertBefore('#pac-input');
             $('#pac-input').val("");
             $('#pac-input').attr("name", "");
         }
     });
     $('.container-inputs').on('click', '.remove_location', function (e) {
-       $(this).parent().remove(); 
+        $(this).parent().remove();
     });
-    
+
     $('.update_contract').click(function () {
         if ($('#pac-input').length && $('#pac-input').val() != '' && $('#pac-input').attr("name") != 'desc_location[]') {
             toastr.error('', $('.add-new').data('error'));
@@ -1335,7 +1335,7 @@ $('document').ready(function () {
         $(this).closest('tr').remove();
         if ($('#taqawel_selected_employees tbody tr').length == 0)
             $('.taqawel_selected_employees_container').hide();
-        
+
         if ($("form #oneormore").val() === '0') {
             $('#datatable_ajax tbody tr').each(function () {
                 $(this).find('td:last-child').append("<a class='btn btn-default blue add_contract_employee' href=''>" + add_employee + "</a>");
@@ -1391,7 +1391,7 @@ $('document').ready(function () {
 
     $('body').find("#ensure_data").on('click', function () {
         var emp_ids = [];
-		var id_numbers = [];
+        var id_numbers = [];
         var rowsCount = $('#taqawel_selected_employees tr').length;
         var areas = [];
         $('#work_areas :selected').each(function (i, selected) {
@@ -1407,7 +1407,7 @@ $('document').ready(function () {
             $('#taqawel_selected_employees tbody').find("tr td:first-child").each(function () {
                 emp_ids.push($(this).text());
             });
-			$('#taqawel_selected_employees tbody').find("tr td:nth-child(2)").each(function () {
+            $('#taqawel_selected_employees tbody').find("tr td:nth-child(2)").each(function () {
                 id_numbers.push($(this).text());
             });
 
@@ -1417,7 +1417,7 @@ $('document').ready(function () {
                 url: $("#taqawel_notices_form").attr('action'),
                 data: {
                     ids: emp_ids,
-					id_numbers: id_numbers,
+                    id_numbers: id_numbers,
                     contract_id: $("#contract_id").val(),
                     start_date: $("#start_date").val(),
                     end_date: $("#end_date").val(),
@@ -1471,13 +1471,13 @@ $('document').ready(function () {
             window.location = route;
 
     });
-    
+
     // detect job seeker or job owner in DirectHiring labor market
     $('#directHiring-type-select').on('change', function () {
         var val = $(this).val();
         if (val)
             window.location = val;
-       
+
 
     });
 });
@@ -1634,13 +1634,13 @@ $('document').ready(function () {
         }
         $('#ask-offer').attr('value', ids.join());
     });
-    
+
     //append contract id to cancellation modal
     $('#taqawelModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var modal = $(this);
         var id = button.data('contract_id');
-        modal.find(".modal-body input[name=id]").val(id);   
+        modal.find(".modal-body input[name=id]").val(id);
     });
 
     //certificate generate Invoice
@@ -1649,16 +1649,16 @@ $('document').ready(function () {
         {
             var button = $(this);
             var IDs = [];
-            $('.contracts_cert_list > tbody  > tr').each(function(){
-                IDs.push($(this).find('td:first-child').text()); 
+            $('.contracts_cert_list > tbody  > tr').each(function () {
+                IDs.push($(this).find('td:first-child').text());
             });
             console.log(IDs);
             $.ajax({
                 type: "POST",
                 url: $(this).attr('href'),
-                data:{
-                    contract_ids :IDs,
-                    _token : button.data('token')
+                data: {
+                    contract_ids: IDs,
+                    _token: button.data('token')
                 },
                 headers: {'XSRF-TOKEN': button.data('token')},
                 success: function (msg) {
@@ -1710,5 +1710,13 @@ $('document').ready(function () {
     $("#direct_login").on("click", function (e) {
         $("#direct_login_form").slideToggle();
         return false;
+    });
+    $("#approveButton").on('click', function (e) {
+        if (!$('#acceptOffer').is(':checked')) {
+
+            toastr.error("", missing_accept_box);
+        } else {
+            $("#forClickButton").click();
+        }
     });
 });

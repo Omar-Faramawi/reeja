@@ -183,7 +183,7 @@
                                                     {{ trans('temp_job.gender.name') }}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{ \Tamkeen\Ajeer\Utilities\Constants::gender($vacancy->gender) }}
+                                                    {{ $vacancy->gender_name }}
                                                 </div>
                                             </div>
                                             <div class="row static-info padding-top-8">
@@ -191,7 +191,7 @@
                                                     {{ trans('temp_job.religion_id') }}
                                                 </div>
                                                 <div class="col-md-9 value">
-                                                    {{ \Tamkeen\Ajeer\Utilities\Constants::religions($vacancy->religion) }}
+                                                    {{ $vacancy->religion_name }}
                                                 </div>
                                             </div>
                                             <div class="row static-info">

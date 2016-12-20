@@ -25,9 +25,9 @@ class ContractEmployeesController extends Controller
     {
         if (request()->ajax()) {
 
-            $query       = HRPool::with('region', 'nationality', 'job');
+            $query = HRPool::with('region', 'nationality', 'job');
             $total_count = ($query->ByMe()->count()) ? $query->ByMe()->count() : 1;
-            $columns     = request()->input('columns');
+            $columns = request()->input('columns');
 
             $inputs = request()->only([
                 'id_number',
@@ -47,19 +47,20 @@ class ContractEmployeesController extends Controller
             }
 
             if ($age = request()->input('age') != '') {
-                $to   = Carbon::now()->subYears($age);
+                $to = Carbon::now()->subYears($age);
                 $from = Carbon::now()->subYears($age)->startOfYear();
 
                 $query->whereBetween('birth_date', [$from, $to]);
             }
 
-            $buttons = [
-                'view' => [
-                    'text' => trans('temp_job.add'),
-                    'css_class' => 'blue select_emp',
-                    'url' => '#'
-                ]
+
+            $buttons = [];
+            $buttons['view'] = [
+                'text' => trans('temp_job.add'),
+                'css_class' => 'blue select_emp',
+                'url' => '#'
             ];
+
 
             return dynamicAjaxPaginate($query, $columns, $total_count, $buttons, true);
         }
@@ -74,7 +75,7 @@ class ContractEmployeesController extends Controller
     {
         if (request()->ajax()) {
 
-            $query       = HRPool::whereHas('contractEmployee', function($query) use ($contract_id){
+            $query = HRPool::whereHas('contractEmployee', function ($query) use ($contract_id) {
                 $query->where('contract_id', '=', $contract_id);
 
                 if (request()->input('name') != '') {
@@ -94,7 +95,7 @@ class ContractEmployeesController extends Controller
                 }
 
                 if ($age = request()->input('age') != '') {
-                    $to   = Carbon::now()->subYears($age);
+                    $to = Carbon::now()->subYears($age);
                     $from = Carbon::now()->subYears($age)->startOfYear();
 
                     $query->whereBetween('birth_date', [$from, $to]);
@@ -103,7 +104,7 @@ class ContractEmployeesController extends Controller
             });
 
             $total_count = ($query->count()) ? $query->count() : 1;
-            $columns     = request()->input('columns');
+            $columns = request()->input('columns');
 
             $buttons = [
                 'view' => [
@@ -116,8 +117,6 @@ class ContractEmployeesController extends Controller
             return dynamicAjaxPaginate($query, $columns, $total_count, $buttons, true);
         }
     }
-
-
 
 
 }

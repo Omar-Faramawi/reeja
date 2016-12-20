@@ -26,8 +26,8 @@ class PublishLaborerRequest extends Request
     {
         return [
 
-            'startdate'    => 'required',
-            'enddate'      => 'required',
+            'startdate'    => 'date|required_with:enddate',
+            'enddate'      => 'date|required_with:startdate',
             'id'           => 'required'
         ];
     }

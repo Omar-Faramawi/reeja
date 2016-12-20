@@ -152,9 +152,9 @@
                                                             <td class="success"> {{$ishaar->hrPool->name or ''}} </td>
                                                             <td class="warning"> {{$ishaar->hrPool->nationality->name or ''}} </td>
                                                             <td class="danger"> {{$ishaar->hrPool->job->job_name or ''}} </td>
-                                                            <td class="active"> @if($ishaar->hrPool){{Tamkeen\Ajeer\Utilities\Constants::gender($ishaar->hrPool->gender)}} @endif</td>
+                                                            <td class="active"> @if($ishaar->hrPool){{ $ishaar->hrPool->gender_name }} @endif</td>
                                                             <td class="success"> {{$ishaar->hrPool->age or ''}} </td>
-                                                            <td class="warning"> @if($ishaar->hrPool){{ Tamkeen\Ajeer\Utilities\Constants::religions($ishaar->hrPool->religion)}}@endif </td>
+                                                            <td class="warning"> @if($ishaar->hrPool){{ $ishaar->hrPool->religion_name }}@endif </td>
                                                         </tr>
                                                         @endforeach
                                                     </tbody>

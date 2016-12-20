@@ -81,7 +81,7 @@
                                        @foreach($contract->contractEmployee as $one)
                                        <tr>
                                           <td>{{ $one->hrPool->job->job_name or ''}}</td>
-                                          <td>{{ \Tamkeen\Ajeer\Utilities\Constants::gender()[$one->hrPool->gender] }}</td>
+                                          <td>{{ $one->hrPool->gender_name }}</td>
                                           <td>{{ $one->hrPool->nationality->name }}</td>
                                           <td>{{ $one->start_date }}</td>
                                           <td>{{ $one->end_date }}</td>

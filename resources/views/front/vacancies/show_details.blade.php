@@ -67,7 +67,7 @@
                                                 <label class="col-md-3 control-label">{{trans('vacancies.form_attributes.gender')}}</label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control input-circle-left" value="{{Tamkeen\Ajeer\Utilities\Constants::gender($vacancy->gender)}} " disabled="disabled">
+                                                        <input type="text" class="form-control input-circle-left" value="{{ $vacancy->gender_name}} " disabled="disabled">
                                                         <span class="input-group-addon input-circle-right">
                                                             <i class="fa fa-user"></i>
                                                         </span>
@@ -90,7 +90,7 @@
                                                 <label class="col-md-3 control-label">{{trans('vacancies.form_attributes.religion')}}</label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control input-circle-left" value="{{Tamkeen\Ajeer\Utilities\Constants::religions($vacancy->religion)}}" disabled="disabled">
+                                                        <input type="text" class="form-control input-circle-left" value="{{ $vacancy->religion_name }}" disabled="disabled">
                                                         <span class="input-group-addon input-circle-right">
                                                             <i class="fa fa-microphone"></i>
                                                         </span>
@@ -102,7 +102,7 @@
                                                 <label class="col-md-3 control-label">{{trans('vacancies.form_attributes.job_type')}}</label>
                                                 <div class="col-md-4">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control input-circle-left" value="{{Tamkeen\Ajeer\Utilities\Constants::jobTypes($vacancy->job_type)}}" disabled="disabled">
+                                                        <input type="text" class="form-control input-circle-left" value="{{ $vacancy->job_type_text }}" disabled="disabled">
                                                         <span class="input-group-addon input-circle-right">
                                                             <i class="fa fa-microphone"></i>
                                                         </span>

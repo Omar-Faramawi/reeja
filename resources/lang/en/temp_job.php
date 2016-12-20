@@ -43,6 +43,7 @@ return [
     "no_seelcted_employees" => "There are no selected employees to request them",
     "offer_contract" => "Offer contract",
     "offer_not_chosen" => "No offer choosen",
+    "cantSelectEmployee" => "You can not request this employee",
     "please_choose_contract_to_show" => "Please choose contract to show",
     "provider" => "Service provider",
     "provider_id" => "Provider",
@@ -83,5 +84,8 @@ return [
     "the_job_seeker" => "Job Seeker",
     "work_date" => "Work date",
     "work_end_date" => "End date",
-    "work_start_date" => "Start date"
+    "work_start_date" => "Start date",
+    'sallaryRequiredIf' => 'you should provide salary',
+    "sallaryInteger" => 'Salary should be integer '
+
 ];

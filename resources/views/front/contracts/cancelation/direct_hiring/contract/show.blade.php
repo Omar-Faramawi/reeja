@@ -51,9 +51,9 @@
                            <div class="col-md-6"><label id='amount'>{{ trans('contracts_cancelation.contract_value') }} : </label><span id='amount'>{{ $contract->contract_amount }}</span></div>
                            <div class="col-md-6"><label id='job'>{{ trans('contracts_cancelation.job') }} : </label><span id='job'>{{ $contract->vacancy->job->job_name }}</span></div>
                            <div class="col-md-6"><label id='nationality'>{{ trans('contracts_cancelation.nationality') }} : </label><span id='nationality'>{{ $contract->vacancy->nationality->name }}</span></div>
-                           <div class="col-md-6"><label id='gender'>{{ trans('contracts_cancelation.gender') }} : </label><span id='gender'>{{  \Tamkeen\Ajeer\Utilities\Constants::gender()[$contract->vacancy->gender] }}</span></div>
+                           <div class="col-md-6"><label id='gender'>{{ trans('contracts_cancelation.gender') }} : </label><span id='gender'>{{ $contract->vacancy->gender_name }}</span></div>
                            <div class="col-md-6"> <label id='religion'>{{ trans('contracts_cancelation.religion') }} : </label><span id='religion'>{{
-                              \Tamkeen\Ajeer\Utilities\Constants::religions()[$contract->vacancy->religion] }}</span>
+                              $contract->vacancy->religion_name }}</span>
                            </div>
                         </div>
                      </div>
@@ -81,7 +81,7 @@
                                        @foreach($contract->contractEmployee as $one)
                                        <tr>
                                           <td>{{ $one->hrPool->job->job_name or '' }}</td>
-                                          <td>{{ \Tamkeen\Ajeer\Utilities\Constants::gender()[$one->hrPool->gender] }}</td>
+                                          <td>{{ $one->hrPool->gender_name }}</td>
                                           <td>{{ $one->hrPool->nationality->name }}</td>
                                           <td>{{ $one->start_date }}</td>
                                           <td>{{ $one->end_date }}</td>

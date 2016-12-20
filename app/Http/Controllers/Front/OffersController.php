@@ -126,7 +126,8 @@ class OffersController extends Controller
                             $hr_q->with(["job", "region", "nationality"]);
                         }
                     ]);
-                }
+                },
+                'contractLocations'
             ])
             ->findOrFail($id);
         $dateEnded = getDiffPeriodDay($thisContract->updated_at,
@@ -135,9 +136,11 @@ class OffersController extends Controller
         if (Carbon::now()->format("Y-m-d") <= $dateEnded) {
             $canAccept = true;
         }
-        $thisContract = $thisContract->toArray();
 
-        return view("front.offers.show", compact("thisContract", "dateEnded", "canAccept"));
+        $thisContract = $thisContract->toArray();
+        $seasonalContract = ($thisContract['contract_locations'][0]['region_id']==1);
+
+        return view("front.offers.show", compact("thisContract", "dateEnded", "canAccept", "seasonalContract"));
     }
 
     /**
@@ -251,6 +254,11 @@ class OffersController extends Controller
      */
     public function approvePost(ApproveAcceptOfferRequest $approveAcceptOfferRequest, $id)
     {
+        return $this->approvePosted($id);
+    }
+
+    public function approvePosted($id)
+    {
         $contract = new  Contract();
         $thisContract = $contract->toMe()->hireLabor()
             ->with([
@@ -308,6 +316,7 @@ class OffersController extends Controller
                 return response()->json(['error' => trans("offers.vacanciesexceeded")], 422);
             }
         }
+
 
         /*
          * save new status for contract

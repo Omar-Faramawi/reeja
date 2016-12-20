@@ -190,5 +190,7 @@ return [
     "updated" => "Updated Succesfully",
     "view" => "View",
     "year" => "Year",
-    "yes" => "Yes"
+    "yes" => "Yes",
+    'missing_accept_box' => 'You should accept rules'
+
 ];

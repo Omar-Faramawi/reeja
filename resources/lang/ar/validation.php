@@ -89,7 +89,7 @@ return [
     "required" => "الحقل :attribute مطلوب.",
     "required_if" => "الحقل :attribute مطلوب في حال ما إذا كان :other يساوي :value.",
     "required_unless" => "الحقل :attribute مطلوب في حال ما لم يكن :other يساوي :values.",
-    "required_with" => "الحقل :attribute إذا توفّر :values.",
+    "required_with" => "الحقل :attribute مطلوب إذا توفّر :values.",
     "required_with_all" => "الحقل :attribute إذا توفّر :values.",
     "required_without" => "الحقل :attribute إذا لم يتوفّر :values.",
     "required_without_all" => "الحقل :attribute إذا لم يتوفّر :values.",

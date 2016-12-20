@@ -60,9 +60,10 @@ if (!function_exists('dynamicAjaxPaginate')) {
         $checkbox = false,
         $html = [],
         $orderBy = null
-    ) {
+    )
+    {
         $length = request()->input('length');
-        $start  = request()->input('start');
+        $start = request()->input('start');
         if (!$orderBy and !empty(request()->input('order'))) {
             $orderBy = $columns[request()->input('order')[0]['column']]['name'];
             if ($orderBy == 'check') {
@@ -75,16 +76,16 @@ if (!function_exists('dynamicAjaxPaginate')) {
         }
 
         if (Route::getCurrentRoute()->getPath() == "taqawel/notices/{notices}") {
-            $records['data'] = $data->slice($start, $start+$length);
+            $records['data'] = $data->slice($start, $start + $length);
             $records['data'] = $records['data']->values();
         } else {
-            $records['data'] = $data->skip($start)->take($length)->get();  
+            $records['data'] = $data->skip($start)->take($length)->get();
         }
         $records["iTotalRecords"] = $total_count;
 
         $records["iTotalDisplayRecords"] = $total_count;
 
-        $records["customActionStatus"]  = "OK";
+        $records["customActionStatus"] = "OK";
         $records["customActionMessage"] = trans('labels.customActionMessage');
 
         $records["draw"] = intval(request()->input('draw'));
@@ -93,9 +94,9 @@ if (!function_exists('dynamicAjaxPaginate')) {
             if (count($buttons) == 0 && $checkbox) {
                 $records['data'][$i]['check'] = '<input type="checkbox" name="id[]" value="' . $records['data'][$i]['id'] . '" class="select-checkbox">';
             }
-            
+
             foreach ($buttons as $key => $button) {
-                $id  = !empty($button['id']) ? $button['id'] : 'id';
+                $id = !empty($button['id']) ? $button['id'] : 'id';
                 $url = !empty($button['url']) ? $button['url'] : request()->url();
 
                 if (!empty($button['uri'])) {
@@ -107,8 +108,23 @@ if (!function_exists('dynamicAjaxPaginate')) {
                 $css_class = !empty($button['css_class']) ? $button['css_class'] : "btn";
                 $text = !empty($button['text']) ? $button['text'] : trans('labels.' . $key);
 
+                $idToGet = $records['data'][$i][$id];
+                $contract = '';
+                if (isset($button['showRequest'])) {
+                    $contract = \Tamkeen\Ajeer\Models\Contract::toMe()->requested()->hireLabor()/*->get();*/
+                    ->whereHas('contractEmployee', function ($q) use ($idToGet) {
+                        return $q->where('id_number', $idToGet);
+                    })->with('contractEmployee')->first();
+                }
                 if ($checkbox) {
-                    $records['data'][$i]['check'] = '<input type="checkbox" name="id[]" value="' . $records['data'][$i][$id] . '" class="select-checkbox">';
+                    if (!isset($button['showRequest'])) {
+                        $records['data'][$i]['check'] = '<input type="checkbox" name="id[]" value="' . $records['data'][$i][$id] . '" class="select-checkbox">';
+                    }
+
+                    if (!$contract) {
+                        $records['data'][$i]['check'] = '<input type="checkbox" name="id[]" value="' . $records['data'][$i][$id] . '" class="select-checkbox">';
+                    }
+
                 }
 
                 if (!empty($css_class) && !empty($uri) && !empty($text)) {
@@ -155,8 +171,15 @@ if (!function_exists('dynamicAjaxPaginate')) {
                     }
 
                     // Taqawel Service edit/delete buttons using modal/ajax END
+                    //Request Employee
+                    if (isset($button['showRequest'])) {
+                        if (!$contract) {
+                            $records['data'][$i]['showRequest'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
+                        }
 
-                    $records['data'][$i]['details'] .= "<a data-loading-text='".trans('labels.loading')."...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
+                    }
+
+                    $records['data'][$i]['details'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
                     $records['data'][$i]['buttons'] .= "<a class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
 
                     // Check if it is the follow contracts table
@@ -190,9 +213,10 @@ if (!function_exists('followContractsDatatableCallback')) {
     function followContractsDatatableCallback($records, $i, $key, $buttons)
     {
         $prvd_benf = request()->route()->parameter('prvd_benf');
-        if ($records['data'][$i]['contract_type_id'] == Constants::CONTRACTTYPES['direct_emp'] && 
-                !in_array($records['data'][$i]['status'], ['approved', 'provider_cancel', 'benef_cancel'])) {
-            if ( in_array($records['data'][$i]['provider_type'],
+        if ($records['data'][$i]['contract_type_id'] == Constants::CONTRACTTYPES['direct_emp'] &&
+            !in_array($records['data'][$i]['status'], ['approved', 'provider_cancel', 'benef_cancel'])
+        ) {
+            if (in_array($records['data'][$i]['provider_type'],
                     [Constants::USERTYPES['saudi'], Constants::USERTYPES['job_seeker']]) && $prvd_benf == 1
             ) {
                 $prvd_benf = 2;
@@ -205,74 +229,74 @@ if (!function_exists('followContractsDatatableCallback')) {
         /*if (!in_array($records['data'][$i]['provider_type'],
                 [Constants::USERTYPES['saudi'], Constants::USERTYPES['job_seeker']])
         ) {*/
-            // -- Dual state status
-            if ($records['data'][$i]['status'] == 'approved') {
-                // If it has no contract employee (Ishaar)
-                if (count($records['data'][$i]['employees']) == 0) {
-                    if (in_array($key,
-                        Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status'] . '_without_ishaar'][$prvd_benf])) {
-                        $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
-                                $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
-                    }
-                } else {
-                    if (date('Y-m-d') > $records['data'][$i]['end_date']) {
-                        if ($records['data'][$i]['cancelled_employees']) {
-                            foreach ($records['data'][$i]['cancelled_employees'] as $ke => $ve) {
-                                if (in_array($key,
-                                    Constants::CONTRACT_STATUSES_MAP[Constants::PRVD_BENF_SHORTCUT[3 - $prvd_benf] . '_cancel_employee'])) {
-                                    $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
-                                            $records['data'][$i]) . "'>" . $buttons[$key]['text'] . " ($ve)" . "</a>";
-                                }
-                            }
-                        } else {
-                            if (in_array($key,
-                                Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status'] . '_finished'][$prvd_benf])) {
-                                $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
-                                        $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
-                            }
-                        }
-
-                    } else {
-                        if (in_array($key,
-                            Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status']][$prvd_benf])) {
-                            if (!isset($buttons[$key]['repeated'])) {
-                                $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
-                                        $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
-                            } else {
-                                $buttonsBeforeLoop = $records['data'][$i]['follow_contract_options'];
-                                foreach ($records['data'][$i]['employees'] as $ind => $emp) {
-                                    if ($emp->status == Constants::CONTRACT_STATUSES['provider_cancel'] || $emp->status == Constants::CONTRACT_STATUSES['benef_cancel']) {
-                                        $records['data'][$i]['follow_contract_options'] = $buttonsBeforeLoop;
-                                        if ($emp->status == Constants::CONTRACT_STATUSES['benef_cancel'] && $prvd_benf == 1) {
-                                            $records['data'][$i]['follow_contract_options'] = "<a class='btn btn-default " . $buttons['process_cancel_ishaar_request']['css_class'] . "' href='" . datatableBtnURI($buttons['process_cancel_ishaar_request'],
-                                                    $emp) . "'>" . $buttons['process_cancel_ishaar_request']['text'] . "</a>";
-                                        } elseif ($emp->status == Constants::CONTRACT_STATUSES['provider_cancel'] && $prvd_benf == 2) {
-                                            $records['data'][$i]['follow_contract_options'] = "<a class='btn btn-default " . $buttons['process_cancel_ishaar_request']['css_class'] . "' href='" . datatableBtnURI($buttons['process_cancel_ishaar_request'],
-                                                    $emp) . "'>" . $buttons['process_cancel_ishaar_request']['text'] . "</a>";
-                                        }
-                                        break;
-                                    } elseif ($emp->status == Constants::CONTRACT_STATUSES['cancelled']) {
-                                        continue;
-                                    }
-
-                                    $empIndex = '';
-                                    if (count($records['data'][$i]['employees']) > 1) {
-                                        $empIndex = ' (' . ($ind + 1) . ') ';
-                                    }
-                                    $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
-                                            $emp) . "'>" . $buttons[$key]['text'] . $empIndex . "</a>";
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
+        // -- Dual state status
+        if ($records['data'][$i]['status'] == 'approved') {
+            // If it has no contract employee (Ishaar)
+            if (count($records['data'][$i]['employees']) == 0) {
                 if (in_array($key,
-                    Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status']][$prvd_benf])) {
+                    Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status'] . '_without_ishaar'][$prvd_benf])) {
                     $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
                             $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
                 }
+            } else {
+                if (date('Y-m-d') > $records['data'][$i]['end_date']) {
+                    if ($records['data'][$i]['cancelled_employees']) {
+                        foreach ($records['data'][$i]['cancelled_employees'] as $ke => $ve) {
+                            if (in_array($key,
+                                Constants::CONTRACT_STATUSES_MAP[Constants::PRVD_BENF_SHORTCUT[3 - $prvd_benf] . '_cancel_employee'])) {
+                                $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
+                                        $records['data'][$i]) . "'>" . $buttons[$key]['text'] . " ($ve)" . "</a>";
+                            }
+                        }
+                    } else {
+                        if (in_array($key,
+                            Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status'] . '_finished'][$prvd_benf])) {
+                            $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
+                                    $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
+                        }
+                    }
+
+                } else {
+                    if (in_array($key,
+                        Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status']][$prvd_benf])) {
+                        if (!isset($buttons[$key]['repeated'])) {
+                            $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
+                                    $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
+                        } else {
+                            $buttonsBeforeLoop = $records['data'][$i]['follow_contract_options'];
+                            foreach ($records['data'][$i]['employees'] as $ind => $emp) {
+                                if ($emp->status == Constants::CONTRACT_STATUSES['provider_cancel'] || $emp->status == Constants::CONTRACT_STATUSES['benef_cancel']) {
+                                    $records['data'][$i]['follow_contract_options'] = $buttonsBeforeLoop;
+                                    if ($emp->status == Constants::CONTRACT_STATUSES['benef_cancel'] && $prvd_benf == 1) {
+                                        $records['data'][$i]['follow_contract_options'] = "<a class='btn btn-default " . $buttons['process_cancel_ishaar_request']['css_class'] . "' href='" . datatableBtnURI($buttons['process_cancel_ishaar_request'],
+                                                $emp) . "'>" . $buttons['process_cancel_ishaar_request']['text'] . "</a>";
+                                    } elseif ($emp->status == Constants::CONTRACT_STATUSES['provider_cancel'] && $prvd_benf == 2) {
+                                        $records['data'][$i]['follow_contract_options'] = "<a class='btn btn-default " . $buttons['process_cancel_ishaar_request']['css_class'] . "' href='" . datatableBtnURI($buttons['process_cancel_ishaar_request'],
+                                                $emp) . "'>" . $buttons['process_cancel_ishaar_request']['text'] . "</a>";
+                                    }
+                                    break;
+                                } elseif ($emp->status == Constants::CONTRACT_STATUSES['cancelled']) {
+                                    continue;
+                                }
+
+                                $empIndex = '';
+                                if (count($records['data'][$i]['employees']) > 1) {
+                                    $empIndex = ' (' . ($ind + 1) . ') ';
+                                }
+                                $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
+                                        $emp) . "'>" . $buttons[$key]['text'] . $empIndex . "</a>";
+                            }
+                        }
+                    }
+                }
             }
+        } else {
+            if (in_array($key,
+                Constants::CONTRACT_STATUSES_MAP[$records['data'][$i]['status']][$prvd_benf])) {
+                $records['data'][$i]['follow_contract_options'] .= "<a class='btn btn-default " . $buttons[$key]['css_class'] . "' href='" . datatableBtnURI($buttons[$key],
+                        $records['data'][$i]) . "'>" . $buttons[$key]['text'] . "</a>";
+            }
+        }
         //}
     }
 }
@@ -443,8 +467,8 @@ if (!function_exists("checkInRange")) {
     {
         // Convert to timestamp
         $start_ts = strtotime($start_date);
-        $end_ts   = strtotime($end_date);
-        $user_ts  = strtotime($checkable_date);
+        $end_ts = strtotime($end_date);
+        $user_ts = strtotime($checkable_date);
 
         // Check that user date is between start & end
         return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
@@ -463,12 +487,12 @@ if (!function_exists("getLoggedAccountNumber")) {
     {
         if (!empty(session('selected_establishment'))) {
             $establishment = session('selected_establishment');
-            $customerNo    = BillingUtils::establishmentCustomerNumber($establishment->labour_office_no,
+            $customerNo = BillingUtils::establishmentCustomerNumber($establishment->labour_office_no,
                 $establishment->sequence_no);
-            $name          = $establishment->name;
+            $name = $establishment->name;
         } elseif (!empty(auth()->user()->national_id)) {
             $customerNo = BillingUtils::personalCustomerNumber(auth()->user()->national_id);
-            $name       = auth()->user()->name;
+            $name = auth()->user()->name;
         } else {
             abort(401);
         }
@@ -518,13 +542,13 @@ if (!function_exists("getDatesDiff")) {
     {
         $carbon_start_date = Carbon::parse($start_date);
         $carbon_end_date = Carbon::parse($end_date);
-        
-        if($carbon_start_date->diffInYears($carbon_end_date) != 0){
-            return $carbon_start_date->diffInYears($carbon_end_date)." ". trans('approve_cancellation_disclaimer.years');
-        }else if($carbon_start_date->diffInMonths($carbon_end_date) != 0){
-            return $carbon_start_date->diffInMonths($carbon_end_date)." ". trans('approve_cancellation_disclaimer.months');
-        }else{
-             return $carbon_start_date->diffInDays($carbon_end_date)." ". trans('approve_cancellation_disclaimer.days');
+
+        if ($carbon_start_date->diffInYears($carbon_end_date) != 0) {
+            return $carbon_start_date->diffInYears($carbon_end_date) . " " . trans('approve_cancellation_disclaimer.years');
+        } else if ($carbon_start_date->diffInMonths($carbon_end_date) != 0) {
+            return $carbon_start_date->diffInMonths($carbon_end_date) . " " . trans('approve_cancellation_disclaimer.months');
+        } else {
+            return $carbon_start_date->diffInDays($carbon_end_date) . " " . trans('approve_cancellation_disclaimer.days');
         }
     }
 
@@ -532,7 +556,7 @@ if (!function_exists("getDatesDiff")) {
 
 /** Date Convertions **/
 
-if(!function_exists('intPart')) {
+if (!function_exists('intPart')) {
     function intPart($float)
     {
         if ($float < -0.0000001)
@@ -542,107 +566,101 @@ if(!function_exists('intPart')) {
     }
 }
 
-/** 
-*
-* Date Convertion (Hijri to Gregorian)
-* @param integer day
-* @param integer month 
-* @param integer year 
-* @return Associative Array ['year'=> ,'month'=> ,'day'=> ]
-*/
-if(!function_exists('Hijri2Greg')) {
+/**
+ *
+ * Date Convertion (Hijri to Gregorian)
+ * @param integer day
+ * @param integer month
+ * @param integer year
+ * @return Associative Array ['year'=> ,'month'=> ,'day'=> ]
+ */
+if (!function_exists('Hijri2Greg')) {
     function Hijri2Greg($day, $month, $year, $string = false)
     {
-        $day   = (int) $day;
-        $month = (int) $month;
-        $year  = (int) $year;
+        $day = (int)$day;
+        $month = (int)$month;
+        $year = (int)$year;
 
-        $jd = intPart((11*$year+3) / 30) + 354 * $year + 30 * $month - intPart(($month-1)/2) + $day + 1948440 - 385;
+        $jd = intPart((11 * $year + 3) / 30) + 354 * $year + 30 * $month - intPart(($month - 1) / 2) + $day + 1948440 - 385;
 
-        if ($jd > 2299160)
-        {
-            $l = $jd+68569;
-            $n = intPart((4*$l)/146097);
-            $l = $l-intPart((146097*$n+3)/4);
-            $i = intPart((4000*($l+1))/1461001);
-            $l = $l-intPart((1461*$i)/4)+31;
-            $j = intPart((80*$l)/2447);
-            $day = $l-intPart((2447*$j)/80);
-            $l = intPart($j/11);
-            $month = $j+2-12*$l;
-            $year  = 100*($n-49)+$i+$l;
+        if ($jd > 2299160) {
+            $l = $jd + 68569;
+            $n = intPart((4 * $l) / 146097);
+            $l = $l - intPart((146097 * $n + 3) / 4);
+            $i = intPart((4000 * ($l + 1)) / 1461001);
+            $l = $l - intPart((1461 * $i) / 4) + 31;
+            $j = intPart((80 * $l) / 2447);
+            $day = $l - intPart((2447 * $j) / 80);
+            $l = intPart($j / 11);
+            $month = $j + 2 - 12 * $l;
+            $year = 100 * ($n - 49) + $i + $l;
+        } else {
+            $j = $jd + 1402;
+            $k = intPart(($j - 1) / 1461);
+            $l = $j - 1461 * $k;
+            $n = intPart(($l - 1) / 365) - intPart($l / 1461);
+            $i = $l - 365 * $n + 30;
+            $j = intPart((80 * $i) / 2447);
+            $day = $i - intPart((2447 * $j) / 80);
+            $i = intPart($j / 11);
+            $month = $j + 2 - 12 * $i;
+            $year = 4 * $k + $n + $i - 4716;
         }
-        else
-        {
-            $j = $jd+1402;
-            $k = intPart(($j-1)/1461);
-            $l = $j-1461*$k;
-            $n = intPart(($l-1)/365)-intPart($l/1461);
-            $i = $l-365*$n+30;
-            $j = intPart((80*$i)/2447);
-            $day = $i-intPart((2447*$j)/80);
-            $i = intPart($j/11);
-            $month = $j+2-12*$i;
-            $year = 4*$k+$n+$i-4716;
-        }
-        
+
         $data = array();
-        $date['year']  = $year;
+        $date['year'] = $year;
         $date['month'] = $month;
-        $date['day']   = $day;
-        
+        $date['day'] = $day;
+
         if (!$string)
             return $date;
         else
-            return     "{$year}-{$month}-{$day}";
+            return "{$year}-{$month}-{$day}";
     }
 }
 
-/** 
-*
-* Date Convertion (Gerorgian to hijri)
-* @param integer day
-* @param integer month 
-* @param integer year 
-* @return Associative Array ['year'=> ,'month'=> ,'day'=> ]
-*/
+/**
+ *
+ * Date Convertion (Gerorgian to hijri)
+ * @param integer day
+ * @param integer month
+ * @param integer year
+ * @return Associative Array ['year'=> ,'month'=> ,'day'=> ]
+ */
 
-if(!function_exists('Greg2Hijri')) {
+if (!function_exists('Greg2Hijri')) {
     function Greg2Hijri($day, $month, $year, $string = false)
     {
-        $day   = (int) $day;
-        $month = (int) $month;
-        $year  = (int) $year;
+        $day = (int)$day;
+        $month = (int)$month;
+        $year = (int)$year;
 
-        if (($year > 1582) or (($year == 1582) and ($month > 10)) or (($year == 1582) and ($month == 10) and ($day > 14)))
-        {
-            $jd = intPart((1461*($year+4800+intPart(($month-14)/12)))/4)+intPart((367*($month-2-12*(intPart(($month-14)/12))))/12)-
-            intPart( (3* (intPart(  ($year+4900+    intPart( ($month-14)/12)     )/100)    )   ) /4)+$day-32075;
-        }
-        else
-        {
-            $jd = 367*$year-intPart((7*($year+5001+intPart(($month-9)/7)))/4)+intPart((275*$month)/9)+$day+1729777;
+        if (($year > 1582) or (($year == 1582) and ($month > 10)) or (($year == 1582) and ($month == 10) and ($day > 14))) {
+            $jd = intPart((1461 * ($year + 4800 + intPart(($month - 14) / 12))) / 4) + intPart((367 * ($month - 2 - 12 * (intPart(($month - 14) / 12)))) / 12) -
+                intPart((3 * (intPart(($year + 4900 + intPart(($month - 14) / 12)) / 100))) / 4) + $day - 32075;
+        } else {
+            $jd = 367 * $year - intPart((7 * ($year + 5001 + intPart(($month - 9) / 7))) / 4) + intPart((275 * $month) / 9) + $day + 1729777;
         }
 
-        $l = $jd-1948440+10632;
-        $n = intPart(($l-1)/10631);
-        $l = $l-10631*$n+354;
-        $j = (intPart((10985-$l)/5316))*(intPart((50*$l)/17719))+(intPart($l/5670))*(intPart((43*$l)/15238));
-        $l = $l-(intPart((30-$j)/15))*(intPart((17719*$j)/50))-(intPart($j/16))*(intPart((15238*$j)/43))+29;
-        
-        $month = intPart((24*$l)/709);
-        $day   = $l-intPart((709*$month)/24);
-        $year  = 30*$n+$j-30;
-        
+        $l = $jd - 1948440 + 10632;
+        $n = intPart(($l - 1) / 10631);
+        $l = $l - 10631 * $n + 354;
+        $j = (intPart((10985 - $l) / 5316)) * (intPart((50 * $l) / 17719)) + (intPart($l / 5670)) * (intPart((43 * $l) / 15238));
+        $l = $l - (intPart((30 - $j) / 15)) * (intPart((17719 * $j) / 50)) - (intPart($j / 16)) * (intPart((15238 * $j) / 43)) + 29;
+
+        $month = intPart((24 * $l) / 709);
+        $day = $l - intPart((709 * $month) / 24);
+        $year = 30 * $n + $j - 30;
+
         $date = array();
-        $date['year']  = $year;
+        $date['year'] = $year;
         $date['month'] = $month;
-        $date['day']   = $day;
+        $date['day'] = $day;
 
         if (!$string)
             return $date;
         else
-            return     "{$year}-{$month}-{$day}";
+            return "{$year}-{$month}-{$day}";
     }
 }
 

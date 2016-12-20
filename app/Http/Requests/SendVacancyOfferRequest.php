@@ -1,7 +1,7 @@
 <?php
 
 namespace Tamkeen\Ajeer\Http\Requests;
-
+use Illuminate\Contracts\Validation\Validator;
 
 class SendVacancyOfferRequest extends Request
 {
@@ -22,7 +22,6 @@ class SendVacancyOfferRequest extends Request
      */
     public function rules()
     {
-
         return [
             'benf_id'                    => 'sometimes|required',
             'benf_type'                  => 'sometimes|required',
@@ -39,7 +38,8 @@ class SendVacancyOfferRequest extends Request
             'job_type'             	     => 'required|integer',
             'market_taqaual_services_id' => 'integer',
             'ids'                        => 'array|required',
-            'contract_file'              => 'file|max:10000|mimes:doc,docx,pdf'
+            'contract_file'              => 'file|max:10000|mimes:doc,docx,pdf',
+            'salary.*'                   => 'required_if:job_type,1|integer'
         ];
     }
 
@@ -59,5 +59,18 @@ class SendVacancyOfferRequest extends Request
             'contract_field_cannot_edit_if_approved' => trans('contracts.contract_field_cannot_edit_if_approved'),
             'ids'                                    => trans('contracts.ids_missing'),
         ];
+    }
+
+    public function messages()
+    {
+        return [
+            'salary.*.required_if' => trans('temp_job.sallaryRequiredIf'),
+            'salary.*.integer' => trans('temp_job.sallaryInteger'),
+        ];
+    }
+
+    protected function formatErrors(Validator $validator)
+    {
+        return array_unique($validator->errors()->all());
     }
 }

@@ -103,9 +103,10 @@
                                                             <td>{{$contract['hr_pool']['region']['name']}}</td>
                                                             <td>
                                                                 @if($contract['qualification_upload'])
-                                                                <a href="{{ url('uploads/'. $contract['qualification_upload']) }}" download>
-                                                                    <i class="fa fa-file"></i>
-                                                                </a>
+                                                                    <a href="{{ url('uploads/'. $contract['qualification_upload']) }}"
+                                                                       download>
+                                                                        <i class="fa fa-file"></i>
+                                                                    </a>
                                                                 @endif
                                                             </td>
                                                             <td>{{$contract['hr_pool']['work_start_date']}}</td>
@@ -130,7 +131,8 @@
                                                     <div class="icheck-inline">
                                                         <label>
                                                             <input type="checkbox" class="icheck"
-                                                                   data-checkbox="icheckbox_flat-grey"> {{trans("offers.acceptRules")}}
+                                                                   data-checkbox="icheckbox_flat-grey"
+                                                                   id="acceptOffer"> {{trans("offers.acceptRules")}}
                                                         </label>
                                                     </div>
                                                 </div>
@@ -143,9 +145,26 @@
                                             <div class="col-lg-6"></div>
                                             <div class="col-lg-6">
                                                 <div class="form-actions">
-                                                    <a class="btn blue"
-                                                       data-target="#stack1"
-                                                       data-toggle="modal"> {{trans("offers.accept")}} </a>
+                                                    @if($seasonalContract)
+                                                        <a class="btn blue"
+
+                                                           id="approveButton"> {{trans("offers.accept")}} </a>
+                                                        <a href="{{url("offers/accept/approve/" . $thisContract['id'])}}"
+                                                           data-target="#ajax"
+                                                           data-toggle="modal"
+                                                           style="display: none;"
+                                                           id="forClickButton"></a>
+                                                    @else
+
+                                                        <a class="btn blue"
+
+                                                           id="approveButton"> {{trans("offers.accept")}} </a>
+                                                        <a
+                                                           data-target="#stack1"
+                                                           data-toggle="modal"
+                                                           style="display: none;"
+                                                           id="forClickButton"></a>
+                                                    @endif
                                                     <a class="btn yellow btn-outline sbold"
                                                        href="{{url("offers/reject/" . $thisContract['id'])}}"
                                                        data-target="#ajax"
@@ -218,16 +237,34 @@
                 </div>
                 <div class="modal-footer">
                     <div class="form-actions">
-                        <button type="button" class="btn default"
-                                data-dismiss="modal">{{trans("offers.modal.accept.cancel")}}</button>
-                        <a href="{{url("offers/accept/approve/" . $thisContract['id'])}}"
-                           data-target="#ajax"
-                           data-toggle="modal"
-                           class="btn green uppercase">{{trans("offers.modal.accept.approve")}}</a>
+
+                        @if($seasonalContract)
+                            <button type="button" class="btn default"
+                                    data-dismiss="modal">{{trans("offers.modal.accept.cancel")}}</button>
+                            <a href="{{url("offers/accept/approve/" . $thisContract['id'])}}"
+                               data-target="#ajax"
+                               data-toggle="modal"
+                               class="btn green uppercase">{{trans("offers.modal.accept.approve")}}</a>
+                        @else
+                            {{Form::open([
+                            'method'=>'post',
+                            'route'=>[
+                            'approveTempWork',
+                            'id'=>$thisContract['id']
+                            ],
+                            'id'=>'form',
+                            'data-url'=>url('/offers'),
+                            ])}}
+                            <button type="button" class="btn default"
+                                    data-dismiss="modal">{{trans("offers.modal.accept.cancel")}}</button>
+                            <button class="btn green uppercase">{{trans("offers.modal.accept.approve")}}</button>
+                            {{Form::close()}}
+                        @endif
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
+
 @endsection

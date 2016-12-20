@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth','EstablishmentSelected', 'ResponsibleUpdat
         Route::get("accept/{id}", 'Front\OffersController@accept');
         Route::get("accept/approve/{id}", 'Front\OffersController@approve');
         Route::put("accept/approve/{id}", 'Front\OffersController@approvePost');
+        Route::POST("accept/approve/{id}",['as'=>'approveTempWork','uses'=> 'Front\OffersController@approvePosted']);
         Route::get("reject/{id}", 'Front\OffersController@reject');
         Route::put("reject/{id}", 'Front\OffersController@rejectPost');
         Route::get("{id}", 'Front\OffersController@show');

@@ -71,9 +71,11 @@
     var bug_msg = '{!! trans('auth.bug_error') !!}';
     var defaultContent = '{!! trans('labels.default_content') !!}';
     var remove = '{!! trans('labels.remove') !!}';
+    var delete_label = '{!! trans('labels.delete') !!}';
     var change = '{!! trans('labels.change') !!}';
     var select_file = '{!! trans('labels.select_file') !!}';
     var generate_invoce = '{!! trans('labels.generate_invoice') !!}';
+    var missing_accept_box = '{!! trans('labels.missing_accept_box') !!}';
     var noneSelectedTextValue = '{!! trans('labels.noneSelectedTextValue') !!}';
     var noSearchResult = '{!! trans('labels.noSearchResult') !!}';
     var select_at_least_one = '{!! trans('temp_job.select_at_least_one') !!}';

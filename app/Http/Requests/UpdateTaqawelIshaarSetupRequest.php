@@ -39,8 +39,6 @@ class UpdateTaqawelIshaarSetupRequest extends Request
             ];
         } else {
             $rules = [
-                'min_ishaar_period'          => 'required|integer|min:1|max:365',
-                'min_ishaar_period_type'     => 'required|in:1,2,3',
                 'max_ishaar_period'          => 'integer|required|min:1|max:365|greater_than:min_ishaar_period,min_ishaar_period_type,max_ishaar_period_type',
                 'max_ishaar_period_type'     => 'required|in:1,2,3',
                 'total_period_labor'         => 'required|integer|min:1|max:1000000',
@@ -50,6 +48,8 @@ class UpdateTaqawelIshaarSetupRequest extends Request
                 $rules['max_no_of_ishaars'] = 'required|integer|min:1|max:1000000';
                 $rules['ishaar_lobor_times'] = 'required|integer|min:1|max:1000000';
             } elseif (Request::get('tab') == 'paid') {
+                $rules['min_ishaar_period']                          = 'required|integer|min:1|max:365';
+                $rules['min_ishaar_period_type']                     ='required|in:1,2,3';
                 $rules['labor_follow_provider_perm']                 = 'in:0,1';
                 $rules['labor_follow_benef_perm']                    = 'in:0,1';
                 $rules['labor_follow_all_perm']                      = 'in:0,1';

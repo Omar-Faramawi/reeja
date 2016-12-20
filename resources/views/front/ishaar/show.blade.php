@@ -160,9 +160,9 @@
                                                             <td class="success"> {{$contract->hrPool->name or ''}} </td>
                                                             <td class="warning"> {{$contract->hrPool->nationality->name or ''}} </td>
                                                             <td class="danger"> {{$contract->hrPool->job->job_name or ''}} </td>
-                                                            <td class="active"> @if($contract->hrPool){{Tamkeen\Ajeer\Utilities\Constants::gender($contract->hrPool->gender)}} @endif</td>
+                                                            <td class="active"> @if($contract->hrPool){{ $contract->hrPool->gender_name }} @endif</td>
                                                             <td class="success"> {{$contract->hrPool->age or ''}} </td>
-                                                            <td class="warning"> @if($contract->hrPool){{ Tamkeen\Ajeer\Utilities\Constants::religions($contract->hrPool->religion)}}@endif </td>
+                                                            <td class="warning"> @if($contract->hrPool){{ $contract->hrPool->religion_name }}@endif </td>
                                                         </tr>
                                                         
                                                     </tbody>
