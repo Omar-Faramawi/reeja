@@ -49,7 +49,7 @@
                                             class="no-sort"> {{trans("offers.startDate")}}</th>
                                         <th id="end_date" class="no-sort" width="200"> {{trans("offers.endDate")}}</th>
 
-                                        <th id="buttons" class="no-sort" width="10%"> {{trans("offers.details")}}</th>
+                                        <th id="offersview" class="no-sort" width="10%"> {{trans("offers.details")}}</th>
                                     </tr>
                                     <tr role="row" class="filter">
                                         <td>

@@ -40,8 +40,8 @@
                         <div class="portlet light portlet-fit portlet-datatable">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class=" icon-layers font-red"></i>
-                                <span class="caption-subject font-red sbold uppercase">
+                                    <i class=" icon-layers font-dark"></i>
+                                <span class="caption-subject font-dark sbold uppercase">
                                     @if($contract->status == 'requested')
                                         {{ trans('temp_job.offer_contract') }}
                                     @else
@@ -200,6 +200,20 @@
                                                 @else
                                                 <div class="col-md-9 value form-group no-padding-top">
                                                     {!! Form::text('end_date', null, [ 'placeholder' => trans('labels.enter') . " " . trans('tqawel_offer_contract.end_date'), 'class' => 'form-control date-picker-event to' ]) !!}
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name padding-top-8">
+                                                {{ trans('tqawel_offer_contract.duration') }} {{ trans('tqawel_offer_contract.inmonth')}}
+                                                </div>
+                                                @if($contract->status == 'approved')
+                                                <div class="col-md-9 value form-group padding-top-8">
+                                                    {{ $period }}
+                                                </div>
+                                                @else
+                                                <div class="col-md-9 value form-group no-padding-top">
+                                                {!! Form::number('duration', (isset($period)?$period:''), [ 'placeholder' => trans('tqawel_offer_contract.duration'), 'class' => 'form-control  duration',(isset($contract->start_date)?'':'disabled') ]) !!}
                                                 </div>
                                                 @endif
                                             </div>

@@ -23,31 +23,30 @@
         <div class="page-content-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <label for="gender">{{ trans('temp_job.service_type') }}</label>
-                    {{ Form::select('service_type', Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => route('taqawel.contracts') , 'placeholder' => trans('labels.default')]) }}
-                </div>
-            </div>
-            <br><br>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="portlet box blue">
+                    <div class="portlet light portlet-fit portlet-datatable ">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-cogs"></i>{{ trans('tqawel_offer_contract.taqawel-contracts') }} </div>
+                                <i class="icon-settings font-dark"></i>
+                                <span class="caption-subject font-dark sbold uppercase">{{ trans('tqawel_offer_contract.taqawel-contracts') }}</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="gender">{{ trans('temp_job.service_type') }}</label>
+                                    {{ Form::select('service_type', Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => route('taqawel.contracts') , 'placeholder' => trans('labels.default')]) }}
+                                </div>
+                            </div>
                         </div>
                         <div class="portlet-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
+                                <table class="table table-striped table-bordered table-hover table-checkable dataTable">
                                     <thead>
-                                    <tr>
+                                    <tr role="row" class="heading">
                                         <th> #</th>
                                         @if($isProvider)
                                             <th width="15%">{{ trans('temp_job.benf_id') }}</th>
                                         @else
                                             <th width="15%">{{ trans('temp_job.provider_id') }}</th>
                                         @endif
-                                        <th>{{ trans('tqawel_offer_contract.email') }}</th>
-                                        <th>{{ trans('tqawel_offer_contract.mobile') }}</th>
                                         <th>{{ trans('tqawel_offer_contract.start_date') }}</th>
                                         <th>{{ trans('tqawel_offer_contract.end_date') }}</th>
                                         <th>{{ trans('contracts.status') }}</th>
@@ -64,8 +63,6 @@
                                                 @else
                                                     <td>{{ @$contract->provider_name }}</td>
                                                 @endif
-                                                <td>{{ $contract->responsible_email }}</td>
-                                                <td>{{ $contract->responsible_mobile }}</td>
                                                 <td>{{ $contract->start_date }}</td>
                                                 <td>{{ $contract->end_date }}</td>
                                                 @if($contract->status == "approved" && $contract->expired)

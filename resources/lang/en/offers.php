@@ -9,6 +9,7 @@ return [
     "benfNo" => "Beneficial Number",
     "browesOffer" => "Browes Offer",
     "cannotaccept" => "Offer Accept Period Ends and you can't accept offer now",
+    "cannotacceptData" => "Offer Accept Period Ends",
     "datenotavailable" => "Contract dates are not applicable for this vacancy ",
     "decline" => "Decline",
     "details" => "Details",

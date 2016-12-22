@@ -146,8 +146,8 @@
                                         <tr>
                                             <th>{{trans('est_permission_activities.attributes.activity_id')}}</th>
                                             <th>{{trans('est_permission_activities.permissions')}}</th>
-                                            <th>{{trans('est_permission_activities.attributes.loan_pct')}}</th>
-                                            <th>{{trans('est_permission_activities.attributes.borrow_pct')}}</th>
+<!--                                            <th>{{trans('est_permission_activities.attributes.loan_pct')}}</th>
+                                            <th>{{trans('est_permission_activities.attributes.borrow_pct')}}</th>-->
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -190,13 +190,13 @@
 
                                                     </div>
                                                 </td>
-                                                <td>
+<!--                                                <td>
                                                     {!! Form::number('est_perm_activities['.$key.'][loan_pct]', isset($act['establishments'][0]['loan_pct']) ? ($act['establishments'][0]['loan_pct'] !=0? $act['establishments'][0]['loan_pct']: '') : '', ['min' => 0, 'max' => 100]) !!}
 
                                                 </td>
                                                 <td>
                                                     {!! Form::number('est_perm_activities['.$key.'][borrow_pct]', isset($act['establishments'][0]['borrow_pct']) ? ($act['establishments'][0]['borrow_pct'] !=0 ?$act['establishments'][0]['borrow_pct'] : '') : '', ['min' => 0, 'max' => 100]) !!}
-                                                </td>
+                                                </td>-->
                                             </tr>
                                         @endforeach
                                         </tbody>

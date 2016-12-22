@@ -46,7 +46,7 @@
                                            width="100%">
                                         <thead>
                                             <tr role="row" class="heading">
-                                                <th id="id" width="10%"> {{ trans('taqawel_market.id') }}</th>
+                                                <th id="id" width="10%"> # </th>
                                                 <th width="550" id="provider.name" class="no-sort">{{ trans
                                                 ('tqawel_offer_contract.name') }}  </th>
                                                 <th width="150" id="contract_nature.name"

@@ -52,7 +52,7 @@
                         <div class="col-md-6">
                            <div class="btn-group pull-right">
                               <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                              @if(Request::is('contracts/cancelation/direct_hiring/ishaar/beneficial'))
+                              @if(Request::is('contracts/cancellation/direct_hiring/ishaar/beneficial'))
                               {{ trans('temp_job.job_owner') }}
                               @else
                               {{ trans('temp_job.job_seeker') }}
@@ -61,11 +61,11 @@
                               </button>
                               <ul class="dropdown-menu pull-right" role="menu">
                                  <li>
-                                    <a href="{{ url('contracts/cancelation/direct_hiring/ishaar/provider') }}">
+                                    <a href="{{ url('contracts/cancellation/direct_hiring/ishaar/provider') }}">
                                     <i class="icon-user"></i> {{ trans('temp_job.job_seeker') }}</a>
                                  </li>
                                  <li>
-                                    <a href="{{ url('contracts/cancelation/direct_hiring/ishaar/beneficial') }}">
+                                    <a href="{{ url('contracts/cancellation/direct_hiring/ishaar/beneficial') }}">
                                     <i class="icon-user"></i> {{ trans('temp_job.job_owner') }}</a>
                                  </li>
                               </ul>
@@ -83,7 +83,7 @@
                                  <th class="no-sort" id="end_date" width="200"> {{ trans('contracts_cancelation.ishaar_end_date') }}</th>
                                  <th class="no-sort" id="hr_pool.name" width="200">{{ trans('contracts_cancelation.ishaar_benef') }}</th>
                                  <th class="no-sort" id="hr_pool.job.job_name" width="200">{{ trans('contracts_cancelation.job') }}</th>
-                                 @if(Request::is('contracts/cancelation/direct_hiring/ishaar/beneficial'))
+                                 @if(Request::is('contracts/cancellation/direct_hiring/ishaar/beneficial'))
                                  <th class="no-sort" id="contract.providername" width="200">{{ trans('labor_market.job_seeker_name') }}</th>
                                  @else
                                  <th class="no-sort" id="contract.benf_name" width="200">{{ trans('labor_market.job_owner') }}</th>

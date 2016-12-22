@@ -57,8 +57,8 @@
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label for="is_slider">{{trans('contract_setup.attributes.contract_accept_period')}}</label>
-											{!! Form::number('contract_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
+											<label for="is_slider">{{trans('contract_setup.attributes.offer_accept_period')}}</label>
+											{!! Form::number('offer_accept_period', null, ['min' => 0, 'class' => 'form-control valid']) !!}
 										</div>
 									</div>
 									<div class="col-lg-1">&nbsp;</div>
@@ -66,7 +66,7 @@
 										<div class="form-group">
 											<label for="featured">&nbsp;</label>
 											<div class="select-wrapper select-arrow">
-												{!! Form::select('contract_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
+												{!! Form::select('offer_accept_period_type', trans('contract_setup.period_type_array'),null,  ['class' => 'form-control']) !!}
 
 											</div>
 										</div>

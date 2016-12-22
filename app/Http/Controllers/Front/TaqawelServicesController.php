@@ -458,6 +458,7 @@ class TaqawelServicesController extends Controller
         list($userId, $username) = getCurrentUserNameAndId();
         try {
             $contract = Contract::byMe()->editable()->findOrFail($id);
+            $period = getDiffPeriodMonth($contract->start_date, $contract->end_date);
             $contracts = Contract::toMe()->where('id', '!=', $id)->get()->pluck('id', 'id')->toArray();
             $contractNatures = ContractNature::get()->pluck('name', 'id')->toArray();
             $regions = Region::all()->pluck('name', 'id')->toArray();
@@ -468,7 +469,7 @@ class TaqawelServicesController extends Controller
         }
 
         return view('front.labor_market.tqawel.edit',
-            compact('userId', 'username', 'contract', 'contractNatures', 'contracts', 'regions', 'hasInvoices'));
+            compact('userId', 'username', 'contract', 'contractNatures', 'contracts', 'regions', 'hasInvoices','period'));
     }
 
     /**

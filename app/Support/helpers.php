@@ -178,6 +178,18 @@ if (!function_exists('dynamicAjaxPaginate')) {
                         }
 
                     }
+                    if (isset($button['offersview'])) {
+                        $dateEnded = getDiffPeriodDay($records['data'][$i]['updated_at'],
+                            $records['data'][$i]['contractType']['setup']['max_accept_period'],
+                            $records['data'][$i]['contractType']['setup']['max_accept_period_type']);
+                        if (Carbon::now()->format("Y-m-d") <= $dateEnded) {
+                            $records['data'][$i]['offersview'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
+                        } else {
+                            $records['data'][$i]['offersview'] .= trans("offers.cannotacceptData");
+
+                        }
+
+                    }
 
                     $records['data'][$i]['details'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
                     $records['data'][$i]['buttons'] .= "<a class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
@@ -449,6 +461,9 @@ if (!function_exists("getDiffPeriodMonth")) {
         $month2 = date('m', $ts2);
 
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        if (date('d', $ts2) >= date('d', $ts1)) {
+            $diff += 1;
+        }
 
         return $diff;
     }

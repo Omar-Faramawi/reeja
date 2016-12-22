@@ -67,7 +67,98 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="portlet grey-cascade box">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-info-circle"></i>{{trans("tqaweloffers.contractInfo")}}
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqaweloffers.contractNo")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{ ($thisContract['id'])}}
+                                                </div>
+                                            </div>
+                                            @if(isset($thisContract['vacancy']))
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("temp_job.job_id")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{ ($thisContract['vacancy']['job']['job_name'])}}
+                                                    </div>
+                                                </div>
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("temp_job.nationality_id")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{ ($thisContract['vacancy']['nationality']['name'])}}
 
+                                                    </div>
+                                                </div>
+
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("temp_job.gender.name")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{ ($thisContract['vacancy']['gender_name'])}}
+                                                    </div>
+                                                </div>
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("temp_job.religion_id")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{ ($thisContract['vacancy']['religion_name'])}}
+                                                    </div>
+                                                </div>
+                                            @endif
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("tqaweloffers.workStartDate")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{$thisContract['start_date']}}
+                                                    </div>
+                                                </div>
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("tqaweloffers.workEndDate")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{$thisContract['end_date']}}
+                                                    </div>
+                                                </div>
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("temp_job.region_id")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        {{ ($thisContract['contract_locations'][0]['region']['name'])}}
+                                                    </div>
+                                                </div>
+                                            @if (is_array($thisContract['contract_locations']))
+                                                <div class="row static-info">
+                                                    <div class="col-md-3 name">
+                                                        {{trans("tqaweloffers.workplaces")}}
+                                                    </div>
+                                                    <div class="col-md-9 value">
+                                                        @foreach($thisContract['contract_locations'] as $location)
+                                                            {{$location['desc_location']}}
+                                                            <br/>
+                                                        @endforeach
+
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <br>
                                     <div class="portlet grey-cascade box">
                                         <div class="portlet-title">
                                             <div class="caption">
@@ -124,6 +215,19 @@
                                         <div class="col-lg-9">{{$dateEnded}}</div>
                                     </div>
                                     <br>
+                                    @if ($thisContract['contract_file'])
+
+                                        <div class="row static-info">
+                                            <div class="col-lg-3">{{trans("tqaweloffers.attachment")}}</div>
+                                            <div class="col-lg-2">
+                                                <a href="{{ url('uploads/'. $thisContract['contract_file']) }}"
+                                                   download>
+                                                    <i class="fa fa-file"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <br/>
                                     @if(isset($canAccept))
                                         <div class="row">
                                             <div class="col-lg-12 col-lg-6">
@@ -160,10 +264,10 @@
 
                                                            id="approveButton"> {{trans("offers.accept")}} </a>
                                                         <a
-                                                           data-target="#stack1"
-                                                           data-toggle="modal"
-                                                           style="display: none;"
-                                                           id="forClickButton"></a>
+                                                                data-target="#stack1"
+                                                                data-toggle="modal"
+                                                                style="display: none;"
+                                                                id="forClickButton"></a>
                                                     @endif
                                                     <a class="btn yellow btn-outline sbold"
                                                        href="{{url("offers/reject/" . $thisContract['id'])}}"
@@ -255,9 +359,9 @@
                             'id'=>'form',
                             'data-url'=>url('/offers'),
                             ])}}
+                            <button class="btn green uppercase">{{trans("offers.modal.accept.approve")}}</button>
                             <button type="button" class="btn default"
                                     data-dismiss="modal">{{trans("offers.modal.accept.cancel")}}</button>
-                            <button class="btn green uppercase">{{trans("offers.modal.accept.approve")}}</button>
                             {{Form::close()}}
                         @endif
                     </div>

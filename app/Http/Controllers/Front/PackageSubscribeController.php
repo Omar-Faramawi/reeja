@@ -27,7 +27,7 @@ class PackageSubscribeController extends Controller
         $paidbundles = Bundle::paid()->active()->get();
         $trialBundles = Bundle::trail()->firstOrFail();
         $ishaarSetup = IshaarSetup::taqawelPaid()->firstOrFail();
-        $hasInvoiceBundles = InvoiceBundle::byMe()->count();
+        $hasInvoiceBundles = InvoiceBundle::byMe()->where('bundle_id',1)->count();
 
         return view("front.packagesubscribe.index",
             compact("paidbundles", "trialBundles", "ishaarSetup", "hasInvoiceBundles"));

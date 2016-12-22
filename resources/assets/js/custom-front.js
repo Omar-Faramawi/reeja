@@ -1233,15 +1233,17 @@ $('document').ready(function () {
                 to = new Date(date);
                 from = $('.from').val().length !== 0 ? new Date($('.from').val()) : to;
             }
-            var timeDiff = Math.abs(to.getTime() - from.getTime());
-            var duration = Math.ceil(timeDiff / (1000 * 3600 * 24)) / 30;
+            var duration = to.getMonth() - from.getMonth() + (12 * (to.getFullYear() - from.getFullYear()));
+            if (to.getDate() >= from.getDate()) {
+                duration += 1;
+            }
             if (duration >= 1) {
                 $('#not_allowed_period').text("");
-                $('.duration').val(Math.round(duration));
+                $('.duration').val(duration);
             }
-            else
+            else {
                 $('#not_allowed_period').text(minimum_contract_period);
-
+            }
         },
     });
     if (App.isRTL()) {

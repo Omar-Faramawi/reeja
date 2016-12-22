@@ -14,7 +14,7 @@
             </tr>
             <tr>
                 <td>{{trans('est_profile.attributes.est_size')}}</td>
-                <td>{{$est->est_size}}</td>
+                <td>{{$est->est_size_name}}</td>
             </tr>
             <tr>
                 <td>{{trans('est_profile.attributes.est_nitaq')}}</td>

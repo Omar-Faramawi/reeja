@@ -48,7 +48,7 @@
                                             class="no-sort"> {{trans("tqaweloffers.email")}}</th>
                                         <th id="market_taqawoul_services.responsible_mobile" width="200"
                                             class="no-sort"> {{trans("tqaweloffers.mobile")}}</th>
-                                        <th id="buttons" class="no-sort"
+                                        <th id="offersview" class="no-sort"
                                             width="10%"> {{trans("tqaweloffers.details")}}</th>
                                     </tr>
                                     <tr role="row" class="filter">

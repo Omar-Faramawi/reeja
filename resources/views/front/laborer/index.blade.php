@@ -119,10 +119,8 @@
             <div class="modal-body form-body">
                 <div class="form-group has-success form-md-floating-label">
                     <div class="input-icon">
-                        {{ Form::text('id_number', null, ['id'=>'laborer_id_number', 'autocomplete' => 'off','class'=>'form-control','required'=>'required']) }}
                         <label for="form_control_1">{{ trans('add_laborer.labels.idnumber') }}</label>
-                        <span class="help-block">{{trans('add_laborer.sub-headings')}}</span>
-                        <i class="fa fa-user"></i>
+                        {{ Form::text('id_number', null, ['id'=>'laborer_id_number', 'autocomplete' => 'off','class'=>'form-control','required'=>'required']) }}
                     </div>
                 </div>
             <span class="label label-sm label-success" style="display: none;" 

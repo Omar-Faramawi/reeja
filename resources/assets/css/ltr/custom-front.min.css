@@ -298,7 +298,17 @@ table.dataTable {
 
 
 /* radio , checkbox */
-form .md-radio, {
+form .md-radio,
 form .md-checkbox {
     margin-top: 10px;
+}
+
+.container--mainContainer {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.portlet-body {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
 }

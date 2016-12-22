@@ -21,25 +21,20 @@
         <div class="page-content-inner">
             <div class="row">
                 <div class="col-md-12">
-                    <label for="gender">{{ trans('temp_job.service_type') }}</label>
-                    {{ Form::select('service_type', Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => route('tempwork.contracts') , 'placeholder' => trans('labels.default')]) }}
-                </div>
-            </div>
-            <br><br>
-            <div class="row">
-                <div class="col-md-12">
-                </div>
-                <div class="col-md-12">
-
-                    <div class="portlet box blue">
+                    <div class="portlet light portlet-fit portlet-datatable ">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="fa fa-cogs"></i>{{ trans('contracts.contracts') }} </div>
+                                <i class="icon-settings font-dark"></i>
+                                <span class="caption-subject font-dark sbold uppercase">{{ trans('contracts.contracts') }}</span>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="gender">{{ trans('temp_job.service_type') }}</label>
+                                {{ Form::select('service_type', Constants::serviceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => route('tempwork.contracts') , 'placeholder' => trans('labels.default')]) }}
+                            </div>
                         </div>
                         <div class="portlet-body">
-
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
+                                <table class="table table-striped table-bordered table-hover table-checkable dataTable">
                                     <thead>
                                         <tr role="row" class="heading">
                                             <th>#</th>
@@ -107,7 +102,7 @@
                                                                     class="btn red btn-sm cancel_reset">{{ trans('contracts.reset_back') }}</button>
                                                         @elseif($contract->status == "provider_cancel")
                                                             <a type="button"
-                                                               href="{{ url('contracts/cancelation/beneficial/'.$contract->id) }}"
+                                                               href="{{ url('contracts/cancellation/beneficial/'.$contract->id) }}"
                                                                class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
                                                         @elseif($contract->status == "approved" && !$contract->expired)
                                                             <a type="button"
@@ -134,7 +129,6 @@
 
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>

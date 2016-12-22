@@ -82,7 +82,7 @@
 </div>
 <div class="modal fade" id="basic" tabindex="-1" aria-hidden="true">
    <div class="modal-dialog">
-      {{ Form::open(['url' => 'contracts/cancelation/direct_hiring/accept', 'data-url'=>'', "files"=>"false",'id'=>'form']) }}
+      {{ Form::open(['url' => 'contracts/cancellation/direct_hiring/accept', 'data-url'=>'', "files"=>"false",'id'=>'form']) }}
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
@@ -122,7 +122,7 @@
 </div>
 <div class="modal fade" id="refuse" tabindex="-1" aria-hidden="true">
    <div class="modal-dialog">
-      {{ Form::open(['url' => 'contracts/cancelation/direct_hiring/refuse', 'data-url'=>'', "files"=>"false",'id'=>'form']) }}
+      {{ Form::open(['url' => 'contracts/cancellation/direct_hiring/refuse', 'data-url'=>'', "files"=>"false",'id'=>'form']) }}
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>

@@ -28,8 +28,8 @@
                     <div class="portlet light portlet-fit">
                         <div class="portlet-title">
                             <div class="caption">
-                                <i class="icon-layers font-green"></i>
-                                <span class="caption-subject font-green sbold uppercase">{{ trans('temp_job.received_contracts') }}</span>
+                                <i class="icon-layers font-black"></i>
+                                <span class="caption-subject font-black sbold uppercase">{{ trans('temp_job.received_contracts') }}</span>
                             </div>
                         </div>
                         <div class="portlet-body">

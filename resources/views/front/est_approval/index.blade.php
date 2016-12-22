@@ -1,5 +1,5 @@
 @extends('front.layout')
-@section('title', trans('est_approval.est_approval'))
+@section('title', trans('hajj_est.hajj_est_approval'))
 @section('content')
     <div class="container">
         <div class="row">

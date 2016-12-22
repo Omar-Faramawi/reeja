@@ -226,51 +226,55 @@ class TaqawelNoticesController extends Controller
 
         // check if current Establishment or It's Benef Est Exceed percentage of loan Or Borrow
         $curr_est = session()->get('selected_establishment');
-        if ($curr_est) {
-            //check if current user provider exceed the saudian percentage or not
-        $contract_ishaars = $contract->contractEmployee;
-        if ($contract_ishaars) {
-                $contract_emps = count($contract->hrPool) + count($emp_ids);
-                if($contract->benf_type == Constants::USERTYPES['est']) {
-                    $benf_size = Establishment::find($benf_id)->est_size;
-                    $pcr = SaudiPercentage::taqawel()->where('provider_activity_id',
-                                request()->input('provider_activity'))
-                            ->where('benf_activity_id',
-                                request()->input('benf_activity'))
-                            ->where('provider_size_id', $benf_size)
-                            ->where('benf_size_id', request()->input('provider_activity'))->first(['saudi_pct']);
-                    if($pcr){
-                    if (filter_var(($contract_emps / $pcr->saudi_pct),FILTER_VALIDATE_INT)) {
-                        $allowed_pct = ($pcr->saudi_pct / 100) * $contract_emps;
-                        if ($contract_emps > $allowed_pct) {
-                            return response()->json(['error' => trans('ishaar_setup.max_saudian_percentage')],
-                                    422);
-                        }
-                    }
-                    }
-                }
-            }
-            //Provider Loan percentage
-            $est_emp_count = $mol->fetchEstablishmentLaborersCount($curr_est->FK_establishment_id);
-            $loan_pct = BaseModel::estLoanPercentage(request()->input('provider_activity'));
-            if ($loan_pct >0) {
-                $Lpercentage = ($loan_pct / 100) * $est_emp_count;
-                $emps = ContractEmployee::MaxIshaarsForProvider($provider_id, $provider_type) + count($emp_ids);
-                if( $emps > $Lpercentage){
-                    return response()->json(['error' => trans('ishaar_setup.max_loan_percentage')], 422);
-                }
-            }
-            //benf borrow percentage
-            $est_emp_count = $mol->fetchEstablishmentLaborersCount(request()->input('benf_FK'));
-            $borrow_pct = BaseModel::estBorrowPercentage(request()->input('benf_activity'));
-            if ($borrow_pct >0) {
-                $Bpercentage = ($borrow_pct / 100) * $est_emp_count;
-                $emps = ContractEmployee::MaxIshaarsForBenf($benf_id, $benf_type) + count($emp_ids);
-                if ($emps > $Bpercentage) {
-                   return response()->json(['error' => trans('ishaar_setup.max_borrow_percentage')], 422);
-                }
-            }
-        }
+
+        /****
+         * as request disable validation on (saudian pct - loan -borrow pct)
+         */
+//        if ($curr_est) {
+//            //check if current user provider exceed the saudian percentage or not
+//        $contract_ishaars = $contract->contractEmployee;
+//        if ($contract_ishaars) {
+//                $contract_emps = count($contract->hrPool) + count($emp_ids);
+//                if($contract->benf_type == Constants::USERTYPES['est']) {
+//                    $benf_size = Establishment::find($benf_id)->est_size;
+//                    $pcr = SaudiPercentage::taqawel()->where('provider_activity_id',
+//                                request()->input('provider_activity'))
+//                            ->where('benf_activity_id',
+//                                request()->input('benf_activity'))
+//                            ->where('provider_size_id', $benf_size)
+//                            ->where('benf_size_id', request()->input('provider_activity'))->first(['saudi_pct']);
+//                    if($pcr){
+//                    if (filter_var(($contract_emps / $pcr->saudi_pct),FILTER_VALIDATE_INT)) {
+//                        $allowed_pct = ($pcr->saudi_pct / 100) * $contract_emps;
+//                        if ($contract_emps > $allowed_pct) {
+//                            return response()->json(['error' => trans('ishaar_setup.max_saudian_percentage')],
+//                                    422);
+//                        }
+//                    }
+//                    }
+//                }
+//            }
+//            //Provider Loan percentage
+//            $est_emp_count = $mol->fetchEstablishmentLaborersCount($curr_est->FK_establishment_id);
+//            $loan_pct = BaseModel::estLoanPercentage(request()->input('provider_activity'));
+//            if ($loan_pct >0) {
+//                $Lpercentage = ($loan_pct / 100) * $est_emp_count;
+//                $emps = ContractEmployee::MaxIshaarsForProvider($provider_id, $provider_type) + count($emp_ids);
+//                if( $emps > $Lpercentage){
+//                    return response()->json(['error' => trans('ishaar_setup.max_loan_percentage')], 422);
+//                }
+//            }
+//            //benf borrow percentage
+//            $est_emp_count = $mol->fetchEstablishmentLaborersCount(request()->input('benf_FK'));
+//            $borrow_pct = BaseModel::estBorrowPercentage(request()->input('benf_activity'));
+//            if ($borrow_pct >0) {
+//                $Bpercentage = ($borrow_pct / 100) * $est_emp_count;
+//                $emps = ContractEmployee::MaxIshaarsForBenf($benf_id, $benf_type) + count($emp_ids);
+//                if ($emps > $Bpercentage) {
+//                   return response()->json(['error' => trans('ishaar_setup.max_borrow_percentage')], 422);
+//                }
+//            }
+//        }
         //check if Notice Dates between contract period
         $start_in_period = checkInRange(request()->input('contract_start_date'), request()->input('contract_end_date'),
             $start_date);
@@ -334,18 +338,22 @@ class TaqawelNoticesController extends Controller
                 }
             }
             foreach ($id_numbers as $id_number) {
-                // add employee in hrpool
-                $employee = $mol->findLaborer($id_number);
-                $add_emp = new HRPool();
-                $add_emp->id_number = $id_number;
-                $add_emp->provider_type = $provider_type;
-                $add_emp->provider_id = $provider_id;
-                $add_emp->name = $employee['name'];
-                $add_emp->gender = $employee['FK_GenderId'];
-                $add_emp->job_id = $employee['FK_occupation_id'];
-                $add_emp->nationality_id = $employee['FK_NationalityId'];
-                $add_emp->status = 1;
-                $add_emp->save();
+                // add employee in hrpool if not exists
+                $add_emp = HRPool::firstOrNew(['id_number' => $id_number]);
+                if (!$add_emp->exists) {
+                    $employee = $mol->findLaborer($id_number);
+                    $add_emp = new HRPool();
+                    $add_emp->id_number = $id_number;
+                    $add_emp->provider_type = $provider_type;
+                    $add_emp->provider_id = $provider_id;
+                    $add_emp->name = $employee['name'];
+                    $add_emp->gender = $employee['FK_GenderId'];
+                    $add_emp->job_id = $employee['FK_occupation_id'];
+                    $add_emp->nationality_id = $employee['FK_NationalityId'];
+                    $add_emp->status = 1;
+                    $add_emp->chk = 0;
+                    $add_emp->save();
+                }
 
                 $add              = new ContractEmployee();
                 $add->contract_id = $contract_id;
@@ -366,15 +374,12 @@ class TaqawelNoticesController extends Controller
                     $add_area->chk         = 1;
                     $add_area->save();
                 }
-
-               
             }
-             return trans('ishaar_setup.add_notice_success');
-        } else {
 
+            return trans('ishaar_setup.add_notice_success');
+        } else {
             return response()->json(['error' => trans('ishaar_setup.date_not_in_range')], 422);
         }
-
     }
 
     /**

@@ -52,7 +52,7 @@
                                             class="no-sort"> {{trans("offersdirect.workStartDate")}}</th>
                                         <th id="end_date" class="no-sort"
                                             width="200"> {{trans("offersdirect.workEndDate")}}</th>
-                                        <th id="buttons" class="no-sort"
+                                        <th id="offersview" class="no-sort"
                                             width="5%"> {{trans("offersdirect.details")}}</th>
                                     </tr>
                                     <tr role="row" class="filter">

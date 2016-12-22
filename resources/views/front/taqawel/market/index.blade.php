@@ -53,7 +53,7 @@
                            id="datatable_ajax">
                            <thead>
                               <tr role="row" class="heading">
-                                 <th id="id" width="10%"> {{ trans('taqawel_market.id') }}</th>
+                                 <th id="id" width="10%"> # </th>
                                  <th class="no-sort" id="providername" width="200">{{ trans('taqawel_market.provider_name') }} </th>
                                  <th class="no-sort" id="contract_nature.name" width="200"> {{ trans('taqawel_market.service_type') }}</th>
                                  <th class="no-sort" id="responsible_email" width="200">{{ trans('taqawel_market.email') }}</th>
@@ -103,7 +103,7 @@
 </div>
 <div class="modal fade" id="ask_offer" tabindex="-1" aria-hidden="true">
    <div class="modal-dialog">
-      {{ Form::open(['url' => 'contracts/cancelation/direct_hiring/refuse', 'data-url'=>'', "files"=>"false",'id'=>'form']) }}
+      {{ Form::open(['url' => 'contracts/cancellation/direct_hiring/refuse', 'data-url'=>'', "files"=>"false",'id'=>'form']) }}
       <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>

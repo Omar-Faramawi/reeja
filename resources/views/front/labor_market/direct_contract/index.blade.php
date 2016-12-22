@@ -20,25 +20,23 @@
             <!-- BEGIN PAGE CONTENT INNER -->
             <div class="page-content-inner">
                 <div class="row">
-                    @if(auth()->user()->user_type_id == Constants::USERTYPES['saudi'])
                     <div class="col-md-12">
-                        <label for="gender">{{ trans('temp_job.service_type') }}</label>
-                        {{ Form::select('service_type', Constants::directServiceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => route('direct_hiring.contracts') , 'placeholder' => trans('labels.default')]) }}
-                    </div>
-                    @endif
-                </div>
-                <br><br>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="portlet box blue">
+                        <div class="portlet light portlet-fit portlet-datatable ">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class="fa fa-cogs"></i>{{ trans('contracts.contracts') }} </div>
+                                    <i class="icon-settings font-dark"></i>
+                                    <span class="caption-subject font-dark sbold uppercase">{{ trans('contracts.contracts') }}</span>
+                                </div>
+                                @if(auth()->user()->user_type_id == Constants::USERTYPES['saudi'])
+                                <div class="col-md-12">
+                                    <label for="gender">{{ trans('temp_job.service_type') }}</label>
+                                    {{ Form::select('service_type', Constants::directServiceTypes(['file' => 'temp_job']), [session()->get('service_type')], ['class' => 'form-control form-filter input-sm bs-select', 'id' => 'service-provider-select', 'data-route' => route('direct_hiring.contracts') , 'placeholder' => trans('labels.default')]) }}
+                                </div>
+                                @endif
                             </div>
                             <div class="portlet-body">
-
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover">
+                                    <table class="table table-striped table-bordered table-hover table-checkable dataTable">
                                         <thead>
                                         <tr role="row" class="heading">
                                             <th>#</th>
@@ -49,7 +47,7 @@
                                             @endif
                                             <th>{{ trans('temp_job.work_start_date') }}</th>
                                             <th>{{ trans('temp_job.work_end_date') }}</th>
-                                            <td>{{ trans('contracts.status') }}</td>
+                                            <th>{{ trans('contracts.status') }}</th>
                                             <th>{{ trans('temp_job.details') }}</th>
                                         </tr>
                                         </thead>
@@ -89,7 +87,7 @@
                                                                 <a type="button" href="{{ url('direct-hiring-contracts/'.$contract->id.'/reject') }}" class="btn red btn-sm">{{ trans('contracts.action_buttons.reject_request') }}</a>
                                                             @endif
                                                         @endif
-                                                        
+
                                                         <a type="button"
                                                             href="{{ url('contractdetails/'.$contract->id) }}"
                                                             class="btn white btn-sm">{{ trans('temp_job.details') }}</a>
@@ -108,7 +106,6 @@
                                 <div class="row text-right">
                                     <div class="col-md-12">{{ $myContracts->render() }}</div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

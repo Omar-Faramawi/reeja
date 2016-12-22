@@ -38,7 +38,7 @@ class CancelIshaarRequest extends Request
     public function attributes()
     {
         return [
-            'reason'        => trans('contracts.reason_id'),
+            'reason'        => trans('ishaar_setup.form_attributes.cancel_reason'),
             'report_check'  => trans('contracts.disclaimers'),
             'other'         => trans('contracts.others'),
         ];

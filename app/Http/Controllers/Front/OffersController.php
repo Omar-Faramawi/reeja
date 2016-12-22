@@ -75,7 +75,9 @@ class OffersController extends Controller
                 $data = $data->where('end_date', '<=', request()->input('end_date'));
             }
             $buttons = [
-                'view' => [],
+                'view' => [
+                    'offersview'=>true
+                ],
             ];
 
 
@@ -127,12 +129,14 @@ class OffersController extends Controller
                         }
                     ]);
                 },
-                'contractLocations'
-            ])
+                'contractLocations'=> function($l_q){
+                $l_q->with('region');
+                }
+            ])->with('vacancy.job', 'vacancy.region', 'vacancy.nationality')
             ->findOrFail($id);
         $dateEnded = getDiffPeriodDay($thisContract->updated_at,
-            $thisContract->contractType->setup->max_accept_period,
-            $thisContract->contractType->setup->max_accept_period_type);
+            $thisContract->contractType->setup->offer_accept_period,
+            $thisContract->contractType->setup->offer_accept_period_type);
         if (Carbon::now()->format("Y-m-d") <= $dateEnded) {
             $canAccept = true;
         }
@@ -240,8 +244,8 @@ class OffersController extends Controller
             ])
             ->findOrFail($id);
         $dateEnded = getDiffPeriodDay($thisContract->updated_at,
-            $thisContract->contractType->setup->max_accept_period,
-            $thisContract->contractType->setup->max_accept_period_type);
+            $thisContract->contractType->setup->offer_accept_period,
+            $thisContract->contractType->setup->offer_accept_period_type);
 
         return view("front.offers.approve", compact("thisContract", "dateEnded", "id"));
     }
@@ -272,8 +276,8 @@ class OffersController extends Controller
          * check if offer is still available or not
          */
         $dateEnded = getDiffPeriodDay($thisContract->updated_at,
-            $thisContract->contractType->setup->max_accept_period,
-            $thisContract->contractType->setup->max_accept_period_type);
+            $thisContract->contractType->setup->offer_accept_period,
+            $thisContract->contractType->setup->offer_accept_period_type);
         if (Carbon::now()->format("Y-m-d") > $dateEnded) {
             return response()->json(['error' => trans('offers.cannotaccept')], 422);
         }

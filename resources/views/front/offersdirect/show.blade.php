@@ -166,6 +166,17 @@
 
                                         </div>
                                     </div>
+                                    @if (isset($thisContract->contract_file))
+
+                                        <div class="row static-info">
+                                            <div class="col-lg-3">{{trans("tqaweloffers.attachment")}}</div>
+                                            <div class="col-lg-2">
+                                                <a href="{{ url('uploads/'. $thisContract->contract_file) }}" download>
+                                                    <i class="fa fa-file"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endif
                                     {{Form::open(['url' => url('/offersdirect/accept/' . $thisContract->id), 'data-url'=>url('/offersdirect/' . $thisContract->id), 'id'=>'acceptform',"method"=>"PUT","role"=>"form"])}}
                                     <div class="row static-info">
                                         <div class="col-lg-3">{{trans("offersdirect.offerValideTo")}}</div>

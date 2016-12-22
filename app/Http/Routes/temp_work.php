@@ -1,27 +1,27 @@
 <?php
 
-//Contracts Cancelation
+//Contracts Cancellation
 Route::group(['middleware' => ['auth','EstablishmentSelected', 'ResponsibleUpdated']], function () {
     Route::group(['prefix' => 'contracts'], function () {
         //Direct hiring
-        Route::get('cancelation/direct_hiring/ishaar/{type}',
+        Route::get('cancellation/direct_hiring/ishaar/{type}',
             'Front\ContractsController@show_direct_hiring_contracts_ishaar');
-        Route::get('cancelation/direct_hiring/ishaar/{type}/{id}',
+        Route::get('cancellation/direct_hiring/ishaar/{type}/{id}',
             'Front\ContractsController@show_direct_hiring_contracts_single_ishaar');
-        Route::get('cancelation/direct_hiring/{type}', 'Front\ContractsController@show_direct_hiring_contracts');
-        Route::get('cancelation/direct_hiring/{type}/{id}',
+        Route::get('cancellation/direct_hiring/{type}', 'Front\ContractsController@show_direct_hiring_contracts');
+        Route::get('cancellation/direct_hiring/{type}/{id}',
             'Front\ContractsController@show_direct_hiring_single_contract');
-        Route::post('cancelation/direct_hiring/accept',
+        Route::post('cancellation/direct_hiring/accept',
             'Front\ContractsController@accept_direct_hiring_contract_cancelation');
-        Route::post('cancelation/direct_hiring/refuse',
+        Route::post('cancellation/direct_hiring/refuse',
             'Front\ContractsController@refuse_direct_hiring_contract_cancelation');
         //Hir laobor
-        Route::get('cancelation/ishaar/{type}', 'Front\ContractsController@showIshaar');
-        Route::get('cancelation/ishaar/{type}/{id}', 'Front\ContractsController@showSingleIshaar');
-        Route::get('cancelation/{type}', 'Front\ContractsController@showContracts');
-        Route::get('cancelation/{type}/{id}', 'Front\ContractsController@showSingleContract');
-        Route::post('cancelation/accept', 'Front\ContractsController@acceptCancel');
-        Route::post('cancelation/refuse', 'Front\ContractsController@refuseCancel');
+        Route::get('cancellation/ishaar/{type}', 'Front\ContractsController@showIshaar');
+        Route::get('cancellation/ishaar/{type}/{id}', 'Front\ContractsController@showSingleIshaar');
+        Route::get('cancellation/{type}', 'Front\ContractsController@showContracts');
+        Route::get('cancellation/{type}/{id}', 'Front\ContractsController@showSingleContract');
+        Route::post('cancellation/accept', 'Front\ContractsController@acceptCancel');
+        Route::post('cancellation/refuse', 'Front\ContractsController@refuseCancel');
     });
 
     // Laborer
@@ -181,7 +181,7 @@ Route::group(['middleware' => ['auth','individual']], function (){
         Route::get('job_search/{id}/apply_to_job','Front\JobApplicationController@apply')->name('job_search.apply_to_job');
 
     Route::group(['middleware' => 'indvidualContractCancelation'],function () {
-        Route::group(['prefix' => 'contracts/cancelation/seeker'],function () {
+        Route::group(['prefix' => 'contracts/cancellation/seeker'],function () {
             Route::get('direct_hiring/ishaar/provider',
                 'Front\ContractsController@show_direct_hiring_contracts_ishaar');
             Route::get('direct_hiring/ishaar/provider/{id}',

@@ -81,7 +81,9 @@ class OffersTaqaualController extends Controller
                 });
             }
             $columns     = request()->input('columns');
-            $buttons     = ['view' => []];
+            $buttons     = ['view' => [
+                'offersview' => true
+            ]];
             $total_count = ($data->count()) ? $data->count() : 1;
             $returned    = dynamicAjaxPaginate($data, $columns, $total_count, $buttons);
 
@@ -130,8 +132,8 @@ class OffersTaqaualController extends Controller
             "contractLocations",
         ]);
         $dateEnded    = getDiffPeriodDay($thisContract->updated_at,
-            $thisContract->contractType->setup->max_accept_period,
-            $thisContract->contractType->setup->max_accept_period_type);
+            $thisContract->contractType->setup->offer_accept_period,
+            $thisContract->contractType->setup->offer_accept_period_type);
         if ($dateEnded >= Carbon::today()->format("Y-m-d")) {
             $canAccept = true;
         }

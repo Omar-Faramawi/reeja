@@ -77,7 +77,10 @@ class OfferDirectController extends Controller
             if (request()->input('end_date')) {
                 $data = $data->where('end_date', '<=', request()->input('end_date'));
             }
-            $buttons = ['view' => []];
+            $buttons = ['view' => [
+                'offersview' => true
+            ]
+            ];
             $total_count = ($data->count()) ? $data->count() : 1;
             $returned = dynamicAjaxPaginate($data, $columns, $total_count, $buttons, false, [], 'start_date');
 
@@ -121,10 +124,10 @@ class OfferDirectController extends Controller
     public function show($id)
     {
         $thisContract = Contract::byMe()->pending()->with('contractEmployee')->findOrFail($id);
-        
+
         $dateEnded = getDiffPeriodDay($thisContract->updated_at,
-            $thisContract->contractType->setup->max_accept_period,
-            $thisContract->contractType->setup->max_accept_period_type);
+            $thisContract->contractType->setup->offer_accept_period,
+            $thisContract->contractType->setup->offer_accept_period_type);
         if (Carbon::now()->format("Y-m-d") <= $dateEnded) {
             $canAccept = true;
         }
@@ -196,7 +199,7 @@ class OfferDirectController extends Controller
     public function reject($id)
     {
         $reasons = Reason::where('parent_id', 1)->lists("reason", "id");
-        
+
         return view("front.offersdirect.reject", compact("reasons", "id"));
     }
 
@@ -210,10 +213,10 @@ class OfferDirectController extends Controller
     {
         $contract = Contract::findOrFail($id);
         $mail = [
-            "mailFrom"     => config("mail.from.address"),
+            "mailFrom" => config("mail.from.address"),
             "mailFromName" => config("mail.from.name"),
-            "mailTo"       => $contract->responsible_email,
-            "mailToName"   => $contract->benef->name,
+            "mailTo" => $contract->responsible_email,
+            "mailToName" => $contract->benef->name,
         ];
         //TODO: fix this with log
         /*Mail::send('front.offersdirect.emails.reject', ['contract' => $contract], function ($m) use ($mail) {
@@ -240,10 +243,10 @@ class OfferDirectController extends Controller
         } else {
             $contract->status = "pending_ownership";
             $mail = [
-                "mailFrom"     => config("mail.from.address"),
+                "mailFrom" => config("mail.from.address"),
                 "mailFromName" => config("mail.from.name"),
-                "mailTo"       => $contract->benef->email,
-                "mailToName"   => $contract->benef->name,
+                "mailTo" => $contract->benef->email,
+                "mailToName" => $contract->benef->name,
             ];
             //TODO: fix this with log
             /*Mail::send('front.offersdirect.emails.pendingownership', ['contract' => $contract],

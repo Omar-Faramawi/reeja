@@ -1096,8 +1096,8 @@ class ContractsController extends Controller
                 ],
                 'process_cancel_request'  => [
                     'text'                                          => trans('contracts.action_buttons.process_cancel_request'),
-                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/contracts/cancelation/direct_hiring/{type}/{id}',
-                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/contracts/cancelation/{type}/{id}',
+                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/contracts/cancellation/direct_hiring/{type}/{id}',
+                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/contracts/cancellation/{type}/{id}',
                     'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/contracts/cancellation/{type}/{id}',
                     'params'                                        => [
                         'id'   => ['name' => 'id', 'value' => null],

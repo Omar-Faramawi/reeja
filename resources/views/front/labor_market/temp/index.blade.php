@@ -43,152 +43,145 @@
 
                             </div>
                             <div class="portlet-body">
-                                <div class="portlet box blue">
-                                    <div class="portlet-title">
-                                        <div class="caption">{{trans("temp_job.search_souq")}}</div>
-                                    </div>
-                                    <div class="portlet-body labor_employee_data_benf">
-                                        <div class="table-container">
-                                            <table id="datatable_ajax"
-                                                   data-token="{{ csrf_token() }}"
-                                                   class="table table-striped table-bordered table-hover"
-                                                   cellspacing="0"
-                                                   width="100%">
-                                                <thead>
+                                <div class="table-container labor_employee_data_benf">
+                                    <table id="datatable_ajax"
+                                           data-token="{{ csrf_token() }}"
+                                           class="table table-striped table-bordered table-hover"
+                                           cellspacing="0"
+                                           width="100%">
+                                        <thead>
 
-                                                <tr role="row" class="heading">
-                                                    <th id="check" class="no-sort"></th>
-                                                    <th id="{{ ( session()->get('service_type') === Constants::SERVICETYPES['provider'] ) ? 'vacancy_name' : 'provider_name' }}"
-                                                        class="no-sort"
-                                                        width="120"> {{ ( session()->get('service_type') === Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>
-                                                    @if( session()->get('service_type') === Constants::SERVICETYPES['benf'])
-                                                        <th id="name" width="120"
-                                                            class="no-sort"> {{ trans('temp_job.name') }} </th>
-                                                    @endif
-                                                    <th id="job.job_name"
-                                                        class="no-sort"> {{ trans('temp_job.job_id') }} </th>
-                                                    <th id="gender_name"
-                                                        class="no-sort"> {{ trans('temp_job.gender.name') }} </th>
-                                                    @if ( session()->get('service_type') === Constants::SERVICETYPES['provider'] )
-                                                        <th id="job_type_text"
-                                                            class="no-sort"> {{ trans('temp_job.job_type.name')  }} </th>
-                                                    @endif
-                                                    <th id="nationality.name"
-                                                        class="no-sort"> {{ trans('temp_job.nationality_id') }} </th>
-                                                    <th id="region.name" width="80"
-                                                        class="no-sort"> {{ trans('temp_job.region_id') }} </th>
-                                                    <th id="work_start_date" width="70"
-                                                        class="no-sort"> {{ trans('temp_job.work_start_date') }} </th>
-                                                    <th id="work_end_date" width="70"
-                                                        class="no-sort"> {{ trans('temp_job.work_end_date') }} </th>
-                                                    @if ( session()->get('service_type') === Constants::SERVICETYPES['provider'] )
-                                                        <th id="details"
-                                                            class="no-sort"> {{ trans('temp_job.details') }} </th>
-                                                    @else
-                                                        <th id="showRequest"
-                                                            class="no-sort"> {{ trans('temp_job.details') }} </th>
-                                                    @endif
-                                                </tr>
+                                        <tr role="row" class="heading">
+                                            <th id="check" class="no-sort"></th>
+                                            <th id="{{ ( session()->get('service_type') === Constants::SERVICETYPES['provider'] ) ? 'vacancy_name' : 'provider_name' }}"
+                                                class="no-sort"
+                                                width="120"> {{ ( session()->get('service_type') === Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>
+                                            @if( session()->get('service_type') === Constants::SERVICETYPES['benf'])
+                                                <th id="name" width="120"
+                                                    class="no-sort"> {{ trans('temp_job.name') }} </th>
+                                            @endif
+                                            <th id="job.job_name"
+                                                class="no-sort"> {{ trans('temp_job.job_id') }} </th>
+                                            <th id="gender_name"
+                                                class="no-sort"> {{ trans('temp_job.gender.name') }} </th>
+                                            @if ( session()->get('service_type') === Constants::SERVICETYPES['provider'] )
+                                                <th id="job_type_text"
+                                                    class="no-sort"> {{ trans('temp_job.job_type.name')  }} </th>
+                                            @endif
+                                            <th id="nationality.name"
+                                                class="no-sort"> {{ trans('temp_job.nationality_id') }} </th>
+                                            <th id="region.name" width="80"
+                                                class="no-sort"> {{ trans('temp_job.region_id') }} </th>
+                                            <th id="work_start_date" width="70"
+                                                class="no-sort"> {{ trans('temp_job.work_start_date') }} </th>
+                                            <th id="work_end_date" width="70"
+                                                class="no-sort"> {{ trans('temp_job.work_end_date') }} </th>
+                                            @if ( session()->get('service_type') === Constants::SERVICETYPES['provider'] )
+                                                <th id="details"
+                                                    class="no-sort"> {{ trans('temp_job.details') }} </th>
+                                            @else
+                                                <th id="showRequest"
+                                                    class="no-sort"> {{ trans('temp_job.details') }} </th>
+                                            @endif
+                                        </tr>
 
-                                                <tr role="row" class="filter">
-                                                    <td></td>
-                                                    <td>
-                                                        {{ Form::text('benf_id', null, ['class' => "form-control form-filter input-sm"]) }}
-                                                    </td>
-                                                    @if( session()->get('service_type') === Constants::SERVICETYPES['benf'])
-                                                        <td>
-                                                            {{ Form::text('name', null, ['class' => 'form-control form-filter input-sm']) }}
-                                                        </td>
-                                                    @endif
-                                                    <td>
-                                                        {{ Form::select('job_id', @$jobs , null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
-                                                    </td>
-                                                    <td>
-                                                        @if( session()->get('service_type') === Constants::SERVICETYPES['provider'])
-                                                            {{ Form::select('gender', Constants::vacancyGender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
-                                                        @else
-                                                            {{ Form::select('gender', Constants::gender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
-                                                        @endif
-                                                    </td>
-                                                    @if ( session()->get('service_type') === Constants::SERVICETYPES['provider'] )
-                                                        <td>
-                                                            {{ Form::select('job_type', Constants::jobTypes(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
-                                                        </td>
-                                                    @endif
-                                                    <td>
-                                                        {{ Form::select('nationality_id', $nationalities, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
-                                                    </td>
-                                                    <td>
-                                                        {{ Form::select('region_id', $regions, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group margin-bottom-5">
-                                                            {{ Form::text('work_start_date', null, ['class' => "form-control form-filter input-sm date-picker"]) }}
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-sm default" type="button">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </button>
-                                                        </span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group margin-bottom-5">
-                                                            {{ Form::text('work_end_date', null, ['class' => "form-control form-filter input-sm date-picker"]) }}
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-sm default" type="button">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </button>
-                                                        </span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="margin-bottom-5">
-                                                            <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
-                                                                <i class="fa fa-search"></i> {{ trans('temp_job.searches') }}
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        @if( session()->get('service_type') === Constants::SERVICETYPES['benf'] )
-                                            <button type="button" class="btn blue pull-right" id="select_employees_benf"
-                                                    value="pending">{{ trans('temp_job.add') }}</button>
-                                        @endif
-                                        <div class="clearfix"></div>
-                                    </div>
+                                        <tr role="row" class="filter">
+                                            <td></td>
+                                            <td>
+                                                {{ Form::text('benf_id', null, ['class' => "form-control form-filter input-sm"]) }}
+                                            </td>
+                                            @if( session()->get('service_type') === Constants::SERVICETYPES['benf'])
+                                                <td>
+                                                    {{ Form::text('name', null, ['class' => 'form-control form-filter input-sm']) }}
+                                                </td>
+                                            @endif
+                                            <td>
+                                                {{ Form::select('job_id', @$jobs , null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
+                                            </td>
+                                            <td>
+                                                @if( session()->get('service_type') === Constants::SERVICETYPES['provider'])
+                                                    {{ Form::select('gender', Constants::vacancyGender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                @else
+                                                    {{ Form::select('gender', Constants::gender(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                @endif
+                                            </td>
+                                            @if ( session()->get('service_type') === Constants::SERVICETYPES['provider'] )
+                                                <td>
+                                                    {{ Form::select('job_type', Constants::jobTypes(), null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                                </td>
+                                            @endif
+                                            <td>
+                                                {{ Form::select('nationality_id', $nationalities, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall'), "data-live-search" => "true"]) }}
+                                            </td>
+                                            <td>
+                                                {{ Form::select('region_id', $regions, null, ['class' => 'form-control bs-select form-filter input-sm', 'placeholder' => trans('labels.noneSelectedTextValueSmall')]) }}
+                                            </td>
+                                            <td>
+                                                <div class="input-group margin-bottom-5">
+                                                    {{ Form::text('work_start_date', null, ['class' => "form-control form-filter input-sm date-picker"]) }}
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-sm default" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group margin-bottom-5">
+                                                    {{ Form::text('work_end_date', null, ['class' => "form-control form-filter input-sm date-picker"]) }}
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-sm default" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="margin-bottom-5">
+                                                    <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
+                                                        <i class="fa fa-search"></i> {{ trans('temp_job.searches') }}
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
 
-                                <div class="portlet box blue" id="contract_requests" style="display: none">
-                                    <div class="portlet-title">
-                                        <div class="caption">{{ trans('temp_job.contract_requests') }}</div>
-                                    </div>
-                                    <div class="portlet-body selected_employees_parent">
-                                        <div class="table table-responsive">
-                                            <table id="selected_employees_benf"
-                                                   class="table table-striped table-bordered">
-                                                <thead>
-                                                <tr role="row" class="heading">
-                                                    <th width="120"> {{ ( session()->get('service_type') === Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>
-                                                    <th width="120"> {{ trans('temp_job.name') }} </th>
-                                                    <th> {{ trans('temp_job.job_id') }} </th>
-                                                    <th> {{ trans('temp_job.gender.name') }} </th>
-                                                    <th> {{ trans('temp_job.nationality_id') }} </th>
-                                                    <th width="90"> {{ trans('temp_job.region_id') }} </th>
-                                                    <th width="70"> {{ trans('temp_job.work_start_date') }} </th>
-                                                    <th width="70"> {{ trans('temp_job.work_end_date') }} </th>
-                                                    <th></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                @if( session()->get('service_type') === Constants::SERVICETYPES['benf'] )
+                                    <button type="button" class="btn blue pull-right" id="select_employees_benf"
+                                            value="pending">{{ trans('temp_job.add') }}</button>
+                                @endif
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+
+                        <div class="portlet box blue" id="contract_requests" style="display: none">
+                            <div class="portlet-title">
+                                <div class="caption">{{ trans('temp_job.contract_requests') }}</div>
+                            </div>
+                            <div class="portlet-body selected_employees_parent">
+                                <div class="table table-responsive">
+                                    <table id="selected_employees_benf"
+                                           class="table table-striped table-bordered">
+                                        <thead>
+                                        <tr role="row" class="heading">
+                                            <th width="120"> {{ ( session()->get('service_type') === Constants::SERVICETYPES['provider'] ) ? trans('temp_job.benf_id') : trans('temp_job.provider_id') }} </th>
+                                            <th width="120"> {{ trans('temp_job.name') }} </th>
+                                            <th> {{ trans('temp_job.job_id') }} </th>
+                                            <th> {{ trans('temp_job.gender.name') }} </th>
+                                            <th> {{ trans('temp_job.nationality_id') }} </th>
+                                            <th width="90"> {{ trans('temp_job.region_id') }} </th>
+                                            <th width="70"> {{ trans('temp_job.work_start_date') }} </th>
+                                            <th width="70"> {{ trans('temp_job.work_end_date') }} </th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

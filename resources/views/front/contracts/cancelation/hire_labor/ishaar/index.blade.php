@@ -52,7 +52,7 @@
                         <div class="col-md-6">
                            <div class="btn-group pull-right">
                               <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                              @if(Request::is('contracts/cancelation/ishaar/beneficial'))
+                              @if(Request::is('contracts/cancellation/ishaar/beneficial'))
                               {{ trans('contracts_cancelation.benficial') }}
                               @else
                               {{ trans('contracts_cancelation.provider') }}
@@ -61,11 +61,11 @@
                               </button>
                               <ul class="dropdown-menu pull-right" role="menu">
                                  <li>
-                                    <a href="{{ url('contracts/cancelation/ishaar/provider') }}">
+                                    <a href="{{ url('contracts/cancellation/ishaar/provider') }}">
                                     <i class="icon-user"></i> {{ trans('contracts_cancelation.provider') }}</a>
                                  </li>
                                  <li>
-                                    <a href="{{ url('contracts/cancelation/ishaar/beneficial') }}">
+                                    <a href="{{ url('contracts/cancellation/ishaar/beneficial') }}">
                                     <i class="icon-user"></i> {{ trans('contracts_cancelation.benficial') }}</a>
                                  </li>
                               </ul>

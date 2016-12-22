@@ -119,7 +119,7 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ url('contracts/cancelation/seeker/direct_hiring/ishaar/provider') }}">
+                                                        <a href="{{ url('contracts/cancellation/seeker/direct_hiring/ishaar/provider') }}">
                                                             {{trans('front.menu.cancel_approve')}}
                                                         </a>
                                                     </li>
@@ -177,11 +177,11 @@
                                                                 <ul class="dropdown-menu">
                                                                     <li>
                                                                         <a class="nav-link"
-                                                                           href="{{ url('contracts/cancelation/provider' )}}">{{ trans('contracts_cancelation.contracts') }}</a>
+                                                                           href="{{ url('contracts/cancellation/provider' )}}">{{ trans('contracts_cancelation.contracts') }}</a>
                                                                     </li>
                                                                     <li>
                                                                         <a class="nav-link"
-                                                                           href="{{ url('contracts/cancelation/ishaar/provider' )}}">{{ trans('contracts_cancelation.ishaar') }}</a>
+                                                                           href="{{ url('contracts/cancellation/ishaar/provider' )}}">{{ trans('contracts_cancelation.ishaar') }}</a>
                                                                     </li>
                                                                 </ul>
                                                             </li>
@@ -234,7 +234,7 @@
                                                                    class="nav-link"> {{ trans('front.menu.temp_direct_contract') }}</a>
                                                             </li>
                                                             <li>
-                                                                <a href="{{ url('contracts/cancelation/direct_hiring/ishaar/beneficial') }}">
+                                                                <a href="{{ url('contracts/cancellation/direct_hiring/ishaar/beneficial') }}">
                                                                     {{trans('front.menu.cancel_approve')}}
                                                                 </a>
                                                             </li>

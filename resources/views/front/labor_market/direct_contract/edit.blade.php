@@ -27,8 +27,8 @@
                         <div class="portlet light portlet-fit portlet-datatable">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class=" icon-layers font-red"></i>
-                                    <span class="caption-subject font-red sbold uppercase">{{ trans('contracts.edit_contract_data') }}</span>
+                                    <i class=" icon-layers font-dark"></i>
+                                    <span class="caption-subject font-dark sbold uppercase">{{ trans('contracts.edit_contract_data') }}</span>
                                 </div>
                             </div>
                             <div class="portlet-body">

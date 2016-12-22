@@ -29,8 +29,8 @@
                         <div class="portlet light portlet-fit portlet-form ">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class=" icon-layers font-red"></i>
-                                    <span class="caption-subject font-red sbold uppercase">{{ trans('temp_job.received_contracts') }}</span>
+                                    <i class=" icon-layers font-dark"></i>
+                                    <span class="caption-subject font-dark sbold uppercase">{{ trans('temp_job.received_contracts') }}</span>
                                 </div>
                             </div>
                             <div class="portlet-body">
@@ -83,8 +83,8 @@
                         <div class="portlet light portlet-fit portlet-datatable">
                             <div class="portlet-title">
                                 <div class="caption">
-                                    <i class=" icon-layers font-red"></i>
-                                    <span class="caption-subject font-red sbold uppercase">{{ trans('temp_job.offer_contract') }}</span>
+                                    <i class=" icon-layers font-dark"></i>
+                                    <span class="caption-subject font-dark sbold uppercase">{{ trans('temp_job.offer_contract') }}</span>
                                 </div>
                             </div>
                             <div class="portlet-body">
