@@ -163,33 +163,31 @@
                                                     </div>
                                                 @endforeach
                                             @endif
-
+                                            @if ($thisContract->contract_file)
+                                                <div class="row static-info">
+                                                    <div class="col-lg-3">{{trans("temp_job.attachment")}}</div>
+                                                    <div class="col-lg-2">
+                                                        <a href="{{ url('uploads/'. $thisContract->contract_file) }}"
+                                                           download>
+                                                            <i class="fa fa-file"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
-                                    @if (isset($thisContract->contract_file))
-
-                                        <div class="row static-info">
-                                            <div class="col-lg-3">{{trans("tqaweloffers.attachment")}}</div>
-                                            <div class="col-lg-2">
-                                                <a href="{{ url('uploads/'. $thisContract->contract_file) }}" download>
-                                                    <i class="fa fa-file"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @endif
                                     {{Form::open(['url' => url('/offersdirect/accept/' . $thisContract->id), 'data-url'=>url('/offersdirect/' . $thisContract->id), 'id'=>'acceptform',"method"=>"PUT","role"=>"form"])}}
-                                    <div class="row static-info">
-                                        <div class="col-lg-3">{{trans("offersdirect.offerValideTo")}}</div>
-                                        <div class="col-lg-9">{{$dateEnded}}</div>
-                                    </div>
                                     <div class="row static-info">
                                         <div class="col-lg-3">{{trans("offersdirect.qualifications")}}</div>
                                         <div class="col-lg-9">
                                             @include('components.fileupload', ['name' => 'qualifications'])
                                         </div>
                                     </div>
+                                    <div class="row static-info">
+                                        <div class="col-lg-3">{{trans("offersdirect.offerValideTo")}}</div>
+                                        <div class="col-lg-9">{{$dateEnded}}</div>
+                                    </div>
                                     
-                                    <br>
                                     <div class="row">
                                         <div class="form-body">
                                             @if (count($errors))
@@ -202,7 +200,7 @@
                                             @endif
                                         </div>
                                         @if(isset($canAccept) && isset($canAcceptStatus))
-                                            <div class="col-lg-12 col-lg-6">
+                                            <div class="col-lg-12">
                                                 <div class="input-group">
                                                     <div class="icheck-inline">
                                                         <label>
@@ -213,8 +211,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6"></div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-12 text-center">
                                                 <div class="form-actions">
                                                     <button type="submit" class="btn blue"
                                                             data-loading-text="{{ trans('labels.loading') }}..."

@@ -82,6 +82,11 @@ Route::group(['middleware' => ['auth','EstablishmentSelected', 'ResponsibleUpdat
             'as'   => 'tempwork.contracts.edit',
             'uses' => 'Front\TempWorkContractsController@edit',
         ]);
+
+        Route::get("resendContract/{id}", [
+            'as'   => 'tempwork.contracts.resend',
+            'uses' => 'Front\TempWorkContractsController@resendContract',
+        ]);
     });
 
     Route::group(['prefix' => 'offers'], function () {
@@ -105,6 +110,7 @@ Route::group(['middleware' => ['auth','EstablishmentSelected', 'ResponsibleUpdat
     Route::get('ishaar/type/{id}','Front\NoticesController@index');
     Route::get('ishaar/{id}/cancel_ishaar', 'Front\NoticesController@cancelIshaar');
     Route::get('ishaar/{id}/show_ishaar', 'Front\NoticesController@showIshaar');
+    Route::get('ishaar/{id}/print_ishaar', 'Front\NoticesController@printIshaar');
     Route::get('ishaar/{id}/generate_invoice', 'Front\NoticesController@generateInvoice');
     Route::post('ishaar/ask_cancel', 'Front\NoticesController@askCancelIshaar');
     
@@ -131,6 +137,7 @@ Route::group(['middleware' => ['auth','EstablishmentSelected', 'ResponsibleUpdat
         ['as' => 'direct_hiring.contracts.edit', 'uses' => 'Front\DirectHiringContractsController@edit']);
     Route::post('direct-hiring-contract/update',
             ['as' => 'direct_hiring.contracts.update', 'uses' => 'Front\DirectHiringContractsController@update']);
+    Route::get("direct-hiring-contract/resendContract/{id}", 'Front\DirectHiringContractsController@resendContract');
     Route::post('direct-hiring-contract/create',
             ['as' => 'direct_hiring.contracts.create', 'uses' => 'Front\DirectHiringContractsController@createContract']);
     Route::get("direct-hiring/received-contracts", [
@@ -204,6 +211,7 @@ Route::group(['middleware' => ['AllUsersExceptAdmin']], function (){
     Route::get('direct_ishaar/type/{id}','Front\NoticesController@index');
     Route::get('direct_ishaar/{id}/cancel_ishaar', 'Front\NoticesController@cancelIshaar');
     Route::get('direct_ishaar/{id}/show_ishaar', 'Front\NoticesController@showIshaar');
+    Route::get('direct_ishaar/{id}/print_ishaar', 'Front\NoticesController@printIshaar');
     Route::post('direct_ishaar/{id}/generate_invoice', 'Front\NoticesController@generateInvoice');
     Route::post('direct_ishaar/ask_cancel', 'Front\NoticesController@askCancelIshaar');
 });

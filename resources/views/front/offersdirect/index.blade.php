@@ -42,11 +42,7 @@
                                             class="no-sort"> {{trans("offersdirect.providerName")}}</th>
                                         <th id="vacancy.job.job_name" width="200"
                                             class="no-sort">{{trans("offersdirect.job")}}</th>
-                                        <th id="vacancy.gender_name" width="200"
-                                            class="no-sort"> {{trans("offersdirect.gender")}}</th>
-                                        <th id="vacancy.religion_name" width="200"
-                                            class="no-sort"> {{trans("offersdirect.religion")}}</th>
-                                        <th id="vacancy.region.name" width="200"
+                                        <th id="contract_locations[0].region.name" width="200"
                                             class="no-sort"> {{trans("offersdirect.region")}}</th>
                                         <th id="start_date" width="200"
                                             class="no-sort"> {{trans("offersdirect.workStartDate")}}</th>
@@ -61,12 +57,6 @@
                                         </td>
                                         <td>
                                             {{ Form::select('job_name', $jobs,null, ['class' => 'form-control form-filter bs-select','placeholder'=>trans('offers.select'), "data-live-search" => "true"]) }}
-                                        </td>
-                                        <td>
-                                            {{ Form::select('gender_name', $genders,null, ['class' => 'form-control form-filter bs-select','placeholder'=>trans('offers.select')]) }}
-                                        </td>
-                                        <td>
-                                            {{ Form::select('religion_name', $religions,null, ['class' => 'form-control form-filter bs-select','placeholder'=>trans('offers.select')]) }}
                                         </td>
                                         <td>
                                             {{ Form::select('region_name', $regions,null, ['class' => 'form-control form-filter bs-select','placeholder'=>trans('offers.select')]) }}

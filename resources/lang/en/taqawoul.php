@@ -4,6 +4,7 @@ return [
     "buttons" => [
         "cancel" => "Cancel",
         "delete" => "Delete",
+        "create" => "Create contract",
         "details" => " More Details",
         "edit" => "Edit",
         "save_and_publish" => "Save & Publish",
@@ -34,5 +35,8 @@ return [
     "tqawel_services" => "Taqawol services",
     "tqawel_services_add" => "Add service",
     "tqawel_services_edit" => "Edit service",
-    "tqawel_services_list" => "Taqawol services list"
+    "tqawel_services_list" => "Taqawol services list",
+    "establishment_found" => 'Establishment found',
+    "establishment_not_found" => "No establishment exists with these data",
+    "contract_added_success" => "Contract created successsfully",
 ];

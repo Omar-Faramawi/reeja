@@ -267,6 +267,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-align-left col-md-12">
+                            @if ($createCopy)
+                                {!! Form::hidden('createCopy', true) !!}
+                            @endif
                             @include('components.disclaimer_modal', ['id' => 'confirm', 'title' => trans('contracts.disclaimers'), 'content' => 'front.disclaimers.direct_hiring_apply_offer_disclaimer', 'value' => 'pending'])
 
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirm">{{ trans('temp_job.save_and_send') }}</button>

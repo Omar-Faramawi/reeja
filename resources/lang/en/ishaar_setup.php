@@ -196,5 +196,31 @@ return [
         "list" => "This page allows you to manage ishaar "
     ],
     "taqawel_ishaars_management" => "Taqawol Ishaars Management",
-    "updated" => "Updated successfully"
+    "updated" => "Updated successfully",
+    'print-head' => "Tqawel notice",
+    'print-head-3' => "Hire labor notice",
+    'print-head-4' => "Direct employment notice",
+    'print-ishaar-expire' => "Notice expire date is",
+    'print-ishaar-verify' => "To validate this notice, you can visit Ajeer website (http://ajeer.com.sa).",
+    'print-ishaar-notice' => "We have informed you that we - as a service provider - has been contracted with the beneficial as per the below informations, this is to  record the contract to be with the worker to prove  that he works legally and show it whenever requested to make sure he is working on the right place",
+    'print-ishaar-emp-head' => "Worker data",
+    'print-ishaar-emp-head2' => "Contract informations",
+    'print-ishaar-emp-head3' => "Contract brief",
+    'print-ishaar-provider' => "Provider name",
+    'print-ishaar-benf' => "Benefecial name",
+    'print-ishaar-contractstart' => "Start date",
+    'print-ishaar-contractend' => "End date",
+    'print-ishaar-map-head' => "Work locations",
+    'print-ishaar-iqrar' => "Agreements",
+    'print-ishaar-iqrarsyntax' => "<li>The worker holder of this notice by carrying him represents and warrants that the data recorded therein are correct on personal responsibility, and it works with the employer to ensure the facility Exporting notice, but calculated, under a valid residence permit.</li>
+        <li>This notice does not exempt the holder, the provider establishment, and the beneficial establishment from the responsibility of any violation of the regulations of residence, employment or other.</li>
+        <li>Any amendment or scrape in this notice makes it cancelled</li>
+        <li>It has the right to those in charge on the website to cancel this notice in the following cases :</li>
+        <ul>
+        <li>When requested from Ministry of Labour to cancel notice at any time and without mentioning the reason</li>
+        <li>In the case of non-compliance with representations/agreemnts and terms and conditions relating to the website.</li>",
+    'print-ishaar-assign' => 'Signature:',
+    'print-ishaar-khatm' => 'Establishment stamp:',
+    'print-ishaar-service' => '* Service provided by Ministry of Labor and Social Development *',
+    'print-ishaar-birthdate' => "Birth date"
 ];

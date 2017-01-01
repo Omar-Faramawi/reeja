@@ -32,5 +32,7 @@ return [
     "start_date" => "Start date",
     "taqawel" => "Taqawol",
     "taqawel-contracts" => "Taqawol Contracts",
-    "work_locations" => "Work locations"
+    "work_locations" => "Work locations",
+    "resend" => "Resend",
+    "resend_success" => "Updated offer has been sent successfully"
 ];

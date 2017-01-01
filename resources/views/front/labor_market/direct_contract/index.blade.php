@@ -85,6 +85,10 @@
                                                                    href="{{ url('direct-hiring-contracts/'.$contract->id.'/show') }}"
                                                                    class="btn blue btn-sm">{{ trans('contracts.action_buttons.send_offer') }}</a>
                                                                 <a type="button" href="{{ url('direct-hiring-contracts/'.$contract->id.'/reject') }}" class="btn red btn-sm">{{ trans('contracts.action_buttons.reject_request') }}</a>
+                                                            @elseif($contract->status == "rejected")
+                                                                <a type="button"
+                                                                   href="{{ url('direct-hiring-contract/resendContract/'.$contract->id) }}"
+                                                                   class="btn blue btn-sm">{{ trans('tqawel_offer_contract.resend') }}</a>
                                                             @endif
                                                         @endif
 

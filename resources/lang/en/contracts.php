@@ -46,10 +46,12 @@ return [
         "pending" => "Pending payment"
     ],
     "only_one_location" => "Sorry you can't add more than one location",
+    "other" => "Other",
     "others" => "Other reasons",
     "reason" => "Reason",
     "reason_id" => "Reason",
     "rejection_reason" => "Contract Rejection Reason",
+    "rejection_reasons_details" => "More details",
     "reset" => "Reset",
     "reset_back" => "Revert Cancellation",
     "reset_back_reason" => "Revert Cancellation reason",
@@ -104,5 +106,7 @@ return [
     "updated" => "Updated",
     "work_completion_cert" => "Generate Work Completion Certificate",
     "more_details_about_rejection" => "More details about rejection reason",
-    "more_details_about_cancellation" => "More details about cancellation reason"
+    "more_details_about_cancellation" => "More details about cancellation reason",
+    "cancelled_successfully" => "Successfully cancelled",
+    "cancelled_requested_successfully" => "Contract cancellation request has been sent"
 ];

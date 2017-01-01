@@ -75,6 +75,10 @@
                                                                href="{{ url('temp_work/received-contracts/'.$contract->id.'/show-received-contract') }}"
                                                                class="btn blue btn-sm">{{ trans('contracts.action_buttons.send_offer') }}</a>
                                                             <a type="button" href="{{ url('contracts/'.$contract->id.'/reject') }}" class="btn red btn-sm">{{ trans('contracts.action_buttons.reject_request') }}</a>
+                                                        @elseif($contract->status == "rejected")
+                                                            <a type="button"
+                                                               href="{{ url('temp_work/resendContract/'.$contract->id) }}"
+                                                               class="btn blue btn-sm">{{ trans('temp_job.resend') }}</a>
                                                         @elseif($contract->status == "provider_cancel")
                                                             <button type="button"
                                                                     data-hreff="{{ url('contracts/'.$contract->id.'/cancel_reset') }}"

@@ -62,12 +62,13 @@ class TempWorkContractsController extends Controller
 
 	/**
 	 * @param $id
+     * @param $createCopy
 	 *
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View Edit the resource
 	 *
 	 * Edit the resource
 	 */
-	public function edit($id)
+	public function edit($id, $createCopy = false)
 	{
 		$contractTypeId = Constants::CONTRACTTYPES['hire_labor'];
 
@@ -81,17 +82,25 @@ class TempWorkContractsController extends Controller
 		    $readonly = [];
 		}
 
-                $jobs = $nationalities = [];
-                if (!empty($contract->vacancy)) {
-                    $jobs          = Job::pluck('job_name', 'id')->toArray();
-                    $nationalities = Nationality::pluck('name', 'id')->toArray();
-                }
+        $jobs = $nationalities = [];
+        if (!empty($contract->vacancy)) {
+            $jobs          = Job::pluck('job_name', 'id')->toArray();
+            $nationalities = Nationality::pluck('name', 'id')->toArray();
+        }
 		$regions       = Region::pluck('name', 'id')->toArray();
 
 		return view('front.labor_market.temp.edit', compact(
-			'contract', 'jobs', 'nationalities', 'regions', 'readonly'));
+			'contract', 'jobs', 'nationalities', 'regions', 'readonly', 'createCopy'));
 	}
 
+    /**
+     * @param $id
+     * @param $createCopy
+     */
+    public function resendContract($id)
+    {
+        return $this->edit($id, true);
+    }
 
 	/**
      * @param $id
@@ -224,8 +233,12 @@ class TempWorkContractsController extends Controller
      */
     public function updateTempWork(TempWorkContractRequest $request)
     {
-        $contract = Contract::byMe()->hireLabor()->editable()->findOrFail($request->contract_id);
-
+        if ($request->createCopy) {
+            $contract = Contract::byMe()->hireLabor()->status(Constants::CONTRACT_STATUSES['rejected'])->findOrFail($request->contract_id);
+        } else {
+            $contract = Contract::byMe()->hireLabor()->editable()->findOrFail($request->contract_id);
+        }
+        
         $data = array_except(
             array_merge(
                 $request->only(array_keys($request->rules())),
@@ -246,63 +259,110 @@ class TempWorkContractsController extends Controller
             unset($data['contract_file']);
         }
 
-        // Save contract locations
-        if( isset($request->region_id) ) {
-            $contractLocation = ContractLocation::where(['contract_id' => $contract->id])->first();
-            $contractLocation->update([
-                'branch_id'     => session()->get('selected_establishment.branch_no') ?: 1,
-                'region_id'     => $request->region_id[0],
-                'desc_location' => $request->contract_locations
-            ]);
-        }
+        if ($request->createCopy) {
+            $newContract = $contract->replicate();
+            $newContract->fill($data);
+            $newContract->save();
 
-        if ($contract->status != Constants::CONTRACT_STATUSES['approved']) {
-            $contractEmployees = [];
-            $data['contract_amount'] = 0;
+            if (isset($request->region_id)) {
+                $newContract->contractLocations()->save(new ContractLocation([
+                    'branch_id'     => session()->get('selected_establishment.id') ?: 1,
+                    'region_id'     => $request->region_id[0],
+                    'desc_location' => $request->contract_locations
+                ]));
+            }
 
+            $contractAmount = 0;
+            $employees = [];
+            $employee = [
+                'contract_id' => $newContract->id,
+                'start_date'  => $newContract->start_date,
+                'end_date'    => $newContract->end_date,
+                'ishaar_id'   => Constants::CONTRACTTYPES['hire_labor']
+            ];
             foreach ($request->ids as $k => $id) {
+                $uploadedFile = null;
                 if( $request->hasFile("fileupload_". $id) ) {
                     $uploadedFile = customUploadFile("fileupload_".$id, "tempWork");
-                } else {
-                    $uploadedFile = null;
                 }
 
                 $salary = 0;
-                if( isset($request->salary[$k]) ) {
-                    if( $request->salary[$k] ) {
-                        $salary = $request->salary[ $k ];
-                        $data['contract_amount'] += $salary;
-                    }
+                if( $request->salary[$k] ) {
+                    $salary = $request->salary[ $k ];
+                    $contractAmount += $salary;
                 }
 
-                $employee = ContractEmployee::where(['contract_id' => $contract->id, 'id_number' => $id])->first();
-                if ($employee) {
-                    $employee->start_date               = $contract->start_date;
-                    $employee->end_date                 = $contract->end_date;
-                    $employee->salary                   = $salary;
-                    if ($uploadedFile) {
-                        $employee->qualification_upload = $uploadedFile;
-                    }
-                } else {
-                    $employee                           = new ContractEmployee();
-                    $employee->contract_id              = $contract->id;
-                    $employee->id_number                = $id;
-                    $employee->start_date               = $contract->start_date;
-                    $employee->end_date                 = $contract->end_date;
-                    $employee->ishaar_id                = Constants::CONTRACTTYPES['hire_labor'];
-                    $employee->salary                   = $salary;
-                    if ($uploadedFile) {
-                        $employee->qualification_upload = $uploadedFile;
-                    }
+                $employee['id_number'] = $id;
+                $employee['salary']    = $salary;
+                if ($uploadedFile) {
+                    $employee['qualification_upload'] = $uploadedFile;
                 }
-                $employee->save();
-                $contractEmployees[] = $employee->id;
+                $employees[] = $employee;
             }
-            ContractEmployee::where('contract_id',$contract->id)->whereNotIn('id', $contractEmployees)->delete();
-        }
-        $contract->update($data);
 
-        return trans('temp_job.updated');
+            ContractEmployee::insert($employees);
+            $contract->update(['contract_amount' => $contractAmount]);
+
+            return trans('temp_job.resend_success');
+        } else {
+            // Save contract locations
+            if( isset($request->region_id) ) {
+                $contractLocation = ContractLocation::where(['contract_id' => $contract->id])->first();
+                $contractLocation->update([
+                    'branch_id'     => session()->get('selected_establishment.branch_no') ?: 1,
+                    'region_id'     => $request->region_id[0],
+                    'desc_location' => $request->contract_locations
+                ]);
+            }
+
+            if ($contract->status != Constants::CONTRACT_STATUSES['approved']) {
+                $contractEmployees = [];
+                $data['contract_amount'] = 0;
+
+                foreach ($request->ids as $k => $id) {
+                    if( $request->hasFile("fileupload_". $id) ) {
+                        $uploadedFile = customUploadFile("fileupload_".$id, "tempWork");
+                    } else {
+                        $uploadedFile = null;
+                    }
+
+                    $salary = 0;
+                    if( isset($request->salary[$k]) ) {
+                        if( $request->salary[$k] ) {
+                            $salary = $request->salary[ $k ];
+                            $data['contract_amount'] += $salary;
+                        }
+                    }
+
+                    $employee = ContractEmployee::where(['contract_id' => $contract->id, 'id_number' => $id])->first();
+                    if ($employee) {
+                        $employee->start_date               = $contract->start_date;
+                        $employee->end_date                 = $contract->end_date;
+                        $employee->salary                   = $salary;
+                        if ($uploadedFile) {
+                            $employee->qualification_upload = $uploadedFile;
+                        }
+                    } else {
+                        $employee                           = new ContractEmployee();
+                        $employee->contract_id              = $contract->id;
+                        $employee->id_number                = $id;
+                        $employee->start_date               = $contract->start_date;
+                        $employee->end_date                 = $contract->end_date;
+                        $employee->ishaar_id                = Constants::CONTRACTTYPES['hire_labor'];
+                        $employee->salary                   = $salary;
+                        if ($uploadedFile) {
+                            $employee->qualification_upload = $uploadedFile;
+                        }
+                    }
+                    $employee->save();
+                    $contractEmployees[] = $employee->id;
+                }
+                ContractEmployee::where('contract_id',$contract->id)->whereNotIn('id', $contractEmployees)->delete();
+            }
+            $contract->update($data);
+
+            return trans('temp_job.updated');
+        }
     }
 
     /**

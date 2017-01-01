@@ -191,6 +191,8 @@ return [
     "view" => "View",
     "year" => "Year",
     "yes" => "Yes",
-    'missing_accept_box' => 'You should accept rules'
+    'missing_accept_box' => 'You should accept rules',
+    'continue' => 'Continue',
+    'subscribe' => 'Paid Package Subscribe',
 
 ];

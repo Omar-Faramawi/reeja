@@ -32,5 +32,7 @@ return [
     "start_date" => "تاريخ بدايه العقد",
     "taqawel" => "تقاول",
     "taqawel-contracts" => "العقود",
-    "work_locations" => "مواقع العمل"
+    "work_locations" => "مواقع العمل",
+    "resend" => "إعادة إرسال",
+    "resend_success" => "تم إعادة إرسال العرض بنجاح"
 ];

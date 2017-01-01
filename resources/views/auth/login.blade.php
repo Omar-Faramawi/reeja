@@ -9,6 +9,9 @@
             <div class="col-md-12">
                 {{ Form::open(['url' => url('/login'), 'data-url'=>url('/'), 'id'=>'form']) }}
                 <div class="form-body">
+                    <div class="form-group text-center" id="mol_logo">
+                        <img src="https://www.mol.gov.sa/images/MOLlogo.png" alt="MOL">
+                    </div>
                     <div class="text-center">
                         <a href="{{ url('/auth/openid/login') }}" class="btn btn-primary">{{ trans('auth.open_id_login') }}</a>
                     </div>

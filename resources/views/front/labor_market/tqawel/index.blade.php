@@ -39,6 +39,7 @@
 
                             </div>
                             <div class="portlet-body">
+                                <a class="btn btn-default blue pull-end" href="{{ route('taqawel.create.contract')  }}">{{ trans('taqawoul.buttons.create') }}</a>
                                 <div class="table-container">
                                     <table id="datatable_ajax"
                                            data-token="{{ csrf_token() }}"

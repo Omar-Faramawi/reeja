@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "add" => "أضافة",
+    "add" => "إضافة",
     "added" => "تم الاضافة",
     "age" => "السن",
     "application_info" => "بيانات الطلب",
@@ -20,6 +20,7 @@ return [
     "download" => "تحميل",
     "employee_name" => "اسم العامل",
     "employees" => "قائمة العمالة",
+    "next"      => "التالي",
     "est_activity" => "نشاط المنشأة",
     "gender" => [
         "female" => "أنثى",
@@ -75,17 +76,20 @@ return [
     "service_benf_number" => "رقم المستفيد من الخدمة",
     "service_benf_type" => "نشاط المستفيد من الخدمة",
     "service_provider_info" => "بيانات مقدم الخدمة",
-    "service_provider_name" => "أسم مقدم الخدمة",
+    "service_provider_name" => "اسم مقدم الخدمة",
     "service_provider_number" => "رقم مقدم الخدمة",
     "service_provider_type" => "نشاط مقدم الخدمة",
     "service_type" => "نوع الخدمة",
     "show_offer" => "تقديم عرض",
     "the_job_owner" => "صاحب العمل",
     "the_job_seeker" => "الباحث عن عمل",
-    "updated" => "تم التعديل",
+    "updated" => "تم ارسال تعديل العقد",
     "work_date" => "تاريخ العمل ",
     "work_end_date" => "تاريخ نهاية العمل",
     "work_start_date" => "تاريخ بداية العمل ",
     "sallaryRequiredIf"=>'يجب ادخال الراتب',
-    "sallaryInteger"=>'يجب ان يكون الراتب رقم صحيح '
+    "sallaryInteger"=>'يجب ان يكون الراتب رقم صحيح ',
+    "offer_sent" => "تم ارسال العرض",
+    "resend" => "إعادة إرسال",
+    "resend_success" => "تم إعادة إرسال العرض بنجاح"
 ];

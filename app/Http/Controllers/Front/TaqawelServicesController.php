@@ -3,13 +3,18 @@
 namespace Tamkeen\Ajeer\Http\Controllers\front;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Tamkeen\Ajeer\Http\Requests;
+use Tamkeen\Ajeer\Http\Requests\SearchEstablishmentsRequest;
+use Tamkeen\Ajeer\Http\Requests\TaqawelGetContractsRequest;
 use Tamkeen\Ajeer\Http\Requests\TaqawelSendOfferRequest;
 use Tamkeen\Ajeer\Http\Requests\TaqawelServicesRequest;
 use Tamkeen\Ajeer\Http\Controllers\Controller;
 use Tamkeen\Ajeer\Models\ContractLocation;
+use Tamkeen\Ajeer\Models\Establishment;
 use Tamkeen\Ajeer\Models\InvoiceBundle;
 use Tamkeen\Ajeer\Models\MarketTaqawoulServices;
 use Tamkeen\Ajeer\Models\ContractNature;
@@ -103,6 +108,82 @@ class TaqawelServicesController extends Controller
         } else {
             return abort(401);
         }
+    }
+
+    /**
+     * Create taqawel contract
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function createTaqawelContract() {
+         return view('front.taqawel.taqawel_services.create_taqawel_contract');
+    }
+
+    /**
+     * Search Establishment for the given labour office number and sequence number
+     *
+     * @param SearchEstablishmentsRequest $request
+     * @return Response
+     */
+    public function searchEstablishments(SearchEstablishmentsRequest $request)
+    {
+        // Get the esblishment with the data provided
+        $establishment = Establishment::whereLabourOfficeNo($request->labour_office_no)->whereSequenceNo($request->sequence_no)->first();
+
+        return response([
+            'msg' => trans('taqawoul.establishment_found'),
+            'url' => route('taqawel.add.contract', ['establishment_id' => $establishment->id])
+        ], 200);
+
+    }
+
+
+    /**
+     *
+     * @param TaqawelGetContractsRequest $request
+     *
+     * @return Response
+     */
+    public function getContracts(TaqawelGetContractsRequest $request)
+    {
+        if( ! $request->ajax() ) {
+            return abort(404);
+        }
+
+        try {
+            $contracts = Contract::toMe()->whereContractNatureId($request->contract_nature_id)->get()->pluck('id', 'id');
+            return response([
+                'data' => $contracts
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response([
+                'msg' => trans('labels.not_found'),
+            ], 404);
+        }
+
+    }
+
+
+
+
+    /**
+     * Taqawel Contract details to be saved
+     *
+     * @param $establishment_id
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function addTaqawelContract($establishment_id)
+    {
+        try {
+            $contractNatures = ContractNature::pluck('name', 'id')->toArray();
+            $establishment = Establishment::findOrFail($establishment_id);
+            $hasInvoices = InvoiceBundle::byMe()->paid()->notExpired()->count();
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+
+        return view('front.labor_market.tqawel.add', compact('hasInvoices', 'establishment', 'contractNatures'));
     }
 
     /**
@@ -247,7 +328,7 @@ class TaqawelServicesController extends Controller
         $columns = request()->input('columns');
 
         if (request()->ajax()) {
-            $data = MarketTaqawoulServices::byProviders()->byOthers()->providerHasPermission()->benfHasActivities()->active()->with('contractNature');
+            $data = MarketTaqawoulServices::byProviders()->providerHasPermission()->benfHasActivities()->active()->with('contractNature');
 
             if (request()->input('provider_name')) {
                 $data = $data->where(function ($provider_q) {
@@ -339,7 +420,7 @@ class TaqawelServicesController extends Controller
 
         if (request()->ajax()) {
 
-            $query = MarketTaqawoulServices::byBenf()->byOthers()->benfHasPermission()->providerHasActivities()->with('contractNature');
+            $query = MarketTaqawoulServices::byBenf()->benfHasPermission()->providerHasActivities()->with('contractNature');
             $columns = request()->input('columns');
 
             if ($name = request()->input("name")) {
@@ -366,11 +447,12 @@ class TaqawelServicesController extends Controller
 
             $buttons = [
                 'show' => [
-                    "text"      => trans("temp_job.show_offer"),
-                    "url"       => url(request()->segment(1) . "/offer-taqawel-contract"),
-                    "col"       => "id",
-                    "uri"       => "show",
-                    "css_class" => "blue",
+                    "text"                => trans("temp_job.show_offer"),
+                    "url"                 => url(request()->segment(1) . "/offer-taqawel-contract"),
+                    "col"                 => "id",
+                    "uri"                 => "show",
+                    "css_class"           => "blue",
+                    "filter_own_services" => true
                 ],
             ];
 
@@ -450,14 +532,19 @@ class TaqawelServicesController extends Controller
 
     /**
      * @param $id
+     * @param $createCopy
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function editContract($id)
+    public function editContract($id, $createCopy = false)
     {
         list($userId, $username) = getCurrentUserNameAndId();
         try {
-            $contract = Contract::byMe()->editable()->findOrFail($id);
+            if ($createCopy) {
+                $contract = Contract::byMe()->status(Constants::CONTRACT_STATUSES['rejected'])->findOrFail($id);
+            } else {
+                $contract = Contract::byMe()->editable()->findOrFail($id);
+            }
             $period = getDiffPeriodMonth($contract->start_date, $contract->end_date);
             $contracts = Contract::toMe()->where('id', '!=', $id)->get()->pluck('id', 'id')->toArray();
             $contractNatures = ContractNature::get()->pluck('name', 'id')->toArray();
@@ -469,7 +556,16 @@ class TaqawelServicesController extends Controller
         }
 
         return view('front.labor_market.tqawel.edit',
-            compact('userId', 'username', 'contract', 'contractNatures', 'contracts', 'regions', 'hasInvoices','period'));
+            compact('userId', 'username', 'contract', 'contractNatures', 'contracts', 'regions', 'hasInvoices', 'period', 'createCopy'));
+    }
+
+    /**
+     * @param $id
+     * @param $createCopy
+     */
+    public function resendContract($id)
+    {
+        return $this->editContract($id, true);
     }
 
     /**
@@ -485,33 +581,56 @@ class TaqawelServicesController extends Controller
 
         try {
             $contract = Contract::findOrFail($contractId);
-            if ($contract->status == Constants::CONTRACT_STATUSES['approved']) {
-                $data = [];
-            }
-            if ($request->hasFile('file_contract')) {
-                $contract_file = customUploadFile('file_contract', 'tqawel');
-                $data['contract_file'] = $contract_file;
-            }
 
-            if ($request->file_contract || $request->desc_location) {
+            if ($request->createCopy) {
+                $newContract = $contract->replicate();
+
                 $data['status'] = Constants::CONTRACT_STATUSES['pending'];
-                $contract->update($data);
-            }
-            $contract->contractLocations()->delete();
-            if ($request->desc_location) {
-                foreach ($request->desc_location as $location) {
-                    $contract->contractLocations()->save(new ContractLocation([
-                        'branch_id'     => session()->get('selected_establishment.id'),
-                        'desc_location' => $location,
-                    ]));
+                if ($request->hasFile('file_contract')) {
+                    $data['contract_file'] = customUploadFile('file_contract', 'tqawel');
                 }
-            }
+                
+                $newContract->fill($data);
+                $newContract->save();
 
+                if ($request->desc_location) {
+                    foreach ($request->desc_location as $location) {
+                        $newContract->contractLocations()->save(new ContractLocation([
+                            'branch_id'     => session()->get('selected_establishment.id'),
+                            'desc_location' => $location,
+                        ]));
+                    }
+                }
+                
+                return trans('tqawel_offer_contract.resend_success');
+            } else {
+                if ($contract->status == Constants::CONTRACT_STATUSES['approved']) {
+                    $data = [];
+                }
+                if ($request->hasFile('file_contract')) {
+                    $contract_file = customUploadFile('file_contract', 'tqawel');
+                    $data['contract_file'] = $contract_file;
+                }
+
+                if ($request->file_contract || $request->desc_location) {
+                    $data['status'] = Constants::CONTRACT_STATUSES['pending'];
+                    $contract->update($data);
+                }
+                $contract->contractLocations()->delete();
+                if ($request->desc_location) {
+                    foreach ($request->desc_location as $location) {
+                        $contract->contractLocations()->save(new ContractLocation([
+                            'branch_id'     => session()->get('selected_establishment.id'),
+                            'desc_location' => $location,
+                        ]));
+                    }
+                }
+
+                return trans('labels.updated');
+            }
         } catch (ModelNotFoundException $e) {
             abort(404);
         }
-
-        return trans('labels.updated');
     }
 
 
@@ -545,24 +664,42 @@ class TaqawelServicesController extends Controller
     {
         $data = array_except($request->only(array_keys($request->rules())),
             ['market_taqaual_services_id', 'file_contract', 'desc_location']);
-        $service = MarketTaqawoulServices::byBenf()->byOthers()->active()->findOrFail($request->market_taqaual_services_id);
+        
         $contractFile = null;
-
         if ($request->hasFile('file_contract')) {
             $contractFile = customUploadFile('file_contract', 'tqawel');
         }
 
-        $contract = Contract::create(array_merge($data, [
-            'contract_file'              => $contractFile,
-            'status'                     => Constants::CONTRACT_STATUSES['pending'],
-            'contract_type_id'           => Constants::CONTRACTTYPES['taqawel'],
-            'provider_type'              => \Auth::user()->user_type_id,
-            'provider_id'                => $service->getCurrentLoginId(),
-            'benf_type'                  => $service->service_prvdr_benf_id,
-            'benf_id'                    => $service->service_id,
-            'contract_nature_id'         => $service->contract_nature_id,
-            'market_taqaual_services_id' => $request->market_taqaual_services_id,
-        ]));
+        if ($request->benf_id && $request->contract_nature_id) {
+            $contractData = [
+                'contract_file'              => $contractFile,
+                'status'                     => Constants::CONTRACT_STATUSES['pending'],
+                'contract_type_id'           => Constants::CONTRACTTYPES['taqawel'],
+                'provider_type'              => \Auth::user()->user_type_id,
+                'provider_id'                => getCurrentUserNameAndId()[0],
+                'benf_type'                  => Constants::USERTYPES['est'],
+                'contract_nature_id'         => $request->contract_nature_id
+            ];
+
+            $msg = trans('taqawoul.contract_added_success');
+        } else {
+            $service = MarketTaqawoulServices::byBenf()->byOthers()->active()->findOrFail($request->market_taqaual_services_id);
+            $contractData = [
+                'contract_file'              => $contractFile,
+                'status'                     => Constants::CONTRACT_STATUSES['pending'],
+                'contract_type_id'           => Constants::CONTRACTTYPES['taqawel'],
+                'provider_type'              => \Auth::user()->user_type_id,
+                'provider_id'                => $service->getCurrentLoginId(),
+                'benf_type'                  => $service->service_prvdr_benf_id,
+                'benf_id'                    => $service->service_id,
+                'contract_nature_id'         => $service->contract_nature_id,
+                'market_taqaual_services_id' => $request->market_taqaual_services_id,
+            ];
+
+            $msg = trans('labels.sumbitedsucc');
+        }
+        
+        $contract = Contract::create(array_merge($data, $contractData));
 
         // send notify email to beneficial
         \Mail::send('emails.send_taqawel_offer',['contractName' => $contract->contractNature->name, 'contractId' => $contract->id], function ($message) use ($contract) {
@@ -580,7 +717,7 @@ class TaqawelServicesController extends Controller
             }
         }
 
-        return trans('labels.sumbitedsucc');
+        return $msg;
     }
 
     /**

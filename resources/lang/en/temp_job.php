@@ -20,6 +20,7 @@ return [
     "download" => "Download",
     "employee_name" => "Employee name",
     "employees" => "Employees",
+    "next"      => "Next",
     "est_activity" => "Establishment activity",
     "gender" => [
         "female" => "female",
@@ -82,10 +83,13 @@ return [
     "show_offer" => "Show offer",
     "the_job_owner" => "Job owner",
     "the_job_seeker" => "Job Seeker",
+    "updated" => "The updated contract has been sent",
     "work_date" => "Work date",
     "work_end_date" => "End date",
     "work_start_date" => "Start date",
     'sallaryRequiredIf' => 'you should provide salary',
-    "sallaryInteger" => 'Salary should be integer '
-
+    "sallaryInteger" => 'Salary should be integer ',
+    "offer_sent" => "Offer has been sent",
+    "resend" => "Resend",
+    "resend_success" => "Updated offer has been sent successfully"
 ];

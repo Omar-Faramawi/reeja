@@ -32,23 +32,18 @@ class OfferDirectController extends Controller
                 ->with([
                     'vacancy' => function ($v_q) {
                         $v_q->with(['job', 'region']);
-                    }
-                    ,
+                    }, 
+                    'contractLocations',
+                    'contractLocations.region'
                 ]);
-            if (request()->input('job_name') || request()->input('region_name') || request()->input('religion_name') || request()->input('gender_name') || request()->input('gender_name') === '0') {
+            if (request()->input('job_name')) {
                 $data = $data->whereHas('vacancy', function ($q) {
-                    if (request()->input('job_name')) {
-                        $q->where('job_id', request()->input('job_name'));
-                    }
-                    if (request()->input('region_name')) {
-                        $q->where('region_id', request()->input('region_name'));
-                    }
-                    if (request()->input('religion_name')) {
-                        $q->where('religion', request()->input('religion_name'));
-                    }
-                    if (request()->input('gender_name') || request()->input('gender_name') === '0') {
-                        $q->where('gender', request()->input('gender_name'));
-                    }
+                    $q->where('job_id', request()->input('job_name'));
+                });
+            }
+            if (request()->input('region_name')) {
+                $data = $data->whereHas('contractLocations', function ($q) {
+                    $q->where('region_id', request()->input('region_name'));
                 });
             }
 

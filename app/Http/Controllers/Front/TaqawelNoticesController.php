@@ -21,6 +21,7 @@ use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository;
 use Tamkeen\Ajeer\Models\SaudiPercentage;
 use Tamkeen\Ajeer\Models\Establishment;
 use Illuminate\Support\Facades\DB;
+use Tamkeen\Ajeer\Services\Barcode\BarcodeGenerator;
 
 class TaqawelNoticesController extends Controller
 {
@@ -162,7 +163,7 @@ class TaqawelNoticesController extends Controller
                 'print' => [
                     "text"      => trans("ishaar_setup.actions.print"),
                     "url"       => url('taqawel/notices'),
-                    "uri"       => "show_ishaar?print=1",
+                    "uri"       => "print_ishaar",
                     "css_class" => "blue printishaar",
                 ],
             ];
@@ -171,7 +172,7 @@ class TaqawelNoticesController extends Controller
                 'print' => [
                     "text"      => trans("ishaar_setup.actions.print"),
                     "url"       => url('taqawel/notices'),
-                    "uri"       => "show_ishaar?print=1",
+                    "uri"       => "print_ishaar",
                     "css_class" => "blue printishaar",
                 ],
             ];
@@ -455,6 +456,28 @@ class TaqawelNoticesController extends Controller
         $reasons  = Reason::where('parent_id', 5)->get();
 
         return view('front.taqawel.notices.show', compact('contract', 'reasons'));
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function printIshaar($id,  BarcodeGenerator $barcode)
+    {
+        if (session()->get('service_type') === Constants::SERVICETYPES['benf']) {
+            $notice = ContractEmployee::whereHas('contract', function ($cont_q) {
+                $cont_q->toMe()->approved()->taqawel();
+            })->findOrFail($id);
+        } else{
+            $notice = ContractEmployee::whereHas('contract', function ($cont_q) {
+                $cont_q->byMe()->approved()->taqawel();
+            })->findOrFail($id);
+        }
+        $barcode = $barcode->generate($notice->id);
+
+        return view('front.taqawel.notices.print', compact('notice', 'barcode'));
     }
 
     /**

@@ -34,7 +34,7 @@ return [
     "edit_contract" => "تعديل العرض",
     "edit_contract_data" => "تعديل العقد",
     "employee_signed" => "قائمة العمالة المسجلة",
-    "get_location" => "أختر المكان",
+    "get_location" => "اختر المكان",
     "id" => "رقم العقد",
     "ids_missing" => "العمالة",
     "latlon" => "أماكن المناطق",
@@ -106,5 +106,7 @@ return [
     "updated" => "تم التعديل",
     "work_completion_cert" => "إصدار شهادة إتمام عمل مؤقت",
     "more_details_about_rejection" => "تفاصيل أخرى متعلقة بسبب الرفض",
-    "more_details_about_cancellation" => "تفاصيل أخرى متعلقة بسبب الإلغاء"
+    "more_details_about_cancellation" => "تفاصيل أخرى متعلقة بسبب الإلغاء",
+    "cancelled_successfully" => "تم إلغاء العقد بنجاح",
+    "cancelled_requested_successfully" => "تم إرسال طلب الإلغاء بنجاح"
 ];

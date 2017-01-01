@@ -43,9 +43,9 @@
                                     <tr role="row" class="heading">
                                         <th> #</th>
                                         @if($isProvider)
-                                            <th width="15%">{{ trans('temp_job.benf_id') }}</th>
+                                            <th>{{ trans('temp_job.benf_id') }}</th>
                                         @else
-                                            <th width="15%">{{ trans('temp_job.provider_id') }}</th>
+                                            <th>{{ trans('temp_job.provider_id') }}</th>
                                         @endif
                                         <th>{{ trans('tqawel_offer_contract.start_date') }}</th>
                                         <th>{{ trans('tqawel_offer_contract.end_date') }}</th>
@@ -77,6 +77,10 @@
                                                                href="{{ url('taqawel/offer-taqawel-contract/'.$contract->id.'/edit') }}"
                                                                class="btn blue btn-sm">{{ trans('tqawel_offer_contract.offer_contract') }}</a>
                                                             <a type="button" href="{{ url('taqawel/offer-taqawel-contract/'.$contract->id.'/reject') }}" class="btn red btn-sm">{{ trans('tqawel_offer_contract.reject') }}</a>
+                                                        @elseif($contract->status == "rejected")
+                                                            <a type="button"
+                                                               href="{{ url('taqawel/resendContract/'.$contract->id) }}"
+                                                               class="btn blue btn-sm">{{ trans('tqawel_offer_contract.resend') }}</a>
                                                         @elseif($contract->status == "provider_cancel")
                                                             <button type="button"
                                                                     data-hreff="{{ url('taqawel/offer-taqawel-contract/'.$contract->id.'/cancel_reset') }}"

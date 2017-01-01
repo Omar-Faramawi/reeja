@@ -78,6 +78,16 @@ return [
             'schema' => 'public',
         ],
 
+        'mol' => [
+            'driver'   => 'sqlsrv',
+            'host'     => env('MOL_DB_HOSTNAME', 'localhost'),
+            'database' => env('MOL_DB_DATABASE', 'database'),
+            'username' => env('MOL_DB_USERNAME', 'username'),
+            'password' => env('MOL_DB_PASSWORD', 'password'),
+            'prefix'   => '',
+            'charset'  => 'utf8',
+        ],
+
     ],
 
     /*

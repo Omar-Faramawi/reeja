@@ -50,6 +50,8 @@ class TaqawelSendOfferRequest extends Request
                 'desc_location'      => 'required',
                 'file_contract'      => 'required|mimes:jpeg,bmp,png,doc,docx,pdf|max:20000',
                 'status'             => 'sometimes|required|in:pending,approved',
+                'benf_id'            => 'sometimes|required|integer|exists:establishments,id',
+                'contract_nature_id' => 'sometimes|required|integer',
             ];
         }
 
@@ -72,6 +74,7 @@ class TaqawelSendOfferRequest extends Request
             'desc_location'      => trans('tqawel_offer_contract.work_locations'),
             'file_contract'      => trans('tqawel_offer_contract.attached_file'),
             'contract_type'      => trans('tqawel_offer_contract.contract_type'),
+            'contract_nature_id' => trans('tqawel_offer_contract.contract_nature'),
         ];
     }
 

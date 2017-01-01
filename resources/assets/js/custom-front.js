@@ -31,6 +31,7 @@ $(function () {
     $(".make-switch").bootstrapSwitch();
     $(".date-picker").datepicker({
         dateFormat: 'yy-mm-dd',
+        changeMonth: true,
         changeYear: true
     });
 
@@ -118,9 +119,16 @@ $(function () {
             processData: false,
             contentType: false,
             success: function (msg) {
-                toastr.success('', msg);
+                var message,url;
+                if(typeof(msg) == 'object') {
+                    message = msg.msg;
+                    url     = msg.url;
+                } else {
+                    message = msg;
+                }
+                toastr.success('', message);
                 setTimeout(function () {
-                    window.location = current.data('url');
+                    window.location = url ? url : current.data('url');
                 }, 2000);
             },
             error: function (msg) {
@@ -145,6 +153,33 @@ $(function () {
             }
         });
     });
+
+    $('.market-taqawel-sevices-id-add').on('change', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            url: $(this).attr('action'),
+            data: {
+                _token: $('input[name=_token]').val(),
+                contract_nature_id: $(this).val()
+            },
+            success: function (response) {
+                $('select[name=contract_ref_no] option').remove();
+
+                $.each(response.data, function(key, value) {
+                    $('select[name=contract_ref_no]').append('<option value="'+ value +'">'+ value +'</option>');
+                });
+            },
+            error: function (response) {
+                if (msg.status == 500 || msg.status == 404) {
+                    toastr.error("", response.msg);
+                }
+            }
+        });
+
+
+    });
+
     $("#calculateButton").on("click", function (e) {
         var btn = $("#calculateButton").button('loading');
         var current = $(this);
@@ -802,10 +837,15 @@ $(function () {
     //Taqawel Ishaar selecet contract
     $("#taqawel_contract_id").on('change', function () {
         var id = $(this).val();
-        var base = window.location.protocol + "//" + window.location.host + "/";
-        $("#add_notice").attr("href", base + 'taqawel/notices/' + id);
+        if (id) {
+            var base = window.location.protocol + "//" + window.location.host + "/";
+            $('body').find('#continuetogenerate').attr('href',base + 'taqawel/notices/' + id);
+            $('#add_notice').prop('disabled', false);
+        } else {
+            $('#add_notice').prop('disabled', true);
+        }
     });
-
+	
     // add Ishaar Confirmation
     $(".cancel_ishaar").on('click', function () {
         var txt;
@@ -1222,6 +1262,7 @@ $('document').ready(function () {
         rtl: App.isRTL(),
         autoclose: true,
         dateFormat: 'yy-mm-dd',
+        changeMonth: true,
         changeYear: true,
         onSelect: function (date) {
             var from, to;
@@ -1261,7 +1302,7 @@ $('document').ready(function () {
         var x = parseInt($(this).val());
         var from = $(".from").val();
         var CurrentDate = new Date(from);
-        CurrentDate.setMonth(CurrentDate.getMonth() + x);
+        CurrentDate.setMonth(CurrentDate.getMonth() + x, CurrentDate.getDate()-1);
         $('.to').datepicker("setDate", CurrentDate);
     })
 
@@ -1711,6 +1752,7 @@ $('document').ready(function () {
 
     $("#direct_login").on("click", function (e) {
         $("#direct_login_form").slideToggle();
+        $("#mol_logo").slideToggle();
         return false;
     });
     $("#approveButton").on('click', function (e) {

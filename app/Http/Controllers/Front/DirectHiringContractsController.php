@@ -123,17 +123,30 @@ class DirectHiringContractsController extends Controller
      *
      * Edit the resource
      */
-    public function edit($contract_id)
+    public function edit($contract_id, $createCopy = false)
     {
         try {
-            $contract = Contract::toMe()->directEmp()->with('vacancy', 'contractLocations','contractEmployee','contractEmployee.hrPool','contractEmployee.hrPool.job', 'contractEmployee.hrPool.nationality','contractEmployee.hrPool.region')->editable()->findOrFail($contract_id);
+            if ($createCopy) {
+                $contract = Contract::toMe()->directEmp()->with('vacancy', 'contractLocations','contractEmployee','contractEmployee.hrPool','contractEmployee.hrPool.job', 'contractEmployee.hrPool.nationality','contractEmployee.hrPool.region')->status(Constants::CONTRACT_STATUSES['rejected'])->findOrFail($contract_id);
+            } else {
+                $contract = Contract::toMe()->directEmp()->with('vacancy', 'contractLocations','contractEmployee','contractEmployee.hrPool','contractEmployee.hrPool.job', 'contractEmployee.hrPool.nationality','contractEmployee.hrPool.region')->editable()->findOrFail($contract_id);
+            }
             $jobSeeker = $contract->contractEmployee[0]->hrPool;
             $regions = Region::pluck('name', 'id')->toArray();
 
-            return view('front.labor_market.direct_contract.edit', compact('contract', 'contract_id', 'jobSeeker', 'regions'));
+            return view('front.labor_market.direct_contract.edit', compact('contract', 'contract_id', 'jobSeeker', 'regions', 'createCopy'));
         } catch (ModelNotFoundException $e) {
             abort(404);
         }
+    }
+
+    /**
+     * @param $id
+     * @param $createCopy
+     */
+    public function resendContract($id)
+    {
+        return $this->edit($id, true);
     }
 
     /**
@@ -143,33 +156,48 @@ class DirectHiringContractsController extends Controller
      */
     public function update(ReceivedContractRequest $request)
     {
-        $contract = Contract::toMe()->directEmp()->editable()->findOrFail($request->contract_id);
+        if ($request->createCopy) {
+            $contract = Contract::toMe()->directEmp()->status(Constants::CONTRACT_STATUSES['rejected'])->findOrFail($request->contract_id);
+        } else {
+            $contract = Contract::toMe()->directEmp()->editable()->findOrFail($request->contract_id);
+        }
 
         $data = array_except($request->only(array_keys($request->rules())),
             ['contract_locations', 'region_id', 'contract_file']);
         $data['job_type'] = $request->job_type_id;
         $data['contract_amount'] = $request->contract_amount;
-
-        if ($contract->status == Constants::CONTRACT_STATUSES['requested']) {
-            $data['status'] = Constants::CONTRACT_STATUSES['pending'];
-        } elseif ($contract->status == Constants::CONTRACT_STATUSES['approved']) {
+        $data['status'] = Constants::CONTRACT_STATUSES['pending'];
+        if ($contract->status == Constants::CONTRACT_STATUSES['approved']) {
             $data = [];
-            $data['status'] = Constants::CONTRACT_STATUSES['pending'];
         }
         if ($request->hasFile('contract_file')) {
             $data['contract_file'] = customUploadFile('contract_file', 'TempWork');
         }
+        
+        if ($request->createCopy) {
+            $newContract = $contract->replicate();
+            $newContract->fill($data);
+            $newContract->save();
 
-        $contract->update($data);
+            $employee = $contract->contractEmployee[0]->replicate();
+            $newContract->contractEmployee()->save($employee);
+            $contract = $newContract;
 
-        $contract->contractLocations()->delete();
+            $msg = trans('temp_job.resend_success');
+        } else {
+            $contract->update($data);
+            $contract->contractLocations()->delete();
+
+            $msg = trans('temp_job.added');
+        }
+                
         $contract->contractLocations()->save(new ContractLocation([
             'branch_id'     => session()->get('selected_establishment.branch_no') ?: 1,
             'region_id'     => $request->region_id[0],
             'desc_location' => $request->contract_locations
         ]));
 
-        return trans('temp_job.added');
+        return $msg;
     }
     
     /**

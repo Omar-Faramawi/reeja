@@ -1136,9 +1136,9 @@ class ContractsController extends Controller
                 'print_ishaar'            => [
                     'repeated'                                      => true,
                     'text'                                          => trans('contracts.action_buttons.print_ishaar'),
-                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/direct_ishaar/{id}/show_ishaar/?print=1',
-                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/ishaar/{id}/show_ishaar/?print=1',
-                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/notices/{id}/show_ishaar/?print=1',
+                    'uri_' . Constants::CONTRACTTYPES['direct_emp'] => '/direct_ishaar/{id}/print_ishaar',
+                    'uri_' . Constants::CONTRACTTYPES['hire_labor'] => '/ishaar/{id}/print_ishaar',
+                    'uri_' . Constants::CONTRACTTYPES['taqawel']    => '/taqawel/notices/{id}/print_ishaar',
                     'params'                                        => ['id' => ['name' => 'id', 'value' => null]],
                     "css_class"                                     => "green",
                     "attributes"                                    => [

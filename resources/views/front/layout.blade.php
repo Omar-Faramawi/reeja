@@ -33,17 +33,17 @@
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class=""></li>
                 <li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="2" class="active"></li>
             </ol>
             <div class="carousel-inner" role="listbox">
                 <div class="item">
-                    <img src="{{ asset('images/worker.jpg') }}" alt="B3" typeof="Image" height="562.5" width="900" style="top: -150px">
-
-
+                    <img src="{{ asset('images/slider1.png') }}" alt="B3" typeof="Image" height="467" width="990">
                 </div>
                 <div class="item active">
-                    <img src="{{ asset('images/worker2.jpg') }}" alt="B2" typeof="Image" height="600" width="900" style="top: -70px">
-
-
+                    <img src="{{ asset('images/slider2.png') }}" alt="B2" typeof="Image" height="467" width="990">
+                </div>
+                <div class="item">
+                    <img src="{{ asset('images/slider3.png') }}" alt="B2" typeof="Image" height="467" width="990">
                 </div>
             </div>
         </div>

@@ -25,6 +25,7 @@ use Carbon\Carbon;
 use Tamkeen\Ajeer\Models\Establishment;
 use Tamkeen\Ajeer\Models\BaseModel;
 use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository;
+use Tamkeen\Ajeer\Services\Barcode\BarcodeGenerator;
 
 class NoticesController extends Controller
 {
@@ -132,7 +133,7 @@ class NoticesController extends Controller
                 'print' => [
                     "text" => trans("ishaar_setup.actions.print"),
                     "url" => url($url),
-                    "uri" => "show_ishaar?print=1",
+                    "uri" => "print_ishaar",
                     "css_class" => "blue printishaar",
                 ]
             ];
@@ -301,6 +302,35 @@ class NoticesController extends Controller
         $reasons  = Reason::where('parent_id',6)->get();
 
         return view('front.ishaar.show', compact('contract','reasons'));
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function printIshaar($id,  BarcodeGenerator $barcode)
+    {
+        if (session()->get('service_type') === Constants::SERVICETYPES['benf']) {
+            $notice = ContractEmployee::whereHas('contract', function ($cont_q) {
+                    if(Route::getCurrentRoute()->getcompiled()->getstaticPrefix()== '/direct_ishaar')
+                        $cont_q->toMe()->approved()->directEmployee();
+                    else
+                        $cont_q->toMe()->approved()->hireLabor();
+
+                })->findOrFail($id);
+        } else{
+            $notice = ContractEmployee::whereHas('contract', function ($cont_q) {
+                if(Route::getCurrentRoute()->getcompiled()->getstaticPrefix()== '/direct_ishaar')
+                        $cont_q->byMe()->approved()->directEmployee();
+                    else
+                        $cont_q->byMe()->approved()->hireLabor();
+            })->findOrFail($id);
+        }
+        $barcode = $barcode->generate($notice->id);
+
+        return view('front.ishaar.print', compact('notice', 'barcode'));
     }
 
     /**

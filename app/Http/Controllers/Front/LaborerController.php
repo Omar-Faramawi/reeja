@@ -58,11 +58,9 @@ class LaborerController extends Controller
             }
 
             $buttons   = [];
-            $extraHtml = ["column" => [], "html" => []];
-
             $total_count = ($data->count()) ? $data->count() : 1;
 
-            return dynamicAjaxPaginate($data, $columns, $total_count, $buttons, true, $extraHtml);
+            return dynamicAjaxPaginate($data, $columns, $total_count, $buttons, true);
         }
         
         $jobs = Job::pluck('job_name', 'id');

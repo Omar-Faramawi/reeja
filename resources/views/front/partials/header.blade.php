@@ -7,7 +7,12 @@
                 <div class="col-md-12 col-sm-12 col-xs-9 top_navigation">
                     <nav>
                         @if($auth_user)
-                            <a href="#">
+                            @if($auth_user->user_type_id == Constants::USERTYPES['saudi'] ||
+                                $auth_user->user_type_id == Constants::USERTYPES['job_seeker'])
+                                <a href="{{url('/cv')}}">
+                            @else
+                                <a href="#">
+                            @endif
                                 <i class="icon icon-user"></i>
                                 {{ $auth_user->name }}
                                 @if(session()->has('selected_establishment.name'))

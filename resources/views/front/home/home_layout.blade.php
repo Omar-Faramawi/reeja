@@ -7,106 +7,43 @@
         <!-- BEGIN PAGE CONTENT INNER -->
         <div class="page-content-inner">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat2 ">
-                        <div class="display">
-                            <div class="number">
-                                <h3 class="font-green-sharp">
-                                    <span data-counter="counterup" data-value="7800">7800</span>
-                                </h3>
-                                <small>{{ trans('front.dashboard.new_est') }}</small>
+                <div class="row margin-bottom-20">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="portlet light">
+                            <div class="card-icon">
+                                <i class="icon-briefcase font-red-sunglo theme-font"></i>
                             </div>
-                            <div class="icon">
-                                <i class="icon-pie-chart"></i>
+                            <div class="card-title">
+                                <span>{{ trans('about.ajeer_for_job_service.heading') }}</span>
                             </div>
-                        </div>
-                        <div class="progress-info">
-                            <div class="progress">
-                                <span style="width: 76%;" class="progress-bar progress-bar-success green-sharp">
-                                    <span class="sr-only">76%</span>
-                                </span>
-                            </div>
-                            <div class="status">
-                                <div class="status-title"> {{ trans('front.dashboard.rate') }} </div>
-                                <div class="status-number"> 76%</div>
+                            <div class="card-desc">
+                                <div>{{ trans('about.ajeer_for_job_service.body') }}</div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat2 ">
-                        <div class="display">
-                            <div class="number">
-                                <h3 class="font-red-haze">
-                                    <span data-counter="counterup" data-value="1349">1349</span>
-                                </h3>
-                                <small>{{ trans('front.dashboard.new_users') }}</small>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="portlet light">
+                            <div class="card-icon">
+                                <i class="icon-users font-green-haze theme-font"></i>
                             </div>
-                            <div class="icon">
-                                <i class="icon-like"></i>
+                            <div class="card-title">
+                                <span>{{ trans('about.ajeer_for_companies_service.heading') }}</span>
                             </div>
-                        </div>
-                        <div class="progress-info">
-                            <div class="progress">
-                                <span style="width: 85%;" class="progress-bar progress-bar-success red-haze">
-                                    <span class="sr-only">85%</span>
-                                </span>
-                            </div>
-                            <div class="status">
-                                <div class="status-title"> {{ trans('front.dashboard.rate') }} </div>
-                                <div class="status-number"> 85%</div>
+                            <div class="card-desc">
+                                <div>{{ trans('about.ajeer_for_companies_service.body') }}</div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat2 ">
-                        <div class="display">
-                            <div class="number">
-                                <h3 class="font-blue-sharp">
-                                    <span data-counter="counterup" data-value="567">567</span>
-                                </h3>
-                                <small>{{ trans('front.dashboard.chances') }}</small>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="portlet light">
+                            <div class="card-icon">
+                                <i class="icon-flag font-blue theme-font"></i>
                             </div>
-                            <div class="icon">
-                                <i class="icon-basket"></i>
+                            <div class="card-title">
+                                <span>{{ trans('about.ajeer_for_visitor_service.heading') }}</span>
                             </div>
-                        </div>
-                        <div class="progress-info">
-                            <div class="progress">
-                                <span style="width: 45%;" class="progress-bar progress-bar-success blue-sharp">
-                                    <span class="sr-only">45%</span>
-                                </span>
-                            </div>
-                            <div class="status">
-                                <div class="status-title"> {{ trans('front.dashboard.rate') }} </div>
-                                <div class="status-number"> 45%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat2 ">
-                        <div class="display">
-                            <div class="number">
-                                <h3 class="font-purple-soft">
-                                    <span data-counter="counterup" data-value="276">276</span>
-                                </h3>
-                                <small>{{ trans('front.menu.work_market') }}</small>
-                            </div>
-                            <div class="icon">
-                                <i class="icon-user"></i>
-                            </div>
-                        </div>
-                        <div class="progress-info">
-                            <div class="progress">
-                                <span style="width: 57%;" class="progress-bar progress-bar-success purple-soft">
-                                    <span class="sr-only">56% change</span>
-                                </span>
-                            </div>
-                            <div class="status">
-                                <div class="status-title"> {{ trans('front.dashboard.rate') }} </div>
-                                <div class="status-number"> 57%</div>
+                            <div class="card-desc">
+                                <div>{{ trans('about.ajeer_for_visitor_service.body') }}</div>
                             </div>
                         </div>
                     </div>

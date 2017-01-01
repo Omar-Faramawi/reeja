@@ -7,6 +7,13 @@ $router->group(['prefix' => 'taqawel', 'middleware' => ['auth', 'EstablishmentSe
     $router->post('market/offer', 'Front\TaqawelServicesController@askTaqawelOffer');
     $router->get('taqawelService/{id}/delete', 'Front\TaqawelServicesController@destroy');
     $router->get('market/{id?}', ['as' => 'taqawel.market', 'uses' => 'Front\TaqawelServicesController@listMarketServices']);
+    $router->get('create', ['as' => 'taqawel.create.contract', 'uses' => 'Front\TaqawelServicesController@createTaqawelContract']);
+    $router->post('search/establishment', ['as' => 'taqawel.get_establishment', 'uses' => 'Front\TaqawelServicesController@searchEstablishments']);
+    $router->post('get-contracts-by-natures-id', ['as' => 'taqawel.get_contracts_by_contract_nature_id', 'uses' => 'Front\TaqawelServicesController@getContracts']);
+    $router->get('add/{establishment_id}', ['as' => 'taqawel.add.contract', 'uses' => 'Front\TaqawelServicesController@addTaqawelContract']);
+
+
+
     $router->get("offer-taqawel-contract/{id}/show", [
         'as'   => 'taqawel.apply_taqawel_contract',
         'uses' => 'Front\TaqawelServicesController@applyTaqawelContract',
@@ -26,6 +33,10 @@ $router->group(['prefix' => 'taqawel', 'middleware' => ['auth', 'EstablishmentSe
     $router->get("offer-taqawel-contract/{id}/edit", [
         'as'   => 'taqawel.contracts.edit',
         'uses' => 'Front\TaqawelServicesController@editContract',
+    ]);
+    $router->get("resendContract/{id}", [
+        'as'   => 'taqawel.contracts.resend',
+        'uses' => 'Front\TaqawelServicesController@resendContract',
     ]);
 
     $router->put("offer-taqawel-contract/update/{contract}", [
@@ -62,6 +73,7 @@ $router->group(['prefix' => 'taqawel', 'middleware' => ['auth', 'EstablishmentSe
     $router->get('notices/type/{id}', 'Front\TaqawelNoticesController@index');
     $router->get('notices/{id}/cancel_ishaar', 'Front\TaqawelNoticesController@cancelIshaar');
     $router->get('notices/{id}/show_ishaar', 'Front\TaqawelNoticesController@showIshaar');
+    $router->get('notices/{id}/print_ishaar', 'Front\TaqawelNoticesController@printIshaar');
     $router->post('notices/ask_cancel', 'Front\TaqawelNoticesController@askCancelIshaar');
     $router->resource('publishservice', 'Front\PublishServiceTaqaualController');
     

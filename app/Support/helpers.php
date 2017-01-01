@@ -82,9 +82,7 @@ if (!function_exists('dynamicAjaxPaginate')) {
             $records['data'] = $data->skip($start)->take($length)->get();
         }
         $records["iTotalRecords"] = $total_count;
-
         $records["iTotalDisplayRecords"] = $total_count;
-
         $records["customActionStatus"] = "OK";
         $records["customActionMessage"] = trans('labels.customActionMessage');
 
@@ -96,111 +94,124 @@ if (!function_exists('dynamicAjaxPaginate')) {
             }
 
             foreach ($buttons as $key => $button) {
-                $id = !empty($button['id']) ? $button['id'] : 'id';
-                $url = !empty($button['url']) ? $button['url'] : request()->url();
+                $contract = '';
+                $showBtn = true;
 
+                $id = !empty($button['id']) ? $button['id'] : 'id';
+                $text = !empty($button['text']) ? $button['text'] : trans('labels.' . $key);
+                $css_class = !empty($button['css_class']) ? $button['css_class'] : "btn";
+                $url = !empty($button['url']) ? $button['url'] : request()->url();
+                
                 if (!empty($button['uri'])) {
                     $uri = url($url . "/" . $records['data'][$i][$id] . "/" . $button['uri']);
                 } else {
                     $uri = url($url . "/" . $records['data'][$i][$id]);
                 }
 
-                $css_class = !empty($button['css_class']) ? $button['css_class'] : "btn";
-                $text = !empty($button['text']) ? $button['text'] : trans('labels.' . $key);
-
-                $idToGet = $records['data'][$i][$id];
-                $contract = '';
+                // Hire_labor market - beneficial - Request Employee
                 if (isset($button['showRequest'])) {
-                    $contract = \Tamkeen\Ajeer\Models\Contract::toMe()->requested()->hireLabor()/*->get();*/
-                    ->whereHas('contractEmployee', function ($q) use ($idToGet) {
-                        return $q->where('id_number', $idToGet);
-                    })->with('contractEmployee')->first();
+                    $idToGet = $records['data'][$i][$id];
+                    $contract = \Tamkeen\Ajeer\Models\Contract::toMe()->requested()->hireLabor()
+                        ->whereHas('contractEmployee', function ($q) use ($idToGet) {
+                            return $q->where('id_number', $idToGet);
+                        })->with('contractEmployee')->first();
                 }
                 if ($checkbox) {
                     if (!isset($button['showRequest'])) {
                         $records['data'][$i]['check'] = '<input type="checkbox" name="id[]" value="' . $records['data'][$i][$id] . '" class="select-checkbox">';
                     }
-
                     if (!$contract) {
                         $records['data'][$i]['check'] = '<input type="checkbox" name="id[]" value="' . $records['data'][$i][$id] . '" class="select-checkbox">';
                     }
-
                 }
 
-                if (!empty($css_class) && !empty($uri) && !empty($text)) {
-                    if ($records['data'][$i]['status'] == 'approved' && date('Y-m-d') > $records['data'][$i]['end_date']) {
-                        if (isset($button['gen'])) {
-                            $records['data'][$i]['contract_details'] .= "<a class='btn btn-default generate_cert " . $css_class . "' href='" . $url . "' data-startdate='" . $records['data'][$i]['start_date'] . "' data-enddate='" . $records['data'][$i]['end_date'] . "' data-cid='" . $records['data'][$i]['id'] . "'>" . $text . "</a>";
-                        }
+                // Job seeker - work_completion_certificate
+                if ($records['data'][$i]['status'] == 'approved' && date('Y-m-d') > $records['data'][$i]['end_date']) {
+                    if (isset($button['gen'])) {
+                        $records['data'][$i]['contract_details'] .= "<a class='btn btn-default generate_cert " . $css_class . "' href='" . $url . "' data-startdate='" . $records['data'][$i]['start_date'] . "' data-enddate='" . $records['data'][$i]['end_date'] . "' data-cid='" . $records['data'][$i]['id'] . "'>" . $text . "</a>";
+                    }
+                } elseif (isset($button['det'])) {
+                    $url = url('/contractdetails/' . $records['data'][$i]['id']);
+                    $records['data'][$i]['contract_details'] .= "<a target='_blank' class='btn btn-default generate_cert " . $css_class . "' href='" . $url . "' data-startdate='" . $records['data'][$i]['start_date'] . "'data-enddate='" . $records['data'][$i]['end_date'] . "' data-cid=" . $records['data'][$i]['id'] . "'>" . $text . "</a>";
+                }
+
+                // Tqawel market - provider
+                if (isset($button['service_flag'])) {
+                    if ($records['data'][$i]['service_prvdr_benf_id'] != \Auth::user()->user_type_id ||
+                        $records['data'][$i]['service_id'] != getCurrentUserNameAndId()[0]) {
+                            $records['data'][$i]['service_details'] .= "<a data-token='" . csrf_token() . "' url='" . url('taqawel/market') . "' data-url='" . url('/taqawel/market/offer') . "' data-id= '" . $records['data'][$i][$id] . "' class='service btn btn-default " . $css_class . "'>" . $text . "</a>";
+                    }
+                }
+
+                // Tqawel services
+                elseif (isset($button['serviceEdit'])) {
+                    $records['data'][$i]['serviceEdit'] .= "<a class='btn btn-default " . $css_class . "'  data-href='" . url("/taqawel/publishservice/" . $records['data'][$i][$id]) . "/edit'  data-target='#main' data-toggle=\"modal\" >" . $text . "</a>";
+                } elseif (isset($button['serviceDelete'])) {
+                    $records['data'][$i]['serviceEdit'] .= "<a  data-popout=\"true\" data-token='" . csrf_token() . "' data-hreff='" . route('taqawel.publishservice.destroy',
+                            $records['data'][$i][$id]) . "' data-url='" . url('/taqawel/publishservice') . "' data-id= '" . $records['data'][$i][$id] . "'class=\"btn red-mint delete-ajax\" data-toggle=\"confirmation\"
+                                                data-original-title=\"" . trans('labels.delete_confirmation_message') . "\"
+                                                data-placement=\"top\"
+                                                data-btn-ok-label=\"" . trans('labels.delete') . "\"
+                                                data-btn-cancel-label=\"" . trans('labels.cancel') . "\">
+                                            <i class=\"fa fa-trash-o\"></i>" . $text . "</a>";
+                }
+
+                // Tqawel requests
+                elseif (isset($button['taqawelServiceEdit'])) {
+                    $records['data'][$i]['taqawelServiceEdit'] .= "<a class='btn btn-default " . $css_class . "'  data-href='" . url("/taqawel/taqawelService/" . $records['data'][$i][$id]) . "/edit'  data-target='#main' data-toggle=\"modal\" >" . $text . "</a>";
+                }
+                elseif (isset($button['taqawelServiceDelete'])) {
+                    $records['data'][$i]['taqawelServiceEdit'] .= "<a  data-popout=\"true\" data-token='" . csrf_token() . "' data-hreff='" . route('taqawel.taqawelService.destroy',
+                            $records['data'][$i][$id]) . "' data-url='" . url('/taqawel/taqawelService') . "' data-id= '" . $records['data'][$i][$id] . "'class=\"btn red-mint delete-ajax\" data-toggle=\"confirmation\"
+                                                data-original-title=\"" . trans('labels.delete_confirmation_message') . "\"
+                                                data-placement=\"top\"
+                                                data-btn-ok-label=\"" . trans('labels.delete') . "\"
+                                                data-btn-cancel-label=\"" . trans('labels.cancel') . "\">
+                                            <i class=\"fa fa-trash-o\"></i>" . $text . "</a>";
+                }
+                
+                // Hire_labor market - beneficial - Request Employee
+                elseif (isset($button['showRequest'])) {
+                    if (!$contract) {
+                        $records['data'][$i]['showRequest'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
+                    }
+                }
+
+                // received offers
+                elseif (isset($button['offersview'])) {
+                    $dateEnded = getDiffPeriodDay($records['data'][$i]['updated_at'],
+                        $records['data'][$i]['contractType']['setup']['offer_accept_period'],
+                        $records['data'][$i]['contractType']['setup']['offer_accept_period_type']);
+                    if (Carbon::now()->format("Y-m-d") <= $dateEnded) {
+                        $records['data'][$i]['offersview'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
                     } else {
-                        if (isset($button['det'])) {
-                            $url = url('/contractdetails/' . $records['data'][$i]['id']);
-                            $records['data'][$i]['contract_details'] .= "<a target='_blank' class='btn btn-default generate_cert " . $css_class . "' href='" . $url . "' data-startdate='" . $records['data'][$i]['start_date'] . "'data-enddate='" . $records['data'][$i]['end_date'] . "' data-cid=" . $records['data'][$i]['id'] . "'>" . $text . "</a>";
-                        }
-                    }
-
-                    if (isset($button['service_flag'])) {
-                        $records['data'][$i]['service_details'] .= "<a data-token='" . csrf_token() . "' url='" . url('taqawel/market') . "' data-url='" . url('/taqawel/market/offer') . "' data-id= '" . $records['data'][$i][$id] . "' class='service btn btn-default " . $css_class . "'>" . $text . "</a>";
-                    }
-
-                    if (isset($button['serviceEdit'])) {
-                        $records['data'][$i]['serviceEdit'] .= "<a class='btn btn-default " . $css_class . "'  data-href='" . url("/taqawel/publishservice/" . $records['data'][$i][$id]) . "/edit'  data-target='#main' data-toggle=\"modal\" >" . $text . "</a>";
-                    }
-                    if (isset($button['serviceDelete'])) {
-                        $records['data'][$i]['serviceEdit'] .= "<a  data-popout=\"true\" data-token='" . csrf_token() . "' data-hreff='" . route('taqawel.publishservice.destroy',
-                                $records['data'][$i][$id]) . "' data-url='" . url('/taqawel/publishservice') . "' data-id= '" . $records['data'][$i][$id] . "'class=\"btn red-mint delete-ajax\" data-toggle=\"confirmation\"
-                                                    data-original-title=\"" . trans('labels.delete_confirmation_message') . "\"
-                                                    data-placement=\"top\"
-                                                    data-btn-ok-label=\"" . trans('labels.delete') . "\"
-                                                    data-btn-cancel-label=\"" . trans('labels.cancel') . "\">
-                                                <i class=\"fa fa-trash-o\"></i>" . $text . "</a>";
-                    }
-
-                    // Taqawel Service edit/delete buttons using modal/ajax
-                    if (isset($button['taqawelServiceEdit'])) {
-                        $records['data'][$i]['taqawelServiceEdit'] .= "<a class='btn btn-default " . $css_class . "'  data-href='" . url("/taqawel/taqawelService/" . $records['data'][$i][$id]) . "/edit'  data-target='#main' data-toggle=\"modal\" >" . $text . "</a>";
-                    }
-                    if (isset($button['taqawelServiceDelete'])) {
-                        $records['data'][$i]['taqawelServiceEdit'] .= "<a  data-popout=\"true\" data-token='" . csrf_token() . "' data-hreff='" . route('taqawel.taqawelService.destroy',
-                                $records['data'][$i][$id]) . "' data-url='" . url('/taqawel/taqawelService') . "' data-id= '" . $records['data'][$i][$id] . "'class=\"btn red-mint delete-ajax\" data-toggle=\"confirmation\"
-                                                    data-original-title=\"" . trans('labels.delete_confirmation_message') . "\"
-                                                    data-placement=\"top\"
-                                                    data-btn-ok-label=\"" . trans('labels.delete') . "\"
-                                                    data-btn-cancel-label=\"" . trans('labels.cancel') . "\">
-                                                <i class=\"fa fa-trash-o\"></i>" . $text . "</a>";
-                    }
-
-                    // Taqawel Service edit/delete buttons using modal/ajax END
-                    //Request Employee
-                    if (isset($button['showRequest'])) {
-                        if (!$contract) {
-                            $records['data'][$i]['showRequest'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
-                        }
-
-                    }
-                    if (isset($button['offersview'])) {
-                        $dateEnded = getDiffPeriodDay($records['data'][$i]['updated_at'],
-                            $records['data'][$i]['contractType']['setup']['max_accept_period'],
-                            $records['data'][$i]['contractType']['setup']['max_accept_period_type']);
-                        if (Carbon::now()->format("Y-m-d") <= $dateEnded) {
-                            $records['data'][$i]['offersview'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
-                        } else {
-                            $records['data'][$i]['offersview'] .= trans("offers.cannotacceptData");
-
-                        }
-
-                    }
-
-                    $records['data'][$i]['details'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
-                    $records['data'][$i]['buttons'] .= "<a class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
-
-                    // Check if it is the follow contracts table
-                    if (request()->is('follow_contracts/*/*')) {
-                        followContractsDatatableCallback($records, $i, $key, $buttons);
+                        $records['data'][$i]['offersview'] .= trans("offers.cannotacceptData");
                     }
                 }
 
-                if (!empty($html)) {
+                // Tqawel market - beneficial
+                elseif (isset($button['filter_own_services'])) {
+                    if ($records['data'][$i]['service_prvdr_benf_id'] == \Auth::user()->user_type_id &&
+                        $records['data'][$i]['service_id'] == getCurrentUserNameAndId()[0]) {
+                            $showBtn = false;
+                    }
+                }
+
+                // follow contracts
+                elseif (request()->is('follow_contracts/*/*')) {
+                    followContractsDatatableCallback($records, $i, $key, $buttons);
+                    $showBtn = false;
+                }
+                
+                if ($showBtn) {
+                    $records['data'][$i]['details'] .= "<a data-loading-text='" . trans('labels.loading') . "...' class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
+                }
+
+                // commented temporarily as it is never used
+                //$records['data'][$i]['buttons'] .= "<a class='btn btn-default " . $css_class . "' href='" . $uri . "'>" . $text . "</a>";
+
+                // commented temporarily as it is never used
+                /*if (!empty($html)) {
                     if (isset($html['column']) && is_array($html['column'])) {
                         foreach ($html as $name => $column) {
                             foreach ($column as $key => $name) {
@@ -212,9 +223,8 @@ if (!function_exists('dynamicAjaxPaginate')) {
                     } else {
                         $records['data'][$i][$html['column']] = $html['html'];
                     }
-                }
+                }*/
             }
-
         }
 
         return $records;

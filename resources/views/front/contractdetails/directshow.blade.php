@@ -172,7 +172,7 @@
                                                 </div>
                                             </div>
 
-                                            @if($thisContract['status'] == 'rejected' || $thisContract['status'] == 'cancelled')
+                                            @if($thisContract['status'] == 'rejected' || $thisContract['status'] == 'cancelled' || $thisContract['status'] == 'benef_cancel' || $thisContract['status'] == 'provider_cancel')
                                                 <div class="row static-info">
                                                     <div class="col-md-3 name">
                                                         @if($thisContract['status'] == 'rejected')

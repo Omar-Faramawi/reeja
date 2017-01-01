@@ -389,6 +389,9 @@
                         </div>
 
                         <div class="text-align-left col-md-12">
+                            @if ($createCopy)
+                                {!! Form::hidden('createCopy', true) !!}
+                            @endif
                             <button type="submit" name="status" class="btn green">{{ trans('contracts.save') }}</button>
                             <button type="reset" class="btn default">{{ trans('contracts.reset') }}</button>
                         </div>

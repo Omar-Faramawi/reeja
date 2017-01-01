@@ -4,6 +4,7 @@ return [
     "buttons" => [
         "cancel" => "إلغاء",
         "delete" => "حذف",
+        "create" => "إنشاء عقد",
         "details" => "تفاصيل إضافية",
         "edit" => "تعديل",
         "save_and_publish" => "حفظ و نشر",
@@ -35,5 +36,8 @@ return [
     "tqawel_services" => "خدمات التقاول",
     "tqawel_services_add" => "إضافة خدمة تقاول",
     "tqawel_services_edit" => "تعديل خدمة تقاول",
-    "tqawel_services_list" => "قائمة خدمات التقاول"
+    "tqawel_services_list" => "قائمة خدمات التقاول",
+    "establishment_found" => 'تم تحديد المنشأة',
+    "establishment_not_found" => "لا توجد منشأة بهذه البيانات",
+    "contract_added_success" => "تم إنشاء العقد بنجاح"
 ];

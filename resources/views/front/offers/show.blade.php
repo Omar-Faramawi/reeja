@@ -62,7 +62,6 @@
                                                 </div>
                                                 <div class="col-md-9 value">
                                                     {{ $thisContract['benef']['id'] }}
-                                                    {{--$thisContract->byNo($thisContract->benf_type,$thisContract->benf_id)--}}
                                                 </div>
                                             </div>
                                         </div>
@@ -118,30 +117,30 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                                <div class="row static-info">
-                                                    <div class="col-md-3 name">
-                                                        {{trans("tqaweloffers.workStartDate")}}
-                                                    </div>
-                                                    <div class="col-md-9 value">
-                                                        {{$thisContract['start_date']}}
-                                                    </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqaweloffers.workStartDate")}}
                                                 </div>
-                                                <div class="row static-info">
-                                                    <div class="col-md-3 name">
-                                                        {{trans("tqaweloffers.workEndDate")}}
-                                                    </div>
-                                                    <div class="col-md-9 value">
-                                                        {{$thisContract['end_date']}}
-                                                    </div>
+                                                <div class="col-md-9 value">
+                                                    {{$thisContract['start_date']}}
                                                 </div>
-                                                <div class="row static-info">
-                                                    <div class="col-md-3 name">
-                                                        {{trans("temp_job.region_id")}}
-                                                    </div>
-                                                    <div class="col-md-9 value">
-                                                        {{ ($thisContract['contract_locations'][0]['region']['name'])}}
-                                                    </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqaweloffers.workEndDate")}}
                                                 </div>
+                                                <div class="col-md-9 value">
+                                                    {{$thisContract['end_date']}}
+                                                </div>
+                                            </div>
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("temp_job.region_id")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{ ($thisContract['contract_locations'][0]['region']['name'])}}
+                                                </div>
+                                            </div>
                                             @if (is_array($thisContract['contract_locations']))
                                                 <div class="row static-info">
                                                     <div class="col-md-3 name">
@@ -153,6 +152,17 @@
                                                             <br/>
                                                         @endforeach
 
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if ($thisContract['contract_file'])
+                                                <div class="row static-info">
+                                                    <div class="col-lg-3">{{trans("temp_job.attachment")}}</div>
+                                                    <div class="col-lg-2">
+                                                        <a href="{{ url('uploads/'. $thisContract['contract_file']) }}"
+                                                           download>
+                                                            <i class="fa fa-file"></i>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             @endif
@@ -214,20 +224,6 @@
                                         <div class="col-lg-3">{{trans("offers.offerValideTo")}}</div>
                                         <div class="col-lg-9">{{$dateEnded}}</div>
                                     </div>
-                                    <br>
-                                    @if ($thisContract['contract_file'])
-
-                                        <div class="row static-info">
-                                            <div class="col-lg-3">{{trans("tqaweloffers.attachment")}}</div>
-                                            <div class="col-lg-2">
-                                                <a href="{{ url('uploads/'. $thisContract['contract_file']) }}"
-                                                   download>
-                                                    <i class="fa fa-file"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    <br/>
                                     @if(isset($canAccept))
                                         <div class="row">
                                             <div class="col-lg-12 col-lg-6">
@@ -242,16 +238,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <br>
                                         <div class="row">
-
-
-                                            <div class="col-lg-6"></div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-12 text-center">
                                                 <div class="form-actions">
                                                     @if($seasonalContract)
                                                         <a class="btn blue"
-
                                                            id="approveButton"> {{trans("offers.accept")}} </a>
                                                         <a href="{{url("offers/accept/approve/" . $thisContract['id'])}}"
                                                            data-target="#ajax"
@@ -261,7 +252,6 @@
                                                     @else
 
                                                         <a class="btn blue"
-
                                                            id="approveButton"> {{trans("offers.accept")}} </a>
                                                         <a
                                                                 data-target="#stack1"
@@ -275,9 +265,7 @@
                                                        data-toggle="modal"> {{trans("offers.decline")}} </a>
 
                                                 </div>
-
                                             </div>
-
                                         </div>
                                     @else
                                         <div class="row">

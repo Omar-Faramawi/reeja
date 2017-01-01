@@ -331,6 +331,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-align-left col-md-12">
+                        @if ($createCopy)
+                            {!! Form::hidden('createCopy', true) !!}
+                        @endif
                         <button type="submit" name="status" class="submit_contract_edit_btn btn green update_contract"
                                 value="pending">{{ trans('temp_job.save_and_send') }}</button>
                     </div>

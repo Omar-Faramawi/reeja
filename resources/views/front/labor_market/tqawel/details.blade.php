@@ -141,6 +141,17 @@
                                                     {{$contract->end_date}}
                                                 </div>
                                             </div>
+                                            @if ($contract->contract_file)
+                                                <div class="row static-info">
+                                                    <div class="col-lg-3">{{trans("tqawel_offer_contract.attached_file")}}</div>
+                                                    <div class="col-lg-2">
+                                                        <a href="{{ url('uploads/'. $contract->contract_file) }}"
+                                                           download>
+                                                            <i class="fa fa-file"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endif
                                             <div class="row static-info">
                                                 <div class="col-md-3 name">
                                                     {{trans("contracts.contractStatus")}}
@@ -150,7 +161,7 @@
                                                 </div>
                                             </div>
 
-                                            @if($contract->status == 'rejected' || $contract->status == 'cancelled')
+                                            @if($contract->status == 'rejected' || $contract->status == 'cancelled' || $contract->status == 'benef_cancel' || $contract->status == 'provider_cancel')
                                                 <div class="row static-info">
                                                     <div class="col-md-3 name">
                                                         @if($contract->status == 'rejected')
