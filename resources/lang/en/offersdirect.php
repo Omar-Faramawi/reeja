@@ -77,5 +77,11 @@ return [
     "smsmessage" => "Message include  :link",
     "workEndDate" => "work End Date",
     "workStartDate" => "Work Start Date",
-    "workplaces" => "Work Places"
+    "workplaces" => "Work Places",
+    "contractEdits" => "Contract Edits ",
+    "contractEditsatStatus" => "Contract Edits Status ",
+    "editApprove" => "Approve",
+    "editReject" => "Reject",
+    "approve_edit_success" => "Contract edits Approved Successfully",
+    "reject_edit_success" => "Contract edits Rejected Successfully",
 ];

@@ -8,9 +8,7 @@
             <!-- BEGIN PAGE CONTENT INNER -->
             <div class="page-content-inner">
                 <div class="row">
-
                     <div class="col-md-12">
-
                         <div class="portlet light portlet-fit portlet-form ">
                             <div class="portlet-title">
                                 <div class="caption">
@@ -19,10 +17,7 @@
                                 </div>
                             </div>
                             <div class="portlet-body">
-
-
                                 <div class="form-body">
-
                                     @if(isset($canCancel) && !$canCancel)
                                         <div class="alert alert-info">
                                             {{ trans('contracts.can_delete') }}
@@ -195,6 +190,56 @@
                                             @endif
                                         </div>
                                     </div>
+                                    @if(isset($contract->contractEdits[0]))
+                                    <div class="portlet grey-cascade box">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-info-circle"></i>{{trans("offersdirect.contractEdits")}}
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            @foreach($contract->contractEdits as $edit)
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("tqaweloffers.workplaces")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {!! str_replace("-", "<br>", $edit['contract_locations']) !!}
+                                                </div>
+                                            </div>
+                                            @if ($edit->contract_file)
+                                                <div class="row static-info">
+                                                    <div class="col-lg-3">{{trans("temp_job.attachment")}}</div>
+                                                    <div class="col-lg-2">
+                                                        <a href="{{ url('uploads/'. $edit->contract_file) }}"
+                                                           download>
+                                                            <i class="fa fa-file"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            <div class="row static-info">
+                                                <div class="col-md-3 name">
+                                                    {{trans("offersdirect.contractEditsatStatus")}}
+                                                </div>
+                                                <div class="col-md-9 value">
+                                                    {{trans("labels.contractStatus." . $edit['status'])}}
+                                                </div>
+                                            </div>
+
+                                            @if($EditedtoMe)
+                                            <hr>
+                                            {{ Form::open(['url' => 'edit_contract/'.$edit['id'].'/approve/taqawel','id'=>'form', 'class'=>'form-horizontal vacancies_form','data-url' => '']) }}
+                                            <button type="submit" class="btn green" data-loading-text="{{ trans('labels.loading') }}..." >{{trans('offersdirect.editApprove')}}</button>
+
+                                             <a type="button" data-loading-text="{{ trans('labels.loading') }}..."  href="{{ url('edit_contract/'.$edit['id'].'/reject') }}" class="btn red btn-sm contract_edit_reject" >{{ trans('offersdirect.editReject') }}</a>
+                                            {{form::close()}}
+                                             @endif
+                                             
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -219,7 +264,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- END PAGE CONTENT BODY -->

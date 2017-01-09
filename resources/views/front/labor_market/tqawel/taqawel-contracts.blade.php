@@ -68,7 +68,7 @@
                                                 @if($contract->status == "approved" && $contract->expired)
                                                     <td>{{ trans('labels.contractStatus.expired') }}</td>
                                                 @else
-                                                    <td>{{ trans('contracts.statuses.'.$contract->status) }}</td>
+                                                    <td>{{ trans('contracts.statuses.'.$contract->status) }}@if(!empty($contract->contractEdits[0]))- {{ trans('contracts.statuses.under_edit') }}@endif</td>
                                                 @endif
                                                 <td>
                                                     @if($isProvider)
@@ -92,9 +92,11 @@
                                                                href="{{ url('taqawel/contracts/cancellation/provider/'.$contract->id) }}"
                                                                class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
                                                         @elseif($contract->status == "pending" || ($contract->status == "approved" && !$contract->expired))
-                                                            <a type="button"
-                                                               href="{{ url('taqawel/offer-taqawel-contract/'.$contract->id.'/edit') }}"
-                                                               class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>
+                                                            @if(empty($contract->contractEdits[0]))
+                                                                <a type="button"
+                                                                   href="{{ url('taqawel/offer-taqawel-contract/'.$contract->id.'/edit') }}"
+                                                                   class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>
+                                                            @endif
                                                             <button type="button" class="btn btn-primary btn-danger btn-sm" data-toggle="modal" data-target="#taqawelModal" data-contract_id="{{$contract->id}}">{{ trans('contracts.reset') }}</button>
                                                             @include('components.modal', ['id' => 'taqawelModal', 'title' => trans('contracts.rejection_reason'), 'content' => 'front.contracts.partials.change-status', 'route' => 'contracts.update_status', 'dataUrl' => route('taqawel.contracts') ])
                                                         @endif
@@ -110,6 +112,11 @@
                                                                     data-loading-text="{{ trans('labels.loading') }}..."
                                                                     class="btn red btn-sm cancel_reset">{{ trans('contracts.reset_back') }}</button>
                                                         @elseif($contract->status == "approved" && !$contract->expired)
+                                                            @if(!empty($contract->contractEdits[0]))
+                                                                <a type="button"
+                                                                    href="{{ url('taqawel/offer-taqawel-contract/'.$contract->id.'/details') }}"
+                                                                    class="btn blue btn-sm">{{ trans('contracts.action_buttons.show_contract_edits') }}</a>
+                                                            @endif
                                                             <button type="button" class="btn btn-primary btn-danger btn-sm" data-toggle="modal" data-target="#taqawelModal" data-contract_id="{{$contract->id}}">{{ trans('contracts.reset') }}</button>
                                                             @include('components.modal', ['id' => 'taqawelModal', 'title' => trans('contracts.rejection_reason'), 'content' => 'front.contracts.partials.change-status', 'route' => 'contracts.update_status', 'dataUrl' => route('taqawel.contracts') ])
                                                         @elseif($contract->status == "pending")

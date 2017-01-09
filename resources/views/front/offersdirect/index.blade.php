@@ -34,22 +34,22 @@
                         </div>
                         <div class="portlet-body">
                             <div class="table-container">
-                                <table class="table table-striped table-bordered table-hover table-checkable"
+                                <table class="table table-striped table-bordered table-hover"
                                        id="datatable_ajax">
                                     <thead>
                                     <tr role="row" class="heading">
-                                        <th id="benf_name" width="200"
+                                        <th id="benf_name"
                                             class="no-sort"> {{trans("offersdirect.providerName")}}</th>
-                                        <th id="vacancy.job.job_name" width="200"
+                                        <th id="vacancy.job.job_name"
                                             class="no-sort">{{trans("offersdirect.job")}}</th>
                                         <th id="contract_locations[0].region.name" width="200"
                                             class="no-sort"> {{trans("offersdirect.region")}}</th>
-                                        <th id="start_date" width="200"
+                                        <th id="start_date"
                                             class="no-sort"> {{trans("offersdirect.workStartDate")}}</th>
-                                        <th id="end_date" class="no-sort"
-                                            width="200"> {{trans("offersdirect.workEndDate")}}</th>
-                                        <th id="offersview" class="no-sort"
-                                            width="5%"> {{trans("offersdirect.details")}}</th>
+                                        <th id="end_date"
+                                            class="no-sort"> {{trans("offersdirect.workEndDate")}}</th>
+                                        <th id="offersview"
+                                            class="no-sort"> {{trans("offersdirect.details")}}</th>
                                     </tr>
                                     <tr role="row" class="filter">
                                         <td>

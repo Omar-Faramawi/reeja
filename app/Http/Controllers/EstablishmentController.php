@@ -14,6 +14,7 @@ use Tamkeen\Ajeer\Repositories\MOL\MolDataRepository as MolRepo;
 
 class EstablishmentController extends Controller
 {
+    var $betaAllowedEstablishments = [153709, 1206561, 1194502, 1028230, 1055720, 930370, 673094, 915262, 703061, 93390, 7054, 223185, 24175, 127442, 84294, 938475, 84295, 1252985, 1786358, 273126, 1022522, 1376974, 188704, 70616, 320985, 4660, 1379841, 55077, 1289427, 1087298, 4506, 76547, 1181149, 2293697, 692958, 1555203, 121038, 55451, 467506, 186431, 1722353, 17057, 129703, 11253, 79286, 629692, 680422, 42346, 124324, 1348230, 743048, 946116, 462232, 242667, 2597216, 1771308, 240752, 963648, 68920, 814995, 136192, 2493100, 2224052, 62399, 1721665, 2119454, 1527052, 2333371, 10746, 1098398, 1575041, 228652, 2027394, 830, 1403138, 24180, 566754, 2763782, 35667, 2032948, 1524000, 2442452, 2434021, 20788, 1600605, 2140404, 18115, 2622566, 1517991, 522044, 1604344, 2271213];
     /**
      * Get the establishments from the session
      * @return mixed
@@ -36,6 +37,9 @@ class EstablishmentController extends Controller
     {
         try {
             $establishment_data = $mol->findEstablishmentByNumber($laborOffice, $sequenceNumber);
+            if (env('APP_ENV') != 'local' && !in_array($establishment_data->FK_establishment_id, $this->betaAllowedEstablishments)) {
+                return redirect()->back()->with('choose_est_message', trans('est_profile.beta_unavailable'));
+            }
             $owner_id           = $mol->getOwnerByEstablishmentId($establishment_data->FK_establishment_id);
         } catch (EstablishmentNotFound $e) {
             logger()->error('Could not fetch establishment ' . $laborOffice . '-' . $sequenceNumber);

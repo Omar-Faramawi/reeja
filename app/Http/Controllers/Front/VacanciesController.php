@@ -172,12 +172,17 @@ class VacanciesController extends Controller
         elseif($request->input('gender_female')){
             $data['gender'] =0;
         }
-        $update = Vacancy::findOrFail($id)->update($data);
+        $vacancy = Vacancy::findOrFail($id);
+        $vacancy->update($data);
         if ($request->work_areas) {
-            $add = new VacancyLocations;
-            $add->location = $request->work_areas;
-            $add->vacancies_id = $id;
-            $add->save();
+            if (isset($vacancy->locations[0])) {
+                $vacancy->locations[0]->update(['location' => $request->work_areas]);
+            } else {
+                $add = new VacancyLocations;
+                $add->location = $request->work_areas;
+                $add->vacancies_id = $id;
+                $add->save();
+            }
         }
 
         return trans('vacancies.success_update');

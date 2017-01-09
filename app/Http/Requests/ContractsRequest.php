@@ -26,7 +26,7 @@ class ContractsRequest extends Request
         return [
             'id'               => 'required|exists:contracts,id',
             'reason_id'        => 'required|integer|exists:reasons,id',
-            'other_reasons'    => 'required_if:reason_id,32',
+            'other_reasons'    => 'sometimes|required|max:255',
             'rejection_reason' => 'sometimes|min:0|max:255',
             'status'           => 'required|in:pending,rejected,pending_ownership,approved,cancelled,benef_cancel,provider_cancel',
         ];
@@ -52,7 +52,7 @@ class ContractsRequest extends Request
     public function messages()
     {
         return [
-            'other_reasons.required_if' => trans('offersdirect.modal.reject.other_reason'),
+            'other_reasons.required' => trans('offersdirect.modal.reject.other_reason'),
         ];
     }
 }

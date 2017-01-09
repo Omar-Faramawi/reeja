@@ -166,7 +166,7 @@
                                                     <label class="control-label text-right col-md-3">{{trans('vacancies.form_attributes.religion')}}
                                                         <span class="required"> * </span>
                                                     </label>
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-9">
                                                         @if($vacancy->region_id !=1)
                                                             <div class="md-radio">
                                                                 <input type="radio" name='religion' value="1"
@@ -247,37 +247,38 @@
                                                         <div id="form_2_job_type_error"></div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
                                                 <div class="form-group form-md-line-input">
                                                     <label class="col-md-3 control-label text-right">{{trans('vacancies.form_attributes.salary')}}
                                                         <span class="required"> * </span>
                                                     </label>
-                                                    <div class="col-md-6">
-                                                        <input type="text" name="salary" data-required="1"
-                                                               class="form-control"
-                                                               value="{{$vacancy->salary or old('salary')}}"/>
+                                                    <div class="col-md-7">
+                                                        <input type="text" name="salary" class="form-control" value="{{$vacancy->salary or old('salary')}}" />
                                                         <div class="form-control-focus"></div>
-                                                        <span class="help-block">{{ trans('vacancies.form_attributes.currency') }}
-                                                            ...</span>
-                                                    </div>
-                                                </div>
-												<div class="form-group form-md-checkboxes">
-                                                    <label class="col-md-5 control-label text-right"
-                                                           for="form_control_1">{{trans('vacancies.hide_option')}}</label>
-                                                    <div class="col-md-1">
-                                                        <div class="md-checkbox-list">
-                                                            <div class="md-checkbox">
-                                                                <input type="checkbox" name="hide_salary"
-                                                                       id="hide_salary" class="md-check" value="1" @if (old('hide_salary')=='1' || $vacancy->hide_salary =='1') checked @endif />
-                                                                <label for="hide_salary">
-                                                                    <span></span>
-                                                                    <span class="check"></span>
-                                                                    <span class="box"></span> </label>
+
+                                                        <div class="form-group form-md-checkboxes">
+                                                            <div class="col-md-1">
+                                                                <div class="md-checkbox-list">
+                                                                    <div class="md-checkbox">
+                                                                        <input type="checkbox" name="hide_salary"
+                                                                               id="hide_salary" class="md-check" value="1" @if (old('hide_salary')=='1' || $vacancy->hide_salary =='1') checked @endif>
+                                                                        <label for="hide_salary">
+                                                                            <span></span>
+                                                                            <span class="check"></span>
+                                                                            <span class="box"></span> </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
+                                                            <label class="col-md-9 control-label text-right"
+                                                                   for="form_control_1">{{trans('vacancies.hide_option')}}</label>
+
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-1 margin-top-10 no-padding-right">
+                                                        {{ trans('vacancies.form_attributes.currency') }}
+                                                    </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="form-group form-md-line-input">
                                                     <label class="control-label text-right col-md-4">{{trans('vacancies.form_attributes.work_start_date')}}</label>
                                                     <div class="col-md-6">
@@ -330,7 +331,7 @@
                                                                class="control-label text-right col-md-4">{{trans('vacancies.form_attributes.work_areas')}}</label>
                                                         <div class="col-sm-6">
                                                     <textarea class="form-control" rows="5" id="work_areas"
-                                                              name="work_areas">@if(count($vacancy->locations))@foreach($vacancy->locations as $locations) {{$locations->location}} @endforeach @endif {{old('work_areas')}}</textarea>
+                                                              name="work_areas">@if(count($vacancy->locations))@foreach($vacancy->locations as $locations){{ $locations->location }}@endforeach @endif{{old('work_areas')}}</textarea>
                                                             <div class="form-control-focus"></div>
                                                         <span class="help-block">{{ trans('vacancies.form_attributes.work_areas') }}
                                                             ...</span>
@@ -346,8 +347,7 @@
                                                                 data-loading-text="{{ trans('labels.loading') }}..."
                                                                 id="update_and_publish">{{trans('vacancies.buttons.update_and_publish')}}</button>
 
-                                                        <button type="reset" class="btn default"
-                                                                name="cancel">{{trans('vacancies.buttons.cancel')}}</button>
+                                                        <a href="{{url('/vacancies')}}" class="btn default">{{trans('vacancies.buttons.cancel')}}</a>
                                                     </div>
                                                 </div>
                                             </div>

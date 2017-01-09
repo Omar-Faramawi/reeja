@@ -41,7 +41,6 @@
                      </div>
                   </div>
                   <div class="portlet-body">
-                     <div class="row">
                         <h4>{{ trans('contracts_cancelation.details') }}</h4>
                         <div class="row">
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_number') }}</label> : <span id='id'>{{ $contractEmployee->contract->id }}</span></div>
@@ -49,16 +48,17 @@
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_start_date') }} </label> : <span id='start_date'>{{ $contractEmployee->contract->start_date }}</span></div>
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_end_date') }}</label> : <span id='end_date'>{{ $contractEmployee->contract->end_date }}</span></div>
                            <div class="col-md-6"><label id='amount'>{{ trans('contracts_cancelation.amount') }} : </label><span id='amount'>{{ $contractEmployee->contract->contract_amount }}</span></div>
+                           @if($contractEmployee->contract->vacancy)
                            <div class="col-md-6"><label id='job'>{{ trans('contracts_cancelation.job') }} : </label><span id='job'>{{ $contractEmployee->contract->vacancy->job->job_name or '' }}</span></div>
                            <div class="col-md-6"><label id='nationality'>{{ trans('contracts_cancelation.nationality') }} : </label><span id='nationality'>{{ $contractEmployee->contract->vacancy->nationality->name or '' }}</span></div>
                            <div class="col-md-6"><label id='gender'>{{ trans('contracts_cancelation.gender') }} : </label><span id='gender'>{{ $contractEmployee->contract->vacancy->gender_name or '' }}</span></div>
                            <div class="col-md-6"> <label id='religion'>{{ trans('contracts_cancelation.religion') }} : </label><span id='religion'>
                                 {{ $contractEmployee->contract->vacancy->religion_name or '' }}</span>
                            </div>
+                           @endif
                         </div>
-                     </div>
+                    <h4>{{ trans('contracts_cancelation.single_ishaar') }}</h4>
                      <div class="row">
-                        <h4>{{ trans('contracts_cancelation.single_ishaar') }}</h4>
                          <div class="col-md-6"><label>{{ trans('contracts_cancelation.ishaar_number') }}</label> : <span id='id'>{{ $contractEmployee->id }}</span></div>
                          <div class="col-md-6"><label>{{ trans('contracts_cancelation.ishaar_benef') }}</label> : <span id='benf_name'>{{ $contractEmployee->hrPool->name }}</span></div>
                            <div class="col-md-6"><label>{{ trans('contracts_cancelation.ishaar_start_date') }} </label> : <span id='start_date'>{{ $contractEmployee->start_date }}</span></div>
@@ -129,10 +129,10 @@
             <h4 class="modal-title">{{ trans('contracts_cancelation.refuse') }}</h4>
          </div>
          <div class="modal-body form-body">
-            <input type="hidden" id='modal-type-r' name='type_r' value='ishaar'>
-            <input type="hidden" id='modal-id-r' name='id_r' value='{{ $contractEmployee->id }}'>
+            <input type="hidden" id='modal-type-r' name='type' value='ishaar'>
+            <input type="hidden" id='modal-id-r' name='id' value='{{ $contractEmployee->id }}'>
             <div class="form-group has-info">
-               <select class="form-control" id="select_reason" name='reason'>
+               <select class="form-control" id="select_reason" name='reason_id'>
                      <option value=""></option>
                      @foreach($reasons as $reason)
                         <option value="{{ $reason->id }}">{{ $reason->reason }}</option>
@@ -142,12 +142,12 @@
                <label for="form_control_1">{{ trans('contracts_cancelation.refusereason') }}</label>
             </div>
             <div class="form-group form-md-line-input" style="display:none;" id='other_reason'>
-               <input type="text" class="form-control" id="other_reason" name='other'>
+               <input type="text" class="form-control" data-name='other_reason'>
                <label for="form_control_1">{{ trans('contracts_cancelation.other') }}</label>
                <span class="help-block">{{ trans('contracts_cancelation.other') }}</span>
             </div>
             <div class="form-group form-md-line-input">
-               <textarea  class="form-control" id="details" name='details'></textarea>
+               <textarea class="form-control" id="details" name='details'></textarea>
                <label for="form_control_1">{{ trans('contracts_cancelation.details') }}</label>
                <span class="help-block">{{ trans('contracts_cancelation.details') }}</span>
             </div>

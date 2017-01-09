@@ -8,7 +8,7 @@ use Tamkeen\Ajeer\Http\Controllers\Controller;
 
 use Tamkeen\Ajeer\Http\Requests\ContractsRequest;
 use Tamkeen\Ajeer\Http\Requests\ReceivedContractRequest;
-use Tamkeen\Ajeer\Http\Requests\TaqawelContractRequest;
+use Tamkeen\Ajeer\Http\Requests\ReasonsFrontRequest;
 use Tamkeen\Ajeer\Models\Contract;
 use Tamkeen\Ajeer\Models\Establishment;
 use Tamkeen\Ajeer\Models\Individual;
@@ -274,64 +274,29 @@ class TaqawelContractController extends Controller
      *
      * @return mixed
      */
-    public function refuseTaqawelContractCancel(TaqawelContractRequest $request)
+    public function refuseTaqawelContractCancel(ReasonsFrontRequest $request)
     {
-        if ($request->reason != 'other') {
-            //save selected reason
-            switch ($request->type_r) {
-                case 'contract':
-                    $contract = Contract::findOrFail($request->id_r);
-                    $contract->status = Constants::CONTRACT_STATUSES['approved'];
-                    $contract->reason_id = $request->reason;
-										if($request->details){
-                      $contract->rejection_reason  = $request->details;
-                    }
-                    $contract->save();
-                    return trans('contracts_cancelation.refused');
-                    break;
-
-                case 'ishaar':
-                    $ishaar = ContractEmployee::findOrFail($request->id_r);
-                    $ishaar->status = Constants::CONTRACT_STATUSES['approved'];
-                    $ishaar->reasons_id = $request->reason;
-                    if($request->details){
-                            $ishaar->rejection_reason  = $request->details;
-                    }
-                    $ishaar->save();
-                    return trans('contracts_cancelation.refused');
-                    break;
-            }
-
+        if ($request->type == 'contract') {
+            $record = Contract::findOrFail($request->id);
+            $reasonIdField = 'reason_id';
         } else {
-            
-                //save other reason
-                switch ($request->type_r) {
-                    case 'contract':
-                        $contract = Contract::findOrFail($request->id_r);
-                        $contract->status = Constants::CONTRACT_STATUSES['approved'];
-                        $contract->other_reasons = $request->other;
-                        if($request->details){
-                                $contract->rejection_reason  = $request->details;
-                        }
-                        $contract->save();
-                        return trans('contracts_cancelation.refused');
-                        break;
-
-                    case 'ishaar':
-                        $ishaar = ContractEmployee::findOrFail($request->id_r);
-                        $ishaar->status = Constants::CONTRACT_STATUSES['approved'];
-                        $ishaar->other_reasons = $request->other;
-                        if($request->details){
-                          $ishaar->rejection_reason = $request->details;
-                        }
-                        $ishaar->save();
-                        return trans('contracts_cancelation.refused');
-                        break;
-              
-            }
+            $record = ContractEmployee::findOrFail($request->id);
+            $reasonIdField = 'reasons_id';
         }
-    }
 
+        $record->{$reasonIdField} = $record->other_reasons = NULL;
+        if (isset($request->other_reason)) {
+            $record->other_reasons = $request->other_reason;
+        }
+        if ($request->reason_id != 'other') {
+            $record->{$reasonIdField} = $request->reason_id;
+        }
+        $record->status = Constants::CONTRACT_STATUSES['approved'];
+        $record->rejection_reason  = $request->details;
+        $record->save();
+
+        return trans('contracts_cancelation.refused');
+    }
 
      /**
      * cascade taqawel contract cancellation

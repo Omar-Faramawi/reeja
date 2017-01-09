@@ -50,7 +50,7 @@ return [
             ],
             "message" => "يجب عليك اختيار سبب رفض العرض",
             "other" => "أخرى",
-            "other_reason" => "يجب عليك ادخال سبب آخر فى حال اختيارك لأخرى",
+            "other_reason" => "يرجى إدخال السبب",
             "reason" => "سبب رفض العرض",
             "reasonRequired" => "يجب اختيار سبب الرفض",
             "rejectionSuc" => "تم رفض العرض المقدم",
@@ -77,5 +77,11 @@ return [
     "smsmessage" => "رسالة تحتوي الرابط :link",
     "workEndDate" => "تاريخ نهاية العمل",
     "workStartDate" => "تاريخ بداية العمل",
-    "workplaces" => "مواقع العمل"
+    "workplaces" => "مواقع العمل",
+    'contractEdits' => "التعديلات على العقد",
+    'contractEditsatStatus' => 'حالة التعديل على العقد',
+    "editApprove" => "الموافقة على التعديل ",
+    "editReject" => "رفض التعديل ",
+    "approve_edit_success" => " تمت الموافقة على التعديل بنجاح ",
+    "reject_edit_success" => " تم رفض التعديل بنجاح ",
 ];

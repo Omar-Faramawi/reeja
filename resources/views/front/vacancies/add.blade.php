@@ -66,7 +66,7 @@
                                         </div>
                                     </div>
                                     {{-- start of Ta2eed Area --}}
-                                    <div id="tayeed_area" class="col-md-12">
+                                    <div id="tayeed_area" class="col-md-12" style="display:none">
 
                                         <div class="table-responsive">
                                             <table class="table table-striped table-bordered table-hover"
@@ -118,7 +118,7 @@
 
                                     {{-- start of vacancies area --}}
                                     <div class="col-md-12">
-                                        <div id="vacancies_area">
+                                        <div id="vacancies_area" style="display:none">
                                             <div class="col-md-6">
                                                 <div class="form-group form-md-line-input">
                                                     <label class="control-label text-right col-md-3">{{trans('vacancies.form_attributes.job')}}
@@ -199,7 +199,7 @@
                                                     <label class="control-label text-right col-md-3">{{trans('vacancies.form_attributes.religion')}}
                                                         <span class="required"> * </span>
                                                     </label>
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-9">
                                                         <div class="md-radio">
                                                             <input type="radio" id="muslim" required
                                                                    name="religion" value="1" checked
@@ -263,36 +263,39 @@
                                                         <div id="form_2_job_type_error"></div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
+
                                                 <div class="form-group form-md-line-input">
                                                     <label class="col-md-3 control-label text-right">{{trans('vacancies.form_attributes.salary')}}
                                                         <span class="required"> * </span>
                                                     </label>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-7">
                                                         <input type="text" name="salary" class="form-control"/>
                                                         <div class="form-control-focus"></div>
-                                                        <span class="help-block">{{ trans('vacancies.form_attributes.currency') }}
-                                                            ...</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-md-checkboxes">
-                                                    <label class="col-md-5 control-label text-right"
-                                                           for="form_control_1">{{trans('vacancies.hide_option')}}</label>
-                                                    <div class="col-md-1">
-                                                        <div class="md-checkbox-list">
-                                                            <div class="md-checkbox">
-                                                                <input type="checkbox" name="hide_salary"
-                                                                       id="hide_salary" class="md-check" value="1">
-                                                                <label for="hide_salary">
-                                                                    <span></span>
-                                                                    <span class="check"></span>
-                                                                    <span class="box"></span> </label>
+
+                                                        <div class="form-group form-md-checkboxes">
+                                                            <div class="col-md-1">
+                                                                <div class="md-checkbox-list">
+                                                                    <div class="md-checkbox">
+                                                                        <input type="checkbox" name="hide_salary"
+                                                                               id="hide_salary" class="md-check" value="1">
+                                                                        <label for="hide_salary">
+                                                                            <span></span>
+                                                                            <span class="check"></span>
+                                                                            <span class="box"></span> </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
+                                                            <label class="col-md-9 control-label text-right"
+                                                                   for="form_control_1">{{trans('vacancies.hide_option')}}</label>
+
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-1 margin-top-10 no-padding-right">
+                                                        {{ trans('vacancies.form_attributes.currency') }}
+                                                    </div>
                                                 </div>
-
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="form-group form-md-line-input">
                                                     <label class="control-label text-right col-md-4">{{trans('vacancies.form_attributes.work_start_date')}}</label>
                                                     <div class="col-md-6">

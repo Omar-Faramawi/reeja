@@ -1033,10 +1033,13 @@ $(function () {
     $('#select_reason').on('change', function () {
         var selectedOptionValue = $('#select_reason option:selected').val();
         var lastOptionValue = $('#select_reason option:last-child').val();
+        var other_input = $('#other_reason input');
         if (selectedOptionValue == lastOptionValue) {
             $('#other_reason').show();
+            other_input.attr('name', other_input.data('name'));
         } else {
-            $('#other').val('');
+            other_input.val('');
+            other_input.attr('name', '');
             $('#other_reason').hide();
         }
     });
@@ -1762,5 +1765,32 @@ $('document').ready(function () {
         } else {
             $("#forClickButton").click();
         }
+    });
+	
+    $(".contract_edit_reject").on("click", function (e) {
+        var current = $(this);
+        var btn = current.button('loading');
+        e.preventDefault();
+        var route = current.attr('href');
+       
+        $.ajax({
+            type: "get",
+            data: {},
+            url: route,
+            success: function (msg) {
+                $("#form").hide();
+                toastr.success('', msg);
+            },
+            error: function (msg) {
+                btn.button('reset');
+                if (msg.status == 401 || msg.status == 404) {
+                    window.location = msg.getResponseHeader('Location')
+                } else if (msg.status == 500 || msg.status == 405) {
+                    toastr.error("", bug_msg);
+                } else {
+                    toastr.error("", msg);
+                }
+            }
+        });
     });
 });

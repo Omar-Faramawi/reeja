@@ -31,5 +31,8 @@ return [
         "responsible_phone" => "رقم جوال المسؤول"
     ],
     "responsibles_data" => "بيانات المسؤولين",
-    "updated" => "تم تحديث ملف المنشأة بنجاح"
+    "updated" => "تم تحديث ملف المنشأة بنجاح",
+    "import_from_old_ajeer" => "استيراد البيانات من الموقع القديم",
+    "import_completed" => "تم استيراد البيانات بنجاح",
+    "beta_unavailable" => "عفوا، غير متاح لك استخدام الموقع التجريبي ، يرجى الدخول على الموقع الرسمي (<a href='https://ajeer.com.sa'>ajeer.com.sa</a>)"
 ];

@@ -41,65 +41,55 @@
                      </div>
                   </div>
                   <div class="portlet-body">
-                     <div class="row">
-                        <h4>{{ trans('contracts_cancelation.details') }}</h4>
-                        <div class="row">
-                           <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_number') }}</label> : <span id='id'>{{ $contract->id }}</span></div>
-                           <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_name') }}</label> : <span id='id'>{{ $contract->contract_name }}</span></div>
-                           <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_description') }}</label> : <span id='id'>{{ $contract->contract_desc }}</span></div>
-                           <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_type') }}</label> : <span id='id'>
-                              @if($contract->contract_ref_no == null)
-                                 {{ trans('contracts_cancelation.direct') }}
-                              @else
-                                 {{ trans('contracts_cancelation.indirect') }}
-                              @endif
-                           </span></div>
-                        	<div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_nature') }}</label> : <span id='id'>{{ $contract->contractNature->name }}</span></div>
-                           <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_benef') }}</label> : <span id='benf_name'>{{ $contract->benf_name }}</span></div>
-                           <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_start_date') }} </label> : <span id='start_date'>{{ $contract->start_date }}</span></div>
-                           <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_end_date') }}</label> : <span id='end_date'>{{ $contract->end_date }}</span></div>
-                           <div class="col-md-6"><label id='amount'>{{ trans('contracts_cancelation.contract_value') }}</label> : <span id='amount'>{{ $contract->contract_amount }}</span></div>
-                           <div class="col-md-6"><label id='desc'>{{ trans('contracts_cancelation.service_description') }}</label> : <span id='desc'>{{ $contract->marketTaqawoulServices->description }}</span></div>
+                    <h4>{{ trans('contracts_cancelation.details') }}</h4>
+                    <div class="row">
+                       <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_number') }}</label> : <span id='id'>{{ $contract->id }}</span></div>
+                       <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_name') }}</label> : <span id='id'>{{ $contract->contract_name }}</span></div>
+                       <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_description') }}</label> : <span id='id'>{{ $contract->contract_desc }}</span></div>
+                       <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_type') }}</label> : <span id='id'>
+                          @if($contract->contract_ref_no == null)
+                             {{ trans('contracts_cancelation.direct') }}
+                          @else
+                             {{ trans('contracts_cancelation.indirect') }}
+                          @endif
+                       </span></div>
+                        <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_nature') }}</label> : <span id='id'>{{ $contract->contractNature->name }}</span></div>
+                       <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_benef') }}</label> : <span id='benf_name'>{{ $contract->benf_name }}</span></div>
+                       <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_start_date') }} </label> : <span id='start_date'>{{ $contract->start_date }}</span></div>
+                       <div class="col-md-6"><label>{{ trans('contracts_cancelation.contract_end_date') }}</label> : <span id='end_date'>{{ $contract->end_date }}</span></div>
+                       <div class="col-md-6"><label id='amount'>{{ trans('contracts_cancelation.contract_value') }}</label> : <span id='amount'>{{ $contract->contract_amount }}</span></div>
+                       <div class="col-md-6"><label id='desc'>{{ trans('contracts_cancelation.service_description') }}</label> : <span id='desc'>{{ $contract->marketTaqawoulServices->description }}</span></div>
 
 
-                        </div>
-                     </div>
-                     <div class="row">
-                        <h4>{{ trans('contracts_cancelation.ishaar') }}</h4>
-                        <div class="portlet box green" id='is-table'>
-                           <div class="portlet-title">
-                              <div class="caption">
-                                 {{ trans('contracts_cancelation.ishaar') }}
-                              </div>
-                           </div>
-                           <div class="portlet-body">
-                              <div class="table-scrollable">
-                                 <table class="table table-striped table-hover" id='ishaar_table'>
-                                    <thead>
-                                       <tr id='head'>
-                                          <th>{{ trans('contracts_cancelation.job') }}</th>
-                                          <th>{{ trans('contracts_cancelation.gender') }}</th>
-                                          <th>{{ trans('contracts_cancelation.nationality') }}</th>
-                                          <th>{{ trans('contracts_cancelation.contract_start_date') }}</th>
-                                          <th>{{ trans('contracts_cancelation.contract_end_date') }}</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       @foreach($contract->contractEmployee as $one)
-                                       <tr>
-                                          <td>{{ $one->hrPool->job->job_name or '' }}</td>
-                                          <td>{{ $one->hrPool->gender_name }}</td>
-                                          <td>{{ $one->hrPool->nationality->name }}</td>
-                                          <td>{{ $one->start_date }}</td>
-                                          <td>{{ $one->end_date }}</td>
-                                       </tr>
-                                       @endforeach
-                                    </tbody>
-                                 </table>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
+                    </div>
+                    @if (count($contract->contractEmployee))
+                    <h4>{{ trans('contracts_cancelation.ishaar') }}</h4>
+                        
+                    <div class="table-scrollable">
+                       <table class="table table-striped table-hover" id='ishaar_table'>
+                          <thead>
+                             <tr id='head'>
+                                <th>{{ trans('contracts_cancelation.job') }}</th>
+                                <th>{{ trans('contracts_cancelation.gender') }}</th>
+                                <th>{{ trans('contracts_cancelation.nationality') }}</th>
+                                <th>{{ trans('contracts_cancelation.contract_start_date') }}</th>
+                                <th>{{ trans('contracts_cancelation.contract_end_date') }}</th>
+                             </tr>
+                          </thead>
+                          <tbody>
+                             @foreach($contract->contractEmployee as $one)
+                             <tr>
+                                <td>{{ $one->hrPool->job->job_name or '' }}</td>
+                                <td>{{ $one->hrPool->gender_name }}</td>
+                                <td>{{ $one->hrPool->nationality->name }}</td>
+                                <td>{{ $one->start_date }}</td>
+                                <td>{{ $one->end_date }}</td>
+                             </tr>
+                             @endforeach
+                          </tbody>
+                       </table>
+                    </div>
+                    @endif
                      @if($contract->status == 'benef_cancel' || $contract->status == 'provider_cancel')
                      <div class="row">
                      	 <div class="col-md-12">
@@ -157,10 +147,10 @@
             <h4 class="modal-title">{{ trans('contracts_cancelation.refuse') }}</h4>
          </div>
          <div class="modal-body form-body">
-            <input type="hidden" id='modal-type-r' name='type_r' value='contract'>
-            <input type="hidden" id='modal-id-r' name='id_r' value='{{ $contract->id }}'>
+            <input type="hidden" id='modal-type-r' name='type' value='contract'>
+            <input type="hidden" id='modal-id-r' name='id' value='{{ $contract->id }}'>
             <div class="form-group has-info">
-               <select class="form-control" id="select_reason" name='reason'>
+               <select class="form-control" id="select_reason" name='reason_id'>
                      <option value=""></option>
                      @foreach($reasons as $reason)
                         <option value="{{ $reason->id }}">{{ $reason->reason }}</option>
@@ -170,7 +160,7 @@
                <label for="form_control_1">{{ trans('contracts_cancelation.refusereason') }}</label>
             </div>
             <div class="form-group form-md-line-input" style="display:none;" id='other_reason'>
-               <input type="text" class="form-control" id="other_reason" name='other'>
+               <input type="text" class="form-control" data-name='other_reason'>
                <label for="form_control_1">{{ trans('contracts_cancelation.other') }}</label>
                <span class="help-block">{{ trans('contracts_cancelation.other') }}</span>
             </div>

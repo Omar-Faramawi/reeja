@@ -43,6 +43,7 @@
                             </a>
                         @endif
 
+                                    {{--
                         @if(app()->getLocale() == 'ar')
                             <a href="{{ action('UserController@getLocale', 'en')}}">
                                 <i class="icon icon-lang-en"></i>
@@ -54,6 +55,7 @@
                                 عربي
                             </a>
                         @endif
+                        --}}
                     </nav>
                 </div>
 
@@ -82,6 +84,9 @@
                                     <li>
                                         <a href="{{ url('/faq') }}"> <i class="icon-question"></i> {{ trans('front.menu.faq') }}
                                         </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.ajeer.com.sa/contact-us"> <i class="icon-support"></i> الدعم والمساندة </a>
                                     </li>
                                     @if(auth()->check())
                                     <li class="menu-dropdown classic-menu-dropdown">
@@ -113,6 +118,10 @@
                                                         <a href="{{url('/offersdirect')}}">
                                                             {{trans('offersdirect.receivedOffers')}}
                                                         </a>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href="{{ route('direct_hiring.contracts') }}"
+                                                           class="nav-link"> {{ trans('front.menu.temp_direct_contract') }}</a>
                                                     </li>
                                                     <li>
                                                         <a href="{{url('/direct_ishaar')}}"
@@ -204,6 +213,7 @@
                                                             </li>
                                                         </ul>
                                                     </li>
+                                                    {{--
                                                     <li class="dropdown-submenu ">
                                                         <a class="nav-link" data-toggle="dropdown">
                                                             {{ trans('front.menu.temp_direct_contract') }}
@@ -264,7 +274,7 @@
                                                             @endif
                                                         </ul>
                                                     </li>
-
+                                                    --}}
                                                     @if(auth()->check())
                                                         @if (session('government.hajj') == '1')
                                                             <li class="">

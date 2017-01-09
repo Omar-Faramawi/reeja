@@ -211,18 +211,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 text-center">
-                                                <div class="form-actions">
-                                                    <button type="submit" class="btn blue"
-                                                            data-loading-text="{{ trans('labels.loading') }}..."
-                                                    > {{trans("offersdirect.accept")}} </button>
-                                                    <a class="btn yellow btn-outline sbold"
-                                                       href="{{url("offersdirect/reject/" . $thisContract->id)}}"
-                                                       data-target="#ajax"
-                                                       data-toggle="modal"> {{trans("offersdirect.decline")}} </a>
-
-                                                </div>
-
+                                            <div class="col-lg-12 text-center margin-top-15">
+                                                <button type="submit" class="btn blue"
+                                                        data-loading-text="{{ trans('labels.loading') }}..."
+                                                > {{trans("offersdirect.accept")}} </button>
+                                                <button type="button" class="btn yellow btn-outline sbold" data-toggle="modal" data-target="#rejectModal">{{trans("offersdirect.decline")}}</button>
                                             </div>
                                         @else
                                             @if (!isset($canAccept))
@@ -318,4 +311,5 @@
             </div>
         </div>
     </div>
+    @include('front.offersdirect.reject')
 @endsection

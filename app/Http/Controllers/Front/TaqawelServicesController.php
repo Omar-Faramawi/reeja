@@ -23,6 +23,7 @@ use Tamkeen\Ajeer\Models\Reason;
 use Tamkeen\Ajeer\Models\Region;
 use Tamkeen\Ajeer\Utilities\Constants;
 use Tamkeen\Ajeer\Models\Contract;
+use Tamkeen\Ajeer\Models\ContractEdit;
 
 class TaqawelServicesController extends Controller
 {
@@ -513,13 +514,16 @@ class TaqawelServicesController extends Controller
 
         if (Constants::SERVICETYPES['provider'] == $id) {
             $newStatus = 'provider_cancel';
-            $mycontracts = Contract::byMe()->taqawel()->latest()->paginate(20);
+            $mycontracts = Contract::byMe()->taqawel()->with(['contractEdits' => function($q) {
+                            $q->where('status', Constants::CONTRACT_STATUSES['pending']);
+                        }])->latest()->paginate(20);
         } else {
             $isProvider = false;
             $newStatus = 'benef_cancel';
-            $mycontracts = Contract::toMe()->taqawel()->latest()->paginate(20);
+            $mycontracts = Contract::toMe()->taqawel()->with(['contractEdits' => function($q) {
+                            $q->where('status', Constants::CONTRACT_STATUSES['pending']);
+                        }])->latest()->paginate(20);
         }
-
         $reasons = Reason::has('parentReason')->forTaqawelCancel()->pluck('reason', 'id')->toArray();
         $wantDelete = true;
         $reasonLabel = 'contracts.rejection_reason';
@@ -605,7 +609,22 @@ class TaqawelServicesController extends Controller
                 return trans('tqawel_offer_contract.resend_success');
             } else {
                 if ($contract->status == Constants::CONTRACT_STATUSES['approved']) {
-                    $data = [];
+                    $contractEdit = new ContractEdit;
+                    $contractEdit->contract_id = $request->contract_id;
+                    if ($request->hasFile('file_contract')) {
+                        $contractEdit->contract_file = customUploadFile('file_contract', 'tqawel');
+                    }
+                    if ($request->desc_location) {
+                        $locations="";
+                        foreach ($request->desc_location as $location) {
+                            $locations .=$location."-";
+                        }
+                        $contractEdit->contract_locations = $locations;
+                    }
+                    $contractEdit->status = Constants::CONTRACT_STATUSES['pending'];
+                    $contractEdit->save();
+                    
+                    return trans('temp_job.updated');
                 }
                 if ($request->hasFile('file_contract')) {
                     $contract_file = customUploadFile('file_contract', 'tqawel');
@@ -745,9 +764,15 @@ class TaqawelServicesController extends Controller
             }
 
             if ($isProvider || $updated_status == 'reject') {
-                $contract = Contract::byMe()->with('contractNature', 'contractLocations')->findOrFail($id);
+                $contract = Contract::byMe()->with('contractNature', 'contractLocations')->with(['contractEdits' => function($q) {
+                            $q->where('status', Constants::CONTRACT_STATUSES['pending']);
+                        }])->findOrFail($id);
+                        $EditedtoMe =FALSE;
             } else {
-                $contract = Contract::toMe()->with('contractNature', 'contractLocations')->findOrFail($id);
+                $contract = Contract::toMe()->with('contractNature', 'contractLocations')->with(['contractEdits' => function($q) {
+                            $q->where('status', Constants::CONTRACT_STATUSES['pending']);
+                        }])->findOrFail($id);
+                        $EditedtoMe =TRUE;
             }
             
             if ($updated_status == 'reject') {
@@ -782,9 +807,8 @@ class TaqawelServicesController extends Controller
         } catch (ModelNotFoundException $e) {
             abort(404);
         }
-
         return view('front.labor_market.tqawel.details',
-            compact('contract', 'canCancel', 'reasons', 'wantDelete', 'wantReject', 'newStatus', 'reasonLabel'));
+            compact('contract', 'canCancel', 'reasons', 'wantDelete', 'wantReject', 'newStatus', 'reasonLabel','EditedtoMe'));
     }
 
 

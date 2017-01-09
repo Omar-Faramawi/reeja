@@ -51,7 +51,6 @@ $router->group(['prefix' => 'taqawel', 'middleware' => ['auth', 'EstablishmentSe
     
     $router->group(['prefix' => 'offers'], function (Router $router) {
         $router->get("downloadfile/{id}", 'Front\OffersTaqaualController@downloadFile');
-        $router->get("reject/{id}", 'Front\OffersTaqaualController@reject');
         $router->put("reject/{id}", 'Front\OffersTaqaualController@rejectPost');
         $router->get("{id}", "Front\OffersTaqaualController@show");
         $router->put("accept/approve/{id}", 'Front\OffersTaqaualController@approvePost');

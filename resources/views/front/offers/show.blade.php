@@ -259,11 +259,7 @@
                                                                 style="display: none;"
                                                                 id="forClickButton"></a>
                                                     @endif
-                                                    <a class="btn yellow btn-outline sbold"
-                                                       href="{{url("offers/reject/" . $thisContract['id'])}}"
-                                                       data-target="#ajax"
-                                                       data-toggle="modal"> {{trans("offers.decline")}} </a>
-
+                                                    <button type="button" class="btn yellow btn-outline sbold" data-toggle="modal" data-target="#rejectModal">{{trans("offers.decline")}}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -358,5 +354,5 @@
             </div>
         </div>
     </div>
-
+    @include('front.offers.reject')
 @endsection

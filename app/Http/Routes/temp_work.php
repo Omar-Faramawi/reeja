@@ -14,7 +14,7 @@ Route::group(['middleware' => ['auth','EstablishmentSelected', 'ResponsibleUpdat
         Route::post('cancellation/direct_hiring/accept',
             'Front\ContractsController@accept_direct_hiring_contract_cancelation');
         Route::post('cancellation/direct_hiring/refuse',
-            'Front\ContractsController@refuse_direct_hiring_contract_cancelation');
+            'Front\ContractsController@refuseCancel');
         //Hir laobor
         Route::get('cancellation/ishaar/{type}', 'Front\ContractsController@showIshaar');
         Route::get('cancellation/ishaar/{type}/{id}', 'Front\ContractsController@showSingleIshaar');
@@ -95,13 +95,11 @@ Route::group(['middleware' => ['auth','EstablishmentSelected', 'ResponsibleUpdat
         Route::get("accept/approve/{id}", 'Front\OffersController@approve');
         Route::put("accept/approve/{id}", 'Front\OffersController@approvePost');
         Route::POST("accept/approve/{id}",['as'=>'approveTempWork','uses'=> 'Front\OffersController@approvePosted']);
-        Route::get("reject/{id}", 'Front\OffersController@reject');
         Route::put("reject/{id}", 'Front\OffersController@rejectPost');
         Route::get("{id}", 'Front\OffersController@show');
         Route::resource("", 'Front\OffersController');
     });
-    Route::get("contractdetails/{id}", "Front\ContractsController@anyContractDetails");
-
+    
     // Front End Shwagher
     Route::resource('vacancies', 'Front\VacanciesController');
 
@@ -117,11 +115,6 @@ Route::group(['middleware' => ['auth','EstablishmentSelected', 'ResponsibleUpdat
     // Front End Contracts
     Route::get('temp-work-contracts',
         ['as' => 'contracts.index', 'uses' => 'Front\ContractsController@index']);
-
-    Route::get("direct-hiring-contracts/{id?}", [
-        'as'   => 'direct_hiring.contracts',
-        'uses' => 'Front\DirectHiringContractsController@index',
-    ]);
 
     Route::get("direct-hiring-contracts/{id?}/show", [
         'as'   => 'direct_hiring.contracts.show',
@@ -174,7 +167,6 @@ Route::group(['middleware' => ['auth','individual']], function (){
         Route::get("ownership/approve/{id}/{hashedid}", "Front\OwnerShipController@approve");
         Route::put("accept/approve/{id}", 'Front\OfferDirectController@approvePost');
         Route::PUT("accept/{id}", "Front\OfferDirectController@accept");
-        Route::get("reject/{id}", "Front\OfferDirectController@reject");
         Route::put("reject/{id}", "Front\OfferDirectController@rejectPost");
         Route::get("{id}", "Front\OfferDirectController@show");
         Route::resource("", "Front\OfferDirectController");
@@ -200,7 +192,7 @@ Route::group(['middleware' => ['auth','individual']], function (){
             Route::post('direct_hiring/accept',
                 'Front\ContractsController@accept_direct_hiring_contract_cancelation');
             Route::post('direct_hiring/refuse',
-                'Front\ContractsController@refuse_direct_hiring_contract_cancelation');
+                'Front\ContractsController@refuseCancel');
         });
     });
 });
@@ -214,4 +206,14 @@ Route::group(['middleware' => ['AllUsersExceptAdmin']], function (){
     Route::get('direct_ishaar/{id}/print_ishaar', 'Front\NoticesController@printIshaar');
     Route::post('direct_ishaar/{id}/generate_invoice', 'Front\NoticesController@generateInvoice');
     Route::post('direct_ishaar/ask_cancel', 'Front\NoticesController@askCancelIshaar');
+
+    Route::get("contractdetails/{id}", "Front\ContractsController@anyContractDetails");
+
+    Route::get("direct-hiring-contracts/{id?}", [
+        'as'   => 'direct_hiring.contracts',
+        'uses' => 'Front\DirectHiringContractsController@index',
+    ]);
+    
+    Route::post('edit_contract/{id}/approve/{type?}','Front\ContractsController@contractEditApprove');
+    Route::get('edit_contract/{id}/reject','Front\ContractsController@contractEditReject');
 });

@@ -145,6 +145,7 @@ class PackageSubscribeController extends Controller
         $periodtype = $ishaar_setup->paid_ishaar_payment_expiry_period_type;
         $bundleperiodtype = $ishaar_setup->paid_ishaar_valid_expiry_period_type;
         $invoiceExpiryDate = getDiffPeriodDay($issueDate, $period, $periodtype);
+        $invoiceExpiryDate = Carbon::parse($invoiceExpiryDate)->format('Y-m-d H:i:s');
         $bundleExpiryDate = getDiffPeriodDay($issueDate, $bundlePeriod, $bundleperiodtype);
         $provider_id = getCurrentUserNameAndId()[0];
 

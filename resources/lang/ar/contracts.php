@@ -18,7 +18,8 @@ return [
         "request_contract_ishaar" => "إلغاء الإشعار",
         "revert_cancel" => "التراجع عن الإلغاء",
         "send_offer" => "تقديم عرض",
-        "view_offer" => "إستعراض العرض"
+        "view_offer" => "إستعراض العرض",
+        "show_contract_edits" => "استعراض التعديلات على العقد",
     ],
     "attributes" => [
         "end_date" => "تاريخ نهاية العمل",
@@ -100,7 +101,8 @@ return [
         "pending_ownership" => "بإنتظار موافقة الكفيل",
         "provider_cancel" => "مُلغى بواسطة المقدم",
         "rejected" => "مرفوض",
-        "requested" => "طلب مرسل/ مستلم"
+        "requested" => "طلب مرسل/ مستلم",
+        "under_edit" => "تحت التعديل",
     ],
     "undo_invoice_notice" => "<strong>تنبيه: </strong> في حالة إصدار فاتورة ثم الرغبة في التراجع عن العملية، يجب الإنتظار 3 أيام حتى إنتهاء صلاحية الفاتورة وبالتالي يتم إلغاؤها تلقائياً",
     "updated" => "تم التعديل",
@@ -108,5 +110,9 @@ return [
     "more_details_about_rejection" => "تفاصيل أخرى متعلقة بسبب الرفض",
     "more_details_about_cancellation" => "تفاصيل أخرى متعلقة بسبب الإلغاء",
     "cancelled_successfully" => "تم إلغاء العقد بنجاح",
-    "cancelled_requested_successfully" => "تم إرسال طلب الإلغاء بنجاح"
+    "cancelled_requested_successfully" => "تم إرسال طلب الإلغاء بنجاح",
+    "reason_label" => "السبب",
+    "other_reason_label" => "سبب آخر",
+    "reason_required" => "يرجى اختيار السبب",
+    "other_reason_required" => "يرجى إدخال السبب"
 ];

@@ -66,7 +66,7 @@
                                                     @if($contract->status == "approved" && $contract->expired)
                                                         <td>{{ trans('labels.contractStatus.expired') }}</td>
                                                     @else
-                                                        <td>{{ trans('contracts.statuses.'.$contract->status) }}</td>
+                                                        <td>{{ trans('contracts.statuses.'.$contract->status) }} @if(!empty($contract->contractEdits[0]))- {{ trans('contracts.statuses.under_edit') }}@endif</td>
                                                     @endif
                                                     <td>
                                                         @if($isProvider)
@@ -75,11 +75,18 @@
                                                                     href="{{ url('offersdirect/'.$contract->id) }}"
                                                                     class="btn blue btn-sm">{{ trans('contracts.action_buttons.offer_details') }}</a>
                                                             @endif
+                                                            @if(!empty($contract->contractEdits[0]))
+                                                                <a type="button"
+                                                                   href="{{ url('contractdetails/'.$contract->id) }}"
+                                                                   class="btn blue btn-sm">{{ trans('contracts.action_buttons.show_contract_edits') }}</a>
+                                                            @endif
                                                         @else
                                                             @if($contract->status == "pending" || ($contract->status == "approved" && !$contract->expired))
-                                                                <a type="button"
-                                                                   href="{{ url('direct-hiring-contract/'.$contract->id.'/edit') }}"
-                                                                   class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>
+                                                                @if(empty($contract->contractEdits[0]))
+                                                                    <a type="button"
+                                                                       href="{{ url('direct-hiring-contract/'.$contract->id.'/edit') }}"
+                                                                       class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>
+                                                                @endif
                                                             @elseif($contract->status == "requested")
                                                                 <a type="button"
                                                                    href="{{ url('direct-hiring-contracts/'.$contract->id.'/show') }}"
@@ -93,8 +100,8 @@
                                                         @endif
 
                                                         <a type="button"
-                                                            href="{{ url('contractdetails/'.$contract->id) }}"
-                                                            class="btn white btn-sm">{{ trans('temp_job.details') }}</a>
+                                                           href="{{ url('contractdetails/'.$contract->id) }}"
+                                                           class="btn white btn-sm">{{ trans('temp_job.details') }}</a>
                                                     </td>
                                                 </tr>
                                             @endforeach

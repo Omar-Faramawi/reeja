@@ -69,6 +69,16 @@ class Contract extends BaseModel
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * Has many contract Edits
+     */
+    public function contractEdits()
+    {
+        return $this->hasMany(ContractEdit::class, 'contract_id');
+    }
+
+    /**
      * @param $query
      *
      * @return mixed

@@ -152,10 +152,10 @@
                                     </select>
                                 </div>
                                 <div class="hidden" id="current_route">{{$url}}</div>
-                            </div>
-                            <div class="actions">
-                                <a href="" class="btn btn-circle btn-sm green"
+                                <div class="col-md-2">
+                                    <a href="" class="btn btn-circle btn-sm green"
                                    id="add_ishaar"> {{trans('ishaar_setup.headings.create')}}</a>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -24,8 +24,8 @@ class OfferTaqawelRejectRequest extends Request
     public function rules()
     {
         return [
-            "reason_id" => 'required|not_in:0',
-            'other_reason' => 'required_if:reason_id,18'
+            "reason_id"    => 'required|not_in:0',
+            'other_reason' => 'sometimes|required|max:255'
         ];
     }
 
@@ -36,7 +36,7 @@ class OfferTaqawelRejectRequest extends Request
     {
         return [
             'reason_id.required' => trans('offersdirect.modal.reject.message'),
-            'other_reason.required_if' => trans('offersdirect.modal.reject.other_reason'),
+            'other_reason.required' => trans('offersdirect.modal.reject.other_reason'),
         ];
     }
 }

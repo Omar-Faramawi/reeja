@@ -139,7 +139,9 @@ class OffersTaqaualController extends Controller
         }
         $thisContract = $thisContract->toArray();
 
-        return view("front.tqawel.offers.show", compact("thisContract", "canAccept", "dateEnded"));
+        $reasons = Reason::where('parent_id', 2)->pluck("reason", "id");
+
+        return view("front.tqawel.offers.show", compact("thisContract", "canAccept", "dateEnded", "reasons"));
     }
 
     /**
@@ -223,32 +225,22 @@ class OffersTaqaualController extends Controller
         return trans("tqaweloffers.modal.accept.offerAccepted");
     }
 
-
-    /**
-     * @param $id
-     *
-     * @return mixed
-     */
-    public function reject($id)
-    {
-        $reasons = Reason::where('parent_id', 2)->pluck("reason", "id");
-        
-        return view("front.tqawel.offers.reject", compact("reasons", "id"));
-    }
-
     /**
      * @param OfferTaqawelRejectRequest $offerTaqawelRejectRequest
      * @param                           $id
      *
      * @return mixed
-     * @internal param OfferRejectRequest $offerRejectRequest
      */
     public function rejectPost(OfferTaqawelRejectRequest $offerTaqawelRejectRequest, $id)
     {
         $contract                   = Contract::toMe()->taqawel()->pending()->findOrFail($id);
+        if (isset($offerTaqawelRejectRequest->other_reason)) {
+            $contract->other_reasons = $offerTaqawelRejectRequest->other_reason;
+        } else {
+            $contract->other_reasons = NULL;
+        }
         $contract->reason_id        = $offerTaqawelRejectRequest->reason_id;
         $contract->rejection_reason = $offerTaqawelRejectRequest->extraDetails;
-        $contract->other_reasons    = $offerTaqawelRejectRequest->other_reason;
         $contract->status           = Constants::CONTRACT_STATUSES['rejected'];
         $contract->save();
 

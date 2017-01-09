@@ -66,10 +66,10 @@
                             {{ trans('auth.forgot_password') }}
                         </a>
                     </div>
-                    <div class="text-center" style="margin-top: 5px">
+                    {{-- <div class="text-center" style="margin-top: 5px">
                         <a href="{{ url("/register") }}" class="btn btn-primary"
                            class="forget-password">{{ trans('auth.register') }}</a>
-                    </div>
+                    </div> --}}
                 </div>
                 {{ Form::close() }}
             </div>

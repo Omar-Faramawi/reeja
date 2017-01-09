@@ -2,7 +2,7 @@
 @section('title', trans('contracts.contracts'))
 @section('content')
 
-        <!-- BEGIN CONTENT BODY -->
+<!-- BEGIN CONTENT BODY -->
 <!-- BEGIN PAGE HEAD-->
 <div class="page-head">
     <div class="container">
@@ -65,7 +65,7 @@
                                                 @if($contract->status == "approved" && $contract->expired)
                                                     <td>{{ trans('labels.contractStatus.expired') }}</td>
                                                 @else
-                                                    <td>{{ trans('contracts.statuses.'.$contract->status) }}</td>
+                                                    <td>{{ trans('contracts.statuses.'.$contract->status) }} @if(!empty($contract->contractEdits[0]))- {{ trans('contracts.statuses.under_edit') }}@endif </td>
                                                 @endif
 
                                                 <td>
@@ -90,9 +90,11 @@
                                                                href="{{ url('contracts/cancellation/provider/'.$contract->id) }}"
                                                                class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
                                                         @elseif($contract->status == "pending" || ($contract->status == "approved" && !$contract->expired))
-                                                            <a type="button"
-                                                                   href="{{ route('tempwork.contracts.edit', ['id' => $contract->id] ) }}"
-                                                                   class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>
+                                                            @if(empty($contract->contractEdits[0]))
+                                                                <a type="button"
+                                                                       href="{{ route('tempwork.contracts.edit', ['id' => $contract->id] ) }}"
+                                                                       class="btn blue btn-sm">{{ trans('tqawel_offer_contract.edit') }}</a>
+                                                            @endif
                                                             <a type="button"
                                                                href="{{ url('contracts/'.$contract->id.'/cancel') }}"
                                                                class="btn red btn-sm">{{ trans('temp_job.reset') }}</a>
@@ -109,6 +111,11 @@
                                                                href="{{ url('contracts/cancellation/beneficial/'.$contract->id) }}"
                                                                class="btn red btn-sm">{{ trans('contracts.action_buttons.process_cancel_request') }}</a>
                                                         @elseif($contract->status == "approved" && !$contract->expired)
+                                                            @if(!empty($contract->contractEdits[0]))
+                                                                <a type="button"
+                                                                   href="{{ url('contractdetails/'.$contract->id) }}"
+                                                                   class="btn blue btn-sm">{{ trans('contracts.action_buttons.show_contract_edits') }}</a>
+                                                            @endif
                                                             <a type="button"
                                                                href="{{ url('contracts/'.$contract->id.'/cancel') }}"
                                                                class="btn red btn-sm">{{ trans('temp_job.reset') }}</a>
@@ -118,6 +125,7 @@
                                                                 class="btn blue btn-sm">{{ trans('contracts.action_buttons.offer_details') }}</a>
                                                         @endif
                                                     @endif
+
                                                     <a type="button"
                                                        href="{{ url('contractdetails/'.$contract->id) }}"
                                                        class="btn white btn-sm">{{ trans('temp_job.details') }}</a>
@@ -130,7 +138,6 @@
                                             </tr>
                                         @endif
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>

@@ -31,5 +31,8 @@ return [
         "responsible_phone" => "Phone Number of Responsible"
     ],
     "responsibles_data" => "Responsibles data",
-    "updated" => "Establishment profile updated successfully"
+    "updated" => "Establishment profile updated successfully",
+    "import_from_old_ajeer" => "Import data from the old website",
+    "import_completed" => "Data imported successfully",
+    "beta_unavailable" => "Sorry, you can't use this beta version, kindly open the official website (<a href='https://ajeer.com.sa'>ajeer.com.sa</a>)"
 ];

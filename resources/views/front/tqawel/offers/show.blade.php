@@ -7,7 +7,6 @@
             <div class="page-content-inner">
                 <div class="row">
                     <div class="col-md-12">
-
                         @if(isset($thisContract))
                             <div class="portlet light portlet-fit portlet-datatable">
                                 <div class="portlet-title">
@@ -159,29 +158,25 @@
                                                     </div>
                                                 </div>
                                             @endif
+                                            @if ($thisContract['contract_file'])
+                                                <div class="row static-info">
+                                                    <div class="col-lg-3">{{trans("tqaweloffers.attachment")}}</div>
+                                                    <div class="col-lg-2">
+                                                        <a href="{{ url('uploads/'. $thisContract['contract_file']) }}" download>
+                                                            <i class="fa fa-file"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
-                                    <br>
-                                    {{Form::open(['url' => url('/taqawel/offers/accept/' . $thisContract['id']), 'data-url'=>url('/taqawel/offers/' . $thisContract['id']), 'id'=>'acceptform',"method"=>"PUT","role"=>"form"])}}
-                                    <div class="row static-info">
-                                        <div class="col-lg-3">{{trans("tqaweloffers.offerValideTo")}}</div>
-                                        <div class="col-lg-9">{{$dateEnded}}</div>
-                                    </div>
-                                    @if ($thisContract['contract_file'])
-
+                                    @if(isset($canAccept))
+                                        {{Form::open(['url' => url('/taqawel/offers/accept/' . $thisContract['id']), 'data-url'=>url('/taqawel/offers/' . $thisContract['id']), 'id'=>'acceptform',"method"=>"PUT","role"=>"form"])}}
                                         <div class="row static-info">
-                                            <div class="col-lg-3">{{trans("tqaweloffers.attachment")}}</div>
-                                            <div class="col-lg-2">
-                                                <a href="{{ url('uploads/'. $thisContract['contract_file']) }}" download>
-                                                    <i class="fa fa-file"></i>
-                                                </a>
-                                            </div>
+                                            <div class="col-lg-3">{{trans("tqaweloffers.offerValideTo")}}</div>
+                                            <div class="col-lg-9">{{$dateEnded}}</div>
                                         </div>
-                                    @endif
-                                    <br>
-                                    <div class="row static-info">
-                                        @if(isset($canAccept))
-
+                                        <div class="row static-info">
                                             <div class="col-lg-12 col-lg-6">
                                                 <div class="input-group">
                                                     <div class="icheck-inline">
@@ -192,54 +187,46 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-body">
-                                            @if (count($errors))
-                                                <div class="alert alert-danger">
-                                                    <button class="close" data-close="alert"></button>
-                                                    @foreach($errors->all() as $error)
-                                                        <span>{{$error}}</span><br/>
-                                                    @endforeach
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-body">
+                                                @if (count($errors))
+                                                    <div class="alert alert-danger">
+                                                        <button class="close" data-close="alert"></button>
+                                                        @foreach($errors->all() as $error)
+                                                            <span>{{$error}}</span><br/>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                                <br>
+                                                <div class="col-lg-12 text-center">
+                                                    <button type="submit" class="btn blue"
+                                                            data-loading-text="{{ trans('labels.loading') }}..."
+                                                    > {{trans("offersdirect.accept")}} </button>
+                                                    <button type="button" class="btn yellow btn-outline sbold" data-toggle="modal" data-target="#rejectModal">{{trans("offersdirect.decline")}}</button>
                                                 </div>
-                                            @endif
-                                        </div>
-                                        <div class="col-lg-6"></div>
-                                        <div class="col-lg-6">
-                                            <div class="form-actions">
-                                                <button type="submit" class="btn blue"
-                                                        data-loading-text="{{ trans('labels.loading') }}..."
-                                                > {{trans("offersdirect.accept")}} </button>
-                                                <a class="btn yellow btn-outline sbold"
-                                                   href="{{url("/taqawel/offers/reject/" . $thisContract['id'])}}"
-                                                   data-target="#ajax"
-                                                   data-toggle="modal"> {{trans("offersdirect.decline")}} </a>
-
                                             </div>
-
                                         </div>
-                                        @else
-                                            <div class="alert alert-warning">
-                                                {{trans("offersdirect.cannotaccept")}}
-                                            </div>
-                                        @endif
-                                    </div>
-                                    {{Form::close()}}
-
+                                        {{Form::close()}}
+                                    @else
+                                        <div class="alert alert-warning">
+                                            {{trans("offersdirect.cannotaccept")}}
+                                        </div>
+                                    @endif
                                 </div>
-                                @else
-                                    <div class="portlet box red">
-                                        <div class="portlet-title">
-                                            <div class="caption">
-                                                <i class="fa fa-warning"></i>{{trans("tqaweloffers.error")}}
-                                            </div>
-                                        </div>
-                                        <div class="portlet-body">
-                                            {{trans("tqaweloffers.errorDetails")}}
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
+                        @else
+                            <div class="portlet box red">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="fa fa-warning"></i>{{trans("tqaweloffers.error")}}
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    {{trans("tqaweloffers.errorDetails")}}
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -267,7 +254,6 @@
                         <h4 class="modal-title">{{trans("tqaweloffers.modal.accept.title")}}</h4>
                     </div>
                     <div class="modal-body">
-
                         <div class="row">
                             <div class="col-md-12">
                                 <h2>{{trans("tqaweloffers.modal.accept.rules")}}</h2>
@@ -276,7 +262,6 @@
                                 </p>
                             </div>
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         {{ Form::open(['url' => url('/taqawel/offers/accept/approve/' . $thisContract['id']), 'data-url'=>url('/taqawel/offers/'), 'id'=>'form',"method"=>"PUT","role"=>"form"]) }}
@@ -289,8 +274,9 @@
                         </div>
                         {{Form::close()}}
                     </div>
-
                 </div>
             </div>
         </div>
+    </div>
+    @include('front.tqawel.offers.reject')
 @endsection

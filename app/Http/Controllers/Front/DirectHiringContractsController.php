@@ -13,12 +13,13 @@ use Tamkeen\Ajeer\Models\Reason;
 use Tamkeen\Ajeer\Utilities\Constants;
 use Tamkeen\Ajeer\Http\Requests\ReceivedContractRequest;
 use Tamkeen\Ajeer\Models\HRPool;
+use Tamkeen\Ajeer\Models\ContractEdit;
 
 class DirectHiringContractsController extends Controller
 {
 
     /**
-     * List all the current index for the contract 
+     * List all the current index for the contract
      *
      * @param null $id
      *
@@ -46,10 +47,16 @@ class DirectHiringContractsController extends Controller
 
         if (Constants::SERVICETYPES['provider'] == $id) {
             $myContracts = Contract::byMe()->getByContractType(Constants::CONTRACTTYPES['direct_emp'])
+                 ->with(['contractEdits' => function($q) {
+                            $q->where('status', Constants::CONTRACT_STATUSES['pending']);
+                        }])
                                    ->latest()->paginate(20);
         } else {
             $isProvider = FALSE;
             $myContracts = Contract::toMe()->getByContractType(Constants::CONTRACTTYPES['direct_emp'])
+                 ->with(['contractEdits' => function($q) {
+                            $q->where('status', Constants::CONTRACT_STATUSES['pending']);
+                        }])
                                    ->latest()->paginate(20);
         }
 
@@ -162,44 +169,54 @@ class DirectHiringContractsController extends Controller
             $contract = Contract::toMe()->directEmp()->editable()->findOrFail($request->contract_id);
         }
 
-        $data = array_except($request->only(array_keys($request->rules())),
-            ['contract_locations', 'region_id', 'contract_file']);
-        $data['job_type'] = $request->job_type_id;
-        $data['contract_amount'] = $request->contract_amount;
-        $data['status'] = Constants::CONTRACT_STATUSES['pending'];
         if ($contract->status == Constants::CONTRACT_STATUSES['approved']) {
-            $data = [];
-        }
-        if ($request->hasFile('contract_file')) {
-            $data['contract_file'] = customUploadFile('contract_file', 'TempWork');
-        }
-        
-        if ($request->createCopy) {
-            $newContract = $contract->replicate();
-            $newContract->fill($data);
-            $newContract->save();
-
-            $employee = $contract->contractEmployee[0]->replicate();
-            $newContract->contractEmployee()->save($employee);
-            $contract = $newContract;
-
-            $msg = trans('temp_job.resend_success');
+            $contractEdit = new ContractEdit;
+            $contractEdit->contract_id = $request->contract_id;
+            if ($request->hasFile('contract_file')) {
+                $contractEdit->contract_file = customUploadFile('contract_file', 'TempWork');
+            }
+            $contractEdit->contract_locations = $request->contract_locations;
+            $contractEdit->status = Constants::CONTRACT_STATUSES['pending'];
+            $contractEdit->save();
+            $msg = trans('temp_job.updated');
         } else {
-            $contract->update($data);
-            $contract->contractLocations()->delete();
+            $data = array_except($request->only(array_keys($request->rules())),
+                ['contract_locations', 'region_id', 'contract_file']);
+            $data['job_type'] = $request->job_type_id;
+            $data['contract_amount'] = $request->contract_amount;
+            $data['status'] = Constants::CONTRACT_STATUSES['pending'];
+            
+            if ($request->hasFile('contract_file')) {
+                $data['contract_file'] = customUploadFile('contract_file', 'TempWork');
+            }
 
-            $msg = trans('temp_job.added');
+            if ($request->createCopy) {
+                $newContract = $contract->replicate();
+                $newContract->fill($data);
+                $newContract->save();
+
+                $employee = $contract->contractEmployee[0]->replicate();
+                $newContract->contractEmployee()->save($employee);
+                $contract = $newContract;
+
+                $msg = trans('temp_job.resend_success');
+            } else {
+                $contract->update($data);
+                $contract->contractLocations()->delete();
+
+                $msg = trans('temp_job.updated');
+            }
+
+            $contract->contractLocations()->save(new ContractLocation([
+                'branch_id'     => session()->get('selected_establishment.branch_no') ?: 1,
+                'region_id'     => $request->region_id[0],
+                'desc_location' => $request->contract_locations
+            ]));
         }
-                
-        $contract->contractLocations()->save(new ContractLocation([
-            'branch_id'     => session()->get('selected_establishment.branch_no') ?: 1,
-            'region_id'     => $request->region_id[0],
-            'desc_location' => $request->contract_locations
-        ]));
 
         return $msg;
     }
-    
+
     /**
      * @param ReceivedContractRequest $request
      *
@@ -208,7 +225,7 @@ class DirectHiringContractsController extends Controller
     public function createContract(ReceivedContractRequest $request)
     {
         $employee = HRPool::jobseeker()->byOthers()->checked()->with('region', 'nationality', 'job')->findOrFail($request->employee_id);
-        
+
         $data = array_except($request->only(array_keys($request->rules())),
             ['contract_locations', 'region_id', 'contract_file']);
 

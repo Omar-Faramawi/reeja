@@ -501,36 +501,26 @@ class TaqawelNoticesController extends Controller
                 }
 
                 $msg = trans('ishaar_setup.ask_cancel_ishaar_success');
-
             } else {
                 $status = 'cancelled';
                 $msg    = trans('ishaar_setup.cancelIshaar_success');
             }
-            if ($request->reason != 'other') {
-                $ishaar->status           = $status;
-                $ishaar->reasons_id       = $request->reason;
-                $ishaar->rejection_reason = $request->details;
-                $ishaar->save();
 
-                return $msg;
+            if (isset($request->other)) {
+                $ishaar->other_reasons    = $request->other;
             } else {
-                if (!$request->other) {
-                    throw new Exception;
-                } else {
-                    $ishaar->status           = $status;
-                    $ishaar->rejection_reason = $request->details;
-                    $ishaar->other_reasons    = $request->other;
-                    $ishaar->save();
-
-                    return $msg;
-                }
+                $ishaar->other_reasons = NULL;
             }
+            $ishaar->status           = $status;
+            $ishaar->reasons_id       = $request->reason;
+            $ishaar->rejection_reason = $request->details;
+            $ishaar->save();
+
+            return $msg;
         } else {
             return response()->json(['error' => trans('ishaar_setup.cancelIshaar_refused')],
                 422);
         }
-
-        return response()->json(['error' => trans('labels.not_authorized')], 422);
     }
 }
 

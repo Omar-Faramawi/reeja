@@ -18,7 +18,8 @@ return [
         "request_contract_ishaar" => "Cancel notice",
         "revert_cancel" => "Revert Cancellation",
         "send_offer" => "Send Offer",
-        "view_offer" => "View Offer"
+        "view_offer" => "View Offer",
+        "show_contract_edits" => "View Contract Edits ",
     ],
     "attributes" => [
         "end_date" => "Work End Date",
@@ -100,7 +101,8 @@ return [
         "pending_ownership" => "Pending Ownership Approval",
         "provider_cancel" => "Cancelled by Provider",
         "rejected" => "Rejected",
-        "requested" => "Requested"
+        "requested" => "Requested",
+        "under_edit" => "Under Edit",
     ],
     "undo_invoice_notice" => "<strong>Note: </strong> In case you have generated an invoice and needed to undo this action, you will have to wait 3 days till the invoice expires, then it is declined automatically",
     "updated" => "Updated",
@@ -108,5 +110,9 @@ return [
     "more_details_about_rejection" => "More details about rejection reason",
     "more_details_about_cancellation" => "More details about cancellation reason",
     "cancelled_successfully" => "Successfully cancelled",
-    "cancelled_requested_successfully" => "Contract cancellation request has been sent"
+    "cancelled_requested_successfully" => "Contract cancellation request has been sent",
+    "reason_label" => "Reason",
+    "other_reason_label" => "Other reason",
+    "reason_required" => "You should choose a reason",
+    "other_reason_required" => "You should enter a reason"
 ];

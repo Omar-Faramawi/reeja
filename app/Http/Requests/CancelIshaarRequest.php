@@ -26,7 +26,7 @@ class CancelIshaarRequest extends Request
         return [
             'reason'        => 'required',
             'report_check'  => 'required|in:1',
-            'other'         => 'required_if:reason,36|min:0|max:255',
+            'other'         => 'sometimes|required|max:255',
         ];
     }
 
@@ -52,7 +52,7 @@ class CancelIshaarRequest extends Request
     public function messages()
     {
         return [
-            'other.required_if' => trans('offersdirect.modal.reject.other_reason'),
+            'other.required' => trans('offersdirect.modal.reject.other_reason'),
             'report_check.*'    => trans('contracts.accept_disclaimers'),
         ];
     }

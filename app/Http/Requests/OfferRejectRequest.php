@@ -25,7 +25,7 @@ class OfferRejectRequest extends Request
     {
         return [
             "reason_id"    => 'required',
-            'other_reason' => 'required_if:reason_id,14|min:0|max:255'
+            'other_reason' => 'sometimes|required|max:255'
         ];
     }
 
@@ -36,7 +36,7 @@ class OfferRejectRequest extends Request
     {
         return [
             'reason_id.required'       => trans('offers.modal.reject.message'),
-            'other_reason.required_if' => trans('offersdirect.modal.reject.other_reason'),
+            'other_reason.required'    => trans('offersdirect.modal.reject.other_reason'),
         ];
     }
 }

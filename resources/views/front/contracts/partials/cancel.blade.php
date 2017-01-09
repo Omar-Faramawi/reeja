@@ -7,7 +7,7 @@
 </div>
 
 <div id="other_reason" class="form-group form-md-line-input" style="display:none">
-    {!! Form::text('other_reasons', null, [ 'placeholder' => trans('labels.enter') . " " . trans('contracts.reason'), 'class' => 'form-control', 'id' => 'other']) !!}
+    {!! Form::text('', null, [ 'placeholder' => trans('labels.enter') . " " . trans('contracts.reason'), 'class' => 'form-control', 'id' => 'other', 'data-name' => 'other_reasons']) !!}
     <span class="help-block">{{ trans('contracts.reason') }}</span>
 </div>
 

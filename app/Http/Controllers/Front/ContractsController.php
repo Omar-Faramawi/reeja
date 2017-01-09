@@ -8,6 +8,8 @@ use Tamkeen\Ajeer\Http\Controllers\Controller;
 
 use Tamkeen\Ajeer\Http\Requests\ContractsRequest;
 use Tamkeen\Ajeer\Http\Requests\ReceivedContractRequest;
+use Tamkeen\Ajeer\Http\Requests\ReasonsFrontRequest;
+use Tamkeen\Ajeer\Http\Requests\ContractCertificateRequest;
 use Tamkeen\Ajeer\Models\Contract;
 use Tamkeen\Ajeer\Models\Establishment;
 use Tamkeen\Ajeer\Models\Individual;
@@ -21,12 +23,13 @@ use Tamkeen\Ajeer\Models\ContractCertificate;
 use Tamkeen\Ajeer\Models\Nationality;
 use Tamkeen\Ajeer\Models\Region;
 use Tamkeen\Ajeer\Models\User;
+use Tamkeen\Ajeer\Models\ContractSetup;
 use Tamkeen\Ajeer\Utilities\Constants;
 use Tamkeen\Platform\Billing\Connectors\Connector;
-use Tamkeen\Ajeer\Models\ContractSetup;
 use Carbon\Carbon;
-use Tamkeen\Ajeer\Http\Requests\ContractCertificateRequest;
 use Illuminate\Support\Facades\Auth;
+use Tamkeen\Ajeer\Models\ContractEdit;
+use Tamkeen\Ajeer\Models\ContractLocation;
 /**
  * Class ContractsController
  * @package Tamkeen\Ajeer\Http\Controllers\Front
@@ -375,68 +378,28 @@ class ContractsController extends Controller
      *
      * @return mixed
      */
-    public function refuseCancel(Request $request)
+    public function refuseCancel(ReasonsFrontRequest $request)
     {
-        if ($request->reason != 'other') {
-            //save selected reason
-            switch ($request->type_r) {
-                case 'contract':
-                    $contract = Contract::findOrFail($request->id_r);
-                    $contract->status = 'approved';
-                    $contract->reason_id = $request->reason;
-                    if($request->details){
-                      $contract->rejection_reason  = $request->details;
-                    }
-                    $contract->save();
-
-                    return trans('contracts_cancelation.refused');
-                    break;
-
-                case 'ishaar':
-                    $ishaar = ContractEmployee::findOrFail($request->id_r);
-                    $ishaar->status = 'approved';
-                    $ishaar->reasons_id = $request->reason;
-                    if($request->details){
-                      $ishaar->rejection_reason  = $request->details;
-                    }
-                    $ishaar->save();
-
-                    return trans('contracts_cancelation.refused');
-                    break;
-            }
-
+        if ($request->type == 'contract') {
+            $record = Contract::findOrFail($request->id);
+            $reasonIdField = 'reason_id';
         } else {
-            if (!$request->other) {
-                throw new Exception;
-            } else {
-                //save other reason
-                switch ($request->type_r) {
-                    case 'contract':
-                        $contract = Contract::findOrFail($request->id_r);
-                        $contract->status = 'approved';
-                        $contract->other_reasons = $request->other;
-                        if($request->details){
-                          $contract->rejection_reason  = $request->details;
-                        }
-                        $contract->save();
-
-                        return trans('contracts_cancelation.refused');
-                        break;
-
-                    case 'ishaar':
-                        $ishaar = ContractEmployee::findOrFail($request->id_r);
-                        $ishaar->status = 'approved';
-                        $ishaar->other_reasons = $request->other;
-                        if($request->details){
-                          $ishaar->rejection_reason = $request->details;
-                        }
-                        $ishaar->save();
-
-                        return trans('contracts_cancelation.refused');
-                        break;
-                }
-            }
+            $record = ContractEmployee::findOrFail($request->id);
+            $reasonIdField = 'reasons_id';
         }
+
+        $record->{$reasonIdField} = $record->other_reasons = NULL;
+        if (isset($request->other_reason)) {
+            $record->other_reasons = $request->other_reason;
+        }
+        if ($request->reason_id != 'other') {
+            $record->{$reasonIdField} = $request->reason_id;
+        }
+        $record->status = 'approved';
+        $record->rejection_reason  = $request->details;
+        $record->save();
+
+        return trans('contracts_cancelation.refused');
     }
 
     /**
@@ -716,75 +679,6 @@ class ContractsController extends Controller
         }
     }
 
-    /**
-     * refuse contract cancelation
-     *
-     * @return mixed
-     */
-    public function refuse_direct_hiring_contract_cancelation(Request $request)
-    {
-        if ($request->reason != 'other') {
-            //save selected reason
-            switch ($request->type_r) {
-                case 'contract':
-                    $contract = Contract::findOrFail($request->id_r);
-                    $contract->status = 'approved';
-                    $contract->reason_id = $request->reason;
-                    if($request->details){
-                      $contract->rejection_reason  = $request->details;
-                    }
-                    $contract->save();
-
-                    return trans('contracts_cancelation.refused');
-                    break;
-
-                case 'ishaar':
-                    $ishaar = ContractEmployee::findOrFail($request->id_r);
-                    $ishaar->status = 'approved';
-                    $ishaar->reasons_id = $request->reason;
-                    if($request->details){
-                      $ishaar->rejection_reason  = $request->details;
-                    }
-                    $ishaar->save();
-
-                    return trans('contracts_cancelation.refused');
-                    break;
-            }
-
-        } else {
-            if (!$request->other) {
-                throw new Exception;
-            } else {
-                //save other reason
-                switch ($request->type_r) {
-                    case 'contract':
-                        $contract = Contract::findOrFail($request->id_r);
-                        $contract->status = 'approved';
-                        $contract->other_reasons = $request->other;
-                        if($request->details){
-                          $contract->rejection_reason  = $request->details;
-                        }
-                        $contract->save();
-
-                        return trans('contracts_cancelation.refused');
-                        break;
-
-                    case 'ishaar':
-                        $ishaar = ContractEmployee::findOrFail($request->id_r);
-                        $ishaar->status = 'approved';
-                        $ishaar->other_reasons = $request->other;
-                        if($request->details){
-                          $ishaar->rejection_reason = $request->details;
-                        }
-                        $ishaar->save();
-
-                        return trans('contracts_cancelation.refused');
-                        break;
-                }
-            }
-        }
-    }
-
     public function anyContractDetails($id)
     {
         $byMecontract = Contract::byMe()
@@ -802,14 +696,22 @@ class ContractsController extends Controller
                     ]);
                 }
             ])
+            ->with(['contractEdits'=> function($q){
+                $q->where('status',Constants::CONTRACT_STATUSES['pending']);
+            }])
+            ->with([
+                'contractLocations' => function ($q) {
+                    $q->with('region');
+                }
+            ])
             ->find($id);
         if ($byMecontract) {
             $contract = $byMecontract->load([
                 'provider',
                 'benef',
-                "contractLocations",
                 "reason"
             ]);
+            $EditedtoMe =FALSE;
         }
         $toMecontract = Contract::toMe()
             ->with([
@@ -826,14 +728,22 @@ class ContractsController extends Controller
                     ]);
                 }
             ])
+            ->with(['contractEdits'=> function($q){
+                $q->where('status',Constants::CONTRACT_STATUSES['pending']);
+            }])
+            ->with([
+                'contractLocations' => function ($q) {
+                    $q->with('region');
+                }
+            ])
             ->find($id);
         if ($toMecontract) {
             $contract = $toMecontract->load([
                 'provider',
                 'benef',
-                "contractLocations",
                 "reason"
             ]);
+            $EditedtoMe =TRUE;
         }
         if (!is_object($toMecontract) && !is_object($byMecontract)) {
             return abort(401);
@@ -844,14 +754,15 @@ class ContractsController extends Controller
         if($thisContract['expired']) {
             $thisContract['status'] = 'expired';
         }
+        
 
         if ($contract->contract_type_id == Constants::CONTRACTTYPES["hire_labor"]) {
 
-            return view("front.contractdetails.hireshow", compact("thisContract"));
+            return view("front.contractdetails.hireshow", compact("thisContract","EditedtoMe"));
         }
         if ($contract->contract_type_id == Constants::CONTRACTTYPES['direct_emp']) {
 
-            return view("front.contractdetails.directshow", compact("thisContract"));
+            return view("front.contractdetails.directshow", compact("thisContract","EditedtoMe"));
         }
 
     }
@@ -1233,5 +1144,52 @@ class ContractsController extends Controller
         }
         return response()->json(trans('contract_setup.add_invoice_success',['number' => $invoice->bill_number,'amount' => $amount]));
         
+    }
+
+    /**
+     * approve contract Edit
+     */
+    public function contractEditApprove($id, $type=FALSE)
+    {
+        $contract_edit = ContractEdit::findOrFail($id);
+        //update contract with edit details
+        $contract = Contract::findOrFail($contract_edit->contract_id);
+        $contract->update(['contract_file' => $contract_edit->contract_file]);
+
+        if ($type) {
+            $contract->contractLocations()->delete();
+            $taqawel_locations = explode('-', $contract_edit->contract_locations);
+            foreach ($taqawel_locations as $location) {
+                $contract->contractLocations()->save(new ContractLocation([
+                    'branch_id'     => 1,
+                    'desc_location' => $location,
+                ]));
+            }
+        } else {
+            $contractLocation = ContractLocation::where(['contract_id' => $contract->id])->first();
+            $contractLocation->update([
+                'desc_location' => $contract_edit->contract_locations
+            ]);
+        }
+        //convert edit status to approved
+        $contract_edit->status = Constants::CONTRACT_STATUSES['approved'];
+        $contract_edit->save();
+
+        return trans('offersdirect.approve_edit_success');
+    }
+
+    /**
+     * reject contract Edit
+     */
+    public function contractEditReject($id)
+    {
+        $contract_edit = ContractEdit::findOrFail($id);
+        try {
+            $contract_edit->update(['status' => Constants::CONTRACT_STATUSES['rejected']]);
+        } catch (ModelNotFoundException $e) {
+            abort(404);
+        }
+
+        return response()->json(trans('offersdirect.reject_edit_success'));
     }
 }

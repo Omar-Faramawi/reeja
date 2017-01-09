@@ -221,7 +221,7 @@
                 </select>
             </div>
             <div class="form-group form-md-line-input" style="display:none;" id='other_reason'>
-               <input type="text" class="form-control" id="other" name='other'>
+               <input type="text" class="form-control" id="other" data-name='other'>
                <label for="form_control_1">{{ trans('contracts_cancelation.other') }}</label>
                <span class="help-block">{{ trans('contracts_cancelation.other') }}</span>
             </div>

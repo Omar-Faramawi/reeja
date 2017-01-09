@@ -17,6 +17,9 @@
                     <i class="icon-folder-open font-green-haze"></i>
                     <span class="caption-subject bold uppercase"> {{trans('est_profile.est_profile')}}</span>
                 </div>
+                <div class="pull-right">
+                    <a href="{{ url('/migrate') }}" class="btn btn-danger">{{trans('est_profile.import_from_old_ajeer')}}</a>
+                </div>
             </div>
             <div class="portlet-body form">
                 @if (count($errors) > 0)

@@ -143,8 +143,10 @@ class OffersController extends Controller
 
         $thisContract = $thisContract->toArray();
         $seasonalContract = ($thisContract['contract_locations'][0]['region_id']==1);
+        
+        $reasons = Reason::where('parent_id', 1)->lists("reason", "id");
 
-        return view("front.offers.show", compact("thisContract", "dateEnded", "canAccept", "seasonalContract"));
+        return view("front.offers.show", compact("thisContract", "dateEnded", "canAccept", "seasonalContract", "reasons"));
     }
 
     /**
@@ -198,19 +200,6 @@ class OffersController extends Controller
     }
 
     /**
-     * @param $id
-     *
-     * @return mixed
-     */
-    public function reject($id)
-    {
-        $reasons = Reason::where('parent_id', 1)->lists("reason", "id");
-
-        return view("front.offers.reject", compact("reasons"))
-            ->withId($id);
-    }
-
-    /**
      * @param OfferRejectRequest $offerRejectRequest
      * @param                    $id
      *
@@ -219,8 +208,12 @@ class OffersController extends Controller
     public function rejectPost(OfferRejectRequest $offerRejectRequest, $id)
     {
         $contract = Contract::findOrFail($id);
+        if (isset($offerRejectRequest->other_reason)) {
+            $contract->other_reasons = $offerRejectRequest->other_reason;
+        } else {
+            $contract->other_reasons = NULL;
+        }
         $contract->reason_id = $offerRejectRequest->reason_id;
-        $contract->other_reasons = $offerRejectRequest->other_reason;
         $contract->rejection_reason = $offerRejectRequest->extraDetails;
         $contract->status = "rejected";
         $contract->save();

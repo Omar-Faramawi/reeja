@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/', 'HomeController@home')->name('homepage');
+
 //Basic authentication
 Route::auth();
 Route::post('auth/individualsLogin', 'Auth\AuthController@individualsLogin');
@@ -75,4 +76,6 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'GovernmentController@update',
         'as'   => 'government.profile.update',
     ]);
+    
+    Route::get('/migrate', 'MigrationController@index');
 });
