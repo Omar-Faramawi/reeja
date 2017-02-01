@@ -159,11 +159,22 @@ class MolDataMssqlRepository implements MolDataRepository
             ->where('E.FK_LaborOfficeId', $laborOfficeId)
             ->where('E.SequenceNumber', $sequenceNumber)
             ->join(
+                new Expression('[dbo].[Enum_EstablishmentStatus] [ESt] WITH (NOLOCK)'),
+                'E.FK_EstablishmentStatusId', '=', 'ESt.Id'
+            )
+            ->join(
                 new Expression('MOL_Nitaqaat.dbo.EconomicActivitiesMapping EAM WITH (NOLOCK)'),
                 function (JoinClause $join) {
                     $join->on('E.FK_MainEconomicActivityId', '=', new Expression('EAM.MainEconomicActivityId'));
                     $join->on('E.FK_SubEconomicActivityId', '=', new Expression('EAM.SubEconomicActivityId'));
                 }
+            )
+            ->join(
+                new Expression('[MOL_Nitaqaat].[dbo].[Establishment_KPI] [KPI] WITH (NOLOCK)'),
+                function (JoinClause $join) {
+                    $join->on('E.FK_LaborOfficeId', '=', 'KPI.Lab_Off');
+                    $join->on('E.SequenceNumber', '=', 'KPI.Sequence_no');
+                }, null, null, 'left'
             )
             ->first([
                 'E.PK_EstablishmentId AS FK_establishment_id',
@@ -184,11 +195,11 @@ class MolDataMssqlRepository implements MolDataRepository
                 'KPI.Fk_ColorId AS nitaqat_color_id',
                 'KPI.Fk_SizeId AS size_id',
                 'E.MunicipalLicenseSource',
-                'E.Telephone1 phone',
+                'E.Telephone1 AS phone',
                 'E.District AS district',
-                'E.WASELArea region',
-                'E.WASELStreet street',
-                'E.WASELCity city',
+                'E.WASELArea AS region',
+                'E.WASELStreet AS street',
+                'E.WASELCity AS city',
                 new Expression('CAST(KPI.ColorName AS VARBINARY(MAX)) AS nitaqat_color'),
             ]);
         
@@ -262,28 +273,23 @@ class MolDataMssqlRepository implements MolDataRepository
      */
     public function getOwnerByEstablishmentId($establishment_id)
     {
-        $query = $this->link->prepare(
-            "SELECT [E].[PK_EstablishmentId], [UN].[SevenHundredNumber], [O].[IdNo] FROM [dbo].[MOL_Establishment] [E]
-      LEFT JOIN [dbo].[MOL_UnifiedNumber] [UN] WITH (NOLOCK)
-           ON [UN].[PK_UnifiedNumberId] = [E].[FK_UnifiedNumberId]
+        $owner = $this->db->table(new Expression('MOL_Establishment AS E WITH (NOLOCK)'))
+            ->leftJoin(new Expression('MOL_UnifiedNumber as UN WITH (NOLOCK)'), 'UN.PK_UnifiedNumberId', '=', 'E.FK_UnifiedNumberId')
+            ->leftJoin(new Expression('MOL_Owner as O WITH (NOLOCK)'), 'UN.FK_OwnerId', '=', 'O.PK_OwnerId')
+            ->where('E.PK_EstablishmentId', $establishment_id)
+            ->first([
+                'UN.SevenHundredNumber',
+                'O.IdNo',
+            ]);
 
-      LEFT JOIN [dbo].[MOL_Owner] [O] WITH (NOLOCK)
-           ON [UN].[FK_OwnerId] = [O].[PK_OwnerId]
-
-      WHERE [E].[PK_EstablishmentId] = ?;"
-        );
-        $query->execute([$establishment_id]);
-        
-        if ($establishment = $query->fetch(\PDO::FETCH_ASSOC)) {
-            if (!is_null($establishment['IdNo'])) {
-                return $establishment['IdNo'];
-            }
-            
-            if (!is_null($establishment['SevenHundredNumber'])) {
-                return $establishment['SevenHundredNumber'];
-            }
+        if (! is_null($owner->IdNo)) {
+            return $owner->IdNo;
         }
-        
+
+        if (! is_null($owner->SevenHundredNumber)) {
+            return $owner->SevenHundredNumber;
+        }
+
         return false;
     }
     
